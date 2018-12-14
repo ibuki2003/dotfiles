@@ -1,0 +1,31 @@
+[core]
+	editor = vim
+    pager = "LESSCHARSET=utf-8 less"
+    quotepath = false
+    autocrlf = true
+[user]
+	name = 'ibuki2003'
+	email = 'ibuki426.sp@gmail.com'
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[merge]
+	tool = vimdiff
+[mergetool]
+	prompt = false
+[core]
+	quotepath = off
+[push]
+	default = current
+[alias]
+    graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
+    cmc = "!f(){ git checkout $1;git merge $2;git checkout $2;};f"
+    ignore = !"f() { local s=$1; shift; \
+      while [ $# -gt 0 ]; do s=\"$s,$1\"; shift; done;\
+      curl \"https://www.gitignore.io/api/$s\"; }; f"
