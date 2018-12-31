@@ -161,11 +161,15 @@ case ${OSTYPE} in
 
         ;;
     *)
-    	# Other:Windows
+        # Other:Windows
         bindkey "^[[H" beginning-of-line
         bindkey "^[[F" end-of-line
         bindkey "^[[3~" delete-char
         alias e='explorer'
+        # Fake drives
+        drives=$(mount | sed -rn 's#^[A-Z]: on /([a-z]).*#\1#p' | tr '\n' ' ')
+        zstyle ':completion:*' fake-files /: "/:$drives"
+        unset drives
         ;;
 esac
 # }}}
