@@ -2,7 +2,7 @@
 	editor = vim
 	pager = "LESSCHARSET=utf-8 less"
 	quotepath = false
-	autocrlf = true
+	autocrlf = input
 [user]
 	name = 'ibuki2003'
 	email = 'ibuki426.sp@gmail.com'
