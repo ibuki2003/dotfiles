@@ -179,6 +179,8 @@ esac
 source ~/functions.zsh
 
 # zplug settings {{{
+export ZPLUG_HOME=~/.zplug
+
 if [ ! -e ~/.zplug ]; then
     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 fi
