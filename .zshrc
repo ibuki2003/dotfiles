@@ -13,6 +13,12 @@ bindkey '^P' history-beginning-search-backward
 bindkey '^N' history-beginning-search-forward
 
 
+bindkey "^[OH" beginning-of-line
+bindkey "^[OF" end-of-line
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[[3~" delete-char
+
 
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
@@ -155,16 +161,9 @@ fi
 case ${OSTYPE} in
     linux*)
         #Linux用の設定
-        bindkey "^[OH" beginning-of-line
-        bindkey "^[OF" end-of-line
-        bindkey "^[[3~" delete-char
-
         ;;
     *)
         # Other:Windows
-        bindkey "^[[H" beginning-of-line
-        bindkey "^[[F" end-of-line
-        bindkey "^[[3~" delete-char
         alias e='explorer'
         # Fake drives
         drives=$(mount | sed -rn 's#^[A-Z]: on /([a-z]).*#\1#p' | tr '\n' ' ')
