@@ -152,6 +152,13 @@ alias -g ....="../../.."
 alias -g .....="../../../.."
 
 # }}}
+
+# function {{{
+function gpp () {
+    g++ "$1" -o "${1%.*}" -std=c++1y -O2 -DLOCAL
+}
+# }}}
+
 # OS 別の設定 {{{
 case ${OSTYPE} in
     linux*)
@@ -168,9 +175,6 @@ case ${OSTYPE} in
 esac
 # }}}
 
-# vim:set ft=zsh:
-
-source ~/functions.zsh
 
 # zplug settings {{{
 export ZPLUG_HOME=~/.zplug
