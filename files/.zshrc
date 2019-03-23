@@ -18,7 +18,8 @@ bindkey "^[OF" end-of-line
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 bindkey "^[[3~" delete-char
-
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
 
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
