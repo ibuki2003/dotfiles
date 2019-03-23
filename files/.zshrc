@@ -3,7 +3,7 @@
 export LANG=ja_JP.UTF-8
 
 
-# 操作 {{{
+# 操作 ====================================
 
 # emacs 風キーバインドにする
 bindkey -e
@@ -29,11 +29,10 @@ select-word-style default
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
 
-# }}}
 
 
 
-# 表示 {{{
+# 表示 ====================================
 # 色を使用出来るようにする
 autoload -Uz colors
 zstyle ':completion:*' verbose yes
@@ -45,7 +44,6 @@ PROMPT="%F{green}[%n@%m]%(?..%F{009}!)%f %~
 %# "
 
 
-# }}}
 
 
 # ヒストリの設定
@@ -54,7 +52,7 @@ HISTSIZE=1000000
 SAVEHIST=1000000
 
 
-# 補完 {{{
+# 補完 ====================================
 # 補完機能を有効にする
 autoload -Uz compinit
 compinit
@@ -69,8 +67,7 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
                    /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
-# }}}
-# Git(vcs) {{{
+# Git(vcs) ====================================
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 
@@ -90,9 +87,8 @@ function _update_vcs_info_msg() {
 add-zsh-hook precmd _update_vcs_info_msg
 
 
-# }}}
 
-# オプション {{{
+# オプション ====================================
 
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
@@ -124,9 +120,8 @@ setopt extended_glob
 # ミスを自動修正
 setopt correct
 
-# }}}
 
-# エイリアス {{{
+# エイリアス ====================================
 
 alias ls='ls -F --color=auto'
 
@@ -152,15 +147,13 @@ alias -g ...="../.."
 alias -g ....="../../.."
 alias -g .....="../../../.."
 
-# }}}
 
-# function {{{
+# function ====================================
 function gpp () {
     g++ "$1" -o "${1%.*}" -std=c++1y -O2 -DLOCAL
 }
-# }}}
 
-# OS 別の設定 {{{
+# OS 別の設定 ====================================
 case ${OSTYPE} in
     linux*)
         #Linux用の設定
@@ -174,10 +167,9 @@ case ${OSTYPE} in
         unset drives
         ;;
 esac
-# }}}
 
 
-# zplug settings {{{
+# zplug settings ====================================
 export ZPLUG_HOME=~/.zplug
 
 if [ ! -e ~/.zplug ]; then
@@ -205,9 +197,9 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load
 
-#}}}
 
-# zsh-syntax-highlighting {{{
+# external settings ====================================
+# zsh-syntax-highlighting
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
