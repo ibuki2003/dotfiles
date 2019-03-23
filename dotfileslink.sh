@@ -1,5 +1,4 @@
 #!/bin/sh
-cd ~/dotfiles/
-
-cp -vuf .gitconfig .vimrc .zshrc functions.zsh ~/
+find $(realpath $(dirname $0)/files) -type f | \
+xargs -I {} cp -vufs {} ~/
 echo Done.
