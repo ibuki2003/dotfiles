@@ -2,6 +2,10 @@
 # 環境変数
 export LANG=ja_JP.UTF-8
 
+# tmux ====================================
+if command -v tmux>/dev/null; then
+    [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
+fi
 
 # 操作 ====================================
 
