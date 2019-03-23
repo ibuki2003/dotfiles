@@ -151,11 +151,6 @@ alias -g ...="../.."
 alias -g ....="../../.."
 alias -g .....="../../../.."
 
-if [ -e ~/aliases ]; then
-    source ~/aliases
-fi
-
-
 # }}}
 # OS 別の設定 {{{
 case ${OSTYPE} in
@@ -190,6 +185,9 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-completions"
 
 zplug "zsh-users/zsh-autosuggestions"
+
+# local zshrc can be used to load local plugin
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
