@@ -183,6 +183,8 @@ zplug "zsh-users/zsh-completions"
 
 zplug "zsh-users/zsh-autosuggestions"
 
+zplug "b4b4r07/enhancd", use:init.sh
+
 # local zshrc can be used to load local plugin
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
@@ -224,5 +226,8 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-5]='fg=cyan,bold'
 
 ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]='standout'
+
+# enhancd
+ENHANCD_FILTER=fzf
 
 #clear
