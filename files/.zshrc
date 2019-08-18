@@ -180,7 +180,7 @@ alias -g .....="../../../.."
 
 # function ====================================
 function gpp () {
-    g++ "$1" -o "${1%.*}" -std=c++1y -O2 -DLOCAL
+    g++ -std=c++1y -o "${1%.*}" -O0 -g -DLOCAL -Wall -Wextra -Wpedantic $@
 }
 
 # OS 別の設定 ====================================
