@@ -187,6 +187,7 @@ function gpp () {
 case ${OSTYPE} in
     linux*)
         #Linux用の設定
+        export EDITOR=vim
         ;;
     *)
         # Other:Windows
