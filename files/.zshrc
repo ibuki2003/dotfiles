@@ -85,7 +85,7 @@ SAVEHIST=1000000
 # 補完 ====================================
 # 補完機能を有効にする
 autoload -Uz compinit
-compinit
+#compinit
 
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -200,34 +200,24 @@ case ${OSTYPE} in
 esac
 
 
-# zplug settings ====================================
-export ZPLUG_HOME=~/.zplug
+# zplugin settings ====================================
 
-if [ ! -e ~/.zplug ]; then
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+if [ ! -e ~/.zplugin/bin/zplugin.zsh ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
 fi
-source ~/.zplug/init.zsh
+source "~/.zplugin/bin/zplugin.zsh"
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
 
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
-zplug "zsh-users/zsh-completions"
+zplugin light zsh-users/zsh-autosuggestions
 
-zplug "zsh-users/zsh-autosuggestions"
+zplugin light zsh-users/zsh-syntax-highlighting
+
+zplugin ice wait'!0'; zplugin light zsh-users/zsh-completions
 
 # local zshrc can be used to load local plugin
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-# Then, source plugins and add commands to $PATH
-zplug load
-
 
 # external settings ====================================
 # zsh-syntax-highlighting
@@ -256,4 +246,5 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-5]='fg=cyan,bold'
 
 ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]='standout'
 
-#clear
+
+compinit
