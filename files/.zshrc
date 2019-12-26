@@ -201,11 +201,10 @@ esac
 
 
 # zplugin settings ====================================
-
 if [ ! -e ~/.zplugin/bin/zplugin.zsh ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
 fi
-source "~/.zplugin/bin/zplugin.zsh"
+source ~/.zplugin/bin/zplugin.zsh
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 
@@ -213,6 +212,10 @@ autoload -Uz _zplugin
 zplugin light zsh-users/zsh-autosuggestions
 
 zplugin light zsh-users/zsh-syntax-highlighting
+
+zplugin snippet 'OMZ::lib/clipboard.zsh'
+zplugin snippet "/usr/share/fzf/key-bindings.zsh"
+zplugin light 'mollifier/anyframe'
 
 zplugin ice wait'!0'; zplugin light zsh-users/zsh-completions
 
@@ -246,5 +249,22 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-5]='fg=cyan,bold'
 
 ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]='standout'
 
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+
+if [[ -n "$TMUX" ]]
+then
+  FZF_TMUX=1
+  FZF_TMUX_HEIGHT='25%'
+fi
+
+# anyframe
+zstyle ':anyframe:selector:fzf-tmux:' command "fzf-tmux -d ${FZF_TMUX_HEIGHT}"
+alias fb=anyframe-widget-checkout-git-branch
+alias fh=anyframe-widget-execute-history
+alias fhp=anyframe-widget-put-history
+alias fk=anyframe-widget-kill
 
 compinit
