@@ -85,7 +85,7 @@ SAVEHIST=1000000
 # 補完 ====================================
 # 補完機能を有効にする
 autoload -Uz compinit
-#compinit
+compinit
 
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -182,6 +182,7 @@ alias -g .....="../../../.."
 function gpp () {
     g++ -std=c++1y -o "${1%.*}" -O2 -g -DLOCAL -Wall -Wextra -Wpedantic $@
 }
+compdef gpp=g++
 
 # OS 別の設定 ====================================
 case ${OSTYPE} in
@@ -267,4 +268,3 @@ alias fh=anyframe-widget-execute-history
 alias fhp=anyframe-widget-put-history
 alias fk=anyframe-widget-kill
 
-compinit
