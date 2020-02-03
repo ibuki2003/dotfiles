@@ -201,24 +201,24 @@ case ${OSTYPE} in
 esac
 
 
-# zplugin settings ====================================
-if [ ! -e ~/.zplugin/bin/zplugin.zsh ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+# zinit settings ====================================
+if [ ! -e ~/.zinit/bin/zinit.zsh ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
-source ~/.zplugin/bin/zplugin.zsh
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
+source ~/.zinit/bin/zinit.zsh
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
 
-zplugin light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-autosuggestions
 
-zplugin light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-syntax-highlighting
 
-zplugin snippet 'OMZ::lib/clipboard.zsh'
-zplugin snippet "/usr/share/fzf/key-bindings.zsh"
-zplugin light 'mollifier/anyframe'
+zinit snippet 'OMZ::lib/clipboard.zsh'
+zinit snippet "/usr/share/fzf/key-bindings.zsh"
+zinit light 'mollifier/anyframe'
 
-zplugin ice wait'!0'; zplugin light zsh-users/zsh-completions
+zinit ice wait'!0'; zinit light zsh-users/zsh-completions
 
 # local zshrc can be used to load local plugin
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
