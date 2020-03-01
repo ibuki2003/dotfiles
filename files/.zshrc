@@ -207,7 +207,6 @@ if [ ! -e ~/.zinit/bin/zinit.zsh ]; then
 fi
 source ~/.zinit/bin/zinit.zsh
 autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
 
 
 zinit light zsh-users/zsh-autosuggestions
@@ -218,7 +217,9 @@ zinit snippet 'OMZ::lib/clipboard.zsh'
 zinit snippet "/usr/share/fzf/key-bindings.zsh"
 zinit light 'mollifier/anyframe'
 
-zinit ice wait'!0'; zinit light zsh-users/zsh-completions
+zinit ice blockf
+zinit light zsh-users/zsh-completions
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
 # local zshrc can be used to load local plugin
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -268,3 +269,4 @@ alias fh=anyframe-widget-execute-history
 alias fhp=anyframe-widget-put-history
 alias fk=anyframe-widget-kill
 
+compinit
