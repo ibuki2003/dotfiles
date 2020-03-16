@@ -164,6 +164,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 
 alias grep='grep --color'
+alias diff='diff --color=auto'
 
 alias mkdir='mkdir -p'
 
