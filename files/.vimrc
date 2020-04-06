@@ -93,6 +93,9 @@ function! s:tabpage_label(n)
   " カレントバッファ
   let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]  " tabpagewinnr() は 1 origin
   let fname = pathshorten(bufname(curbufnr))
+  if fname == ''
+      let fname = 'Untitled'
+  endif
 
   let label = no . mod . sp . fname
 
