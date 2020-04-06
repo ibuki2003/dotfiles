@@ -111,6 +111,8 @@ function! MakeTabLine()
 endfunction
 
 set tabline=%!MakeTabLine()
+nnoremap H :<C-u>tabprevious<CR>
+nnoremap L :<C-u>tabnext<CR>
 
 
 " 検索系
