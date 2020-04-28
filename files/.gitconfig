@@ -5,7 +5,7 @@
 	autocrlf = input
 [user]
 	name = 'ibuki2003'
-	email = 'ibuki426.sp@gmail.com'
+	email = 'main@fuwa.dev'
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
