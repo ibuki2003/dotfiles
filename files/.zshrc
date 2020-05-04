@@ -181,7 +181,7 @@ alias -g .....="../../../.."
 
 # function ====================================
 function gpp () {
-    g++ -std=c++1y -o "${1%.*}" -O2 -g -DLOCAL -Wall -Wextra -Wpedantic $@
+    g++ -std=c++1y -o "${1%.*}" -O2 -g -DLOCAL -D_GLIBCXX_DEBUG -Wall -Wextra -Wpedantic $@
 }
 compdef gpp=g++
 
