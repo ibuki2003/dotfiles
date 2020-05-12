@@ -1,3 +1,5 @@
+[include]
+    path = ~/.gitconfig.local
 [core]
 	editor = vim
 	pager = "LESSCHARSET=utf-8 less"
