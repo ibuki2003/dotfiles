@@ -1,4 +1,4 @@
 #!/bin/sh
-find $(realpath $(dirname $0)/files) -type f | \
-xargs -I {} cp -vufs {} ~/
+find $(realpath $(dirname $0)/files) -mindepth 1 -maxdepth 1 \
+    | xargs -I {} ln -vfs {} ~/
 echo Done.
