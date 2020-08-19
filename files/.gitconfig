@@ -32,3 +32,5 @@
 	  while [ $# -gt 0 ]; do s=\"$s,$1\"; shift; done;\
 	  curl \"https://www.gitignore.io/api/$s\"; }; f"
 	p = !git push origin `git rev-parse --abbrev-ref HEAD`
+[pull]
+	ff = only
