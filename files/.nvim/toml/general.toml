@@ -1,4 +1,7 @@
 [[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+
+[[plugins]]
 repo = 'sheerun/vim-polyglot'
 
 [[plugins]]
