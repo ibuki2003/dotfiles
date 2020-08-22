@@ -35,3 +35,9 @@ let g:winresizer_horiz_resize = 1
 [[plugins]]
 repo = 'wakatime/vim-wakatime'
 
+[[plugins]]
+repo = 'machakann/vim-highlightedyank'
+hook_add = '''
+let g:highlightedyank_highlight_duration = 300
+'''
+
