@@ -41,3 +41,12 @@ hook_add = '''
 let g:highlightedyank_highlight_duration = 300
 '''
 
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+hook_add = '''
+map <Leader>r <Plug>(operator-replace)
+'''
+
