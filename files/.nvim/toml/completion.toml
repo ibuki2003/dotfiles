@@ -1,0 +1,104 @@
+# [[plugins]]
+# repo = 'Shougo/deoplete.nvim'
+# hook_add = '''
+# let g:deoplete#enable_at_startup = 1
+# '''
+
+[[plugins]]
+repo = 'ujihisa/neco-look'
+
+[[plugins]]
+repo = 'prabirshrestha/async.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+
+
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+hook_add = '''
+nnoremap <F12> :LspDeclaration<CR>
+nnoremap <S-F12> :LspReferences<CR>
+nnoremap <F2> <plug>(lsp-rename)
+
+let g:lsp_log_file = '/tmp/lsp.log'
+let g:lsp_signs_error   = {'text': '!'}
+let g:lsp_signs_warning = {'text': '*'}
+let g:lsp_signs_hint    = {'text': '-'}
+let g:lsp_async_completion = 1
+let g:lsp_virtual_text_enabled = 1
+let g:lsp_text_edit_enabled = 0
+
+"autocmd BufWritePre <buffer> LspDocumentFormatSync
+
+call lsp#register_server({
+\ 'name': 'diagnostic-languageserver',
+\ 'cmd': { info -> ['diagnostic-languageserver', '--stdio'] },
+\ 'whitelist': [
+\   'typescript',
+\   'typescript.tsx',
+\   'typescriptreact',
+\   'javascript',
+\   'javascript.jsx',
+\   'javascriptreact',
+\ ],
+\ 'initialization_options': {
+\   'linters': {
+\     'eslint': {
+\       'sourceName': 'eslint',
+\       'command': 'eslint_d',
+\       'args': ['--stdin', '--stdin-filename=%filename', '--no-color'],
+\       'rootPatterns': ['.eslintrc', '.eslintrc.js'],
+\       'formatLines': 1,
+\       'formatPattern': [
+\         '^\s*(\d+):(\d+)\s+([^ ]+)\s+(.*?)\s+([^ ]+)$',
+\         {
+\           'line': 1,
+\           'column': 2,
+\           'message': [4, ' [', 5, ']' ],
+\           'security': 3
+\         }
+\       ],
+\       'securities': {
+\          'error': 'error',
+\          'warning': 'warning'
+\       },
+\     },
+\   },
+\   'filetypes': {
+\     'javascript': 'eslint',
+\     'javascript.tsx': 'eslint',
+\     'javascriptreact': 'eslint',
+\     'typescript': 'eslint',
+\     'typescript.tsx': 'eslint',
+\     'typescriptreact': 'eslint',
+\   },
+\   'formatters': {
+\     'eslint': {
+\       'rootPatterns': ['.eslintrc', '.eslintrc.js'],
+\       'command': 'eslint_d',
+\       'args': ['--fix', '--fix-to-stdout', '--stdin', '--stdin-filename=%filename'],
+\       'isStdout': v:true,
+\       'isStderr': v:true,
+\     }
+\   },
+\   'formatFiletypes': {
+\     'javascript': 'eslint',
+\     'javascript.tsx': 'eslint',
+\     'javascriptreact': 'eslint',
+\     'typescript': 'eslint',
+\     'typescript.tsx': 'eslint',
+\     'typescriptreact': 'eslint'
+\   }
+\ }
+\})
+
+
+'''
+
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+

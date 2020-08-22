@@ -1,0 +1,11 @@
+[[plugins]]
+repo = 'tomasr/molokai'
+hook_add = '''
+colorscheme molokai
+autocmd ColorScheme * hi Comment ctermfg=102
+autocmd ColorScheme * hi Visual ctermbg=240
+'''
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+

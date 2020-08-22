@@ -1,0 +1,8 @@
+[[plugins]]
+repo = 'dhruvasagar/vim-table-mode'
+on_i = 1
+hook_add = '''
+    let g:table_mode_corner = '|'
+'''
+hook_post_source = 'TableModeEnable'
+
