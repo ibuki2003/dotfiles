@@ -178,6 +178,10 @@ alias -g ...="../.."
 alias -g ....="../../.."
 alias -g .....="../../../.."
 
+if type nvim > /dev/null; then
+  # neovim installed
+  alias vim=nvim
+fi
 
 # function ====================================
 function gpp () {
