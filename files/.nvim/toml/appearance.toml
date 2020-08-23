@@ -10,4 +10,53 @@ autocmd ColorScheme * hi Pmenu ctermbg=237 ctermfg=4
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
+hook_add = '''
+let g:lightline = {}
+let g:lightline.active = {
+\ 'left': [
+\   ['mode', 'paste'],
+\   ['gitbranch', 'readonly', 'filename', 'modified'],
+\   ['lsp_diagnostics'],
+\ ],
+\ 'right': [
+\   ['lineinfo'],
+\   ['percent'],
+\   ['fileformat', 'fileencoding', 'filetype'],
+\ ],
+\}
+let g:lightline.inactive = {
+\ 'left':  [ ['filename', 'modified'] ],
+\ 'right': [ ['lineinfo'] ],
+\}
+let g:lightline.component = {
+\ 'lineinfo': '%3l:%-2v%<',
+\}
+let g:lightline.component_function = {
+\ 'gitbranch': 'FugitiveHead',
+\ 'lsp_diagnostics': 'LspDiagnosticsCount',
+\}
+
+function! LspDiagnosticsCount()
+    let counts = lsp#get_buffer_diagnostics_counts()
+    let ret = []
+
+    if counts.error
+        call add(ret, 'E' . (counts.error))
+    endif
+
+    if counts.warning
+        call add(ret, 'W' . (counts.warning))
+    endif
+
+    if counts.information
+        call add(ret, 'I' . (counts.information))
+    endif
+
+    if counts.hint
+        call add(ret, 'H' . (counts.hint))
+    endif
+
+    return join(ret, ' ')
+endfunction
+'''
 
