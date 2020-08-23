@@ -50,3 +50,12 @@ hook_add = '''
 map <Leader>r <Plug>(operator-replace)
 '''
 
+[[plugins]]
+repo = 'fuenor/im_control.vim'
+hook_add = '''
+if executable('fcitx-remote')
+    let g:IM_CtrlMode = 6
+endif
+
+inoremap <silent> <C-k> <C-r>=IMState('FixMode')<CR>
+'''
