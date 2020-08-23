@@ -38,3 +38,6 @@ nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
+
+nnoremap <C-g> ggVG
+
