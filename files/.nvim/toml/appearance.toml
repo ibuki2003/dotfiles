@@ -4,6 +4,8 @@ hook_add = '''
 colorscheme molokai
 autocmd ColorScheme * hi Comment ctermfg=102
 autocmd ColorScheme * hi Visual ctermbg=240
+autocmd ColorScheme * hi MatchParen cterm=bold ctermfg=208 ctermbg=233
+autocmd ColorScheme * hi Pmenu ctermbg=237 ctermfg=4
 '''
 
 [[plugins]]
