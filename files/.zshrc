@@ -178,11 +178,6 @@ alias -g ...="../.."
 alias -g ....="../../.."
 alias -g .....="../../../.."
 
-if type nvim > /dev/null; then
-  # neovim installed
-  alias vim=nvim
-fi
-
 # function ====================================
 function gpp () {
     g++ -std=c++1y -o "${1%.*}" -O2 -g -DLOCAL -D_GLIBCXX_DEBUG -Wall -Wextra -Wpedantic $@
@@ -205,6 +200,12 @@ case ${OSTYPE} in
         ;;
 esac
 
+# editor settings ==============================
+if type nvim > /dev/null; then
+  # neovim installed
+  alias vim=nvim
+  export EDITOR=nvim
+fi
 
 # zinit settings ====================================
 if [ ! -e ~/.zinit/bin/zinit.zsh ]; then
