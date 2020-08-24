@@ -43,7 +43,7 @@ hook_add = '''
 let g:neosnippet#disable_runtime_snippets = {
 \ '_' : 1,
 \}
-let g:neosnippet#snippets_directory='~/.nvim/snippets'
+let g:neosnippet#snippets_directory = expand('~/.nvim/snippets')
 imap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
 smap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
 

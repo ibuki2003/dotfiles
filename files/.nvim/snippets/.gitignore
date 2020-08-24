@@ -1,2 +1,3 @@
-local/
-
+**/*_local.snip
+**/*_local.snippets
+**/local/
