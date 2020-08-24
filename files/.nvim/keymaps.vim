@@ -28,7 +28,6 @@ nnoremap L :tabnext<CR>
 "inoremap <expr> <tab> InsertTabWrapper()
 "inoremap <s-tab> <c-n>
 
-inoremap <silent><expr> <TAB>  pumvisible() ? "\<C-y>" : "\<TAB>"
 
 nnoremap q: :q
 

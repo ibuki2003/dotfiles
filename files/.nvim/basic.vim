@@ -20,6 +20,7 @@ set showmatch
 set laststatus=2
 set wildmode=list:longest
 
+set completeopt-=preview " deoplete float window
 
 " search
 set ignorecase

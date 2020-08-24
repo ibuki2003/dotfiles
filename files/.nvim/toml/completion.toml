@@ -1,15 +1,17 @@
 [[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_add = '''
+let g:deoplete#enable_at_startup = 1
+'''
+
+[[plugins]]
+repo = 'ncm2/float-preview.nvim'
+hook_add = '''
+let g:float_preview#docked = 0
+'''
+
+[[plugins]]
 repo = 'ujihisa/neco-look'
-
-[[plugins]]
-repo = 'prabirshrestha/async.vim'
-
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete.vim'
-
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete-lsp.vim'
-
 
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
@@ -44,14 +46,14 @@ let g:neosnippet#disable_runtime_snippets = {
 \ '_' : 1,
 \}
 let g:neosnippet#snippets_directory = expand('~/.nvim/snippets')
+
+let g:neosnippet#enable_completed_snippet = 1
+let g:neosnippet#enable_complete_done = 1
+
 imap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
 smap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<Tab>"
-
 '''
 
 [[plugins]]
-repo = 'thomasfaingnaert/vim-lsp-snippets'
-
-[[plugins]]
-repo = 'thomasfaingnaert/vim-lsp-neosnippet'
+repo = 'lighttiger2505/deoplete-vim-lsp'
 
