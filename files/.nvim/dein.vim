@@ -23,7 +23,7 @@ if dein#load_state(s:dein_dir)
   call dein#load_toml(s:toml_dir . '/nerdtree.toml',     {'lazy': 0})
   call dein#load_toml(s:toml_dir . '/appearance.toml',   {'lazy': 0})
   call dein#load_toml(s:toml_dir . '/completion.toml',   {'lazy': 0})
-  call dein#load_toml(s:toml_dir . '/fzf.toml',          {'lazy': 0})
+  call dein#load_toml(s:toml_dir . '/search.toml',          {'lazy': 0})
   call dein#load_toml(s:toml_dir . '/git.toml',          {'lazy': 0})
 
   if !has('nvim')
