@@ -3,6 +3,11 @@ repo = 'junegunn/fzf'
 
 [[plugins]]
 repo = 'junegunn/fzf.vim'
+hook_add = '''
+nnoremap <silent> <leader>f :<C-u>GFiles<CR>
+nnoremap <silent> <leader>F :<C-u>Files<CR>
+nnoremap <silent> <leader>d :<C-u>GFiles?<CR>
+'''
 
 [[plugins]]
 repo = 'Shougo/denite.nvim'
