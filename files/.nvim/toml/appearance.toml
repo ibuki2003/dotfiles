@@ -15,7 +15,7 @@ let g:lightline = {}
 let g:lightline.active = {
 \ 'left': [
 \   ['mode', 'paste'],
-\   ['gitbranch', 'readonly', 'filename', 'modified'],
+\   ['gitbranch', 'readonly', 'relativepath', 'modified'],
 \   ['lsp_diagnostics'],
 \ ],
 \ 'right': [
