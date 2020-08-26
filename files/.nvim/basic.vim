@@ -69,3 +69,8 @@ if has("syntax")
     augroup END
 endif
 
+augroup Mkdir
+    autocmd!
+    autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
+augroup END
+
