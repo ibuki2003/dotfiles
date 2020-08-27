@@ -1,5 +1,5 @@
 " diagnostic {{{
-call lsp#register_server({
+autocmd User lsp_setup call lsp#register_server({
 \ 'name': 'diagnostic-languageserver',
 \ 'cmd': { info -> ['diagnostic-languageserver', '--stdio'] },
 \ 'whitelist': [
