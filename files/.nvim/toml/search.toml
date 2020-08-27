@@ -1,8 +1,6 @@
 [[plugins]]
-repo = 'junegunn/fzf'
-
-[[plugins]]
 repo = 'junegunn/fzf.vim'
+if = "executable('fzf')"
 hook_add = '''
 nnoremap <silent> <leader>f :<C-u>GFiles<CR>
 nnoremap <silent> <leader>F :<C-u>Files<CR>
