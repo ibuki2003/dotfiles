@@ -51,6 +51,25 @@ map <Leader>r <Plug>(operator-replace)
 '''
 
 [[plugins]]
+repo = 'mattn/emmet-vim'
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+hook_add = '''
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+let g:easy_align_ignore_groups = ['String']
+'''
+
+[[plugins]]
+repo = 'terryma/vim-expand-region'
+hook_add = '''
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+'''
+
+[[plugins]]
 repo = 'fuenor/im_control.vim'
 hook_add = '''
 if executable('fcitx-remote')
