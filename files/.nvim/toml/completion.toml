@@ -16,9 +16,26 @@ repo = 'ujihisa/neco-look'
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
 hook_add = '''
-nnoremap <F12> :LspDeclaration<CR>
-nnoremap <S-F12> :LspReferences<CR>
-nnoremap <F2> <plug>(lsp-rename)
+nmap <F12>   <plug>(lsp-declaration)
+nmap <S-F12> <plug>(lsp-references)
+nmap <F2>    <plug>(lsp-rename)
+
+nmap <leader>ld <plug>(lsp-peek-declaration)
+nmap <leader>lD <plug>(lsp-declaration)
+nmap <leader>ln <plug>(lsp-peek-definition)
+nmap <leader>lN <plug>(lsp-definition)
+nmap <leader>li <plug>(lsp-peek-implementation)
+nmap <leader>lI <plug>(lsp-implementation)
+nmap <leader>lr <plug>(lsp-rename)
+nmap <leader>lR <plug>(lsp-references)
+nmap <leader>la <plug>(lsp-code-action)
+nmap <leader>ld <plug>(lsp-declaration)
+
+nmap <leader>lh <plug>(lsp-hover)
+nmap <leader>ll <plug>(lsp-hover)
+
+nmap <leader>lf <plug>(lsp-document-format)
+vmap <leader>lf <plug>(lsp-range-format)
 
 let g:lsp_log_file = '/tmp/lsp.log'
 let g:lsp_signs_error   = {'text': '!'}
