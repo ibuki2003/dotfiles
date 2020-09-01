@@ -9,6 +9,13 @@ autocmd ColorScheme * hi Pmenu ctermbg=237 ctermfg=4
 '''
 
 [[plugins]]
+repo = 'cocopon/iceberg.vim'
+hook_add = '''
+autocmd ColorScheme iceberg hi Visual ctermbg=237
+autocmd ColorScheme iceberg hi NonText ctermfg=240
+'''
+
+[[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_add = '''
 let g:lightline = {}
