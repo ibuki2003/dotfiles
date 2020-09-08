@@ -43,7 +43,7 @@ set signcolumn=yes
 
 set noshowmode " lightline shows this
 
-set inccommand=split " incremental substitution
+set inccommand=nosplit " incremental substitution
 
 " if has("clipboard")
 "     set clipboard=unnamedplus
