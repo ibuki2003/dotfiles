@@ -168,6 +168,7 @@ alias diff='diff --color=auto'
 
 alias mkdir='mkdir -p'
 
+alias :q=exit
 
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
