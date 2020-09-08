@@ -29,6 +29,9 @@ set incsearch
 set wrapscan
 set hlsearch
 
+" filename completion
+set wildignorecase
+
 " appearance
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
