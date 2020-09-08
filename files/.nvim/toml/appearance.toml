@@ -19,6 +19,7 @@ autocmd ColorScheme iceberg hi NonText ctermfg=240
 repo = 'itchyny/lightline.vim'
 hook_add = '''
 let g:lightline = {}
+let g:lightline.colorscheme = 'iceberg'
 let g:lightline.active = {
 \ 'left': [
 \   ['mode', 'paste'],
