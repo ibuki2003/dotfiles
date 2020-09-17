@@ -22,8 +22,8 @@ repo = 'editorconfig/editorconfig-vim'
 [[plugins]]
 repo = 'tpope/vim-repeat'
 
-[[plugins]]
-repo = 'alvan/vim-closetag'
+# [[plugins]]
+# repo = 'alvan/vim-closetag'
 
 [[plugins]]
 repo = 'simeji/winresizer'
