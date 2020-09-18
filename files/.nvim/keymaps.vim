@@ -31,12 +31,12 @@ nnoremap L :tabnext<CR>
 
 nnoremap q: :q
 
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
+vmap <silent> <Leader>y "+y
+vmap <silent> <Leader>d "+d
+nmap <silent> <Leader>p "+p
+nmap <silent> <Leader>P "+P
+vmap <silent> <Leader>p "+p
+vmap <silent> <Leader>P "+P
 
 nnoremap <C-g> ggVG
 
