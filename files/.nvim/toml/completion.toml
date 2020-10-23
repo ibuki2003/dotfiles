@@ -55,6 +55,16 @@ runtime lsp_servers.vim
 
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
+hook_add = '''
+let g:lsp_settings = {
+\ 'typescript-language-server': {
+\   'initialization_options': {
+\     'maxTsServerMemory': 256,
+\     'diagnostics': 'true',
+\   },
+\ }
+\}
+'''
 
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
