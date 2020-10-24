@@ -1,6 +1,10 @@
 [[plugins]]
+repo = 'junegunn/fzf'
+
+[[plugins]]
 repo = 'junegunn/fzf.vim'
 if = "executable('fzf')"
+rev = '18205e0'
 hook_add = '''
 nnoremap <silent><expr> <leader>f finddir('.git', ';') != ''
     \ ? ":call fzf#vim#gitfiles('-co --exclude-standard')<CR>"
