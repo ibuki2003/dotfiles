@@ -4,6 +4,9 @@ let mapleader = "\<Space>"
 nnoremap j gj
 nnoremap k gk
 
+vnoremap j gj
+vnoremap k gk
+
 " esc*2 to erase search result
 nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 
