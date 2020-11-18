@@ -2,8 +2,6 @@ let s:base_dir = expand('~/.nvim')
 let s:dein_dir = s:base_dir . '/plugins'
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-runtime! dein_github_token.vim
-
 " dein.vim がなければ github から落としてくる
 if &runtimepath !~# '/dein.vim'
   if !isdirectory(s:dein_repo_dir)
