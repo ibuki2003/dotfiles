@@ -45,6 +45,8 @@ set noshowmode " lightline shows this
 
 set inccommand=nosplit " incremental substitution
 
+set ambiwidth=double
+
 " if has("clipboard")
 "     set clipboard=unnamedplus
 " endif
