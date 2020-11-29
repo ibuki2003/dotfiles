@@ -78,3 +78,11 @@ endif
 
 inoremap <silent> <C-k> <C-r>=IMState('FixMode')<CR>
 '''
+
+[[plugins]]
+repo = 'mrtazz/simplenote.vim'
+if = 'exists("g:SimplenoteUsername")'
+hook_add = '''
+let g:SimplenoteFiletype = "markdown"
+let g:SimplenoteVertical = 1
+'''
