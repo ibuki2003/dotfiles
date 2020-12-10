@@ -150,6 +150,8 @@ setopt extended_glob
 # ミスを自動修正
 setopt correct
 
+setopt appendhistory
+setopt incappendhistory
 
 # エイリアス ====================================
 
