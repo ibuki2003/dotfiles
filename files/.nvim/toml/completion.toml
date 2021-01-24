@@ -85,3 +85,5 @@ smap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expa
 [[plugins]]
 repo = 'lighttiger2505/deoplete-vim-lsp'
 
+[[plugins]]
+repo = 'rust-lang/rust.vim'
