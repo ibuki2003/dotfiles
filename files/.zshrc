@@ -221,7 +221,7 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 
 zinit snippet 'OMZ::lib/clipboard.zsh'
-zinit snippet "/usr/share/fzf/key-bindings.zsh"
+zinit snippet '/usr/share/fzf/key-bindings.zsh'
 zinit light 'mollifier/anyframe'
 
 zinit ice blockf
