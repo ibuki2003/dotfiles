@@ -271,9 +271,8 @@ fi
 
 # anyframe
 zstyle ':anyframe:selector:fzf-tmux:' command "fzf-tmux -d ${FZF_TMUX_HEIGHT}"
-alias fb=anyframe-widget-checkout-git-branch
-alias fh=anyframe-widget-execute-history
-alias fhp=anyframe-widget-put-history
+alias fco=anyframe-widget-checkout-git-branch
+alias fh=anyframe-widget-put-history
 alias fk=anyframe-widget-kill
 
 compinit
