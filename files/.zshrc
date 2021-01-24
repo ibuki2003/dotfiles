@@ -199,11 +199,14 @@ if type nvim > /dev/null; then
   export EDITOR=nvim
 fi
 
-if type batcat > /dev/null; then alias bat=batcat; fi
 
 if type bat > /dev/null; then
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+elif type batcat > /dev/null; then
+  export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+  alias bat=batcat
 fi
+
 
 # zinit settings ====================================
 if [ ! -e ~/.zinit/bin/zinit.zsh ]; then
