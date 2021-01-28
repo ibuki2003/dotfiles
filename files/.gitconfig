@@ -34,3 +34,5 @@
 	p = !git push origin `git rev-parse --abbrev-ref HEAD`
 [pull]
 	ff = only
+[init]
+	defaultBranch = master
