@@ -34,7 +34,7 @@ set wildignorecase
 
 " appearance
 set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+set listchars=tab:»-,trail:-,eol:¬,extends:»,precedes:«,nbsp:%
 set expandtab
 set tabstop=4
 set shiftwidth=4
