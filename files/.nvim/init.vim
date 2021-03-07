@@ -7,6 +7,7 @@ runtime! basic.vim
 runtime! keymaps.vim
 runtime! dein.vim
 runtime! tabline.vim
+runtime! terminal.vim
 
 
 syntax on
