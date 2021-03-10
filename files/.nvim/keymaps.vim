@@ -44,3 +44,6 @@ vmap <silent> <Leader>P "+P
 nnoremap <C-g> ggVG
 
 noremap <expr> 0 getline('.')[0 : col('.') - 2] =~# '^\s\+$' ? '0' : '^'
+
+" terminal escape
+tnoremap <Esc><Esc> <C-\><C-n>

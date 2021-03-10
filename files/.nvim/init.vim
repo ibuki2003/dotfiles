@@ -5,10 +5,8 @@ execute 'set runtimepath+=' . fnamemodify(s:base_dir, ':p')
 runtime! secrets.vim
 runtime! basic.vim
 runtime! keymaps.vim
-runtime! dein.vim
+lua require('dein')
 runtime! tabline.vim
-runtime! terminal.vim
-
 
 syntax on
 
