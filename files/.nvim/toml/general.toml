@@ -86,3 +86,15 @@ hook_add = '''
 let g:SimplenoteFiletype = "markdown"
 let g:SimplenoteVertical = 1
 '''
+
+[[plugins]]
+repo = 'monaqa/dial.nvim'
+hook_add = '''
+nmap <C-a> <Plug>(dial-increment)
+nmap <C-x> <Plug>(dial-decrement)
+vmap <C-a> <Plug>(dial-increment)
+vmap <C-x> <Plug>(dial-decrement)
+vmap g<C-a> <Plug>(dial-increment-additional)
+vmap g<C-x> <Plug>(dial-decrement-additional)
+'''
+hook_post_source = 'lua require("dial_config")'

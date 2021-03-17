@@ -47,3 +47,15 @@ lua require('lsp_servers')
 [[plugins]]
 repo = 'deoplete-plugins/deoplete-lsp'
 
+[[plugins]]
+repo = 'fszymanski/deoplete-emoji'
+hook_post_source = '''
+call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
+'''
+
+[[plugins]]
+repo = 'blueyed/vim-auto-programming'
+rev = 'neovim'
+
+[[plugins]]
+repo = 'ibuki2003/deoplete-auto-programming.nvim'
