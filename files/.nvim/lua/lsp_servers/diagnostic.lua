@@ -6,10 +6,19 @@ local formatter_filetypes = {}
 
 local whitelist_map = {}
 
+local function append_key(tbl, key, val)
+  if tbl[key]  == nil or tbl[key] ~= "table" then
+    tbl[key] = {val}
+  else
+    table.insert(tbl[key], val)
+  end
+end
+
 local function register_linter(name, filetypes, config)
   linters[name] = config
   for i = 1, #filetypes do
-    linter_filetypes[filetypes[i]] = name
+    append_key(linter_filetypes, filetypes[i], name)
+    -- linter_filetypes[filetypes[i]] = name
     whitelist_map[filetypes[i]] = true
   end
 end
@@ -17,7 +26,8 @@ end
 local function register_formatter(name, filetypes, config)
   formatters[name] = config
   for i = 1, #filetypes do
-    formatter_filetypes[filetypes[i]] = name
+    append_key(formatter_filetypes, filetypes[i], name)
+    -- formatter_filetypes[filetypes[i]] = name
     whitelist_map[filetypes[i]] = true
   end
 end
