@@ -41,11 +41,13 @@ for key, val in pairs(whitelist_map) do
 end
 
 return {
-  init_options = {
+  name = 'diagnostic-languageserver',
+  cmd = { 'diagnostic-languageserver', '--stdio' },
+  whitelist = whitelist,
+  initialization_options = {
     linters = linters,
     filetypes = linter_filetypes,
     formatters = formatters,
     formatFiletypes = formatter_filetypes,
-  },
-  whitelist = whitelist,
+  }
 }

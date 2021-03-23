@@ -46,7 +46,26 @@ let g:lightline.component_function = {
 \}
 
 function! LspDiagnosticsCount()
-    return luaeval("require('lsp_status')(_A.bufnr)", {'bufnr': bufnr()})
+    let counts = lsp#get_buffer_diagnostics_counts()
+    let ret = []
+
+    if counts.error
+        call add(ret, 'E' . (counts.error))
+    endif
+
+    if counts.warning
+        call add(ret, 'W' . (counts.warning))
+    endif
+
+    if counts.information
+        call add(ret, 'I' . (counts.information))
+    endif
+
+    if counts.hint
+        call add(ret, 'H' . (counts.hint))
+    endif
+
+    return join(ret, ' ')
 endfunction
 
 function! LLIMState()

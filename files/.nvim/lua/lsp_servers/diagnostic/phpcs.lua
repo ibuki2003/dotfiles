@@ -7,11 +7,11 @@ local function register(register_linter, register_formatter)
     {
       sourceName = 'phpcs',
       command = 'phpcs',
-      args = { '-', '--report=csv', '--stdin-path=%filename' },
+      args = { '-', '--report=csv', '--stdin-path=%filepath' },
       rootPatterns = { 'phpcs.xml' },
       formatLines = 1,
       formatPattern = {
-          '^"STDIN",(\\d+),(\\d+),(\\w+),"(.+?)",([\\w.]+),\\d+,\\d+$',
+          '^"[^"]+",(\\d+),(\\d+),(\\w+),"(.+?)",([\\w.]+),\\d+,\\d+$',
           {
               line     = 1,
               column   = 2,
@@ -32,7 +32,7 @@ local function register(register_linter, register_formatter)
     {
       rootPatterns = { 'phpcs.xml' },
       command = 'sh',
-      args = { '-c', 'phpcbf - -q --stdin-path=%filename || true' },
+      args = { '-c', 'phpcbf - -q --stdin-path=%filepath || true' },
       isStdout = true,
       isStderr = true,
   })

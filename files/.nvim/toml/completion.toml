@@ -15,6 +15,59 @@ let g:float_preview#docked = 0
 repo = 'ujihisa/neco-look'
 
 [[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+hook_add = '''
+nmap <F12>   <plug>(lsp-declaration)
+nmap <S-F12> <plug>(lsp-references)
+nmap <F2>    <plug>(lsp-rename)
+
+nmap <leader>ld <plug>(lsp-peek-declaration)
+nmap <leader>lD <plug>(lsp-declaration)
+nmap <leader>ln <plug>(lsp-peek-definition)
+nmap <leader>lN <plug>(lsp-definition)
+nmap <leader>li <plug>(lsp-peek-implementation)
+nmap <leader>lI <plug>(lsp-implementation)
+nmap <leader>lr <plug>(lsp-rename)
+nmap <leader>lR <plug>(lsp-references)
+nmap <leader>la <plug>(lsp-code-action)
+nmap <leader>ld <plug>(lsp-declaration)
+
+nmap <leader>lh <plug>(lsp-hover)
+nmap <leader>ll <plug>(lsp-hover)
+
+nmap <leader>lf <plug>(lsp-document-format)
+vmap <leader>lf <plug>(lsp-range-format)
+
+let g:lsp_log_file = '/tmp/lsp.log'
+let g:lsp_signs_error   = {'text': '!'}
+let g:lsp_signs_warning = {'text': '*'}
+let g:lsp_signs_hint    = {'text': '-'}
+let g:lsp_async_completion = 1
+let g:lsp_virtual_text_enabled = 1
+let g:lsp_text_edit_enabled = 0
+
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+
+"autocmd BufWritePre <buffer> LspDocumentFormatSync
+
+runtime lsp_servers.vim
+'''
+
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+hook_add = '''
+let g:lsp_settings = {
+\ 'typescript-language-server': {
+\   'initialization_options': {
+\     'maxTsServerMemory': 256,
+\     'diagnostics': 'true',
+\   },
+\ }
+\}
+'''
+
+[[plugins]]
 repo = 'Shougo/neosnippet.vim'
 hook_add = '''
 let g:neosnippet#disable_runtime_snippets = {
@@ -30,22 +83,7 @@ smap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expa
 '''
 
 [[plugins]]
-repo = 'rust-lang/rust.vim'
-
-[[plugins]]
-repo = 'neovim/nvim-lspconfig'
-hook_post_source = '''
-lua require('lsp_servers')
-'''
-
-#[[plugins]]
-#repo = 'nvim-lua/completion-nvim'
-#hook_add = '''
-#let g:completion_enable_auto_popup = 1
-#'''
-
-[[plugins]]
-repo = 'deoplete-plugins/deoplete-lsp'
+repo = 'lighttiger2505/deoplete-vim-lsp'
 
 [[plugins]]
 repo = 'fszymanski/deoplete-emoji'
