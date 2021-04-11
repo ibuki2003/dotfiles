@@ -20,7 +20,6 @@ if vim.call('dein#load_state', dein_dir) == 1 then
 
   vim.call('dein#load_toml', toml_dir .. '/general.toml',      {lazy = 0})
   vim.call('dein#load_toml', toml_dir .. '/general_lazy.toml', {lazy = 1})
-  vim.call('dein#load_toml', toml_dir .. '/nerdtree.toml',     {lazy = 0})
   vim.call('dein#load_toml', toml_dir .. '/appearance.toml',   {lazy = 0})
   vim.call('dein#load_toml', toml_dir .. '/completion.toml',   {lazy = 0})
   vim.call('dein#load_toml', toml_dir .. '/search.toml',       {lazy = 0})
