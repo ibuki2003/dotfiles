@@ -192,12 +192,6 @@ if type vim > /dev/null; then
   export EDITOR=vim
 fi
 
-if type nvim > /dev/null; then
-  # neovim installed
-  alias vim=nvim
-  export EDITOR=nvim
-fi
-
 
 if type bat > /dev/null; then
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
