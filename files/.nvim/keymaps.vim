@@ -1,11 +1,11 @@
 let mapleader = "\<Space>"
 
 " wrapped move
-nnoremap j gj
-nnoremap k gk
+nnoremap <silent> j gj
+nnoremap <silent> k gk
 
-vnoremap j gj
-vnoremap k gk
+vnoremap <silent> j gj
+vnoremap <silent> k gk
 
 " esc*2 to erase search result
 nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
