@@ -274,4 +274,8 @@ alias fco=anyframe-widget-checkout-git-branch
 alias fh=anyframe-widget-put-history
 alias fk=anyframe-widget-kill
 
+bindkey '^xf' anyframe-widget-insert-filename
+bindkey '^xb' anyframe-widget-insert-git-branch
+bindkey '^xh' anyframe-widget-put-history
+
 compinit
