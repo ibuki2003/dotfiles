@@ -22,7 +22,6 @@ dial.config.searchlist.normal = {
   "date#[%Y/%m/%d]",
   "date#[%Y-%m-%d]",
   "date#[%H:%M:%S]",
-  "date#[%M:%S]",
   "markup#markdown#header",
 }
 
@@ -38,6 +37,5 @@ dial.config.searchlist.visual = {
   "date#[%Y/%m/%d]",
   "date#[%Y-%m-%d]",
   "date#[%H:%M:%S]",
-  "date#[%M:%S]",
   "markup#markdown#header",
 }
