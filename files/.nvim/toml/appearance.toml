@@ -91,3 +91,9 @@ autocmd ColorScheme * hi IndentGuidesEven ctermbg=235
 [[plugins]]
 repo = 'bronson/vim-trailing-whitespace'
 
+[[plugins]]
+repo = 'norcalli/nvim-colorizer.lua'
+if = '&termguicolors'
+hook_post_source = '''
+lua require('nvim-colorizer')
+'''

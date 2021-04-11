@@ -98,3 +98,9 @@ vmap g<C-a> <Plug>(dial-increment-additional)
 vmap g<C-x> <Plug>(dial-decrement-additional)
 '''
 hook_post_source = 'lua require("dial_config")'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'whatyouhide/vim-textobj-xmlattr'
