@@ -9,6 +9,7 @@ local function register(register_linter, register_formatter)
       command = 'phpcs',
       args = { '-', '--report=csv', '--stdin-path=%filepath' },
       rootPatterns = { 'phpcs.xml' },
+      requiredFiles = { 'phpcs.xml' },
       formatLines = 1,
       formatPattern = {
           '^"[^"]+",(\\d+),(\\d+),(\\w+),"(.+?)",([\\w.]+),\\d+,\\d+$',
