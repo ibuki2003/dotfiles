@@ -2,10 +2,13 @@
 repo = 'tomasr/molokai'
 hook_add = '''
 colorscheme molokai
-autocmd ColorScheme molokai hi Comment ctermfg=102
-autocmd ColorScheme molokai hi Visual ctermbg=240
-autocmd ColorScheme molokai hi MatchParen cterm=bold ctermfg=208 ctermbg=233
-autocmd ColorScheme molokai hi Pmenu ctermbg=237 ctermfg=4
+function! s:fuwa_override_molokai()
+    hi Comment ctermfg=102 guifg=#878787
+    hi Visual ctermbg=240 guibg=#585858
+    hi MatchParen cterm=bold ctermfg=208 ctermbg=233 gui=bold guifg=#FD971F guibg=#000000
+    hi Pmenu ctermbg=237 ctermfg=4 guibg=#3a3a3a guifg=#00ffff
+endfunction
+autocmd ColorScheme molokai call s:fuwa_override_molokai()
 '''
 
 [[plugins]]
