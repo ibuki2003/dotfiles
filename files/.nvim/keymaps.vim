@@ -34,8 +34,11 @@ nnoremap L :tabnext<CR>
 
 nnoremap q: :q
 
+nmap <silent> <Leader>y "+y
+nmap <silent> <Leader>d "+d
 vmap <silent> <Leader>y "+y
 vmap <silent> <Leader>d "+d
+
 nmap <silent> <Leader>p "+p
 nmap <silent> <Leader>P "+P
 vmap <silent> <Leader>p "+p
