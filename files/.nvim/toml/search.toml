@@ -3,5 +3,6 @@ repo = 'ctrlpvim/ctrlp.vim'
 hook_add = '''
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_follow_symlinks = 1
 '''
