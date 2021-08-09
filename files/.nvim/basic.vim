@@ -79,3 +79,8 @@ augroup Mkdir
     autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
 augroup END
 
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+autocmd QuickFixCmdPost *grep* cwindow
