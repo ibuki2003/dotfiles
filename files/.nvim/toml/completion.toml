@@ -15,6 +15,10 @@ let g:float_preview#docked = 0
 repo = 'ujihisa/neco-look'
 
 [[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+hook_add = 'lua require("nvim-treesitter")'
+
+[[plugins]]
 repo = 'prabirshrestha/vim-lsp'
 hook_add = '''
 nmap <F12>   <plug>(lsp-declaration)
@@ -87,9 +91,6 @@ repo = 'lighttiger2505/deoplete-vim-lsp'
 
 [[plugins]]
 repo = 'fszymanski/deoplete-emoji'
-hook_post_source = '''
-call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
-'''
 
 [[plugins]]
 repo = 'blueyed/vim-auto-programming'

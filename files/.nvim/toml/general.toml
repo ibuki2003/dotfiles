@@ -11,19 +11,35 @@ repo = 'tpope/vim-surround'
 repo = 'tpope/vim-commentary'
 
 [[plugins]]
-repo = 'osyo-manga/vim-precious'
+repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]
-repo = 'Shougo/context_filetype.vim'
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+hook_add = '''
+" insert mode に入った時に 'filetype' を切り換える。
+" カーソル移動時の自動切り替えを無効化
+let g:precious_enable_switch_CursorMoved = {
+\ '*' : 0,
+\ 'help': 1
+\}
+let g:precious_enable_switch_CursorMoved_i = {
+\ "*" : 0
+\}
+
+" insert に入った時にスイッチし、抜けた時に元に戻す
+augroup fuwa_precious
+  autocmd!
+  autocmd InsertEnter * :PreciousSwitch
+  " autocmd InsertLeave * :PreciousReset
+augroup END
+'''
 
 [[plugins]]
 repo = 'editorconfig/editorconfig-vim'
 
 [[plugins]]
 repo = 'tpope/vim-repeat'
-
-# [[plugins]]
-# repo = 'alvan/vim-closetag'
 
 [[plugins]]
 repo = 'simeji/winresizer'
@@ -78,6 +94,8 @@ endif
 
 inoremap <silent> <C-k> <C-r>=IMState('FixMode')<CR>
 '''
+lazy = 1
+on_i = 1
 
 [[plugins]]
 repo = 'mrtazz/simplenote.vim'
@@ -104,3 +122,37 @@ repo = 'kana/vim-textobj-user'
 
 [[plugins]]
 repo = 'whatyouhide/vim-textobj-xmlattr'
+
+[[plugins]]
+repo = 'subnut/nvim-ghost.nvim'
+
+[[plugins]]
+repo = 'ctrlpvim/ctrlp.vim'
+hook_add = '''
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_follow_symlinks = 1
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'norcalli/nvim-colorizer.lua'
+if = '&termguicolors'
+hook_post_source = '''
+lua require('nvim-colorizer')
+'''
+
+[[plugins]]
+repo = 'dhruvasagar/vim-table-mode'
+on_i = 1
+hook_add = '''
+let g:table_mode_corner = '|'
+'''
+hook_post_source = 'TableModeEnable'
+

@@ -11,6 +11,8 @@ if not string.match(vim.o.runtimepath, '/dein.vim') then
 end
 
 
+vim.g['dein#auto_recache'] = 1
+
 -- Required:
 if vim.call('dein#load_state', dein_dir) == 1 then
   local toml_dir = base_dir .. '/toml'
@@ -18,12 +20,9 @@ if vim.call('dein#load_state', dein_dir) == 1 then
 
   -- load plgins file
 
-  vim.call('dein#load_toml', toml_dir .. '/general.toml',      {lazy = 0})
-  vim.call('dein#load_toml', toml_dir .. '/general_lazy.toml', {lazy = 1})
-  vim.call('dein#load_toml', toml_dir .. '/appearance.toml',   {lazy = 0})
-  vim.call('dein#load_toml', toml_dir .. '/completion.toml',   {lazy = 0})
-  vim.call('dein#load_toml', toml_dir .. '/search.toml',       {lazy = 0})
-  vim.call('dein#load_toml', toml_dir .. '/git.toml',          {lazy = 0})
+  vim.call('dein#load_toml', toml_dir .. '/general.toml')
+  vim.call('dein#load_toml', toml_dir .. '/appearance.toml')
+  vim.call('dein#load_toml', toml_dir .. '/completion.toml')
 
   vim.call('dein#end')
   vim.call('dein#save_state')
@@ -33,7 +32,6 @@ end
 if vim.call('dein#check_install') == 1 then
   vim.call('dein#install')
 end
-vim.call('dein#recache_runtimepath')
 
 -- Required:
 vim.cmd('filetype plugin indent on')
