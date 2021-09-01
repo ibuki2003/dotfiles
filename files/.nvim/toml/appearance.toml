@@ -1,7 +1,6 @@
 [[plugins]]
 repo = 'tomasr/molokai'
 hook_add = '''
-colorscheme molokai
 function! s:fuwa_override_molokai()
     hi Comment ctermfg=102 guifg=#878787
     hi Visual ctermbg=240 guibg=#585858
@@ -10,6 +9,15 @@ function! s:fuwa_override_molokai()
 endfunction
 autocmd ColorScheme molokai call s:fuwa_override_molokai()
 '''
+
+[[plugins]]
+repo = 'dracula/vim'
+hook_add = '''
+colorscheme dracula
+'''
+
+[[plugins]]
+repo = 'ishan9299/nvim-solarized-lua'
 
 [[plugins]]
 repo = 'cocopon/iceberg.vim'
@@ -22,7 +30,7 @@ autocmd ColorScheme iceberg hi NonText ctermfg=240
 repo = 'itchyny/lightline.vim'
 hook_add = '''
 let g:lightline = {}
-let g:lightline.colorscheme = 'iceberg'
+let g:lightline.colorscheme = 'dracula'
 let g:lightline.active = {
 \ 'left': [
 \   ['mode', 'paste'],
