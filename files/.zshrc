@@ -1,3 +1,5 @@
+ZDOTDIR=${ZDOTDIR:-$HOME}
+
 # Start tmux if only on ssh session
 if [ -f /proc/$PPID/cmdline ] && [ "$(cut -d: -f1 < "/proc/$PPID/cmdline")" = "sshd" ] && [[ $- == *i* ]]; then
     ## if ssh
@@ -24,6 +26,7 @@ if [ -f /proc/$PPID/cmdline ] && [ "$(cut -d: -f1 < "/proc/$PPID/cmdline")" = "s
       fi
     fi
 fi
+
 
 ########################################
 # 環境変数
@@ -56,6 +59,7 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}" history-beginning-search-forward
 
 
+
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
@@ -82,7 +86,7 @@ autoload -Uz select-word-style
 select-word-style default
 # ここで指定した文字は単語区切りとみなされる
 # / も区切りと扱うので、^W でディレクトリ１つ分を削除できる
-zstyle ':zle:*' word-chars " /=;@:{},|"
+zstyle ':zle:*' word-chars " /=;@:{},|-"
 zstyle ':zle:*' word-style unspecified
 
 
@@ -103,19 +107,24 @@ PROMPT="%F{green}[%n@%m]%(?..%F{009}!)%f %~
 
 
 # ヒストリの設定
-HISTFILE=~/.zsh_history
+HISTFILE=${ZDOTDIR}/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
 
 # Completion ====================================
 autoload -Uz compinit
-compinit
+if [[ -n $(find ~/.zcompdump -mtime 0 2> /dev/null) ]]; then
+	compinit -C
+else
+	compinit
+fi;
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
                    /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+
 
 # Git(vcs) ====================================
 autoload -Uz vcs_info
@@ -136,6 +145,7 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
+
 # opt ====================================
 setopt print_eight_bit
 setopt no_beep
@@ -152,6 +162,8 @@ setopt extended_glob
 setopt correct
 setopt appendhistory
 setopt incappendhistory
+setopt globdots
+
 
 # alias ====================================
 
@@ -181,6 +193,7 @@ alias -g ...="../.."
 alias -g ....="../../.."
 alias -g .....="../../../.."
 
+
 # function ====================================
 function gpp () {
     g++ -std=c++1y -o "${1%.*}" -O2 -g -DLOCAL -D_GLIBCXX_DEBUG -Wall -Wextra -Wpedantic $@
@@ -200,12 +213,15 @@ elif type batcat > /dev/null; then
   alias bat=batcat
 fi
 
+# local zshrc can be used to load local plugin
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 # zinit settings ====================================
-if [ ! -e ~/.zinit/bin/zinit.zsh ]; then
+
+if [ ! -e ${ZDOTDIR}/.zinit/bin/zinit.zsh ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
-source ~/.zinit/bin/zinit.zsh
+source ${ZDOTDIR}/.zinit/bin/zinit.zsh
 autoload -Uz _zinit
 
 
@@ -213,16 +229,14 @@ zinit light zsh-users/zsh-autosuggestions
 
 zinit light zsh-users/zsh-syntax-highlighting
 
-zinit snippet 'OMZ::lib/clipboard.zsh'
+zinit snippet 'OMZL::clipboard.zsh'
 zinit snippet '/usr/share/fzf/key-bindings.zsh'
 zinit light 'mollifier/anyframe'
 
+#'
 zinit ice blockf
 zinit light zsh-users/zsh-completions
 (( ${+_comps} )) && _comps[zinit]=_zinit
-
-# local zshrc can be used to load local plugin
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 # external settings ====================================
 # zsh-syntax-highlighting
@@ -252,12 +266,10 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-5]='fg=cyan,bold'
 ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]='standout'
 
 # fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
-if [[ -n "$TMUX" ]]
-then
+if [[ -n "$TMUX" ]]; then
   FZF_TMUX=1
   FZF_TMUX_HEIGHT='25%'
 fi
@@ -271,5 +283,5 @@ alias fk=anyframe-widget-kill
 bindkey '^xf' anyframe-widget-insert-filename
 bindkey '^xb' anyframe-widget-insert-git-branch
 bindkey '^xh' anyframe-widget-put-history
+type ghq > /dev/null && bindkey '^xg' anyframe-widget-cd-ghq-repository
 
-compinit
