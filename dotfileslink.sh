@@ -14,7 +14,7 @@ function ln_files() {
                 ln_files $filename
                 ;;
             *)
-                ln -vfs "$root/$path" ~/"$path"
+                ln -vfTns "$root/$path" ~/"$path"
                 ;;
         esac
     done
