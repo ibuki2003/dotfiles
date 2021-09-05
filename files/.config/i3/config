@@ -30,7 +30,7 @@ client.background       #F8F8F2
 
 font pango:Noto Sans CJK JP 10
 
-gaps inner 5
+gaps inner 8
 
 ################
 # Key bindings
