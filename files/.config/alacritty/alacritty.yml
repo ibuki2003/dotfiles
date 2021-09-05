@@ -86,7 +86,7 @@ hints:
       post_processing: true
       mouse:
         enabled: true
-      mods: Control|Shift
+        mods: Shift
 
 mouse:
   double_click: { threshold: 300 }
