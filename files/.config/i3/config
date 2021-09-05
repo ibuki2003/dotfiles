@@ -7,17 +7,26 @@ mouse_warping none
 #############
 # Appearance
 #############
-set $background #2b303b
-set $foreground #c0c5ce
-set $secondary #3f4751
-set $black #2b303b
-set $red #bf616a
-set $green #a3be8c
-set $yellow #ebcb8b
-set $blue #8fa1b3
-set $magenta #b48ead
-set $cyan #96b5b4
-set $white #c0c5ce
+set $background   #282a36
+set $current Line #44475a
+set $foreground   #f8f8f2
+set $comment      #6272a4
+set $cyan         #8be9fd
+set $green        #50fa7b
+set $orange       #ffb86c
+set $pink         #ff79c6
+set $purple       #bd93f9
+set $red          #ff5555
+set $yellow       #f1fa8c
+
+# class                 border  bground text    indicator child_border
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+
+client.background       #F8F8F2
 
 font pango:Noto Sans CJK JP 10
 
