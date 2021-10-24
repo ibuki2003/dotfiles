@@ -8,13 +8,13 @@ function ln_files() {
     fi
 
     for filename in $(find "$root/$1" -mindepth 1 -maxdepth 1 | xargs -n1 basename); do
-        path="$1/$filename"
+        fn="$1/$filename"
         case $filename in
             .config)
                 ln_files $filename
                 ;;
             *)
-                ln -vfTns "$root/$path" ~/"$path"
+                ln -vfTns "$root/$fn" ~/"$fn"
                 ;;
         esac
     done
