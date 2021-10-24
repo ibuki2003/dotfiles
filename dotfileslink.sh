@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 root=$(realpath $(dirname "$0"))/files
 
