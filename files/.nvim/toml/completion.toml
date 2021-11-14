@@ -87,6 +87,13 @@ smap <expr> <Tab> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expa
 '''
 
 [[plugins]]
+repo = 'github/copilot.vim'
+hook_add = '''
+let g:copilot_no_tab_map = v:true
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+'''
+
+[[plugins]]
 repo = 'lighttiger2505/deoplete-vim-lsp'
 
 [[plugins]]
