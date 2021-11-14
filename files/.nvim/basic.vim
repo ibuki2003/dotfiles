@@ -22,6 +22,8 @@ set wildmode=list:longest
 
 set completeopt-=preview " deoplete float window
 
+set matchpairs+=「:」,『:』,（:）,【:】,《:》,〈:〉,［:］,‘:’,“:”
+
 " search
 set ignorecase
 set smartcase
