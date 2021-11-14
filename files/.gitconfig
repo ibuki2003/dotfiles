@@ -1,18 +1,16 @@
 [include]
     path = ~/.gitconfig.local
+[user]
+    name = 'ibuki2003'
+    email = 'main@fuwa.dev'
+[init]
+    defaultBranch = master
 [core]
+    quotepath = off
     editor = vim
     pager = "LESSCHARSET=utf-8 less"
     quotepath = false
     autocrlf = input
-[user]
-    name = 'ibuki2003'
-    email = 'main@fuwa.dev'
-[filter "lfs"]
-    process = git-lfs filter-process
-    required = true
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
 [diff]
     tool = vimdiff
     algorithm = histogram
@@ -23,11 +21,14 @@
     tool = vimdiff
 [mergetool]
     prompt = false
-[core]
-    quotepath = off
 [push]
     default = current
 [pull]
     ff = only
-[init]
-    defaultBranch = master
+[fetch]
+    prune = true
+[filter "lfs"]
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
