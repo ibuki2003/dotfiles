@@ -88,8 +88,8 @@ function! LspDiagnosticsCount()
 endfunction
 
 function! LLIMState()
-    if exists('g:IMState') && g:IMState
-        return 'JP'
+    if exists('*IMStatus')
+        return IMStatus('JP')
     else
         return ''
     endif
