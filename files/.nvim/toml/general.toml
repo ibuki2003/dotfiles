@@ -94,8 +94,6 @@ endif
 
 inoremap <silent> <C-k> <C-r>=IMState('FixMode')<CR>
 '''
-lazy = 1
-on_i = 1
 
 [[plugins]]
 repo = 'mrtazz/simplenote.vim'
