@@ -176,6 +176,7 @@ alias l='ls -l'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+alias rename='rename -i'
 
 alias grep='grep --color'
 alias diff='diff --color=auto'
