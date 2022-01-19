@@ -114,10 +114,10 @@ SAVEHIST=1000000
 
 # Completion ====================================
 autoload -Uz compinit
-if [[ -n $(find ~/.zcompdump -mtime 0 2> /dev/null) ]]; then
+if [[ -n $(find ~/.zcompdump 2> /dev/null) ]]; then
 	compinit -C
 else
-	compinit
+	#compinit
 fi;
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
