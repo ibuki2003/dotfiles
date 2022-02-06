@@ -1,0 +1,164 @@
+
+* {
+  font-family: 'Material Design Icons', 'HackGen35Nerd';
+  font-size: 12px;
+}
+
+window#waybar {
+  background: rgba(40, 42, 54, 0.9);
+  color: #f8f8f2;
+  /* transition-property: background-color; */
+  /* transition-duration: .5s; */
+}
+
+#workspaces button {
+    /* padding: 0 5px; */
+    background-color: transparent;
+    color: #f8f8f2;
+    /* /1* Use box-shadow instead of border so the text isn't offset *1/ */
+    /* box-shadow: inset 0 -3px transparent; */
+    /* /1* Avoid rounded borders under each workspace name *1/ */
+    /* border: none; */
+    /* border-radius: 100%; */
+    margin: 0 .5em;
+    padding: 0;
+}
+#workspaces button:hover {
+    /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+    background: inherit;
+    border: inherit;
+    padding: inherit;
+    box-shadow: inherit;
+    text-shadow: inherit;
+    transition: none;
+
+    font-weight: bold;
+}
+
+/**
+ * Workspace types:
+ * - urgent
+ * - focused: active
+ * - visible: shown
+ * - persistent: set by config
+ * - current_output: ???
+ */
+
+#workspaces button.urgent {
+    color: #ffb86c;
+}
+
+#workspaces button.visible {
+    color: #50fa7b;
+}
+
+#workspaces button.focused {
+    font-weight: bold;
+}
+
+#workspaces button.persistent {
+    color: #6272a4;
+}
+
+/* Omit margin on the ends */
+.modules-left > widget:first-child > #workspaces { margin-left: 0; }
+.modules-right > widget:last-child > #workspaces { margin-right: 0; }
+
+label:focus {
+    background-color: #282a36;
+}
+
+#tray {
+    padding: 0 5px;
+}
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #ffb86c;
+}
+
+/**
+ * Dracula Colors
+ * --bg        : #282a36
+ * --fg        : #f8f8f2
+ * --selection : #44475a
+ * --comment   : #6272a4
+ * --cyan      : #8be9fd
+ * --green     : #50fa7b
+ * --orange    : #ffb86c
+ * --pink      : #ff79c6
+ * --purple    : #bd93f9
+ * --red       : #ff5555
+ * --white     : #f8f8f2
+ * --yellow    : #f1fa8c
+ * --glyph-fg  : #a3a38f
+ */
+label {
+    padding: 0 0;
+    /* margin: 0 0; */
+    margin: 0 5px;
+    border: none;
+}
+
+#mode {
+    background-color: #bd93f9;
+    border-radius: 1em;
+    margin: 5px 5px;
+    padding: 0 5px;
+}
+
+/* #clock { */
+/*     border-bottom: #64727D; */
+/* } */
+#temperature.critical {
+    color: #ff5555;
+}
+
+@keyframes blink {
+    to {
+        background-color: #f8f8f2;
+        color: #282a36;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #ff5555;
+    color: #f8f8f2;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+
+#pulseaudio.muted {
+    color: #6272a4;
+}
+
+/*
+#custom-media {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+    background-color: #66cc99;
+}
+
+#custom-media.custom-vlc {
+    background-color: #ffa000;
+}
+
+
+#tray {
+    background-color: #2980b9;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+*/
+
+
