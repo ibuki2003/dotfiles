@@ -49,6 +49,9 @@ set inccommand=nosplit " incremental substitution
 
 set ambiwidth=double
 
+set showtabline=1
+set guioptions-=e
+
 " if has("clipboard")
 "     set clipboard=unnamedplus
 " endif

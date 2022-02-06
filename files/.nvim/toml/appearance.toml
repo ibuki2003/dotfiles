@@ -64,6 +64,20 @@ let g:lightline.component_function = {
 \ 'im_state': 'LLIMState',
 \}
 
+let g:lightline.tabline = {
+    \ 'left': [ [ 'tabs' ] ],
+    \ 'right': [ [ ] ] }
+let g:lightline.tab = {
+    \ 'active':   [ 'tabnum', 'bufcnt', 'filename', 'modified' ],
+    \ 'inactive': [ 'bufcnt', 'filename', 'modified' ] }
+
+let g:lightline.tab_component_function = {
+\ 'bufcnt': 'TabBufCnt',
+\}
+
+let g:lightline.tabline_separator = { 'left': '', 'right': '' }
+let g:lightline.tabline_subseparator = { 'left': '', 'right': '' }
+
 function! LspDiagnosticsCount()
     let counts = lsp#get_buffer_diagnostics_counts()
     let ret = []
@@ -93,6 +107,15 @@ function! LLIMState()
     else
         return ''
     endif
+endfunction
+
+function! TabBufCnt(n)
+  let bufnrs = tabpagebuflist(a:n)
+  let cnt = len(bufnrs)
+  if cnt is 1
+    return ''
+  endif
+  return '[' . cnt . ']'
 endfunction
 '''
 
