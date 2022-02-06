@@ -15,9 +15,12 @@ nnoremap <silent><C-j> :bnext<CR>
 nnoremap <silent><C-k> :bprev<CR>
 
 " tabline
-nnoremap H :tabprevious<CR>
-nnoremap L :tabnext<CR>
+nnoremap <silent> H :tabprevious<CR>
+nnoremap <silent> L :tabnext<CR>
 
+" block indent
+vnoremap < <gv
+vnoremap > >gv
 
 "" completion
 "function! InsertTabWrapper()
@@ -47,6 +50,8 @@ vmap <silent> <Leader>P "+P
 nnoremap <C-g> ggVG
 
 noremap <expr> 0 getline('.')[0 : col('.') - 2] =~# '^\s\+$' ? '0' : '^'
+
+noremap x "_x
 
 " terminal escape
 tnoremap <Esc><Esc> <C-\><C-n>
