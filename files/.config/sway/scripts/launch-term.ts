@@ -63,7 +63,7 @@ async function main() {
 
   const pwd = await get_focused_pwd();
   if (pwd) {
-    args.push("--working-directory", pwd);
+    args.push("--working-directory", pwd.replace(/^~/, Deno.env.get("HOME") || ''));
   }
 
   Deno.run({

@@ -58,7 +58,7 @@ for_window [app_id="kitty"] {
 #
     # Start a terminal
     #bindsym $mod+Return exec $term
-    bindsym $mod+Return exec deno run --allow-run ~/.config/sway/scripts/launch-term.ts $term
+    bindsym $mod+Return exec deno run --allow-run --allow-env ~/.config/sway/scripts/launch-term.ts $term
 
     # Kill focused window
     bindsym $mod+Shift+q kill
