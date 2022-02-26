@@ -96,7 +96,7 @@ inoremap <silent> <C-k> <C-r>=IMState('FixMode')<CR>
 '''
 
 [[plugins]]
-repo = 'mrtazz/simplenote.vim'
+repo = 'simplenote-vim/simplenote.vim'
 if = 'exists("g:SimplenoteUsername")'
 hook_add = '''
 let g:SimplenoteFiletype = "markdown"
