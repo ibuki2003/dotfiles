@@ -5,7 +5,7 @@ repo = 'vim-denops/denops.vim'
 repo = 'Shougo/ddc.vim'
 hook_add = '''
 call ddc#custom#patch_global('sources', [
-\  'vim-lsp',
+\  'nvim-lsp',
 \  'around',
 \  'file',
 \ ])
@@ -17,7 +17,7 @@ call ddc#custom#patch_global('sourceOptions', {
 \   'minAutoCompleteLength': 1,
 \ },
 \ 'around': { 'mark' : 'A' },
-\ 'vim-lsp': { 'mark' : 'lsp', 'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
+\ 'nvim-lsp': { 'mark' : 'lsp', 'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
 \ 'neosnippet': { 'mark' : 'ns', 'matchers' : ['matcher_head'] },
 \ 'file': {
 \   'mark': 'F',
@@ -32,15 +32,6 @@ call ddc#custom#patch_global('sourceOptions', {
 
 "-- Use ddc.
 call ddc#enable()
-
-" <TAB>: completion.
-inoremap <silent><expr> <TAB>
-\ pumvisible() ? "\<C-n>" :
-\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-\ "\<TAB>" : ddc#manual_complete()
-
-" " <S-TAB>: completion back.
-" inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
 '''
 
 [[plugins]]
@@ -56,80 +47,42 @@ repo = 'matsui54/ddc-matcher_fuzzy'
 repo = 'LumaKernel/ddc-file'
 
 [[plugins]]
-repo = 'shun/ddc-vim-lsp'
-
-[[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 hook_add = 'lua require("nvim-treesitter")'
 
 [[plugins]]
-repo = 'prabirshrestha/vim-lsp'
+repo = 'Shougo/ddc-nvim-lsp'
+
+[[plugins]]
+repo = 'neovim/nvim-lspconfig'
 hook_add = '''
-nmap <F12>   <plug>(lsp-declaration)
-nmap <S-F12> <plug>(lsp-references)
-nmap <F2>    <plug>(lsp-rename)
+lua require('lspsettings/config')
 
-nmap <leader>ld <plug>(lsp-peek-declaration)
-nmap <leader>lD <plug>(lsp-declaration)
-nmap <leader>ln <plug>(lsp-peek-definition)
-nmap <leader>lN <plug>(lsp-definition)
-nmap <leader>li <plug>(lsp-peek-implementation)
-nmap <leader>lI <plug>(lsp-implementation)
-nmap <leader>lr <plug>(lsp-rename)
-nmap <leader>lR <plug>(lsp-references)
-nmap <leader>la <plug>(lsp-code-action)
-nmap <leader>ld <plug>(lsp-declaration)
+nnoremap <silent> <leader>ld <cmd>lua peek('definition')<CR>
+nnoremap <silent> <leader>lD <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <leader>lc <cmd>lua peek('declaration')<CR>
+nnoremap <silent> <leader>lC <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <leader>li <cmd>lua peek('implementation')<CR>
+nnoremap <silent> <leader>lI <cmd>lua vim.lsp.buf.implementation()<CR>
 
-nmap <leader>lh <plug>(lsp-hover)
-nmap <leader>ll <plug>(lsp-hover)
+nnoremap <silent> <leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> <leader>lR <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> <leader>la <cmd>lua vim.lsp.buf.code_action()<CR>
 
-nmap <leader>lf <plug>(lsp-document-format)
-vmap <leader>lf <plug>(lsp-range-format)
+nnoremap <silent> <leader>lh <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <leader>ll <cmd>lua vim.lsp.buf.hover()<CR>
+'''
 
-let g:lsp_log_file = '/tmp/lsp.log'
-let g:lsp_signs_error   = {'text': '!'}
-let g:lsp_signs_warning = {'text': '*'}
-let g:lsp_signs_hint    = {'text': '-'}
-let g:lsp_async_completion = 1
-let g:lsp_virtual_text_enabled = 1
-let g:lsp_text_edit_enabled = 0
 
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-
-autocmd BufWritePre * call execute('LspDocumentFormatSync --server=diagnostic-languageserver')
-
-runtime lsp_servers.vim
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip'
+hook_add = '''
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 '''
 
 [[plugins]]
-repo = 'mattn/vim-lsp-settings'
-hook_add = '''
-let g:lsp_settings = {
-\ 'typescript-language-server': {
-\   'initialization_options': {
-\     'maxTsServerMemory': 256,
-\     'diagnostics': 'true',
-\   },
-\ }
-\}
-'''
-
-[[plugins]]
-repo = 'Shougo/neosnippet.vim'
-hook_add = '''
-let g:neosnippet#disable_runtime_snippets = {
-\ '_' : 1,
-\}
-let g:neosnippet#snippets_directory = expand('~/.nvim/snippets')
-
-let g:neosnippet#enable_completed_snippet = 1
-let g:neosnippet#enable_complete_done = 1
-
-imap <C-l>  <Plug>(neosnippet_expand_or_jump)
-smap <C-l>  <Plug>(neosnippet_expand_or_jump)
-xmap <C-l>  <Plug>(neosnippet_expand_target)
-'''
+repo = 'hrsh7th/vim-vsnip-integ'
 
 [[plugins]]
 repo = 'github/copilot.vim'
@@ -138,15 +91,3 @@ let g:copilot_no_tab_map = v:true
 imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 '''
 
-[[plugins]]
-repo = 'lighttiger2505/deoplete-vim-lsp'
-
-[[plugins]]
-repo = 'fszymanski/deoplete-emoji'
-
-[[plugins]]
-repo = 'blueyed/vim-auto-programming'
-rev = 'neovim'
-
-[[plugins]]
-repo = 'ibuki2003/deoplete-auto-programming.nvim'

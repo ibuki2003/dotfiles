@@ -32,9 +32,9 @@ local function register_formatter(name, filetypes, config)
   end
 end
 
-require('lsp_servers/diagnostic/eslint')(register_linter, register_formatter)
-require('lsp_servers/diagnostic/phpcs')(register_linter, register_formatter)
-require('lsp_servers/diagnostic/prettier')(register_linter, register_formatter)
+require('lspsettings/servers/diagnostic/eslint')(register_linter, register_formatter)
+require('lspsettings/servers/diagnostic/phpcs')(register_linter, register_formatter)
+require('lspsettings/servers/diagnostic/prettier')(register_linter, register_formatter)
 
 local whitelist = {}
 for key, val in pairs(whitelist_map) do

@@ -22,17 +22,18 @@ nnoremap <silent> L :tabnext<CR>
 vnoremap < <gv
 vnoremap > >gv
 
-"" completion
-"function! InsertTabWrapper()
-"    let col = col('.') - 1
-"    if !col || getline('.')[col - 1] !~ '\k'
-"        return "\<tab>"
-"    else
-"        return "\<c-p>"
-"    endif
-"endfunction
-"inoremap <expr> <tab> InsertTabWrapper()
-"inoremap <s-tab> <c-n>
+" <TAB>: completion.
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' :
+      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+      \ "\<Tab>" : ddc#manual_complete()
+
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>
+      \ pumvisible() ? "\<C-p>" :
+      \ vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' :
+      \ "\<C-h>"
 
 
 nnoremap q: :q

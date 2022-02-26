@@ -79,26 +79,7 @@ let g:lightline.tabline_separator = { 'left': '', 'right': '' }
 let g:lightline.tabline_subseparator = { 'left': '', 'right': '' }
 
 function! LspDiagnosticsCount()
-    let counts = lsp#get_buffer_diagnostics_counts()
-    let ret = []
-
-    if counts.error
-        call add(ret, 'E' . (counts.error))
-    endif
-
-    if counts.warning
-        call add(ret, 'W' . (counts.warning))
-    endif
-
-    if counts.information
-        call add(ret, 'I' . (counts.information))
-    endif
-
-    if counts.hint
-        call add(ret, 'H' . (counts.hint))
-    endif
-
-    return join(ret, ' ')
+    return luaeval("require('lspsettings/status')(_A.bufnr)", {'bufnr': bufnr()})
 endfunction
 
 function! LLIMState()
