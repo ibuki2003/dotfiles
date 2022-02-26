@@ -1,18 +1,62 @@
 [[plugins]]
-repo = 'Shougo/deoplete.nvim'
+repo = 'vim-denops/denops.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc.vim'
 hook_add = '''
-let g:deoplete#enable_at_startup = 1
+call ddc#custom#patch_global('sources', [
+\  'vim-lsp',
+\  'around',
+\  'file',
+\ ])
+"\  'neosnippet',
+
+call ddc#custom#patch_global('sourceOptions', {
+\ '_': {
+\   'matchers': ['matcher_fuzzy'],
+\   'minAutoCompleteLength': 1,
+\ },
+\ 'around': { 'mark' : 'A' },
+\ 'vim-lsp': { 'mark' : 'lsp', 'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
+\ 'neosnippet': { 'mark' : 'ns', 'matchers' : ['matcher_head'] },
+\ 'file': {
+\   'mark': 'F',
+\   'isVolatile': v:true,
+\   'forceCompletionPattern': '\S/\S*',
+\ },
+\})
+
+" Use Customized labels
+"vim.call('ddc#custom#patch_global', 'sourceParams', {
+"})
+
+"-- Use ddc.
+call ddc#enable()
+
+" <TAB>: completion.
+inoremap <silent><expr> <TAB>
+\ pumvisible() ? "\<C-n>" :
+\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+\ "\<TAB>" : ddc#manual_complete()
+
+" " <S-TAB>: completion back.
+" inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
 '''
 
 [[plugins]]
-repo = 'ncm2/float-preview.nvim'
-if = "has('nvim-0.4')"
-hook_add = '''
-let g:float_preview#docked = 0
-'''
+repo = 'Shougo/ddc-around'
 
 [[plugins]]
-repo = 'ujihisa/neco-look'
+repo = 'Shougo/ddc-matcher_head'
+
+[[plugins]]
+repo = 'matsui54/ddc-matcher_fuzzy'
+
+[[plugins]]
+repo = 'LumaKernel/ddc-file'
+
+[[plugins]]
+repo = 'shun/ddc-vim-lsp'
 
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
