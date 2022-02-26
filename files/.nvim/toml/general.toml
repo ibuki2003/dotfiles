@@ -148,11 +148,10 @@ lua require('nvim-colorizer')
 
 [[plugins]]
 repo = 'dhruvasagar/vim-table-mode'
-on_i = 1
 hook_add = '''
 let g:table_mode_corner = '|'
+autocmd Filetype markdown,markdown_tablemode,mdx TableModeEnable
 '''
-hook_post_source = 'TableModeEnable'
 
 [[plugins]]
 repo = 'juro106/ftjpn'
