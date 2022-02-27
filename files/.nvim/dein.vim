@@ -36,3 +36,6 @@ endif
 " Required:
 filetype plugin indent on
 syntax enable
+
+call dein#call_hook('source')
+call dein#call_hook('post_source')

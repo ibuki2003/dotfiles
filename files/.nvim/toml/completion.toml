@@ -3,7 +3,7 @@ repo = 'vim-denops/denops.vim'
 
 [[plugins]]
 repo = 'Shougo/ddc.vim'
-hook_add = '''
+hook_post_source = '''
 call ddc#custom#patch_global('sources', [
 \  'nvim-lsp',
 \  'around',
@@ -48,7 +48,7 @@ repo = 'LumaKernel/ddc-file'
 
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
-hook_add = 'lua require("nvim-treesitter")'
+hook_post_source = 'lua require("nvim-treesitter")'
 
 [[plugins]]
 repo = 'Shougo/ddc-nvim-lsp'
