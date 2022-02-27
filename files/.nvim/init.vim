@@ -6,7 +6,7 @@ runtime! local.vim
 runtime! secrets.vim
 runtime! basic.vim
 runtime! keymaps.vim
-lua require('dein')
+runtime! dein.vim
 runtime! tabline.vim
 
 syntax on
