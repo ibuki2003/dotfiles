@@ -73,6 +73,18 @@ nnoremap <silent> <leader>lh <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <leader>ll <cmd>lua vim.lsp.buf.hover()<CR>
 '''
 
+[[plugins]]
+repo = 'matsui54/denops-popup-preview.vim'
+hook_post_source = '''
+call popup_preview#enable()
+'''
+
+[[plugins]]
+repo = 'ray-x/lsp_signature.nvim'
+hook_post_source = '''
+lua require'lsp_signature'.setup({bind=true, handler_opts={border="none"}, hint_enable=false})
+hi! LspSignatureActiveParameter term=bold cterm=bold gui=bold
+'''
 
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip'
