@@ -19,9 +19,14 @@ local servers = {
       if lspconfig.util.root_pattern("package.json", "node_modules")(fname, buf) ~= nil then
         return nil
       end
-      return lspconfig.util.root_pattern("deno.json", "deno.jsonc", "tsconfig.json", ".git")(fname, buf)
+      local r = lspconfig.util.root_pattern("deno.json", "deno.jsonc", "tsconfig.json", ".git")(fname, buf)
+      if r ~= nil then
+        return r
+      end
+      -- single file support
+      return lspconfig.util.path.dirname(fname)
     end,
-    single_file_support = true,
+    single_file_support = false,
   },
   diagnosticls = {
     filetypes = diagnostic.whitelist,
