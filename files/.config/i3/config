@@ -41,8 +41,8 @@ set $mod Mod4
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_volume pkill -SIGRTMIN+1 i3blocks
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% && $refresh_volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1% && $refresh_volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_volume
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_volume
 
@@ -52,7 +52,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
 # for dragging
 floating_modifier $mod
 
-bindsym $mod+Return exec ~/.scripts/launch_console.sh
+bindsym $mod+Return exec deno run -A ~/.config/i3/scripts/launch-term.ts
 
 bindsym $mod+Shift+q kill
 
@@ -177,11 +177,13 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 ## screenshots
-bindsym      Print exec ~/.scripts/screenshot.sh 0
-bindsym $mod+Print exec ~/.scripts/screenshot.sh 1
-bindsym Shift+Print exec ~/.scripts/screenshot.sh
-bindsym Control+Print exec ~/.scripts/screenshot.sh
-bindsym $mod+Shift+s exec ~/.scripts/screenshot.sh
+bindsym      Print exec    ~/.config/i3/scripts/screenshot.zsh --clip
+bindsym $mod+Print exec    ~/.config/i3/scripts/screenshot.zsh
+bindsym $mod+Shift+s exec  ~/.config/i3/scripts/screenshot.zsh --select --clip
+
+
+bindsym $mod+u exec --no-startup-id picom-trans -c -o -5
+bindsym $mod+o exec --no-startup-id picom-trans -c -o +5
 
 ##########
 # Floatings
