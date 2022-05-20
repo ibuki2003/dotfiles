@@ -18,7 +18,7 @@ set autoindent " not smartindent
 set visualbell
 set showmatch
 set laststatus=2
-set wildmode=list:longest
+set wildmode=list:longest,full
 
 set formatoptions-=cro
 
