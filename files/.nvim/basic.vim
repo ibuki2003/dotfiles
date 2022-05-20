@@ -14,11 +14,13 @@ set wildmenu
 
 set scrolloff=5
 
-set smartindent
+set autoindent " not smartindent
 set visualbell
 set showmatch
 set laststatus=2
 set wildmode=list:longest
+
+set formatoptions-=cro
 
 set completeopt-=preview " deoplete float window
 
