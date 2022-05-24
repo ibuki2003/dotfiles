@@ -89,7 +89,22 @@ vmap <C-v> <Plug>(expand_region_shrink)
 repo = 'fuenor/im_control.vim'
 hook_add = '''
 if executable('fcitx-remote')
-    let g:IM_CtrlMode = 6
+  let g:IM_CtrlMode = 6
+elseif executable('fcitx5-remote')
+  silent! function! IMCtrl(cmd)
+    let cmd = a:cmd
+    if cmd == 'On'
+      call system('fcitx5-remote -o > /dev/null 2>&1 '.g:IM_CtrlAsync)
+    elseif cmd == 'Off'
+      call system('fcitx5-remote -c > /dev/null 2>&1 '.g:IM_CtrlAsync)
+    elseif cmd == 'Toggle'
+      call system('fcitx5-remote -t > /dev/null 2>&1 '.g:IM_CtrlAsync)
+    endif
+    return ''
+  endfunction
+  let g:IM_CtrlMode = 1
+  let g:IM_vi_CooperativeMode = 1
+  let g:IM_JpFixModeAutoToggle = 0
 endif
 
 inoremap <silent> <C-k> <C-r>=IMState('FixMode')<CR>
