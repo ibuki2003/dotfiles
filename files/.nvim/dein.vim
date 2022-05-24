@@ -24,6 +24,10 @@ if dein#load_state(s:dein_dir)
   call dein#load_toml(s:toml_dir . '/appearance.toml')
   call dein#load_toml(s:toml_dir . '/completion.toml')
 
+  if filereadable(s:toml_dir . '/local.toml')
+    call dein#load_toml(s:toml_dir . '/local.toml')
+  endif
+
   call dein#end()
   call dein#save_state()
 endif
