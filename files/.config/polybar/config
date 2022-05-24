@@ -37,7 +37,7 @@ font-2 = Material Design Icons:pixelsize=10;1
 
 modules-left = i3
 modules-center =
-modules-right = memory cpu coretemp wlan eth dunst-status bluetooth fcitx-status backlight-acpi volume battery date
+modules-right = memory cpu coretemp wlan eth dunst-status bluetooth backlight-acpi volume battery date
 
 tray-position = right
 tray-padding = 2
