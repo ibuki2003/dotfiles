@@ -7,6 +7,7 @@ local servers = {
   intelephense = {},
   clangd = {},
   pylsp = {},
+  rls = {},
   eslint = {},
 
   tsserver = {
