@@ -8,6 +8,7 @@ call ddc#custom#patch_global('sources', [
 \  'nvim-lsp',
 \  'around',
 \  'file',
+\  'treesitter',
 \ ])
 "\  'neosnippet',
 
@@ -19,6 +20,7 @@ call ddc#custom#patch_global('sourceOptions', {
 \ 'around': { 'mark' : 'A' },
 \ 'nvim-lsp': { 'mark' : 'lsp', 'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
 \ 'neosnippet': { 'mark' : 'ns', 'matchers' : ['matcher_head'] },
+\ 'treesitter': { 'mark' : 'T' },
 \ 'file': {
 \   'mark': 'F',
 \   'isVolatile': v:true,
@@ -49,6 +51,9 @@ repo = 'LumaKernel/ddc-file'
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 hook_post_source = 'lua require("nvim-treesitter")'
+
+[[plugins]]
+repo = 'delphinus/ddc-treesitter'
 
 [[plugins]]
 repo = 'Shougo/ddc-nvim-lsp'
