@@ -1,0 +1,7 @@
+if type xdg-open > /dev/null 2>&1; then
+  for f in "$@"; do
+    xdg-open "$f" &> /dev/null &|
+  done
+else
+  echo "xdg-open not available." > /dev/stderr
+fi

@@ -1,0 +1,2 @@
+# clone gcc's one
+_gcc "$@"
