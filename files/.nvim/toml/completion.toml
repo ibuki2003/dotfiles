@@ -19,7 +19,7 @@ call ddc#custom#patch_global('sourceOptions', {
 \ },
 \ 'around': { 'mark' : 'A' },
 \ 'nvim-lsp': { 'mark' : 'lsp', 'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
-\ 'neosnippet': { 'mark' : 'ns', 'matchers' : ['matcher_head'] },
+\ 'vsnip': { 'mark' : 'v' },
 \ 'treesitter': { 'mark' : 'T' },
 \ 'file': {
 \   'mark': 'F',
