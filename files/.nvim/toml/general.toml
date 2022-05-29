@@ -119,16 +119,42 @@ let g:SimplenoteVertical = 1
 '''
 
 [[plugins]]
-repo = 'monaqa/dial.nvim'
+repo = 'monaqa/dps-dial.vim'
 hook_add = '''
-nmap <C-a> <Plug>(dial-increment)
-nmap <C-x> <Plug>(dial-decrement)
-vmap <C-a> <Plug>(dial-increment)
-vmap <C-x> <Plug>(dial-decrement)
-vmap g<C-a> <Plug>(dial-increment-additional)
-vmap g<C-x> <Plug>(dial-decrement-additional)
+let g:dps_dial#augends = [
+  \'decimal',
+  \'binary',
+  \'hex',
+  \'date-hyphen',
+  \'date-slash',
+  \'color',
+  \{ 'kind': 'constant', 'opts': {
+    \'elements': ['true', 'false'],
+    \'cyclic': v:true,
+    \'word': v:true,
+  \}},
+  \{ 'kind': 'constant', 'opts': {
+    \'elements': ['True', 'False'],
+    \'cyclic': v:true,
+    \'word': v:true,
+  \}},
+\]
+let g:dps_dial#augends#register#v = g:dps_dial#augends + [
+  \'alpha', 'Alpha',
+\]
+function! s:dps_dial_overrides() abort
+  let g:dps_dial#aliases.alpha.opts.cyclic = v:true
+  let g:dps_dial#aliases.Alpha.opts.cyclic = v:true
+endfunction
+autocmd User DenopsPluginPost:dial call <SID>dps_dial_overrides()
+
+nmap  <C-a>    <Plug>(dps-dial-increment)
+nmap  <C-x>    <Plug>(dps-dial-decrement)
+xmap  <C-a>  "v<Plug>(dps-dial-increment)gv
+xmap  <C-x>  "v<Plug>(dps-dial-decrement)gv
+xmap g<C-a> "vg<Plug>(dps-dial-increment)
+xmap g<C-x> "vg<Plug>(dps-dial-decrement)
 '''
-hook_post_source = 'lua require("dial_config")'
 
 [[plugins]]
 repo = 'kana/vim-textobj-user'
