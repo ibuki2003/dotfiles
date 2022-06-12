@@ -210,7 +210,7 @@ exec --no-startup-id urxvtd -o -f
 exec --no-startup-id picom --config ~/.config/picom.conf
 exec --no-startup-id /usr/lib/kdeconnectd
 exec --no-startup-id kdeconnect-indicator
-exec --no-startup-id fcitx
+exec --no-startup-id fcitx5
 
 exec --no-startup-id ~/.config/polybar/launch_polybar.sh
 exec --no-startup-id ~/.fehbg
