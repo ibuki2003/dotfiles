@@ -105,6 +105,7 @@ repo = 'hrsh7th/vim-vsnip-integ'
 repo = 'github/copilot.vim'
 hook_add = '''
 let g:copilot_no_tab_map = v:true
+let g:copilot_ignore_node_version = v:true
 imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 '''
 
