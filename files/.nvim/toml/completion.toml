@@ -17,20 +17,7 @@ call ddc#custom#patch_global('sourceOptions', {
 \   'matchers': ['matcher_fuzzy'],
 \   'minAutoCompleteLength': 1,
 \ },
-\ 'around': { 'mark' : 'A' },
-\ 'nvim-lsp': { 'mark' : 'lsp', 'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
-\ 'vsnip': { 'mark' : 'v' },
-\ 'treesitter': { 'mark' : 'T' },
-\ 'file': {
-\   'mark': 'F',
-\   'isVolatile': v:true,
-\   'forceCompletionPattern': '\S/\S*',
-\ },
 \})
-
-" Use Customized labels
-"vim.call('ddc#custom#patch_global', 'sourceParams', {
-"})
 
 "-- Use ddc.
 call ddc#enable()
@@ -38,6 +25,11 @@ call ddc#enable()
 
 [[plugins]]
 repo = 'Shougo/ddc-around'
+hook_add = '''
+call ddc#custom#patch_global('sourceOptions', { 'around': {
+\ 'mark' : 'A',
+\}})
+'''
 
 [[plugins]]
 repo = 'Shougo/ddc-matcher_head'
@@ -47,16 +39,34 @@ repo = 'matsui54/ddc-matcher_fuzzy'
 
 [[plugins]]
 repo = 'LumaKernel/ddc-file'
+hook_add = '''
+call ddc#custom#patch_global('sourceOptions', { 'file': {
+\ 'mark': 'F',
+\ 'isVolatile': v:true,
+\ 'forceCompletionPattern': '\S/\S*',
+\}})
+'''
 
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 hook_post_source = 'lua require("nvim-treesitter")'
+hook_add = '''
+call ddc#custom#patch_global('sourceOptions', { 'treesitter': {
+\ 'mark' : 'T',
+\}})
+'''
 
 [[plugins]]
 repo = 'delphinus/ddc-treesitter'
 
 [[plugins]]
 repo = 'Shougo/ddc-nvim-lsp'
+hook_add = '''
+call ddc#custom#patch_global('sourceOptions', { 'nvim-lsp': {
+\ 'mark' : 'lsp',
+\ 'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+\}})
+'''
 
 [[plugins]]
 repo = 'neovim/nvim-lspconfig'
@@ -96,6 +106,11 @@ repo = 'hrsh7th/vim-vsnip'
 hook_add = '''
 imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+call ddc#custom#patch_global('sourceOptions', { 'vsnip': {
+\ 'mark' : 'v',
+\}})
+
 '''
 
 [[plugins]]
