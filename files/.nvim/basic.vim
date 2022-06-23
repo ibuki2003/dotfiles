@@ -20,7 +20,8 @@ set showmatch
 set laststatus=2
 set wildmode=list:longest,full
 
-set formatoptions-=cro
+set formatoptions-=ro
+au FileType * setlocal formatoptions-=ro
 
 set completeopt-=preview " deoplete float window
 
