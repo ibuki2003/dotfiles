@@ -26,14 +26,14 @@ vnoremap > >gv
 inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ vsnip#available(1) ? '\<Plug>(vsnip-expand-or-jump)' :
-      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-      \ "\<Tab>" : ddc#manual_complete()
+      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ? "\<Tab>" :
+      \ ddc#manual_complete()
 
 " <S-TAB>: completion back.
 inoremap <expr><S-TAB>
       \ pumvisible() ? "\<C-p>" :
       \ vsnip#jumpable(-1) ? '\<Plug>(vsnip-jump-prev)' :
-      \ "\<C-h>"
+      \ "\<C-d>"
 
 
 nnoremap q: :q
