@@ -89,6 +89,10 @@ nnoremap <silent> <leader>ll <cmd>lua vim.lsp.buf.hover()<CR>
 '''
 
 [[plugins]]
+repo = 'j-hui/fidget.nvim'
+hook_post_source = 'lua require"fidget".setup{}'
+
+[[plugins]]
 repo = 'matsui54/denops-popup-preview.vim'
 hook_post_source = '''
 call popup_preview#enable()
