@@ -175,9 +175,11 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 ## screenshots
-bindsym      Print exec    ~/.config/i3/scripts/screenshot.zsh --clip
-bindsym $mod+Print exec    ~/.config/i3/scripts/screenshot.zsh
-bindsym $mod+Shift+s exec  ~/.config/i3/scripts/screenshot.zsh --select --clip
+bindsym           Print exec ~/.config/i3/scripts/screenshot.zsh --select --clip
+bindsym      Ctrl+Print exec ~/.config/i3/scripts/screenshot.zsh --clip
+bindsym      $mod+Print exec ~/.config/i3/scripts/screenshot.zsh --select
+bindsym $mod+Ctrl+Print exec ~/.config/i3/scripts/screenshot.zsh
+bindsym $mod+Shift+s    exec ~/.config/i3/scripts/screenshot.zsh --select --clip
 
 
 bindsym $mod+u exec --no-startup-id picom-trans -c -o -5
