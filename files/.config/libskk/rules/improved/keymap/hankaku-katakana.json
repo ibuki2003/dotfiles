@@ -1,0 +1,8 @@
+{
+    "include": [ "default/hankaku-katakana" ],
+    "define": {
+        "keymap": {
+            "\\": null
+        }
+    }
+}

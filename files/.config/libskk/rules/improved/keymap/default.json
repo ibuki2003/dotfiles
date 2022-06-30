@@ -1,0 +1,8 @@
+{
+    "include": [ "default/default" ],
+    "define": {
+        "keymap": {
+            "\\": null
+        }
+    }
+}
