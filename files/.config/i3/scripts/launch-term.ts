@@ -23,17 +23,27 @@ async function get_focused_pwd(): Promise<string | null> {
   }).output()
     .then(s => new TextDecoder().decode(s).split('\n'));
 
-  const cl_r = xprop.filter(s => s.startsWith("WM_CLASS"));
-  if (!cl_r.length) return null;
-  const win_class = spl2(cl_r[0], '=')
-    .split(',').map(a => a.replace(/^\s*"|"\s*$/g, ''));
+  const props = Object.fromEntries(
+    xprop
+      .flatMap(s => {
+        const p = s.indexOf(' = ');
+        if (p == -1) return [];
 
-  const ttl_r = xprop.filter(s => s.startsWith("WM_NAME"));
-  if (!ttl_r.length) return null;
-  const title = spl2(ttl_r[0], '=').replace(/^"|"$/g, '');
+        const b = Math.min(s.indexOf('('), p);
+        const key = s.substring(0, b);
+        const value = s.substring(p + 3)
+          .split(', ').map(s => s.replace(/^\s*"|"\s*$/g, ''));
+        return [[key, value]]
+      }));
+
+  if (!Object.hasOwn(props, 'WM_CLASS')) return null;
+  const win_class = props['WM_CLASS'];
+
+  const names = props['_NET_WM_NAME'] ?? props['WM_NAME'];
+  if (!names || names.length == 0) return null;
 
   if (win_class.some(c => ["Alacritty"].indexOf(c) != -1)) {
-    return spl2(title, ':') ?? null;
+    return spl2(names[0], ':') ?? null;
   }
   return null;
 }
