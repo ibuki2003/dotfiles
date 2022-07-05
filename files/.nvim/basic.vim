@@ -92,3 +92,8 @@ if executable('rg')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 autocmd QuickFixCmdPost *grep* cwindow
+
+autocmd BufReadPost *
+    \ if line("'\"") >= 1 && line("'\"") <= line("$")
+    \ |   exe "normal! g`\""
+    \ | endif
