@@ -214,5 +214,5 @@ exec --no-startup-id /usr/lib/kdeconnectd
 exec --no-startup-id kdeconnect-indicator
 exec --no-startup-id fcitx5
 
-exec --no-startup-id ~/.config/polybar/launch_polybar.sh
+exec --no-startup-id sleep 3 && ~/.config/polybar/launch_polybar.sh
 exec --no-startup-id ~/.fehbg
