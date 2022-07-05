@@ -15,9 +15,9 @@ fi
 if [[ -n "${opthash[(i)--clip]}" ]]; then
   copy=1
 else
-  args+=(~/Pictures/screenshots/Screenshot_$(date '+%Y%m%d_%H%M%S').png)
+  args+=(~/Pictures/Screenshots/Screenshot_$(date '+%Y%m%d_%H%M%S').png)
 fi
 
-maim "${args[@]}" |\
+maim "${args[@]}" --hidecursor |\
   ( [[ $copy -eq 1 ]] && xclip -selection clipboard -t image/png || cat )
 
