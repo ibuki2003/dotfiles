@@ -7,8 +7,11 @@ local servers = {
   intelephense = {},
   clangd = {},
   pylsp = {},
-  rls = {},
+  rust_analyzer = {},
   eslint = {},
+  texlab = {},
+  gopls = {},
+  arduino_language_server = {},
 
   tsserver = {
     root_dir = function(fname, buf)
