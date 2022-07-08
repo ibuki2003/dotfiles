@@ -45,8 +45,19 @@ local overwrites = {
   capabilities = capabilities,
 }
 
+function merge(t1, t2)
+  for k, v in pairs(t2) do
+    if (type(v) == "table") and (type(t1[k] or false) == "table") then
+      merge(t1[k], t2[k])
+    else
+      t1[k] = v
+    end
+  end
+  return t1
+end
+
 for lsp, opt in pairs(servers) do
-  for k,v in pairs(overwrites) do opt[k] = v end
+  opt = merge(opt, overwrites)
   lspconfig[lsp].setup(opt)
 end
 
