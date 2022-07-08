@@ -5,7 +5,7 @@ local diagnostic = require('lspsettings/servers/diagnostic')
 local servers = {
   vimls = {},
   intelephense = {},
-  clangd = {},
+  clangd = { capabilities = { offsetEncoding = 'utf-8' } },
   pylsp = {},
   rust_analyzer = {},
   eslint = {},
