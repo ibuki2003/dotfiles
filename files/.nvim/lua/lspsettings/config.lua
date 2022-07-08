@@ -7,6 +7,7 @@ local servers = {
   intelephense = {},
   clangd = { capabilities = { offsetEncoding = 'utf-8' } },
   pylsp = {},
+  rls = {},
   rust_analyzer = {},
   eslint = {},
   texlab = {},
