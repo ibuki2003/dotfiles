@@ -181,10 +181,11 @@ repo = 'tpope/vim-fugitive'
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
-repo = 'norcalli/nvim-colorizer.lua'
+repo = 'RRethy/vim-hexokinase'
 if = '&termguicolors'
-hook_post_source = '''
-lua require('nvim-colorizer')
+build = 'make hexokinase'
+hook_add = '''
+let g:Hexokinase_highlighters = [ 'backgroundfull' ]
 '''
 
 [[plugins]]
