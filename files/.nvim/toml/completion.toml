@@ -7,6 +7,7 @@ hook_post_source = '''
 call ddc#custom#patch_global('sources', [
 \  'nvim-lsp',
 \  'around',
+\  'buffer',
 \  'file',
 \  'treesitter',
 \ ])
@@ -29,6 +30,20 @@ hook_add = '''
 call ddc#custom#patch_global('sourceOptions', { 'around': {
 \ 'mark' : 'A',
 \}})
+'''
+
+[[plugins]]
+repo = 'matsui54/ddc-buffer'
+hook_add = '''
+call ddc#custom#patch_global('sourceOptions', { 'buffer': {
+\ 'mark' : 'B',
+\}})
+call ddc#custom#patch_global('sourceParams', { 'buffer': {
+\ 'requireSameFiletype': v:false,
+\ 'limitBytes': 5000000,
+\ 'fromAltBuf': v:true,
+\ 'forceCollect': v:true,
+\ }})
 '''
 
 [[plugins]]
