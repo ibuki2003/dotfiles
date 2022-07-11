@@ -30,6 +30,9 @@ hook_add = '''
 call ddc#custom#patch_global('sourceOptions', { 'around': {
 \ 'mark' : 'A',
 \}})
+call ddc#custom#patch_global('sourceParams', { 'around': {
+\ 'maxSize' : 1000,
+\}})
 '''
 
 [[plugins]]
