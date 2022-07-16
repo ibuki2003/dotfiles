@@ -34,4 +34,4 @@ function zload {
     done
 }
 
-zload ~/.zsh/functions/*(.)
+zload ~/.zsh/functions/**/*(.)
