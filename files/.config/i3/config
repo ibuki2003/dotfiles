@@ -93,13 +93,8 @@ bindsym $mod+Control+Up move workspace to output up
 bindsym $mod+Control+Right move workspace to output right
 
 #split
-#bindsym mod+h split h
-bindsym $mod+i split h
-
+bindsym $mod+b split h
 bindsym $mod+v split v
-#bindsym $mod+hyphen split v
-
-# enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
@@ -188,6 +183,7 @@ bindsym $mod+Shift+s    exec ~/.config/i3/scripts/screenshot.zsh --select --clip
 
 bindsym $mod+u exec --no-startup-id picom-trans -c -o -5
 bindsym $mod+o exec --no-startup-id picom-trans -c -o +5
+bindsym $mod+i exec --no-startup-id picom-trans -c -d
 
 ##########
 # Floatings
