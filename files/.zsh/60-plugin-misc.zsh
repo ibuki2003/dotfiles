@@ -6,7 +6,7 @@ zinit snippet 'OMZL::clipboard.zsh'
 zinit light 'mollifier/anyframe'
 
 zinit ice blockf
-zinit light zsh-users/zsh-completions
+zinit light clarketm/zsh-completions
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 typeset -A ZSH_HIGHLIGHT_STYLES
