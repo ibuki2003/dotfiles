@@ -1,12 +1,7 @@
-append_path () {
-  for p in "$@"; do
-    case ":$PATH:" in
-      *:"$p":*)
-        ;;
-      *)
-        export PATH="${PATH:+$PATH:}$p"
-    esac
-  done
-}
+typeset -U path PATH
 
-append_path ~/.local/bin
+path=(
+  ~/.local/bin
+  $path
+)
+export PATH
