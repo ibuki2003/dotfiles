@@ -6,6 +6,7 @@ repo = 'Shougo/ddc.vim'
 hook_post_source = '''
 call ddc#custom#patch_global('sources', [
 \  'nvim-lsp',
+\  'tabnine',
 \  'around',
 \  'buffer',
 \  'file',
@@ -145,6 +146,20 @@ let g:copilot_no_tab_map = v:true
 let g:copilot_ignore_node_version = v:true
 imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 '''
+
+[[plugins]]
+repo = 'LumaKernel/ddc-tabnine'
+hook_add = '''
+call ddc#custom#patch_global('sourceOptions', { 'tabnin': {
+\ 'mark' : 'TN',
+\ 'maxCandidates' : '5',
+\ 'isVolatile' : v:true,
+\}})
+call ddc#custom#patch_global('sourceParams', { 'around': {
+\ 'maxSize' : 1000,
+\}})
+'''
+
 
 [[plugins]]
 repo = 'rust-lang/rust.vim'
