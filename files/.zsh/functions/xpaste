@@ -1,0 +1,10 @@
+if [ "$#" -lt 1 ]; then
+  t=$(xclip -selection clipboard -t TARGETS -o | fzf)
+  if [ $? -ne 0 ]; then
+    return 1
+  fi
+else
+  t="$1"
+fi
+
+xclip -selection clipboard -t "$t" -o

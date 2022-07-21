@@ -1,0 +1,1 @@
+xclip "$1" -selection c -t $(file "$1" --mime-type --brief)
