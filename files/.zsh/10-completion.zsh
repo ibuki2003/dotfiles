@@ -1,9 +1,5 @@
 autoload -Uz compinit
-if [[ -n $(find ~/.zcompdump 2> /dev/null) ]]; then
-	compinit -C
-else
-	#compinit
-fi;
+compinit -C
 
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
