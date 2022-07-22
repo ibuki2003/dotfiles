@@ -30,6 +30,9 @@
     required = true
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
+[ghq]
+    root = ~/dev/repo
+    user = ibuki2003
 
 [include]
     path = ~/.gitconfig.local
