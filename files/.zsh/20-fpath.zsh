@@ -1,4 +1,4 @@
-fpath=(~/.zsh/functions/*(N-/) $fpath)
+fpath=(~/.zsh/functions ~/.zsh/functions/*(N-/) $fpath)
 
 for file in ~/.zsh/functions/**/*(.); do
     autoload -Uz ${file:t}
