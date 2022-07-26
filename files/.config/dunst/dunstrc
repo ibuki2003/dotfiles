@@ -32,7 +32,6 @@
 
     # Show how many messages are currently hidden (because of notification_limit).
     indicate_hidden = yes
-    transparency = 0
     separator_height = 2
     padding = 8
     horizontal_padding = 8
@@ -170,17 +169,17 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#282a36"
+    background = "#282a36dd"
     foreground = "#6272a4"
     timeout = 10
 
 [urgency_normal]
-    background = "#282a36"
+    background = "#282a36dd"
     foreground = "#f8f8f2"
     timeout = 10
 
 [urgency_critical]
-    background = "#ff5555"
+    background = "#ff5555dd"
     foreground = "#f8f8f2"
     frame_color = "#ff5555"
     timeout = 0
