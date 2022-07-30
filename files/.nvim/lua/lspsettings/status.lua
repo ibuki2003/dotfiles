@@ -15,6 +15,8 @@ local function get_all_diagnostics(bufnr)
 end
 
 local function get_str(bufnr)
+  if vim.lsp == nil then return '' end
+
   local diagnostics = get_all_diagnostics(bufnr)
   local labels = {
     errors = 'E',

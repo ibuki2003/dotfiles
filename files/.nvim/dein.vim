@@ -22,7 +22,10 @@ if dein#load_state(s:dein_dir)
 
   call dein#load_toml(s:toml_dir . '/general.toml')
   call dein#load_toml(s:toml_dir . '/appearance.toml')
-  call dein#load_toml(s:toml_dir . '/completion.toml')
+
+  if has("nvim-0.6")
+    call dein#load_toml(s:toml_dir . '/completion.toml')
+  endif
 
   if filereadable(s:toml_dir . '/local.toml')
     call dein#load_toml(s:toml_dir . '/local.toml')
