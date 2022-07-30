@@ -66,14 +66,14 @@ call ddc#custom#patch_global('sourceOptions', { 'file': {
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 hook_post_source = 'lua require("nvim-treesitter")'
+
+[[plugins]]
+repo = 'delphinus/ddc-treesitter'
 hook_add = '''
 call ddc#custom#patch_global('sourceOptions', { 'treesitter': {
 \ 'mark' : 'T',
 \}})
 '''
-
-[[plugins]]
-repo = 'delphinus/ddc-treesitter'
 
 [[plugins]]
 repo = 'Shougo/ddc-nvim-lsp'
