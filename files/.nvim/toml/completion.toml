@@ -86,7 +86,7 @@ call ddc#custom#patch_global('sourceOptions', { 'nvim-lsp': {
 
 [[plugins]]
 repo = 'neovim/nvim-lspconfig'
-hook_add = '''
+hook_post_source = '''
 lua require('lspsettings/config')
 
 nnoremap <silent> <leader>ld <cmd>lua peek('definition')<CR>
