@@ -5,6 +5,7 @@ call ddc#custom#patch_global('sources', [
 \  'nvim-lsp',
 \  'tabnine',
 \  'around',
+\  'look',
 \  'buffer',
 \  'file',
 \  'treesitter',
@@ -45,6 +46,21 @@ call ddc#custom#patch_global('sourceParams', { 'buffer': {
 \ 'limitBytes': 5000000,
 \ 'fromAltBuf': v:true,
 \ 'forceCollect': v:true,
+\ }})
+'''
+
+[[plugins]]
+repo = 'octaltree/cmp-look'
+hook_add = '''
+call ddc#custom#patch_global('sourceOptions', { 'look': {
+\  'converters': ['loud', 'matcher_head'],
+\  'matchers': [],
+\  'mark': 'l',
+\  'isVolatile': v:true,
+\ }})
+call ddc#custom#patch_global('sourceParams', { 'look': {
+\   'convertCase': v:true,
+\   'dict': v:null,
 \ }})
 '''
 
