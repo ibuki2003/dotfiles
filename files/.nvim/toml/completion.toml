@@ -14,6 +14,7 @@ call ddc#custom#patch_global('sources', [
 call ddc#custom#patch_global('sourceOptions', {
 \ '_': {
 \   'matchers': ['matcher_fuzzy'],
+\   'converters': ['converter_remove_overlap'],
 \   'minAutoCompleteLength': 1,
 \ },
 \})
@@ -52,6 +53,9 @@ repo = 'Shougo/ddc-matcher_head'
 
 [[plugins]]
 repo = 'matsui54/ddc-matcher_fuzzy'
+
+[[plugins]]
+repo = 'Shougo/ddc-converter_remove_overlap'
 
 [[plugins]]
 repo = 'LumaKernel/ddc-file'
