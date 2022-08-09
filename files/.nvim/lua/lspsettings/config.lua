@@ -72,6 +72,8 @@ do
   end
 end
 
+-- keybinds
+
 local function preview_location_callback(_, method, result)
   if result == nil or vim.tbl_isempty(result) then
     vim.lsp.log.info(method, 'No location found')
@@ -83,12 +85,25 @@ local function preview_location_callback(_, method, result)
     vim.lsp.util.preview_location(result)
   end
 end
-function peek(targ)
+local function peek(targ)
   local params = vim.lsp.util.make_position_params()
   return vim.lsp.buf_request(0, 'textDocument/' .. targ, params, preview_location_callback)
 end
 
-local function set_keymap(key, command)
-  vim.api.nvim_set_keymap('n', key, command, { noremap=true, silent=true })
-end
+vim.keymap.set('n', '<leader>ld', function() peek('definition') end)
+vim.keymap.set('n', '<leader>lD', function() vim.lsp.buf.definition() end)
+vim.keymap.set('n', '<leader>lc', function() peek('declaration') end)
+vim.keymap.set('n', '<leader>lC', function() vim.lsp.buf.declaration() end)
+vim.keymap.set('n', '<leader>li', function() peek('implementation') end)
+vim.keymap.set('n', '<leader>lI', function() vim.lsp.buf.implementation() end)
 
+vim.keymap.set('n', '<leader>lr', function() vim.lsp.buf.rename() end)
+vim.keymap.set('n', '<leader>lR', function() vim.lsp.buf.references() end)
+vim.keymap.set('n', '<leader>la', function() vim.lsp.buf.code_action() end)
+
+vim.keymap.set('n', '<leader>ll', function()
+  if vim.diagnostic.open_float() then return end
+  if vim.lsp.buf.hover() then return end
+end)
+vim.keymap.set('n', '<leader>lh', function() vim.lsp.buf.hover() end)
+vim.keymap.set('n', '<leader>lg', function() vim.diagnostic.open_float() end)
