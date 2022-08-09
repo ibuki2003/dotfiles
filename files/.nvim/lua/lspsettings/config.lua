@@ -62,6 +62,16 @@ for lsp, opt in pairs(servers) do
   lspconfig[lsp].setup(opt)
 end
 
+do
+  local method = "textDocument/publishDiagnostics"
+  local default_handler = vim.lsp.handlers[method]
+  vim.lsp.handlers[method] = function(err, method, result, client_id, bufnr, config)
+    default_handler(err, method, result, client_id, bufnr, config)
+    vim.diagnostic.setloclist({open=false})
+    vim.diagnostic.setqflist({open=false})
+  end
+end
+
 local function preview_location_callback(_, method, result)
   if result == nil or vim.tbl_isempty(result) then
     vim.lsp.log.info(method, 'No location found')
