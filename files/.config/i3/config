@@ -189,7 +189,7 @@ bindsym $mod+i exec --no-startup-id picom-trans -c -d
 # Floatings
 ##########
 for_window [window_role="bubble"] floating enable
-for_window [class="zoom "] floating enable
+for_window [class="zoom"] floating enable
 
 
 ##########
