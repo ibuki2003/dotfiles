@@ -1,2 +1,4 @@
+#compdef gpp
+
 # clone gcc's one
 _gcc "$@"

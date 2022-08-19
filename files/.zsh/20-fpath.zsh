@@ -1,6 +1,5 @@
 fpath=(~/.zsh/functions ~/.zsh/functions/*(N-/) $fpath)
 
 for file in ~/.zsh/functions/**/*(.); do
-    autoload -Uz ${file:t}
+    autoload -Uz +X ${file:t}
 done
-compinit

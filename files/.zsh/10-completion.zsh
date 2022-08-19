@@ -1,6 +1,3 @@
-autoload -Uz compinit
-compinit -C
-
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
