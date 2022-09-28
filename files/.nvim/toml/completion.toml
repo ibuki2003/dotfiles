@@ -5,10 +5,10 @@ call ddc#custom#patch_global('sources', [
 \  'nvim-lsp',
 \  'tabnine',
 \  'around',
+\  'treesitter',
 \  'look',
 \  'buffer',
 \  'file',
-\  'treesitter',
 \ ])
 "\  'neosnippet',
 
