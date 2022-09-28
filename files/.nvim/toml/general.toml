@@ -240,5 +240,5 @@ repo = 'jasonccox/vim-wayland-clipboard'
 [[plugins]]
 repo = 'kyoh86/vim-ripgrep'
 hook_add = '''
-command! -nargs=* -complete=file Rg :call ripgrep#search(<q-args>)
+command! -nargs=* -complete=file Rg :call ripgrep#search('-. ' . <q-args>)
 '''
