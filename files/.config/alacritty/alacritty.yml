@@ -48,8 +48,6 @@ font:
   # Point size
   size: 13.0
 
-  # Thin stroke font rendering (macOS only)
-  use_thin_strokes: true
 
 # background_opacity: 1.0
 
