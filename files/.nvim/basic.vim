@@ -28,6 +28,7 @@ set completeopt-=preview " deoplete float window
 set matchpairs+=「:」,『:』,（:）,【:】,《:》,〈:〉,［:］,‘:’,“:”
 
 set cinkeys-=0#
+set mouse=c
 
 " search
 set ignorecase
