@@ -19,5 +19,5 @@ function urxvt_window_postexec () {
   set_title "$(pwd | sed "s/^\/home\/$USER/~/")"
 }
 
-# add-zsh-hook preexec urxvt_window_preexec
+add-zsh-hook preexec urxvt_window_preexec
 add-zsh-hook precmd urxvt_window_postexec

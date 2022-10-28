@@ -43,7 +43,9 @@ async function get_focused_pwd(): Promise<string | null> {
   if (!names || names.length == 0) return null;
 
   if (win_class.some(c => ["Alacritty"].indexOf(c) != -1)) {
-    return spl2(names[0], ':') ?? null;
+    const match = names[0].match(/^\w+: (.+?)( : .+)?$/);
+    if (!match) return null;
+    return match[1];
   }
   return null;
 }
