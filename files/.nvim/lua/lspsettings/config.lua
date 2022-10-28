@@ -46,10 +46,15 @@ local overwrites = {
   capabilities = capabilities,
 }
 
-function merge(t1, t2)
+local function merge(t1, t2)
   for k, v in pairs(t2) do
     if (type(v) == "table") and (type(t1[k] or false) == "table") then
       merge(t1[k], t2[k])
+    elseif (type(v) == "function" and type(t1[k] or false) == "function") then
+      t1[k] = function(...)
+        t1[k](...)
+        return v(...)
+      end
     else
       t1[k] = v
     end
