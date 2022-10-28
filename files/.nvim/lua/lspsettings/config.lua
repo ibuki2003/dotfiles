@@ -103,11 +103,12 @@ vim.keymap.set('n', '<leader>lI', function() vim.lsp.buf.implementation() end)
 
 vim.keymap.set('n', '<leader>lr', function() vim.lsp.buf.rename() end)
 vim.keymap.set('n', '<leader>lR', function() vim.lsp.buf.references() end)
-vim.keymap.set('n', '<leader>la', function() vim.lsp.buf.code_action() end)
+vim.keymap.set('n', '<leader>la', require('actions-preview').code_actions)
 
 vim.keymap.set('n', '<leader>ll', function()
   if vim.diagnostic.open_float() then return end
   if vim.lsp.buf.hover() then return end
 end)
+vim.keymap.set('n', '<leader>lL', function() vim.lsp.buf.hover() end)
 vim.keymap.set('n', '<leader>lh', function() vim.lsp.buf.hover() end)
 vim.keymap.set('n', '<leader>lg', function() vim.diagnostic.open_float() end)

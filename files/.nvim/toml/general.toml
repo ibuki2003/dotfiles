@@ -8,6 +8,9 @@ repo = 'vim-jp/vimdoc-ja'
 repo = 'vim-denops/denops.vim'
 
 [[plugins]]
+repo = 'MunifTanjim/nui.nvim'
+
+[[plugins]]
 repo = 'sheerun/vim-polyglot'
 
 [[plugins]]
