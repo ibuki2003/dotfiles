@@ -94,21 +94,27 @@ local function peek(targ)
   return vim.lsp.buf_request(0, 'textDocument/' .. targ, params, preview_location_callback)
 end
 
-vim.keymap.set('n', '<leader>ld', function() peek('definition') end)
-vim.keymap.set('n', '<leader>lD', function() vim.lsp.buf.definition() end)
-vim.keymap.set('n', '<leader>lc', function() peek('declaration') end)
-vim.keymap.set('n', '<leader>lC', function() vim.lsp.buf.declaration() end)
-vim.keymap.set('n', '<leader>li', function() peek('implementation') end)
-vim.keymap.set('n', '<leader>lI', function() vim.lsp.buf.implementation() end)
+local maps = {
+  ['<leader>ld'] = function() peek('definition') end,
+  ['<leader>lD'] = function() vim.lsp.buf.definition() end,
+  ['<leader>lc'] = function() peek('declaration') end,
+  ['<leader>lC'] = function() vim.lsp.buf.declaration() end,
+  ['<leader>li'] = function() peek('implementation') end,
+  ['<leader>lI'] = function() vim.lsp.buf.implementation() end,
 
-vim.keymap.set('n', '<leader>lr', function() vim.lsp.buf.rename() end)
-vim.keymap.set('n', '<leader>lR', function() vim.lsp.buf.references() end)
-vim.keymap.set('n', '<leader>la', require('actions-preview').code_actions)
+  ['<leader>lr'] = function() vim.lsp.buf.rename() end,
+  ['<leader>lR'] = function() vim.lsp.buf.references() end,
+  ['<leader>la'] = require('actions-preview').code_actions,
 
-vim.keymap.set('n', '<leader>ll', function()
-  if vim.diagnostic.open_float() then return end
-  if vim.lsp.buf.hover() then return end
-end)
-vim.keymap.set('n', '<leader>lL', function() vim.lsp.buf.hover() end)
-vim.keymap.set('n', '<leader>lh', function() vim.lsp.buf.hover() end)
-vim.keymap.set('n', '<leader>lg', function() vim.diagnostic.open_float() end)
+  ['<leader>ll'] = function()
+    if vim.diagnostic.open_float() then return end
+    if vim.lsp.buf.hover() then return end
+  end,
+  ['<leader>lL'] = function() vim.lsp.buf.hover() end,
+  ['<leader>lh'] = function() vim.lsp.buf.hover() end,
+  ['<leader>lg'] = function() vim.diagnostic.open_float() end,
+}
+
+for k, v in pairs(maps) do
+  vim.keymap.set('n', k, v, {noremap = true, silent = true})
+end
