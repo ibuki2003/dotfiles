@@ -1,22 +1,24 @@
 [[plugins]]
 repo = 'Shougo/ddc.vim'
 hook_post_source = '''
+call ddc#custom#patch_global('ui', 'native')
+
 call ddc#custom#patch_global('sources', [
 \  'nvim-lsp',
 \  'tabnine',
 \  'around',
-\  'treesitter',
-\  'look',
 \  'buffer',
 \  'file',
+\  'dictionary',
 \ ])
-"\  'neosnippet',
 
 call ddc#custom#patch_global('sourceOptions', {
 \ '_': {
 \   'matchers': ['matcher_fuzzy'],
 \   'converters': ['converter_remove_overlap'],
+\   'sorters': ['sorter_fuzzy'],
 \   'minAutoCompleteLength': 1,
+\   'timeout': 500,
 \ },
 \})
 
@@ -25,7 +27,10 @@ call ddc#enable()
 '''
 
 [[plugins]]
-repo = 'Shougo/ddc-around'
+repo = 'Shougo/ddc-ui-native'
+
+[[plugins]]
+repo = 'Shougo/ddc-source-around'
 hook_add = '''
 call ddc#custom#patch_global('sourceOptions', { 'around': {
 \ 'mark' : 'A',
@@ -50,17 +55,18 @@ call ddc#custom#patch_global('sourceParams', { 'buffer': {
 '''
 
 [[plugins]]
-repo = 'octaltree/cmp-look'
+repo = 'matsui54/ddc-dictionary'
 hook_add = '''
-call ddc#custom#patch_global('sourceOptions', { 'look': {
-\  'converters': ['loud', 'matcher_head'],
-\  'matchers': [],
-\  'mark': 'l',
-\  'isVolatile': v:true,
+call ddc#custom#patch_global('sourceOptions', { 'dictionary': {
+\   'matchers': ['matcher_head'],
+\   'mark': 'D',
+\   'maxItems': 5,
 \ }})
-call ddc#custom#patch_global('sourceParams', { 'look': {
-\   'convertCase': v:true,
-\   'dict': v:null,
+call ddc#custom#patch_global('sourceParams', { 'dictionary': {
+\   'dictPaths': ['/usr/share/dict/words'],
+\   'smartCase': v:true,
+\   'showMenu': v:false,
+\   'isVolatile': v:true,
 \ }})
 '''
 
@@ -68,13 +74,13 @@ call ddc#custom#patch_global('sourceParams', { 'look': {
 repo = 'Shougo/ddc-matcher_head'
 
 [[plugins]]
-repo = 'matsui54/ddc-matcher_fuzzy'
+repo = 'tani/ddc-fuzzy'
 
 [[plugins]]
 repo = 'Shougo/ddc-converter_remove_overlap'
 
 [[plugins]]
-repo = 'LumaKernel/ddc-file'
+repo = 'LumaKernel/ddc-source-file'
 hook_add = '''
 call ddc#custom#patch_global('sourceOptions', { 'file': {
 \ 'mark': 'F',
@@ -86,14 +92,6 @@ call ddc#custom#patch_global('sourceOptions', { 'file': {
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 hook_post_source = 'lua require("nvim-treesitter")'
-
-[[plugins]]
-repo = 'delphinus/ddc-treesitter'
-hook_add = '''
-call ddc#custom#patch_global('sourceOptions', { 'treesitter': {
-\ 'mark' : 'T',
-\}})
-'''
 
 [[plugins]]
 repo = 'Shougo/ddc-nvim-lsp'
@@ -153,13 +151,13 @@ imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 [[plugins]]
 repo = 'LumaKernel/ddc-tabnine'
 hook_add = '''
-call ddc#custom#patch_global('sourceOptions', { 'tabnin': {
+call ddc#custom#patch_global('sourceOptions', { 'tabnine': {
 \ 'mark' : 'TN',
 \ 'maxCandidates' : '5',
 \ 'isVolatile' : v:true,
 \}})
-call ddc#custom#patch_global('sourceParams', { 'around': {
-\ 'maxSize' : 1000,
+call ddc#custom#patch_global('sourceParams', { 'tabnine': {
+\ 'maxNumResults' : 10,
 \}})
 '''
 

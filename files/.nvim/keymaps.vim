@@ -31,7 +31,7 @@ inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ vsnip#available(1) ? '\<Plug>(vsnip-expand-or-jump)' :
       \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ? "\<Tab>" :
-      \ ddc#manual_complete()
+      \ ddc#map#manual_complete()
 
 " <S-TAB>: completion back.
 inoremap <expr><S-TAB>
