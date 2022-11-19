@@ -8,7 +8,8 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 0.1; done
 
 if type "xrandr"; then
   for m in $(polybar -m | cut -d: -f1); do
-    MONITOR=$m polybar --reload main &
+    MONITOR=$m nohup polybar --reload main &
+    sleep 0.1
   done
 else
   polybar --reload main > /dev/null 2>/dev/null &
