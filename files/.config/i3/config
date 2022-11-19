@@ -209,7 +209,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # exec --no-startup-id autorandr -l default && autorandr -c
 exec --no-startup-id dunst
 exec --no-startup-id urxvtd -o -f
-exec --no-startup-id picom --config ~/.config/picom.conf --experimental-backends
+exec --no-startup-id picom --config ~/.config/picom.conf
 exec --no-startup-id /usr/lib/kdeconnectd
 exec --no-startup-id kdeconnect-indicator
 exec --no-startup-id fcitx5
