@@ -118,18 +118,15 @@ return function(packer)
         vim.api.nvim_set_keymap('i', '<C-k>', '<C-r>=IMState("FixMode")<CR>', { noremap = true, silent = true })
       end
     },
-    -- {
-    --   'simplenote-vim/simplenote.vim',
-    --   cond = 'exists("g:SimplenoteUsername")',
-    --   setup = function()
-    --     vim.g.SimplenoteFiletype = 'markdown'
-    --     -- let g:SimplenoteFiletype = "markdown"
-
-    --     vim.api.nvim_create_user_command('SL', 'SimplenoteList', true)
-    --     vim.api.nvim_create_user_command('SN', 'SimplenoteNew', true)
-    --   end
-
-    -- },
+    {
+      'simplenote-vim/simplenote.vim',
+      cond = 'vim.fn.exists("g:SimplenoteUsername")',
+      setup = function()
+        vim.g.SimplenoteFiletype = 'markdown'
+        vim.api.nvim_create_user_command('SL', 'SimplenoteList', {})
+        vim.api.nvim_create_user_command('SN', 'SimplenoteNew', {})
+      end
+    },
     {
       'monaqa/dps-dial.vim',
       setup = function()
