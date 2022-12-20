@@ -128,50 +128,71 @@ return function(packer)
       end
     },
     {
-      'monaqa/dps-dial.vim',
-      setup = function()
-        vim.g['dps_dial#augends'] = {
-          'decimal',
-          'binary',
-          'hex',
-          'date-hyphen',
-          'date-slash',
-          'color',
-          { kind= 'constant', opts= {
-              elements= { 'true', 'false' },
-              cyclic= true,
-              word= true,
-          }},
-          { kind= 'constant', opts= {
-              elements= { 'True', 'False' },
-              cyclic= true,
-              word= true,
-          }},
+      'monaqa/dial.nvim',
+      config = function()
+        local augend = require("dial.augend")
+        augend.constant.alias.alpha.config.cyclic = true
+        augend.constant.alias.Alpha.config.cyclic = true
+
+        local augends = require("dial.config").augends
+        augends.group.default = {
+          augend.integer.alias.decimal,
+          augend.integer.alias.binary,
+          augend.integer.alias.hex,
+          augend.date.alias['%Y-%m-%d'],
+          augend.date.alias['%Y/%m/%d'],
+          augend.hexcolor.new{ case = "lower", }, -- TODO: preserve case
+          augend.constant.new{
+            elements = {"true", "false"},
+            word = true,
+            cyclic = true,
+            preserve_case = true,
+          },
         }
-        vim.g['dps_dial#augends#register#v'] = vim.tbl_extend('force',
-          vim.g['dps_dial#augends'],
-          {
-            'alpha', 'Alpha',
-          }
-        )
-      -- end,
-      -- config = function()
-        vim.api.nvim_create_autocmd('User', {
-          pattern = 'DenopsPluginPost:dial',
-          callback = function()
-            -- modify table partially fails in lua
-            vim.cmd[[
-            let g:dps_dial#aliases.alpha.opts.cyclic = v:true
-            let g:dps_dial#aliases.Alpha.opts.cyclic = v:true
-            ]]
-          end,
+        augends.group.visual = {}
+        vim.list_extend(augends.group.visual, augends.group.default)
+        vim.list_extend(augends.group.visual, {
+          augend.constant.alias.alpha,
+          augend.constant.alias.Alpha,
         })
-        vim.api.nvim_set_keymap('n',  '<C-a>',    '<Plug>(dps-dial-increment)', { noremap = true })
-        vim.api.nvim_set_keymap('n',  '<C-x>',    '<Plug>(dps-dial-decrement)', { noremap = true })
-        vim.api.nvim_set_keymap('x',  '<C-a>',  '"v<Plug>(dps-dial-increment)gv', { noremap = true })
-        vim.api.nvim_set_keymap('x',  '<C-x>',  '"v<Plug>(dps-dial-decrement)gv', { noremap = true })
-        vim.api.nvim_set_keymap('x', 'g<C-a>', '"vg<Plug>(dps-dial-increment)', { noremap = true })
-        vim.api.nvim_set_keymap('x', 'g<C-x>', '"vg<Plug>(dps-dial-decrement)', { noremap = true })
+
+        local function dial_incr(mode, direction)
+          local cmd = require'dial.command'
+          local stairlike = mode == 'vg'
+          direction = (direction == 'inc') and 'increment' or 'decrement'
+          if mode == 'n' then
+            cmd.operator_normal(direction)
+          else
+            cmd.operator_visual(direction, stairlike)
+          end
+        end
+        local function callback(mode, dir)
+          local cmd = require'dial.command'
+          return function()
+            if mode == 'n' then
+              cmd.select_augend_normal()
+            else
+              cmd.select_augend_visual('visual')
+            end
+            -- vim.o.operatorfunc = 'v:lua.dial_increment.' .. mode .. '_' .. dir
+            _G.dial_increment = function() dial_incr(mode, dir) end
+            vim.o.operatorfunc = 'v:lua.dial_increment'
+            local retval = 'g@'
+            if mode == 'n' then
+              retval = retval .. "<Cmd>lua require('dial.command').textobj()<CR>"
+            elseif mode == 'v' then
+              retval = retval .. "gv"
+            end
+            return retval
+          end
+        end
+
+        vim.api.nvim_set_keymap('n',  '<C-a>', '', { expr = true, replace_keycodes = true, callback = callback('n',  'inc') })
+        vim.api.nvim_set_keymap('n',  '<C-x>', '', { expr = true, replace_keycodes = true, callback = callback('n',  'dec') })
+        vim.api.nvim_set_keymap('x',  '<C-a>', '', { expr = true, replace_keycodes = true, callback = callback('v',  'inc') })
+        vim.api.nvim_set_keymap('x',  '<C-x>', '', { expr = true, replace_keycodes = true, callback = callback('v',  'dec') })
+        vim.api.nvim_set_keymap('x', 'g<C-a>', '', { expr = true, replace_keycodes = true, callback = callback('vg', 'inc') })
+        vim.api.nvim_set_keymap('x', 'g<C-x>', '', { expr = true, replace_keycodes = true, callback = callback('vg', 'dec') })
       end,
     },
     -- {
