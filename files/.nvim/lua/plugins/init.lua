@@ -12,7 +12,14 @@ local function init()
 
     vim.cmd.packadd 'packer.nvim'
     packer = require"packer"
-    packer.init { }
+
+    packer.init {
+      display = {
+        open_fn = function()
+          return require("packer.util").float({ border = "single" })
+        end
+      }
+    }
   end
   packer.reset()
 
