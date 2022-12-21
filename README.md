@@ -1,11 +1,8 @@
-## dotfiles
-this repo contains some dotfiles should be placed in home dir.
+# ibuki2003's dotfiles
 
-## Installation
-1. clone to ~/dotfiles
-2. run a script for your os.
-3. Enjoy!(Why Japanese People!!)
+managing dot-files in the home dir.
 
-## Lisence
-I don't know.sorry.
+## details
 
+Each file `/files/*` represent `~/*`.
+You can use `dotfileslink.sh` to create symlink for all files.
