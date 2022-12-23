@@ -5,7 +5,6 @@ local function init()
     local fn = vim.fn
     local packerfile = fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
     local packerurl = 'https://github.com/wbthomason/packer.nvim'
-    fn.system('notify-send git clone ' .. packerfile .. ' ' .. packerurl)
     if fn.isdirectory(packerfile) == 0 then
       fn.system('git clone ' .. packerurl .. ' ' .. packerfile)
     end
