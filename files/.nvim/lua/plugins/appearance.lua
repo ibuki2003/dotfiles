@@ -124,9 +124,19 @@ return function(packer)
     },
     {
       'nathanaelkane/vim-indent-guides',
-      after = {'dracula'},
       setup = function()
         vim.g.indent_guides_enable_on_vim_startup = 1
+        vim.g.indent_guides_auto_colors = 0
+        vim.g.indent_guides_default_mapping = 0
+        vim.api.nvim_create_autocmd('ColorScheme', {
+          pattern = '*',
+          callback = function()
+            vim.cmd[[
+            hi IndentGuidesOdd guibg=NONE
+            hi link IndentGuidesEven ColorColumn
+            ]]
+          end,
+        })
       end
     },
     'bronson/vim-trailing-whitespace',
