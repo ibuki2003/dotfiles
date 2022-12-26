@@ -321,9 +321,33 @@ return function(packer)
     {
       'cohama/lexima.vim',
       setup = function()
+        vim.g.lexima_no_default_rules = 1
         vim.g.lexima_accept_pum_with_enter = 0
-        vim.g.lexima_enable_space_rules = 0
-        vim.g.lexima_enable_endwise_rules = 0
+      end,
+      config = function()
+        vim.fn['lexima#clear_rules']()
+        local rules = {
+          { char = '(',    except = [=[\%#[^\)\}\]\[:blank:]]]=], input_after = ')' },
+          { char = '(',    at = [[\\%#]] },
+          { char = ')',    at = [[\%#)]],         leave = 1 },
+          { char = '<BS>', at = [[(\\%#)]],       delete = 1 },
+
+          { char = '{',    except = [=[\%#[^)}\]:blank:]]=], input_after = '}' },
+          { char = '}',    at = [[\\%#}]],        leave = 1 },
+          { char = '<BS>', at = [[{\\%#}]],       delete = 1 },
+
+          { char = '[',    except = [=[\%#[^)}\]:blank:]]=], input_after = ']' },
+          { char = '[',    at = [[\\\\%#]] },
+          { char = ']',    at = [=[\\%#]]=],      leave = 1 },
+          { char = '<BS>', at = [=[\\[\\%#\\]]=], delete = 1 },
+
+          { char = '<CR>', at = [[(\%#)]], input_after = '<CR>' },
+          { char = '<CR>', at = [[{\%#}]], input_after = '<CR>' },
+          { char = '<CR>', at = [=[\[\%#]]=], input_after = '<CR>' },
+        }
+        for _, rule in ipairs(rules) do
+          vim.fn['lexima#add_rule'](rule)
+        end
       end,
     },
   }
