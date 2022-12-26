@@ -1,4 +1,10 @@
 local packer
+
+local function require_renew(name)
+  package.loaded[name] = nil
+  return require(name)
+end
+
 local function init()
   if not packer then
     -- download packer.nvim if not exists
@@ -17,7 +23,8 @@ local function init()
         open_fn = function()
           return require("packer.util").float({ border = "single" })
         end
-      }
+      },
+      disable_commands = true,
     }
   end
   packer.reset()
@@ -31,9 +38,9 @@ local function init()
   }
 
   -- list of plugins
-  require('plugins.general')(packer)
-  require('plugins.appearance')(packer)
-  require('plugins.completion')(packer)
+  require_renew('plugins.general')(packer)
+  require_renew('plugins.appearance')(packer)
+  require_renew('plugins.completion')(packer)
 
   return packer
 end
@@ -45,3 +52,4 @@ vim.api.nvim_create_user_command("PackerCompile", function(opts) init().compile(
 vim.api.nvim_create_user_command("PackerClean",   function() init().clean() end , { bang = true })
 vim.api.nvim_create_user_command("PackerStatus",  function() init().status() end, { bang = true })
 vim.api.nvim_create_user_command("PackerProfile", function() init().profile_output() end, { bang = true })
+-- NOTE: some other commands are not implemented
