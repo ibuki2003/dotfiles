@@ -328,18 +328,18 @@ return function(packer)
         vim.fn['lexima#clear_rules']()
         local rules = {
           { char = '(',    except = [=[\%#[^\)\}\]\[:blank:]]]=], input_after = ')' },
-          { char = '(',    at = [[\\%#]] },
+          { char = '(',    at = [[\\\%#]] },
           { char = ')',    at = [[\%#)]],         leave = 1 },
-          { char = '<BS>', at = [[(\\%#)]],       delete = 1 },
+          { char = '<BS>', at = [[(\%#)]],       delete = 1 },
 
           { char = '{',    except = [=[\%#[^)}\]:blank:]]=], input_after = '}' },
-          { char = '}',    at = [[\\%#}]],        leave = 1 },
-          { char = '<BS>', at = [[{\\%#}]],       delete = 1 },
+          { char = '}',    at = [[\%#}]],        leave = 1 },
+          { char = '<BS>', at = [[{\%#}]],       delete = 1 },
 
           { char = '[',    except = [=[\%#[^)}\]:blank:]]=], input_after = ']' },
-          { char = '[',    at = [[\\\\%#]] },
-          { char = ']',    at = [=[\\%#]]=],      leave = 1 },
-          { char = '<BS>', at = [=[\\[\\%#\\]]=], delete = 1 },
+          { char = '[',    at = [[\\\%#]] },
+          { char = ']',    at = [=[\%#]]=],      leave = 1 },
+          { char = '<BS>', at = [=[\[\%#\]]=], delete = 1 },
 
           { char = '<CR>', at = [[(\%#)]], input_after = '<CR>' },
           { char = '<CR>', at = [[{\%#}]], input_after = '<CR>' },
