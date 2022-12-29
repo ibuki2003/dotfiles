@@ -1,8 +1,9 @@
 configuration {
   show-icons: true;
-  modi: "combi";
+  modes: "combi";
   font: "Noto Sans CJK JP 10";
-  combi-modi: "drun,window";
+  combi-modes: "drun,window";
+  combi-display-format: "{text}";
 
   sort: true;
   sorting-method: "fzf";
