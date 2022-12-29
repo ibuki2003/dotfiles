@@ -48,6 +48,7 @@ font:
   # Point size
   size: 13.0
 
+  builtin_box_drawing: true
 
 # background_opacity: 1.0
 
