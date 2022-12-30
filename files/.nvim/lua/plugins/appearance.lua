@@ -31,7 +31,6 @@ return function(packer)
             ]]
           end
         })
-        vim.cmd'colorscheme dracula'
       end,
     },
     'ishan9299/nvim-solarized-lua',
