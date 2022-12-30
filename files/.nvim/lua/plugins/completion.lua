@@ -106,14 +106,10 @@ return function(packer)
       end
     },
     {
-      'ray-x/lsp_signature.nvim',
+      'matsui54/denops-signature_help',
       config = function()
-        require'lsp_signature'.setup({bind=true, handler_opts={border="none"}, hint_enable=false})
-        vim.cmd[[
-        hi! LspSignatureActiveParameter term=bold cterm=bold gui=bold
-        ]]
-      end
-
+        vim.fn['signature_help#enable']()
+      end,
     },
     {
       'hrsh7th/vim-vsnip',
