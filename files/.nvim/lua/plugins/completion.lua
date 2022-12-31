@@ -3,50 +3,72 @@ return function(packer)
     {
       'Shougo/ddc.vim',
       config = function()
-        vim.cmd[[
-      call ddc#custom#patch_global('ui', 'native')
+        vim.fn['ddc#custom#patch_global']('ui', 'native')
 
-      call ddc#custom#patch_global('sources', [ 'nvim-lsp', 'tabnine', 'around', 'buffer', 'file', 'dictionary', ])
+        vim.fn['ddc#custom#patch_global']('sources', {
+            'nvim-lsp',
+            'tabnine',
+            'around',
+            'buffer',
+            'file',
+            'dictionary',
+          })
 
-      call ddc#custom#patch_global('sourceOptions', { '_': { 'matchers': ['matcher_fuzzy'], 'converters': ['converter_remove_overlap'], 'sorters': ['sorter_fuzzy'], 'minAutoCompleteLength': 1, 'timeout': 500, }, })
+        vim.fn['ddc#custom#patch_global']('sourceOptions', {
+          _ = {
+            matchers = { 'matcher_fuzzy' },
+            converters = { 'converter_remove_overlap' },
+            sorters = { 'sorter_fuzzy' },
+            minAutoCompleteLength = 1,
+            timeout = 500,
+          },
+        })
 
-      "-- Use ddc.
-      call ddc#enable()
-      ]]
+        -- Use ddc.
+        vim.fn['ddc#enable']()
       end
-
     },
     {
       'Shougo/ddc-ui-native',
-
     },
     {
       'Shougo/ddc-source-around',
-      setup = function()
-        vim.cmd[[
-      call ddc#custom#patch_global('sourceOptions', { 'around': { 'mark' : 'A', }})
-      call ddc#custom#patch_global('sourceParams', { 'around': { 'maxSize' : 1000, }})
-       ]]
+      config = function()
+        vim.fn['ddc#custom#patch_global']('sourceOptions', { around = {
+          mark = 'A',
+        }})
+        vim.fn['ddc#custom#patch_global']('sourceParams', { around = {
+          maxSize = 1000,
+        }})
       end
-
     },
     {
       'matsui54/ddc-buffer',
-      setup = function()
-        vim.cmd[[
-      call ddc#custom#patch_global('sourceOptions', { 'buffer': { 'mark' : 'B', }})
-      call ddc#custom#patch_global('sourceParams', { 'buffer': { 'requireSameFiletype': v:false, 'limitBytes': 5000000, 'fromAltBuf': v:true, 'forceCollect': v:true, }})
-        ]]
+      config = function()
+        vim.fn['ddc#custom#patch_global']('sourceOptions', { buffer = {
+          mark = 'B',
+        }})
+        vim.fn['ddc#custom#patch_global']('sourceParams', { buffer = {
+          requireSameFiletype = false,
+          limitBytes = 5000000,
+          fromAltBuf = true,
+          forceCollect = true,
+        }})
       end
-
     },
     {
       'matsui54/ddc-dictionary',
-      setup = function()
-        vim.cmd[[
-      call ddc#custom#patch_global('sourceOptions', { 'dictionary': { 'matchers': ['matcher_head'], 'mark': 'D', 'maxItems': 5, }})
-      call ddc#custom#patch_global('sourceParams', { 'dictionary': { 'dictPaths': ['/usr/share/dict/words'], 'smartCase': v:true, 'showMenu': v:false, 'isVolatile': v:true, }})
-        ]]
+      config = function()
+        vim.fn['ddc#custom#patch_global']('sourceOptions', { dictionary = {
+          mark = 'D',
+          maxItems = 5,
+        }})
+        vim.fn['ddc#custom#patch_global']('sourceParams', { dictionary = {
+          dictPaths = { '/usr/share/dict/words' },
+          smartCase = true,
+          showMenu = false,
+          isVolatile = true,
+        }})
       end
     },
     {
@@ -60,7 +82,7 @@ return function(packer)
     },
     {
       'LumaKernel/ddc-source-file',
-      setup = function()
+      config = function()
         vim.fn['ddc#custom#patch_global']('sourceOptions', { file = {
           mark = 'F',
           isVolatile = true,
@@ -83,10 +105,11 @@ return function(packer)
     },
     {
       'Shougo/ddc-nvim-lsp',
-      setup = function()
-        vim.cmd[[
-      call ddc#custom#patch_global('sourceOptions', { 'nvim-lsp': { 'mark' : 'lsp', 'forceCompletionPattern': '\.\w*|:\w*|->\w*', }})
-      ]]
+      config = function()
+        vim.fn['ddc#custom#patch_global']('sourceOptions', { ['nvim-lsp'] = {
+          mark = 'lsp',
+          forceCompletionPattern = [[\.\w*|:\w*|->\w*]],
+        }})
       end
     },
     {
@@ -113,7 +136,7 @@ return function(packer)
     },
     {
       'hrsh7th/vim-vsnip',
-      setup = function()
+      config = function()
         vim.fn['ddc#custom#patch_global']('sourceOptions', { vsnip = { mark = 'v', }})
 
         vim.cmd[[
@@ -137,7 +160,7 @@ return function(packer)
     },
     {
       'LumaKernel/ddc-tabnine',
-      setup = function()
+      config = function()
         vim.fn['ddc#custom#patch_global']('sourceOptions', { tabnine = {
           mark  = 'TN',
           maxCandidates = '5',
