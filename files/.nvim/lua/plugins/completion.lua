@@ -27,6 +27,32 @@ return function(packer)
 
         -- Use ddc.
         vim.fn['ddc#enable']()
+
+        vim.fn['ddc#custom#patch_global']('autoCompleteEvents',
+          { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged' })
+        vim.fn['ddc#custom#patch_global']('cmdlineSources', { 'necovim', 'cmdline', 'file', 'around' })
+        vim.api.nvim_set_keymap('c', '<Tab>', '', {
+          expr = true,
+          noremap = true,
+          callback = function()
+            if vim.fn['pum#visible']() then
+              vim.fn['pum#map#insert_relative'](1)
+            else
+              return vim.fn['ddc#map#manual_complete']()
+            end
+          end,
+        })
+        vim.api.nvim_set_keymap('c', '<S-Tab>', '', { callback = function() vim.fn['pum#map#insert_relative'](-1) end })
+        vim.api.nvim_set_keymap('c', '<C-e>',   '', { callback = function() vim.fn['pum#map#cancel']() end })
+
+        vim.api.nvim_set_keymap('n', ':', '', {
+          expr = true,
+          noremap = true,
+          callback = function()
+            vim.fn['ddc#enable_cmdline_completion']()
+            return ':'
+          end,
+        })
       end
     },
     {
@@ -39,6 +65,22 @@ return function(packer)
     },
     {
       'Shougo/ddc-ui-pum',
+    },
+    {
+      'Shougo/neco-vim',
+      config = function()
+        vim.fn['ddc#custom#patch_global']('sourceOptions', { necovim = {
+          mark = 'V',
+        }})
+      end,
+    },
+    {
+      'Shougo/ddc-source-cmdline',
+      config = function()
+        vim.fn['ddc#custom#patch_global']('sourceOptions', { cmdline = {
+          mark = 'C',
+        }})
+      end,
     },
     {
       'Shougo/ddc-source-around',
