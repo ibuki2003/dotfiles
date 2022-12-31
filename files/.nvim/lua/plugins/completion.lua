@@ -3,7 +3,7 @@ return function(packer)
     {
       'Shougo/ddc.vim',
       config = function()
-        vim.fn['ddc#custom#patch_global']('ui', 'native')
+        vim.fn['ddc#custom#patch_global']('ui', 'pum')
 
         vim.fn['ddc#custom#patch_global']('sources', {
             'nvim-lsp',
@@ -29,7 +29,14 @@ return function(packer)
       end
     },
     {
-      'Shougo/ddc-ui-native',
+      'Shougo/pum.vim',
+      config = function()
+        vim.fn['pum#set_option']('scrollbar_char', '█')
+        vim.fn['pum#set_option']('use_complete', true)
+      end,
+    },
+    {
+      'Shougo/ddc-ui-pum',
     },
     {
       'Shougo/ddc-source-around',

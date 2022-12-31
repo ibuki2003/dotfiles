@@ -28,14 +28,13 @@ vnoremap > >gv
 
 " <TAB>: completion.
 inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ vsnip#available(1) ? '\<Plug>(vsnip-expand-or-jump)' :
-      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ? "\<Tab>" :
+      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ? '<TAB>' :
       \ ddc#map#manual_complete()
 
 " <S-TAB>: completion back.
 inoremap <expr><S-TAB>
-      \ pumvisible() ? "\<C-p>" :
+      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' :
       \ vsnip#jumpable(-1) ? '\<Plug>(vsnip-jump-prev)' :
       \ "\<C-d>"
 
