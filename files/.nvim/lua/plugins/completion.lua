@@ -21,6 +21,7 @@ return function(packer)
             sorters = { 'sorter_fuzzy' },
             minAutoCompleteLength = 1,
             timeout = 500,
+            dup = 'keep',
           },
         })
 
