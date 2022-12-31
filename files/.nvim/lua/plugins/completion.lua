@@ -34,6 +34,7 @@ return function(packer)
       config = function()
         vim.fn['pum#set_option']('scrollbar_char', '█')
         vim.fn['pum#set_option']('use_complete', true)
+        vim.fn['pum#set_option']('highlight_matches', 'MatchParen')
       end,
     },
     {
