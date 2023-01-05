@@ -12,10 +12,14 @@ return function(packer)
     },
     {
       'Shougo/context_filetype.vim',
+      opt = true,
     },
     {
       'osyo-manga/vim-precious',
-      after = { 'context_filetype.vim' },
+      opt = true,
+      wants = { 'context_filetype.vim' },
+      event = 'CursorMoved',
+      cmd = { 'PreciousSwitch', 'PreciousReset' },
       setup = function()
         -- insert mode に入った時に 'filetype' を切り換える。
         -- カーソル移動時の自動切り替えを無効化
@@ -64,6 +68,7 @@ return function(packer)
     },
     {
       'kana/vim-operator-replace',
+      keys = { '<Plug>(operator-replace)' },
       setup = function()
         vim.keymap.set("n", "<Leader>r", "<Plug>(operator-replace)")
       end
@@ -81,6 +86,7 @@ return function(packer)
     },
     {
       'terryma/vim-expand-region',
+      keys = { '<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)' },
       setup = function()
         vim.cmd[[
         vmap v <Plug>(expand_region_expand)
@@ -129,6 +135,7 @@ return function(packer)
     },
     {
       'monaqa/dial.nvim',
+      keys = { '<C-a>', '<C-x>', 'g<C-a>', 'g<C-x>' },
       config = function()
         local augend = require("dial.augend")
         augend.constant.alias.alpha.config.cyclic = true
@@ -205,6 +212,7 @@ return function(packer)
     },
     {
       'lewis6991/gitsigns.nvim',
+      event = { 'BufRead', 'BufNewFile' },
       config = function()
         local gs = require('gitsigns')
         gs.setup {
@@ -239,6 +247,7 @@ return function(packer)
     },
     {
       'RRethy/vim-hexokinase',
+      event = { 'VimEnter' },
       cond = 'vim.o.termguicolors',
       run = [[make hexokinase]],
       setup = function()
@@ -257,6 +266,7 @@ return function(packer)
     },
     {
       'juro106/ftjpn',
+      keys = { 'f', 'F', 't', 'T' },
       setup = function()
         vim.g.ftjpn_key_list = {
           { '.', '。', '．' },
@@ -289,6 +299,7 @@ return function(packer)
     },
     {
       'cohama/lexima.vim',
+      event = 'InsertEnter',
       setup = function()
         vim.g.lexima_no_default_rules = 1
         vim.g.lexima_accept_pum_with_enter = 0

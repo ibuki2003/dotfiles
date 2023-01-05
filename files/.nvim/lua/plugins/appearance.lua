@@ -2,7 +2,8 @@ return function(packer)
   packer.use{
     {
       'tomasr/molokai',
-      setup = function()
+      opt = true,
+      config = function()
         vim.api.nvim_create_autocmd('ColorScheme', {
             pattern = 'molokai',
             callback = function()
@@ -31,9 +32,13 @@ return function(packer)
             ]]
           end
         })
+        vim.cmd'colorscheme dracula'
       end,
     },
-    'ishan9299/nvim-solarized-lua',
+    {
+      'ishan9299/nvim-solarized-lua',
+      opt = true,
+    },
     {
       'cocopon/iceberg.vim',
       setup = function()

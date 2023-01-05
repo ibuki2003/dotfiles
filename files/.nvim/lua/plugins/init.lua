@@ -30,12 +30,7 @@ local function init()
   packer.reset()
 
   packer.use {'wbthomason/packer.nvim', opt = 1} -- bootstrap
-  packer.use {
-    'lewis6991/impatient.nvim',
-    config = function()
-      require'impatient'.enable_profile()
-    end
-  }
+  packer.use { 'lewis6991/impatient.nvim', opt = 1 }
 
   -- list of plugins
   require_renew('plugins.general')(packer)
