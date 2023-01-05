@@ -156,52 +156,20 @@ return function(packer)
           augend.constant.alias.Alpha,
         })
 
-        local function dial_incr(mode, direction)
-          local cmd = require'dial.command'
-          local stairlike = mode == 'vg'
-          direction = (direction == 'inc') and 'increment' or 'decrement'
-          if mode == 'n' then
-            cmd.operator_normal(direction)
-          else
-            cmd.operator_visual(direction, stairlike)
-          end
-        end
-        local function callback(mode, dir)
-          local cmd = require'dial.command'
-          return function()
-            if mode == 'n' then
-              cmd.select_augend_normal()
-            else
-              cmd.select_augend_visual('visual')
-            end
-            -- vim.o.operatorfunc = 'v:lua.dial_increment.' .. mode .. '_' .. dir
-            _G.dial_increment = function() dial_incr(mode, dir) end
-            vim.o.operatorfunc = 'v:lua.dial_increment'
-            local retval = 'g@'
-            if mode == 'n' then
-              retval = retval .. "<Cmd>lua require('dial.command').textobj()<CR>"
-            elseif mode == 'v' then
-              retval = retval .. "gv"
-            end
-            return retval
-          end
-        end
-
-        vim.api.nvim_set_keymap('n',  '<C-a>', '', { expr = true, replace_keycodes = true, callback = callback('n',  'inc') })
-        vim.api.nvim_set_keymap('n',  '<C-x>', '', { expr = true, replace_keycodes = true, callback = callback('n',  'dec') })
-        vim.api.nvim_set_keymap('x',  '<C-a>', '', { expr = true, replace_keycodes = true, callback = callback('v',  'inc') })
-        vim.api.nvim_set_keymap('x',  '<C-x>', '', { expr = true, replace_keycodes = true, callback = callback('v',  'dec') })
-        vim.api.nvim_set_keymap('x', 'g<C-a>', '', { expr = true, replace_keycodes = true, callback = callback('vg', 'inc') })
-        vim.api.nvim_set_keymap('x', 'g<C-x>', '', { expr = true, replace_keycodes = true, callback = callback('vg', 'dec') })
+        vim.api.nvim_set_keymap('n',  '<C-a>', require("dial.map").inc_normal(), { noremap = true })
+        vim.api.nvim_set_keymap('n',  '<C-x>', require("dial.map").dec_normal(), { noremap = true })
+        vim.api.nvim_set_keymap('x',  '<C-a>', require("dial.map").inc_visual('visual') .. 'gv', { noremap = true })
+        vim.api.nvim_set_keymap('x',  '<C-x>', require("dial.map").dec_visual('visual') .. 'gv', { noremap = true })
+        vim.api.nvim_set_keymap('x', 'g<C-a>', require("dial.map").inc_gvisual('visual'), { noremap = true })
+        vim.api.nvim_set_keymap('x', 'g<C-x>', require("dial.map").dec_gvisual('visual'), { noremap = true })
       end,
     },
-    -- {
-    --   'kana/vim-textobj-user',
-    -- },
+    {
+      'kana/vim-textobj-user',
+    },
     {
       'whatyouhide/vim-textobj-xmlattr',
-      requires = { 'kana/vim-textobj-user' },
-      after = { 'vim-textobj-user' },
+      -- wants = { 'vim-textobj-user' },
     },
     {
       'subnut/nvim-ghost.nvim',
@@ -217,7 +185,8 @@ return function(packer)
 
         vim.g.ctrlp_user_command = {
           types = {
-            {
+            -- hack: act as dict
+            a = {
               '.git',
               (vim.fn.executable('fd')
                 and 'fd . %s -t f -HL -E \\.git'

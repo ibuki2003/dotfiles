@@ -58,9 +58,11 @@ return function(packer)
     {
       'Shougo/pum.vim',
       config = function()
-        vim.fn['pum#set_option']('scrollbar_char', '█')
-        vim.fn['pum#set_option']('use_complete', true)
-        vim.fn['pum#set_option']('highlight_matches', 'MatchParen')
+        vim.fn['pum#set_option']({
+          scrollbar_char = '█',
+          use_complete= true,
+          highlight_matches= 'MatchParen',
+        })
       end,
     },
     {
