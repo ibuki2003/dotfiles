@@ -330,5 +330,18 @@ return function(packer)
         end
       end,
     },
+    {
+      'andymass/vim-matchup',
+      setup = function()
+        vim.g.matchup_matchparen_offscreen = { method = "popup" }
+      end,
+      config = function()
+        require'nvim-treesitter.configs'.setup {
+          matchup = {
+            enable = true,
+          },
+        }
+      end,
+    },
   }
 end
