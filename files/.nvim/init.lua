@@ -11,6 +11,7 @@ local _, _ = pcall(require, 'settings.local')
 -- require'settings.local'
 require'settings.opts'
 require'settings.keymaps'
+require'settings.misc'
 require'settings.term'
 require'plugins'
 
