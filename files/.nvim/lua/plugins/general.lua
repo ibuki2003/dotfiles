@@ -5,7 +5,42 @@ return function(packer)
     'sheerun/vim-polyglot',
 
     {
-      'tpope/vim-surround',
+      'machakann/vim-sandwich',
+      config = function()
+        vim.g.sandwich_no_default_key_mappings = 1
+        vim.g['sandwich#input_fallback'] = 0
+        vim.fn['operator#sandwich#set']('delete', 'all', 'hi_duration', 50)
+
+
+        vim.keymap.set('n', 's', '<Plug>(sandwich-add)', { noremap = false })
+        vim.keymap.set('n', 'S', '<Plug>(sandwich-add)g_', { noremap = false })
+
+        vim.keymap.set('n', 'ds', '<Plug>(sandwich-delete)', { noremap = false })
+        vim.keymap.set('n', 'dsb', '<Plug>(sandwich-delete-auto)', { noremap = false })
+        vim.keymap.set('n', 'cs', '<Plug>(sandwich-replace)', { noremap = false })
+        vim.keymap.set('n', 'csb', '<Plug>(sandwich-replace-auto)', { noremap = false })
+        vim.keymap.set('n', 'sr', '<Plug>(sandwich-replace)', { noremap = false })
+        vim.keymap.set('n', 'srb', '<Plug>(sandwich-replace-auto)', { noremap = false })
+
+        vim.keymap.set('o', 'ib', '<Plug>(textobj-sandwich-auto-i)', { noremap = false })
+        vim.keymap.set('x', 'ib', '<Plug>(textobj-sandwich-auto-i)', { noremap = false })
+        vim.keymap.set('o', 'ab', '<Plug>(textobj-sandwich-auto-a)', { noremap = false })
+        vim.keymap.set('x', 'ab', '<Plug>(textobj-sandwich-auto-a)', { noremap = false })
+
+        vim.keymap.set('o', 'is', '<Plug>(textobj-sandwich-query-i)', { noremap = false })
+        vim.keymap.set('x', 'is', '<Plug>(textobj-sandwich-query-i)', { noremap = false })
+        vim.keymap.set('o', 'as', '<Plug>(textobj-sandwich-query-a)', { noremap = false })
+        vim.keymap.set('x', 'as', '<Plug>(textobj-sandwich-query-a)', { noremap = false })
+
+        vim.g['sandwich#recipes'] = {
+          unpack(vim.g['sandwich#default_recipes']),
+          { buns = {"{ ", " }"}, nesting = 1, match_syntax = 1, kind = {"add", "replace"}, action = {"add"}, input = {"{"} },
+          { buns = {"[ ", " ]"}, nesting = 1, match_syntax = 1, kind = {"add", "replace"}, action = {"add"}, input = {"["} },
+          { buns = {"{\\s*", "\\s*}"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"{"} },
+          { buns = {"(\\s*", "\\s*)"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"("} },
+          { buns = {"\\[(\\s*", "\\s*\\]"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"["} },
+        }
+      end,
     },
     {
       'tpope/vim-commentary',
