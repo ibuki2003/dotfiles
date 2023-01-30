@@ -220,7 +220,7 @@ return function(packer)
       config = function()
         vim.fn['ddc#custom#patch_global']('sourceOptions', { tabnine = {
           mark  = 'TN',
-          maxCandidates = '5',
+          maxItems = '5',
           isVolatile = true,
         }})
         vim.fn['ddc#custom#patch_global']('sourceParams', { tabnine = {
