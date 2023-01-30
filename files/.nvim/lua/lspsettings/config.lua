@@ -2,6 +2,8 @@ local lspconfig = require('lspconfig')
 
 local diagnostic = require('lspsettings/servers/diagnostic')
 
+require("neodev").setup{}
+
 local servers = {
   vimls = {},
   intelephense = {},
@@ -13,6 +15,15 @@ local servers = {
   texlab = {},
   gopls = {},
   arduino_language_server = {},
+  sumneko_lua = {
+    settings = {
+      Lua = {
+        completion = {
+          callSnippet = "Replace",
+        }
+      }
+    }
+  },
 
   tsserver = {
     root_dir = function(fname, buf)

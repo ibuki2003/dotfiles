@@ -169,7 +169,10 @@ return function(packer)
       'neovim/nvim-lspconfig',
       config = function()
         require('lspsettings/config')
-      end
+      end,
+    },
+    {
+      'folke/neodev.nvim',
     },
     {
       'j-hui/fidget.nvim',
