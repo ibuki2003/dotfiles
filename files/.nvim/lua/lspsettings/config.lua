@@ -62,19 +62,11 @@ local function merge(t1, t2)
     if (type(v) == "table") and (type(t1[k] or false) == "table") then
       merge(t1[k], t2[k])
     elseif (type(v) == "function" and type(t1[k] or false) == "function") then
-      t1[k] = function(...)
-        t1[k](...)
-        return v(...)
-      end
-    else
-      t1[k] = v
-    end
-  end
-  return t1
+  servers = vim.tbl_deep_extend(servers, conf)
 end
 
 for lsp, opt in pairs(servers) do
-  opt = merge(opt, overwrites)
+  opt = vim.tbl_deep_extend('keep', opt, overwrites)
   lspconfig[lsp].setup(opt)
 end
 
