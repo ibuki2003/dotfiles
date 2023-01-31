@@ -32,14 +32,14 @@ return function(packer)
         vim.keymap.set('o', 'as', '<Plug>(textobj-sandwich-query-a)', { noremap = false })
         vim.keymap.set('x', 'as', '<Plug>(textobj-sandwich-query-a)', { noremap = false })
 
-        vim.g['sandwich#recipes'] = {
-          unpack(vim.g['sandwich#default_recipes']),
+        local recipes = {
           { buns = {"{ ", " }"}, nesting = 1, match_syntax = 1, kind = {"add", "replace"}, action = {"add"}, input = {"{"} },
           { buns = {"[ ", " ]"}, nesting = 1, match_syntax = 1, kind = {"add", "replace"}, action = {"add"}, input = {"["} },
           { buns = {"{\\s*", "\\s*}"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"{"} },
           { buns = {"(\\s*", "\\s*)"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"("} },
           { buns = {"\\[(\\s*", "\\s*\\]"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"["} },
         }
+        vim.g['sandwich#recipes'] = vim.list_extend(vim.g['sandwich#default_recipes'], recipes)
       end,
     },
     {
