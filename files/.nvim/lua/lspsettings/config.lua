@@ -8,14 +8,20 @@ local servers = {
   vimls = {},
   intelephense = {},
   clangd = { capabilities = { offsetEncoding = 'utf-8' } },
-  pylsp = {},
-  rls = {},
+  pylsp = {
+    settings = {
+      pylsp = {
+        plugins = { pycodestyle = { enabled = false } }
+      }
+    }
+  },
+  pyright = {},
   rust_analyzer = {},
   eslint = {},
   texlab = {},
   gopls = {},
   arduino_language_server = {},
-  sumneko_lua = {
+  lua_ls = {
     settings = {
       Lua = {
         completion = {
@@ -29,6 +35,7 @@ local servers = {
     root_dir = function(fname, buf)
       return lspconfig.util.root_pattern("package.json", "node_modules")(fname, buf)
     end,
+    single_file_support = false,
   },
   denols = {
     root_dir = function(fname, buf)
