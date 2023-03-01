@@ -12,7 +12,7 @@ vim.opt.hidden = true
 vim.opt.showcmd = true
 
 vim.opt.virtualedit = {"block", "onemore"}
-vim.opt.backspace = {"indent", "eol", "start"}
+vim.opt.backspace = {"eol", "start"}
 vim.opt.ambiwidth = "double"
 vim.opt.wildmenu = true
 
