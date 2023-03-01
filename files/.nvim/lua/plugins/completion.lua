@@ -172,6 +172,12 @@ return function(packer)
       end,
     },
     {
+      'glepnir/lspsaga.nvim',
+      requires = {
+        "nvim-tree/nvim-web-devicons",
+      }
+    },
+    {
       'folke/neodev.nvim',
     },
     {

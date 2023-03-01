@@ -73,49 +73,43 @@ end
 do
   local method = "textDocument/publishDiagnostics"
   local default_handler = vim.lsp.handlers[method]
-  vim.lsp.handlers[method] = function(err, method, result, client_id, bufnr, config)
-    default_handler(err, method, result, client_id, bufnr, config)
+  vim.lsp.handlers[method] = function(err, method_, result, client_id, bufnr, config)
+    default_handler(err, method_, result, client_id, bufnr, config)
     vim.diagnostic.setqflist({open=false})
   end
 end
 
+-- lspsaga
+require("lspsaga").setup({
+  border_style = "single",
+  finder = {
+    max_height = 0.5,
+  },
+  definition = {
+    edit = "o",
+  },
+  symbol_in_winbar = {
+    enable = true,
+    separator = " / ",
+  },
+  lightbulb = { enable = false },
+})
+
 -- keybinds
 
-local function preview_location_callback(_, method, result)
-  if result == nil or vim.tbl_isempty(result) then
-    vim.lsp.log.info(method, 'No location found')
-    return nil
-  end
-  if vim.tbl_islist(result) then
-    vim.lsp.util.preview_location(result[1])
-  else
-    vim.lsp.util.preview_location(result)
-  end
-end
-local function peek(targ)
-  local params = vim.lsp.util.make_position_params()
-  return vim.lsp.buf_request(0, 'textDocument/' .. targ, params, preview_location_callback)
-end
-
 local maps = {
-  ['<leader>ld'] = function() peek('definition') end,
-  ['<leader>lD'] = function() vim.lsp.buf.definition() end,
-  ['<leader>lc'] = function() peek('declaration') end,
-  ['<leader>lC'] = function() vim.lsp.buf.declaration() end,
-  ['<leader>li'] = function() peek('implementation') end,
-  ['<leader>lI'] = function() vim.lsp.buf.implementation() end,
+  ['<leader>ld'] = "<cmd>Lspsaga lsp_finder<CR>",
+  ['<leader>lD'] = "<cmd>Lspsaga peek_definition<CR>",
+  ['<leader>lt'] = "<cmd>Lspsaga peek_type_definition<CR>",
 
   ['<leader>lr'] = function() vim.lsp.buf.rename() end,
-  ['<leader>lR'] = function() vim.lsp.buf.references() end,
   ['<leader>la'] = require('actions-preview').code_actions,
 
-  ['<leader>ll'] = function()
-    if vim.diagnostic.open_float() then return end
-    if vim.lsp.buf.hover() then return end
-  end,
-  ['<leader>lL'] = function() vim.lsp.buf.hover() end,
-  ['<leader>lh'] = function() vim.lsp.buf.hover() end,
-  ['<leader>lg'] = function() vim.diagnostic.open_float() end,
+  ['<leader>ll'] = "<cmd>Lspsaga hover_doc<CR>",
+  ['<leader>le'] = "<cmd>Lspsaga show_cursor_diagnostics<CR>",
+
+  [']e'] = "<cmd>Lspsaga diagnostic_jump_next<CR>",
+  ['[e'] = "<cmd>Lspsaga diagnostic_jump_prev<CR>",
 }
 
 for k, v in pairs(maps) do
