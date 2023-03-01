@@ -14,6 +14,7 @@ return function(packer)
 
         vim.keymap.set('n', 's', '<Plug>(sandwich-add)', { noremap = false })
         vim.keymap.set('n', 'S', '<Plug>(sandwich-add)g_', { noremap = false })
+        vim.keymap.set('x', 's', '<Plug>(sandwich-add)', { noremap = false })
 
         vim.keymap.set('n', 'ds', '<Plug>(sandwich-delete)', { noremap = false })
         vim.keymap.set('n', 'dsb', '<Plug>(sandwich-delete-auto)', { noremap = false })
@@ -356,9 +357,9 @@ return function(packer)
           { char = ']',    at = [=[\%#]]=],      leave = 1 },
           { char = '<BS>', at = [=[\[\%#\]]=], delete = 1 },
 
-          { char = '<CR>', at = [[(\%#)]], input_after = '<CR>' },
-          { char = '<CR>', at = [[{\%#}]], input_after = '<CR>' },
-          { char = '<CR>', at = [=[\[\%#]]=], input_after = '<CR>' },
+          -- { char = '<CR>', at = [[(\%#)]], input_after = '<CR>' },
+          -- { char = '<CR>', at = [[{\%#}]], input_after = '<CR>' },
+          -- { char = '<CR>', at = [=[\[\%#]]=], input_after = '<CR>' },
           { char = ')', at = [[\%#$\n\s*)]], leave = ')' },
           { char = '}', at = [[\%#$\n\s*}]], leave = '}'},
           { char = ']', at = [=[\%#$\n\s*]]=], leave = ']' },

@@ -31,6 +31,10 @@ return function(packer)
         vim.fn['ddc#custom#patch_global']('autoCompleteEvents',
           { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged' })
         vim.fn['ddc#custom#patch_global']('cmdlineSources', { 'necovim', 'cmdline', 'file', 'around' })
+        vim.fn['ddc#custom#patch_global']('sourceOptions', {
+          necovim = { ignoreCase = true, },
+          cmdline = { ignoreCase = true, },
+        })
         vim.api.nvim_set_keymap('c', '<Tab>', '', {
           expr = true,
           noremap = true,
