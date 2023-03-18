@@ -64,13 +64,6 @@ local overwrites = {
   capabilities = capabilities,
 }
 
-local function merge(t1, t2)
-  for k, v in pairs(t2) do
-    if (type(v) == "table") and (type(t1[k] or false) == "table") then
-      merge(t1[k], t2[k])
-    elseif (type(v) == "function" and type(t1[k] or false) == "function") then
-  servers = vim.tbl_deep_extend(servers, conf)
-end
 
 for lsp, opt in pairs(servers) do
   opt = vim.tbl_deep_extend('keep', opt, overwrites)
