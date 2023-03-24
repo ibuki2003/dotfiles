@@ -224,7 +224,7 @@ return function(packer)
         vim.g.ctrlp_working_path_mode = 'ra'
         vim.g.ctrlp_cmd = 'CtrlP'
         vim.g.ctrlp_extensions = { 'mixed', 'allfile' }
-        vim.g.ctrlp_types = { 'mixed', 'allfile' }
+        vim.g.ctrlp_types = { 'fil', 'allfile' }
 
         vim.g.ctrlp_user_command = {
           types = {
