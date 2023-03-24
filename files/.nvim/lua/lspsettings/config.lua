@@ -97,10 +97,7 @@ require("lspsaga").setup({
   definition = {
     edit = "o",
   },
-  symbol_in_winbar = {
-    enable = true,
-    separator = " / ",
-  },
+  symbol_in_winbar = { enable = false, },
   lightbulb = { enable = false },
 })
 
