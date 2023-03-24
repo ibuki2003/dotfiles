@@ -79,6 +79,15 @@ do
   end
 end
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  update_in_insert = false,
+  virtual_text = {
+    format = function(d)
+      return string.format("%s (%s: %s)", d.message, d.source, d.code)
+    end,
+  },
+})
+
 -- lspsaga
 require("lspsaga").setup({
   border_style = "single",
