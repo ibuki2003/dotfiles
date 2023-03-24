@@ -115,7 +115,7 @@ local maps = {
   ['<leader>la'] = require('actions-preview').code_actions,
 
   ['<leader>ll'] = "<cmd>Lspsaga hover_doc<CR>",
-  ['<leader>le'] = "<cmd>Lspsaga show_cursor_diagnostics<CR>",
+  ['<leader>le'] = "<cmd>Lspsaga show_line_diagnostics<CR>",
 
   [']e'] = "<cmd>Lspsaga diagnostic_jump_next<CR>",
   ['[e'] = "<cmd>Lspsaga diagnostic_jump_prev<CR>",
