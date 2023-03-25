@@ -1,83 +1,5 @@
-local lspconfig = require('lspconfig')
-
-local diagnostic = require('lspsettings/servers/diagnostic')
-
-require("neodev").setup{}
-
-local servers = {
-  vimls = {},
-  intelephense = {},
-  clangd = { capabilities = { offsetEncoding = 'utf-8' } },
-  pylsp = {
-    settings = {
-      pylsp = {
-        plugins = { pycodestyle = { enabled = false } }
-      }
-    }
-  },
-  pyright = {},
-  rust_analyzer = {},
-  eslint = {},
-  texlab = {},
-  gopls = {},
-  arduino_language_server = {},
-  lua_ls = {
-    settings = {
-      Lua = {
-        completion = {
-          callSnippet = "Replace",
-        }
-      }
-    }
-  },
-
-  tsserver = {
-    root_dir = function(fname, buf)
-      return lspconfig.util.root_pattern("package.json", "node_modules")(fname, buf)
-    end,
-    single_file_support = false,
-  },
-  denols = {
-    root_dir = function(fname, buf)
-      if lspconfig.util.root_pattern("package.json", "node_modules")(fname, buf) ~= nil then
-        return nil
-      end
-      local r = lspconfig.util.root_pattern("deno.json", "deno.jsonc", "tsconfig.json", ".git")(fname, buf)
-      if r ~= nil then
-        return r
-      end
-      -- single file support
-      return lspconfig.util.path.dirname(fname)
-    end,
-    single_file_support = false,
-  },
-  diagnosticls = {
-    filetypes = diagnostic.whitelist,
-    init_options = diagnostic.initialization_options,
-  },
-}
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-local overwrites = {
-  capabilities = capabilities,
-}
-
-
-for lsp, opt in pairs(servers) do
-  opt = vim.tbl_deep_extend('keep', opt, overwrites)
-  lspconfig[lsp].setup(opt)
-end
-
-do
-  local method = "textDocument/publishDiagnostics"
-  local default_handler = vim.lsp.handlers[method]
-  vim.lsp.handlers[method] = function(err, method_, result, client_id, bufnr, config)
-    default_handler(err, method_, result, client_id, bufnr, config)
-    vim.diagnostic.setqflist({open=false})
-  end
-end
+require("lspsettings/servers")
+require("lspsettings/nls")
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   update_in_insert = false,
@@ -121,3 +43,15 @@ local maps = {
 for k, v in pairs(maps) do
   vim.keymap.set('n', k, v, {noremap = true, silent = true})
 end
+
+vim.api.nvim_create_user_command("LspFormat", function(arg)
+  vim.pretty_print(arg)
+  local range = nil
+  if arg.range > 0 then
+    range = {
+      ['start'] = {arg.line1, 0},
+      ['end'] = {arg.line2 + 1, 0},
+    }
+  end
+  vim.lsp.buf.format({ name = arg.fargs[1], range = range })
+end, { nargs = '?', range = '%' })

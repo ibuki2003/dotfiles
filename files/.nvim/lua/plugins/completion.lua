@@ -177,12 +177,19 @@ return function(packer)
     },
     {
       'glepnir/lspsaga.nvim',
+      module = 'lspsaga',
       requires = {
         "nvim-tree/nvim-web-devicons",
       }
     },
     {
       'folke/neodev.nvim',
+      module = 'neodev',
+    },
+    {
+      'jose-elias-alvarez/null-ls.nvim',
+      module = 'null-ls',
+      requires = { 'nvim-lua/plenary.nvim' },
     },
     {
       'j-hui/fidget.nvim',
