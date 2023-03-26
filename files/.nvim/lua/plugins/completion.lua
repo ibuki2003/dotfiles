@@ -6,6 +6,7 @@ return function(packer)
         vim.fn['ddc#custom#patch_global']('ui', 'pum')
 
         vim.fn['ddc#custom#patch_global']('sources', {
+            'copilot',
             'nvim-lsp',
             'tabnine',
             'around',
@@ -227,9 +228,16 @@ return function(packer)
       setup = function()
         vim.g.copilot_no_tab_map = true
         vim.g.copilot_ignore_node_version = true
-        vim.cmd[[
-        imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-        ]]
+      end
+    },
+    {
+      'ibuki2003/ddc-source-copilot',
+      config = function()
+        vim.fn['ddc#custom#patch_global']('sourceOptions', { copilot = {
+          mark  = 'CP',
+          matchers = {},
+          minAutoCompleteLength = 0,
+        }})
       end
     },
     {
