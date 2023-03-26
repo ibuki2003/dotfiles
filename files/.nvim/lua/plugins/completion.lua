@@ -221,6 +221,15 @@ return function(packer)
     },
     {
       'hrsh7th/vim-vsnip-integ',
+      config = function()
+        vim.api.nvim_create_autocmd(
+          'User',
+          {
+            pattern = 'PumCompleteDone',
+            callback = function() vim.fn['vsnip_integ#on_complete_done'](vim.v['completed_item']) end
+          }
+        )
+      end
     },
     {
       'github/copilot.vim',
