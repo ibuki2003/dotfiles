@@ -156,7 +156,7 @@ return function(packer)
             enable = true,
           },
           indent = {
-            enable = true,
+            enable = false,
           },
         }
       end
