@@ -1,6 +1,6 @@
+require("neodev").setup{}
 local lspconfig = require('lspconfig')
 
-require("neodev").setup{}
 
 local servers = {
   vimls = {},
