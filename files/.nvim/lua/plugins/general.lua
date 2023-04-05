@@ -408,5 +408,11 @@ return function(packer)
         end
       end,
     },
+    {
+      'kawarimidoll/magic.vim',
+      config = function()
+        vim.keymap.set('c', '<C-x>', function() vim.fn['magic#expr']() end)
+      end,
+    },
   }
 end
