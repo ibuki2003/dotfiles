@@ -199,12 +199,15 @@ return function(packer)
           augend.constant.alias.Alpha,
         })
 
-        vim.api.nvim_set_keymap('n',  '<C-a>', require("dial.map").inc_normal(), { noremap = true })
-        vim.api.nvim_set_keymap('n',  '<C-x>', require("dial.map").dec_normal(), { noremap = true })
-        vim.api.nvim_set_keymap('x',  '<C-a>', require("dial.map").inc_visual('visual') .. 'gv', { noremap = true })
-        vim.api.nvim_set_keymap('x',  '<C-x>', require("dial.map").dec_visual('visual') .. 'gv', { noremap = true })
-        vim.api.nvim_set_keymap('x', 'g<C-a>', require("dial.map").inc_gvisual('visual'), { noremap = true })
-        vim.api.nvim_set_keymap('x', 'g<C-x>', require("dial.map").dec_gvisual('visual'), { noremap = true })
+        local manip = require("dial.map").manipulate
+        vim.keymap.set('n',  '<C-a>', function() manip("increment", "normal") end)
+        vim.keymap.set('n',  '<C-x>', function() manip("decrement", "normal") end)
+        vim.keymap.set('x',  '<C-a>', function() manip("increment", "visual", "visual"); vim.fn.feedkeys('gv', 'n') end)
+        vim.keymap.set('x',  '<C-x>', function() manip("decrement", "visual", "visual"); vim.fn.feedkeys('gv', 'n') end)
+        vim.keymap.set('n', 'g<C-a>', function() manip("increment", "gnormal") end)
+        vim.keymap.set('n', 'g<C-x>', function() manip("decrement", "gnormal") end)
+        vim.keymap.set('x', 'g<C-a>', function() manip("increment", "gvisual", "visual") end)
+        vim.keymap.set('x', 'g<C-x>', function() manip("decrement", "gvisual", "visual") end)
       end,
     },
     {
