@@ -1,0 +1,10 @@
+{
+    "include": [
+        "default"
+    ],
+    "define": {
+        "keymap": {
+            "C-q": "set-input-mode-hiragana"
+        }
+    }
+}
