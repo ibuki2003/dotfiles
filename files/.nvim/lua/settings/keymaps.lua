@@ -18,6 +18,18 @@ vim.api.nvim_set_keymap('n', '<C-k>', ':bprev<CR>', { noremap = true, silent = t
 vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true })
 
+vim.keymap.set('n', '<Space>o', function()
+  for _ = 1, vim.v.count1 do
+    vim.fn.append(vim.fn.line('.'), '')
+  end
+end, { noremap = true, silent = true})
+
+vim.keymap.set('n', '<Space>O', function()
+  for _ = 1, vim.v.count1 do
+    vim.fn.append(vim.fn.line('.')-1, '')
+  end
+end, { noremap = true, silent = true})
+
 -- <TAB>: completion.
 vim.keymap.set('i', '<Tab>', function()
   local _, c = unpack(vim.api.nvim_win_get_cursor(0))
