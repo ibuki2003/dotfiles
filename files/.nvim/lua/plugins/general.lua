@@ -222,30 +222,6 @@ return function(packer)
       run=':call nvim_ghost#installer#install()',
     },
     {
-      'ctrlpvim/ctrlp.vim',
-      setup = function()
-        vim.g.ctrlp_working_path_mode = 'ra'
-        vim.g.ctrlp_cmd = 'CtrlP'
-        vim.g.ctrlp_extensions = { 'mixed', 'allfile' }
-        vim.g.ctrlp_types = { 'fil', 'allfile' }
-
-        vim.g.ctrlp_user_command = {
-          types = {
-            -- hack: act as dict
-            a = {
-              '.git',
-              (vim.fn.executable('fd')
-                and 'fd . %s -t f -HL -E \\.git'
-                or  'cd %s && git ls-files -co --exclude-standard')
-            },
-          },
-          fallback = (vim.fn.executable('fd')
-            and 'fd . %s -t f -HL -E \\.git'
-            or  'find %s -type f -follow'),
-        }
-      end
-    },
-    {
       'tpope/vim-fugitive',
       cmd = { 'G', 'Git' },
     },
@@ -415,6 +391,31 @@ return function(packer)
       'kawarimidoll/magic.vim',
       config = function()
         vim.keymap.set('c', '<C-x>', function() vim.fn['magic#expr']() end)
+      end,
+    },
+    {
+      'nvim-telescope/telescope.nvim',
+      requires = { 'nvim-lua/plenary.nvim' },
+      config = function()
+        require('telescope').setup {
+          defaults = {
+            mappings = {
+              i = {
+                ['<C-h>'] = 'which_key',
+                ['<Esc>'] = 'close',
+                ['<C-u>'] = false,
+              },
+            },
+          },
+        }
+
+        local builtin = require('telescope.builtin')
+        vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+        vim.keymap.set('n', '<C-p>',      builtin.find_files, {})
+        vim.keymap.set('n', '<leader>fF', function() builtin.find_files({ no_ignore = false }) end, {})
+        vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+        vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+        vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
       end,
     },
   }

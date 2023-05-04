@@ -270,7 +270,6 @@ return function(packer)
     },
     {
       'aznhe21/actions-preview.nvim',
-      requires = { 'MunifTanjim/nui.nvim' },
       setup = function()
         vim.keymap.set("n", "<Leader>la", function() require('actions-preview').code_actions() end)
       end
