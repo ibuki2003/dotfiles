@@ -12,6 +12,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 
 -- lspsaga
 require("lspsaga").setup({
+  ui = { icons = false },
   border_style = "single",
   finder = {
     max_height = 0.5,
