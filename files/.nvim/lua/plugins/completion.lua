@@ -194,6 +194,12 @@ return function(packer)
       config = function() require"fidget".setup{} end
     },
     {
+      'lvimuser/lsp-inlayhints.nvim',
+      config = function()
+        require("lsp-inlayhints").setup()
+      end,
+    },
+    {
       'matsui54/denops-popup-preview.vim',
       config = function()
         vim.fn['popup_preview#enable']()
