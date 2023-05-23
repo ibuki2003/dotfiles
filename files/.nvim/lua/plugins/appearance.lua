@@ -55,76 +55,9 @@ return function(packer)
     },
     'navarasu/onedark.nvim',
     {
-      'itchyny/lightline.vim',
-      after = {'dracula'},
-      setup = function()
-      vim.g.lightline = {
-        colorscheme = 'dracula',
-        active = {
-          left = {
-            { 'mode', 'paste' },
-            { 'gitbranch', 'readonly', 'relativepath', 'modified' },
-            { 'lsp_diagnostics' },
-          },
-          right = {
-            { 'lineinfo' },
-            { 'percent' },
-            { 'im_state', 'fileformat', 'fileencoding', 'filetype' },
-          },
-        },
-        inactive = {
-          left =  { { 'filename', 'modified' } },
-          right = { { 'lineinfo' } },
-        },
-        component = {
-          lineinfo = '%3l:%-2v%<',
-        },
-        component_function = {
-          gitbranch = 'FugitiveHead',
-          lsp_diagnostics = 'LspDiagnosticsCount',
-          im_state = 'LLIMState',
-        },
-
-        tabline = {
-          left = { { 'tabs' } },
-          right= { {  } }
-        },
-        tab = {
-          active =   { 'tabnum', 'bufcnt', 'filename', 'modified' },
-          inactive = { 'bufcnt', 'filename', 'modified' }
-        },
-
-        tab_component_function = {
-          bufcnt = 'TabBufCnt',
-        },
-
-        tabline_separator = { left = '', right = '' },
-        tabline_subseparator = { left = '', right = '' },
-      }
-
-      vim.cmd[[
-      function! LspDiagnosticsCount()
-        return luaeval("require('settings/lsp/status')(_A.bufnr)", {'bufnr': bufnr()})
-      endfunction
-
-      function! LLIMState()
-        if exists('*IMStatus')
-          return IMStatus('JP')
-        else
-          return ''
-        endif
-      endfunction
-
-      function! TabBufCnt(n)
-        let bufnrs = tabpagebuflist(a:n)
-        let cnt = len(bufnrs)
-        if cnt is 1
-          return ''
-        endif
-        return '[' . cnt . ']'
-      endfunction
-      ]]
-    end
+      'nvim-lualine/lualine.nvim',
+      -- after = {'dracula'},
+      config = function() require'settings.lualine' end
     },
     {
       'nathanaelkane/vim-indent-guides',
