@@ -6,13 +6,7 @@ else
   vim.notify(impatient, vim.log.levels.ERROR)
 end
 
-local _, _ = pcall(require, 'settings.local')
-
--- require'settings.local'
-require'settings.opts'
-require'settings.keymaps'
-require'settings.misc'
-require'settings.term'
+require'options'
 require'plugins'
 
 -- vim.cmd[[colorscheme dracula]]

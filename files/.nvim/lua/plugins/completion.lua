@@ -173,7 +173,7 @@ return function(packer)
     {
       'neovim/nvim-lspconfig',
       config = function()
-        require('lspsettings/config')
+        require('settings/lsp/config')
       end,
     },
     {

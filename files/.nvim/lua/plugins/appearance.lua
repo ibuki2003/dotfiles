@@ -104,7 +104,7 @@ return function(packer)
 
       vim.cmd[[
       function! LspDiagnosticsCount()
-        return luaeval("require('lspsettings/status')(_A.bufnr)", {'bufnr': bufnr()})
+        return luaeval("require('settings/lsp/status')(_A.bufnr)", {'bufnr': bufnr()})
       endfunction
 
       function! LLIMState()
