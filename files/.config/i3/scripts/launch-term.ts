@@ -1,27 +1,19 @@
-import shell_escape from 'https://deno.land/x/shell_escape/index.ts';
-
-function spl2(str: string, target: string) {
-  const pos = str.indexOf(target);
-  if (pos == -1) return '';
-  return str.substring(pos + target.length).trim();
-}
+import shell_escape from "https://deno.land/x/shell_escape@1.0.0/index.ts";
+import { exists } from "https://deno.land/std@0.190.0/fs/mod.ts";
 
 async function get_focused_pwd(): Promise<string | null> {
-  const id = await Deno.run({
-    cmd: ["xdpyinfo"],
-    stdout: "piped",
-  }).output()
-    .then(s => new TextDecoder().decode(s))
+  const id = await new Deno.Command("xdpyinfo", {stdout: "piped"}).output()
+    .then(s => new TextDecoder().decode(s.stdout))
     .then(s => s.split("\n")
           .filter(s => s.startsWith("focus:"))[0]
           .split(' ')
           .filter(s => s.startsWith('0x'))[0]
          );
-  const xprop = await Deno.run({
-    cmd: ["xprop", "-id", id],
+  const xprop = await new Deno.Command("xprop", {
+    args: ["-id", id],
     stdout: "piped",
   }).output()
-    .then(s => new TextDecoder().decode(s).split('\n'));
+    .then(s => new TextDecoder().decode(s.stdout).split('\n'));
 
   const props = Object.fromEntries(
     xprop
@@ -45,7 +37,9 @@ async function get_focused_pwd(): Promise<string | null> {
   if (win_class.some(c => ["Alacritty"].indexOf(c) != -1)) {
     const match = names[0].match(/^\w+: (.+?)( : .+)?$/);
     if (!match) return null;
-    return match[1];
+    const path = match[1].replace(/^~/, Deno.env.get("HOME") || '');
+    if (await exists(path, {isDirectory: true})) return path;
+    return null;
   }
   return null;
 }
@@ -56,14 +50,14 @@ async function main() {
 
   const pwd = await get_focused_pwd();
   if (pwd) {
-    args.push("--working-directory", pwd.replace(/^~/, Deno.env.get("HOME") || ''));
+    args.push("--working-directory", pwd);
   }
 
-  const p =Deno.run({
-    cmd: ["i3-msg", "exec --no-startup-id " + shell_escape(args)],
+  const p = new Deno.Command("i3-msg", {
+    args: ["exec --no-startup-id " + shell_escape(args)],
     stdout: "piped",
   });
-  p.output().then(s => new TextDecoder().decode(s)).then(s => console.log(s));
+  console.log(await p.output().then(s => new TextDecoder().decode(s.stdout)));
 }
 
 main();
