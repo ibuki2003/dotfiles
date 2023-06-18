@@ -322,42 +322,6 @@ return function(packer)
       'tyru/capture.vim',
     },
     {
-      'cohama/lexima.vim',
-      event = 'InsertEnter',
-      setup = function()
-        vim.g.lexima_no_default_rules = 1
-        vim.g.lexima_accept_pum_with_enter = 0
-      end,
-      config = function()
-        vim.fn['lexima#clear_rules']()
-        local rules = {
-          { char = '(',    input_after = ')' },
-          { char = '(',    at = [[\\\%#]] },
-          { char = ')',    at = [[\%#)]],         leave = 1 },
-          { char = '<BS>', at = [[(\%#)]],       delete = 1 },
-
-          { char = '{',    input_after = '}' },
-          { char = '}',    at = [[\%#}]],        leave = 1 },
-          { char = '<BS>', at = [[{\%#}]],       delete = 1 },
-
-          { char = '[',    input_after = ']' },
-          { char = '[',    at = [[\\\%#]] },
-          { char = ']',    at = [=[\%#]]=],      leave = 1 },
-          { char = '<BS>', at = [=[\[\%#\]]=], delete = 1 },
-
-          -- { char = '<CR>', at = [[(\%#)]], input_after = '<CR>' },
-          -- { char = '<CR>', at = [[{\%#}]], input_after = '<CR>' },
-          -- { char = '<CR>', at = [=[\[\%#]]=], input_after = '<CR>' },
-          { char = ')', at = [[\%#$\n\s*)]], leave = ')' },
-          { char = '}', at = [[\%#$\n\s*}]], leave = '}'},
-          { char = ']', at = [=[\%#$\n\s*]]=], leave = ']' },
-        }
-        for _, rule in ipairs(rules) do
-          vim.fn['lexima#add_rule'](rule)
-        end
-      end,
-    },
-    {
       'andymass/vim-matchup',
       setup = function()
         vim.g.matchup_matchparen_offscreen = { method = "popup" }
