@@ -290,24 +290,6 @@ return function(packer)
       end
     },
     {
-      'RRethy/vim-hexokinase',
-      event = { 'VimEnter' },
-      cond = 'vim.o.termguicolors',
-      run = [[make hexokinase]],
-      setup = function()
-        vim.g.Hexokinase_optInPatterns = {
-          'full_hex',
-          'triple_hex',
-          'rgb',
-          'rgba',
-          'hsl',
-          'hsla',
-          -- 'colour_names'
-        }
-        vim.g.Hexokinase_highlighters = { 'backgroundfull' }
-      end,
-    },
-    {
       'dhruvasagar/vim-table-mode',
       config = function()
         vim.g.table_mode_corner = "|"
@@ -401,6 +383,11 @@ return function(packer)
         vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
         vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
       end,
+    },
+    {
+      'uga-rosa/ccc.nvim',
+      cond = 'vim.o.termguicolors',
+      config = function() require'settings.ccc' end,
     },
   }
 end
