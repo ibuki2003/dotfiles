@@ -370,30 +370,12 @@ return function(packer)
         }
       end,
     },
-    {
-      'hrsh7th/nvim-insx',
+    { 'bennypowers/splitjoin.nvim',
+      keys = { '<leader>j', '<leader>,' },
       config = function()
-        do
-          local insx = require('insx')
-          local esc = require('insx.helper.regex').esc
-          local fast_wrap = require('insx.recipe.fast_wrap')
-          local fast_break = require('insx.recipe.fast_break')
-
-          for open, close in pairs({ ['('] = ')', ['['] = ']', ['{'] = '}', ['<'] = '>' }) do
-            insx.add('<C-]>', fast_wrap({ close = close }))
-            insx.add('<CR>', fast_break({ open_pat = esc(open), close_pat = esc(close), split = true }))
-          end
-
-          insx.add('<CR>', {
-              priority = -1,
-              action = function(ctx)
-                ctx.send(vim.fn.keytrans(vim.fn['lexima#expand']('<CR>', 'i')))
-              end,
-              enabled = function()
-                return vim.o.filetype == 'markdown'
-              end,
-            })
-        end
+        local splitjoin = require'splitjoin'
+        vim.keymap.set('n', '<leader>j', splitjoin.join)
+        vim.keymap.set('n', '<leader>,', splitjoin.split)
       end,
     },
     {
