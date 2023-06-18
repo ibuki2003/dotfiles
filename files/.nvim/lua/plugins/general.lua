@@ -34,12 +34,41 @@ return function(packer)
         vim.keymap.set('x', 'as', '<Plug>(textobj-sandwich-query-a)', { noremap = false })
 
         local recipes = {
-          { buns = {"{ ", " }"}, nesting = 1, match_syntax = 1, kind = {"add", "replace"}, action = {"add"}, input = {"{"} },
-          { buns = {"[ ", " ]"}, nesting = 1, match_syntax = 1, kind = {"add", "replace"}, action = {"add"}, input = {"["} },
-          { buns = {"{\\s*", "\\s*}"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"{"} },
           { buns = {"(\\s*", "\\s*)"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"("} },
-          { buns = {"\\[\\s*", "\\s*\\]"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"["} },
         }
+
+        for _, k in ipairs({ {'{','}'}, {'[',']'} }) do
+          local op = k[1]
+          local cl = k[2]
+          table.insert(recipes, {
+              buns = { op .. " ", " " .. cl },
+              nesting = 1,
+              match_syntax = 1,
+              motionwise = { 'char', 'block' }, -- not line
+              kind = { "add", "replace" },
+              action = { "add" },
+              input = { op }
+            })
+          table.insert(recipes, {
+              buns = { op, cl },
+              nesting = 1,
+              match_syntax = 1,
+              motionwise = { 'line' }, -- line
+              kind = { "add", "replace" },
+              action = { "add" },
+              input = { op }
+            })
+          table.insert(recipes, {
+              buns = { op .. "\\s*", "\\s*" .. cl },
+              nesting = 1,
+              regex = 1,
+              match_syntax = 1,
+              motionwise = { 'char', 'block' }, -- not line
+              kind = { "delete", "replace", "textobj" },
+              action = { "delete" },
+              input = { op }
+              })
+        end
         vim.g['sandwich#recipes'] = vim.list_extend(vim.g['sandwich#default_recipes'], recipes)
       end,
     },
