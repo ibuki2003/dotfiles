@@ -29,12 +29,12 @@ async function main() {
   //   console.log(line);
   // }
   for await (const a of p.stdout.pipeThrough(new TextDecoderStream()).pipeThrough(new TextLineStream())) {
-    const [status, album, artist, title] = a.split('\t');
+    const [status, album, artist, title] = a ? a.split('\t') : ['Stopped', '', '', '']
     const status_icon = {
       Playing: '󰏤',
       Paused:  '󰐊',
       Stopped: '󰓛',
-    }[status];
+    }[status] ?? '󰓛'
 
     println(
       `%{A:playerctl -p playerctld previous:}󰒮%{A} ` +
