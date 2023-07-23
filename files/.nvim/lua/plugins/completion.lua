@@ -150,6 +150,9 @@ return function(packer)
     },
     {
       'nvim-treesitter/nvim-treesitter',
+      requires = {
+        'yioneko/nvim-yati',
+      },
       config = function()
         require'nvim-treesitter.configs'.setup {
           highlight = {
@@ -157,6 +160,11 @@ return function(packer)
           },
           indent = {
             enable = false,
+          },
+          yati = {
+            enable = true,
+            default_lazy = true,
+            default_fallback = "auto",
           },
         }
       end
