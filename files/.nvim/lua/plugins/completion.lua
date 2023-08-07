@@ -173,8 +173,15 @@ return function(packer)
       'Shougo/ddc-nvim-lsp',
       config = function()
         vim.fn['ddc#custom#patch_global']('sourceOptions', { ['nvim-lsp'] = {
+          dup = 'keep',
           mark = 'lsp',
-          forceCompletionPattern = [[\.\w*|:\w*|->\w*]],
+          keywordPattern = [[\k+]],
+        }})
+        vim.fn['ddc#custom#patch_global']('sourceParams', { ['nvim-lsp'] = {
+          snippetEngine = vim.fn['denops#callback#register'](function(body) return vim.fn['vsnip#anonymous'](body) end),
+          enableResolveItem = true,
+          enableAdditionalTextEdit = true,
+          confirmBehavior = 'replace',
         }})
       end
     },
@@ -191,6 +198,10 @@ return function(packer)
     {
       'folke/neodev.nvim',
       module = 'neodev',
+    },
+    {
+      'uga-rosa/ddc-nvim-lsp-setup',
+      module = 'ddc_nvim_lsp_setup',
     },
     {
       'jose-elias-alvarez/null-ls.nvim',
@@ -228,18 +239,6 @@ return function(packer)
         imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
         smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
        ]]
-      end
-    },
-    {
-      'hrsh7th/vim-vsnip-integ',
-      config = function()
-        vim.api.nvim_create_autocmd(
-          'User',
-          {
-            pattern = 'PumCompleteDone',
-            callback = function() vim.fn['vsnip_integ#on_complete_done'](vim.v['completed_item']) end
-          }
-        )
       end
     },
     {

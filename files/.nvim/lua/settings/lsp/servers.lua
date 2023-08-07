@@ -1,4 +1,8 @@
 require("neodev").setup{}
+
+-- set capabilities automatically
+require("ddc_nvim_lsp_setup").setup()
+
 local lspconfig = require('lspconfig')
 
 
@@ -51,12 +55,7 @@ local servers = {
   },
 }
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-local overwrites = {
-  capabilities = capabilities,
-}
+local overwrites = { }
 
 for lsp, opt in pairs(servers) do
   opt = vim.tbl_deep_extend('keep', opt, overwrites)
