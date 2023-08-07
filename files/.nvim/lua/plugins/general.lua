@@ -345,12 +345,15 @@ return function(packer)
         }
       end,
     },
-    { 'bennypowers/splitjoin.nvim',
-      keys = { '<leader>j', '<leader>,' },
+    {
+      'Wansmer/treesj',
+      keys = { '<space>m', '<space>j', '<space>s' },
+      dependencies = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
-        local splitjoin = require'splitjoin'
-        vim.keymap.set('n', '<leader>j', splitjoin.join)
-        vim.keymap.set('n', '<leader>,', splitjoin.split)
+        require('treesj').setup{
+          use_default_keymaps = true,
+          max_join_length = 65536, -- almost unlimited
+        }
       end,
     },
     {
