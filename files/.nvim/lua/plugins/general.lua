@@ -107,9 +107,6 @@ return function(packer)
       end
     },
     {
-      'editorconfig/editorconfig-vim',
-    },
-    {
       'tpope/vim-repeat',
     },
     {
