@@ -140,6 +140,9 @@ return function(packer)
     },
     {
       'mattn/emmet-vim',
+      setup = function()
+        vim.g.user_emmet_leader_key = '<C-z>'
+      end
     },
     {
       'junegunn/vim-easy-align',

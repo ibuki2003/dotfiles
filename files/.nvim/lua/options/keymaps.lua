@@ -69,6 +69,14 @@ vim.api.nvim_set_keymap('i', '<C-e>', '', {
     return ''
   end,
 })
+vim.api.nvim_set_keymap('i', '<C-y>', '', {
+  noremap = true,
+  expr = true,
+  callback = function()
+    vim.fn['pum#map#confirm']()
+    return ''
+  end,
+})
 
 vim.keymap.set({'n','v'}, '<Leader>y', '"+y', { noremap = true, silent = true })
 vim.keymap.set({'n','v'}, '<Leader>d', '"+d', { noremap = true, silent = true })
