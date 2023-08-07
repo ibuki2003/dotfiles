@@ -16,6 +16,8 @@ vim.opt.backspace = {"indent", "eol", "start"}
 vim.opt.ambiwidth = "double"
 vim.opt.wildmenu = true
 
+vim.opt.cinoptions:append("l1")
+
 vim.opt.scrolloff = 5
 
 vim.opt.visualbell = true
