@@ -210,7 +210,12 @@ return function(packer)
     },
     {
       'j-hui/fidget.nvim',
-      config = function() require"fidget".setup{} end
+      tag = 'legacy',
+      config = function() require"fidget".setup{
+        sources = {
+          ["null-ls"] = { ignore = true },
+        }
+      } end
     },
     {
       'lvimuser/lsp-inlayhints.nvim',
