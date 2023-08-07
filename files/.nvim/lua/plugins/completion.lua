@@ -164,7 +164,7 @@ return function(packer)
           yati = {
             enable = true,
             default_lazy = true,
-            default_fallback = "auto",
+            default_fallback = "cindent",
           },
         }
       end
