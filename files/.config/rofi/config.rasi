@@ -7,4 +7,5 @@ configuration {
 
   sort: true;
   sorting-method: "fzf";
+  matching: "fuzzy";
 }
