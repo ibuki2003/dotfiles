@@ -70,7 +70,7 @@ return function(packer)
           callback = function()
             vim.cmd[[
             hi IndentGuidesOdd guibg=NONE
-            hi link IndentGuidesEven ColorColumn
+            hi link IndentGuidesEven WinSeparator
             ]]
           end,
         })

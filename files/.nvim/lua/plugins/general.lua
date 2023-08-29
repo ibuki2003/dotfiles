@@ -5,6 +5,9 @@ return function(packer)
     'sheerun/vim-polyglot',
 
     {
+      'stevearc/dressing.nvim',
+    },
+    {
       'machakann/vim-sandwich',
       config = function()
         vim.g.sandwich_no_default_key_mappings = 1
@@ -76,37 +79,6 @@ return function(packer)
       'tpope/vim-commentary',
     },
     {
-      'Shougo/context_filetype.vim',
-      opt = true,
-    },
-    {
-      'osyo-manga/vim-precious',
-      opt = true,
-      wants = { 'context_filetype.vim' },
-      event = 'CursorMoved',
-      cmd = { 'PreciousSwitch', 'PreciousReset' },
-      setup = function()
-        -- insert mode に入った時に 'filetype' を切り換える。
-        -- カーソル移動時の自動切り替えを無効化
-        vim.g.precious_enable_switch_CursorMoved = {
-          ['*'] = 0,
-          help = 1,
-        }
-        vim.g.precious_enable_switch_CursorMoved_i = {
-          ['*'] = 0,
-        }
-
-        -- insert に入った時にスイッチし、抜けた時に元に戻す
-        vim.cmd[[
-        augroup fuwa_precious
-        autocmd!
-        autocmd InsertEnter * :PreciousSwitch
-        " autocmd InsertLeave * :PreciousReset
-        augroup END
-        ]]
-      end
-    },
-    {
       'tpope/vim-repeat',
     },
     {
@@ -147,16 +119,6 @@ return function(packer)
         vim.keymap.set("x", "ga", "<Plug>(EasyAlign)")
         vim.keymap.set("n", "ga", "<Plug>(EasyAlign)")
         vim.g.easy_align_ignore_groups = {'String'}
-      end
-    },
-    {
-      'terryma/vim-expand-region',
-      keys = { '<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)' },
-      setup = function()
-        vim.cmd[[
-        vmap v <Plug>(expand_region_expand)
-        vmap <C-v> <Plug>(expand_region_shrink)
-        ]]
       end
     },
     {
@@ -334,6 +296,7 @@ return function(packer)
     },
     {
       'andymass/vim-matchup',
+      event = { 'CursorMoved', 'CursorMovedI' },
       setup = function()
         vim.g.matchup_matchparen_offscreen = { method = "popup" }
       end,
@@ -364,6 +327,8 @@ return function(packer)
     },
     {
       'nvim-telescope/telescope.nvim',
+      keys = { '<C-p>', '<leader>f' },
+      module = 'telescope',
       requires = { 'nvim-lua/plenary.nvim' },
       config = function()
         require"settings.telescope"
@@ -373,6 +338,26 @@ return function(packer)
       'uga-rosa/ccc.nvim',
       cond = 'vim.o.termguicolors',
       config = function() require'settings.ccc' end,
+    },
+    'sharat87/roast.vim',
+    'chrisbra/Recover.vim',
+    {
+      'rhysd/conflict-marker.vim',
+      setup = function()
+        vim.g.conflict_marker_enable_mappings = 0
+        vim.api.nvim_create_autocmd('ColorScheme', {
+          pattern = '*',
+          callback = function()
+            vim.cmd[[
+              highlight ConflictMarkerBegin guibg=#2f7366
+              highlight ConflictMarkerOurs guibg=#2e5049
+              highlight ConflictMarkerTheirs guibg=#344f69
+              highlight ConflictMarkerEnd guibg=#2f628e
+              highlight ConflictMarkerCommonAncestorsHunk guibg=#754a81
+            ]]
+          end,
+        })
+      end,
     },
   }
 end

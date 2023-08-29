@@ -55,16 +55,15 @@ local maps = {
 }
 
 for k, v in pairs(maps) do
-  vim.keymap.set('n', k, v, {noremap = true, silent = true})
+  vim.keymap.set('n', k, v, { noremap = true, silent = true })
 end
 
 vim.api.nvim_create_user_command("LspFormat", function(arg)
-  vim.pretty_print(arg)
   local range = nil
   if arg.range > 0 then
     range = {
-      ['start'] = {arg.line1, 0},
-      ['end'] = {arg.line2 + 1, 0},
+      ['start'] = { arg.line1, 0 },
+      ['end'] = { arg.line2 + 1, 0 },
     }
   end
   vim.lsp.buf.format({ name = arg.fargs[1], range = range })

@@ -22,7 +22,6 @@ local lsp_clients_picker = function(opts)
     },
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
-      print(vim.inspect(actions.select_default))
       actions.select_default:replace(function()
         local selection = action_state.get_selected_entry()
         if selection == nil then return end
