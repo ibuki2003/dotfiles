@@ -12,5 +12,4 @@ setopt hist_reduce_blanks
 setopt extended_glob
 setopt correct
 setopt appendhistory
-setopt incappendhistory
 setopt globdots

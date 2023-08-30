@@ -1,12 +1,3 @@
-zinit light zsh-users/zsh-autosuggestions
-
-zinit light zsh-users/zsh-syntax-highlighting
-
-zinit snippet 'OMZL::clipboard.zsh'
-zinit light 'mollifier/anyframe'
-
-zinit ice blockf
-zinit light clarketm/zsh-completions
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 typeset -A ZSH_HIGHLIGHT_STYLES

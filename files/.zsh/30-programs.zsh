@@ -12,3 +12,15 @@ fi
 
 # parallel make: use core_count + 1
 export MAKEFLAGS=-j$[$(grep cpu.cores /proc/cpuinfo | sort -u | sed 's/[^0-9]//g') + 1]" $MAKEFLAGS"
+
+if type gpgconf > /dev/null || [ ! -z $GPG_AGENT_INFO ]; then
+    export GPG_AGENT_INFO="$(gpgconf --list-dirs agent-socket):1"
+fi
+
+if [ -z $SSH_AUTH_SOCK ] || \
+    ! ( [ -p "$SSH_AUTH_SOCK" ] && ss -l | grep "$SSH_AUTH_SOCK" > /dev/null ); then
+
+    # default socket path
+    unset SSH_AGENT_PID
+    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+fi
