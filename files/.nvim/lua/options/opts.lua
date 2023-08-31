@@ -6,7 +6,7 @@ vim.opt.fileencodings = {"ucs-bom", "utf-8", "shift-jis", "euc-jp", "latin1"}
 vim.opt.fileformats = {"unix", "dos", "mac"}
 
 vim.opt.backup = false
-vim.opt.swapfile = false
+vim.opt.swapfile = true
 vim.opt.autoread = true
 vim.opt.hidden = true
 vim.opt.showcmd = true
