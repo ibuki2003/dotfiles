@@ -8,32 +8,32 @@ return {
   },
   {
     'machakann/vim-sandwich',
+    keys = {
+      { 's',   '<Plug>(sandwich-add)',             mode = 'n' },
+      { 'S',   '<Plug>(sandwich-add)g_',           mode = 'n' },
+      { 's',   '<Plug>(sandwich-add)',             mode = 'x' },
+
+      { 'ds',  '<Plug>(sandwich-delete)',          mode = 'n' },
+      { 'dsb', '<Plug>(sandwich-delete-auto)',     mode = 'n' },
+      { 'cs',  '<Plug>(sandwich-replace)',         mode = 'n' },
+      { 'csb', '<Plug>(sandwich-replace-auto)',    mode = 'n' },
+      { 'sr',  '<Plug>(sandwich-replace)',         mode = 'n' },
+      { 'srb', '<Plug>(sandwich-replace-auto)',    mode = 'n' },
+
+      { 'ib',  '<Plug>(textobj-sandwich-auto-i)',  mode = 'o' },
+      { 'ib',  '<Plug>(textobj-sandwich-auto-i)',  mode = 'x' },
+      { 'ab',  '<Plug>(textobj-sandwich-auto-a)',  mode = 'o' },
+      { 'ab',  '<Plug>(textobj-sandwich-auto-a)',  mode = 'x' },
+
+      { 'is',  '<Plug>(textobj-sandwich-query-i)', mode = 'o' },
+      { 'is',  '<Plug>(textobj-sandwich-query-i)', mode = 'x' },
+      { 'as',  '<Plug>(textobj-sandwich-query-a)', mode = 'o' },
+      { 'as',  '<Plug>(textobj-sandwich-query-a)', mode = 'x' },
+    },
     config = function()
       vim.g.sandwich_no_default_key_mappings = 1
       vim.g['sandwich#input_fallback'] = 0
       vim.fn['operator#sandwich#set']('delete', 'all', 'hi_duration', 50)
-
-
-      vim.keymap.set('n', 's', '<Plug>(sandwich-add)', { noremap = false })
-      vim.keymap.set('n', 'S', '<Plug>(sandwich-add)g_', { noremap = false })
-      vim.keymap.set('x', 's', '<Plug>(sandwich-add)', { noremap = false })
-
-      vim.keymap.set('n', 'ds', '<Plug>(sandwich-delete)', { noremap = false })
-      vim.keymap.set('n', 'dsb', '<Plug>(sandwich-delete-auto)', { noremap = false })
-      vim.keymap.set('n', 'cs', '<Plug>(sandwich-replace)', { noremap = false })
-      vim.keymap.set('n', 'csb', '<Plug>(sandwich-replace-auto)', { noremap = false })
-      vim.keymap.set('n', 'sr', '<Plug>(sandwich-replace)', { noremap = false })
-      vim.keymap.set('n', 'srb', '<Plug>(sandwich-replace-auto)', { noremap = false })
-
-      vim.keymap.set('o', 'ib', '<Plug>(textobj-sandwich-auto-i)', { noremap = false })
-      vim.keymap.set('x', 'ib', '<Plug>(textobj-sandwich-auto-i)', { noremap = false })
-      vim.keymap.set('o', 'ab', '<Plug>(textobj-sandwich-auto-a)', { noremap = false })
-      vim.keymap.set('x', 'ab', '<Plug>(textobj-sandwich-auto-a)', { noremap = false })
-
-      vim.keymap.set('o', 'is', '<Plug>(textobj-sandwich-query-i)', { noremap = false })
-      vim.keymap.set('x', 'is', '<Plug>(textobj-sandwich-query-i)', { noremap = false })
-      vim.keymap.set('o', 'as', '<Plug>(textobj-sandwich-query-a)', { noremap = false })
-      vim.keymap.set('x', 'as', '<Plug>(textobj-sandwich-query-a)', { noremap = false })
 
       local recipes = {
         { buns = {"(\\s*", "\\s*)"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"("} },
@@ -82,10 +82,11 @@ return {
   },
   {
     'simeji/winresizer',
+    keys = '<C-e>',
     init = function()
       vim.g.winresizer_vert_resize = 1
       vim.g.winresizer_horiz_resize = 1
-    end
+    end,
   },
   {
     'wakatime/vim-wakatime',
@@ -97,26 +98,17 @@ return {
     end
   },
   {
-    'kana/vim-operator-user',
-  },
-  {
     'kana/vim-operator-replace',
-    keys = { '<Plug>(operator-replace)' },
-    init = function()
-      vim.keymap.set("n", "<Leader>r", "<Plug>(operator-replace)")
-    end
-  },
-  {
-    'mattn/emmet-vim',
-    init = function()
-      vim.g.user_emmet_leader_key = '<C-z>'
-    end
+    dependencies = { 'kana/vim-operator-user' },
+    keys = { '<Leader>r', '<Plug>(operator-replace)' }
   },
   {
     'junegunn/vim-easy-align',
+    keys = {
+      { 'ga', '<Plug>(EasyAlign)', mode = 'x' },
+      { 'ga', '<Plug>(EasyAlign)', mode = 'n' },
+    },
     init = function()
-      vim.keymap.set("x", "ga", "<Plug>(EasyAlign)")
-      vim.keymap.set("n", "ga", "<Plug>(EasyAlign)")
       vim.g.easy_align_ignore_groups = {'String'}
     end
   },
@@ -160,7 +152,12 @@ return {
   },
   {
     'monaqa/dial.nvim',
-    keys = { '<C-a>', '<C-x>', 'g<C-a>', 'g<C-x>' },
+    keys = {
+      { '<C-a>', mode = {'n', 'x'} },
+      { '<C-x>', mode = {'n', 'x'} },
+      { 'g<C-a>', mode = {'n', 'x'} },
+      { 'g<C-x>', mode = {'n', 'x'} },
+    },
     config = function()
       local augend = require("dial.augend")
       augend.constant.alias.alpha.config.cyclic = true
@@ -198,10 +195,6 @@ return {
       vim.keymap.set('x', 'g<C-a>', function() manip("increment", "gvisual", "visual") end)
       vim.keymap.set('x', 'g<C-x>', function() manip("decrement", "gvisual", "visual") end)
     end,
-  },
-  {
-    'whatyouhide/vim-textobj-xmlattr',
-    dependencies = { 'kana/vim-textobj-user' },
   },
   {
     'tpope/vim-fugitive',
@@ -278,43 +271,20 @@ return {
   },
   {
     'kyoh86/vim-ripgrep',
+    cmd = { 'Rg' },
     init = function()
       vim.cmd("command! -nargs=* -complete=file Rg :call ripgrep#search('-. ' . <q-args>)")
     end
   },
   {
     'tyru/capture.vim',
-  },
-  {
-    'andymass/vim-matchup',
-    event = { 'CursorMoved', 'CursorMovedI' },
-    init = function()
-      vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    end,
-    config = function()
-      require'nvim-treesitter.configs'.setup {
-        matchup = {
-          enable = true,
-        },
-      }
-    end,
-  },
-  {
-    'Wansmer/treesj',
-    keys = { '<space>m', '<space>j', '<space>s' },
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    config = function()
-      require('treesj').setup{
-        use_default_keymaps = true,
-        max_join_length = 65536, -- almost unlimited
-      }
-    end,
+    cmd = { 'Capture' },
   },
   {
     'kawarimidoll/magic.vim',
-    config = function()
-      vim.keymap.set('c', '<C-x>', function() vim.fn['magic#expr']() end)
-    end,
+    keys = {
+      { '<C-x>', function() vim.fn['magic#expr']() end, mode = 'c' },
+    },
   },
   {
     'nvim-telescope/telescope.nvim',
@@ -328,6 +298,7 @@ return {
   {
     'uga-rosa/ccc.nvim',
     cond = 'vim.o.termguicolors',
+    event = { 'BufRead', 'BufNewFile' },
     config = function() require'settings.ccc' end,
   },
   'sharat87/roast.vim',

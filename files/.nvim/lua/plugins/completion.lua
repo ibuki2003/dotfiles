@@ -27,9 +27,6 @@ return {
         },
       })
 
-      -- Use ddc.
-      vim.fn['ddc#enable']()
-
       vim.fn['ddc#custom#patch_global']('autoCompleteEvents',
         { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged' })
       vim.fn['ddc#custom#patch_global']('cmdlineSources', { 'necovim', 'cmdline', 'file', 'around' })
@@ -51,6 +48,14 @@ return {
       vim.api.nvim_set_keymap('c', '<S-Tab>', '', { callback = function() vim.fn['pum#map#insert_relative'](-1) end })
       vim.api.nvim_set_keymap('c', '<C-e>',   '', { callback = function() vim.fn['pum#map#cancel']() end })
 
+      vim.api.nvim_create_autocmd('InsertEnter', {
+        pattern = '*',
+        callback = function()
+          -- Start ddc.
+          vim.fn['ddc#enable']()
+        end,
+      })
+
       vim.api.nvim_set_keymap('n', ':', '', {
         expr = true,
         noremap = true,
@@ -59,21 +64,22 @@ return {
           return ':'
         end,
       })
-    end
-  },
-  {
-    'Shougo/pum.vim',
-    config = function()
-      vim.fn['pum#set_option']({
-        scrollbar_char = '█',
-        use_complete= true,
-        highlight_matches= 'MatchParen',
-      })
     end,
   },
   {
     'Shougo/ddc-ui-pum',
-    dependencies = { 'Shougo/ddc.vim', 'Shougo/pum.vim' },
+    dependencies = {
+      {
+        'Shougo/pum.vim',
+        config = function()
+          vim.fn['pum#set_option']({
+            scrollbar_char = '█',
+            use_complete= true,
+            highlight_matches= 'MatchParen',
+          })
+        end,
+      },
+    },
   },
   {
     'Shougo/neco-vim',
@@ -151,27 +157,6 @@ return {
     end
   },
   {
-    'nvim-treesitter/nvim-treesitter',
-    requires = {
-      'yioneko/nvim-yati',
-    },
-    config = function()
-      require'nvim-treesitter.configs'.setup {
-        highlight = {
-          enable = true,
-        },
-        indent = {
-          enable = false,
-        },
-        yati = {
-          enable = true,
-          default_lazy = true,
-          default_fallback = "cindent",
-        },
-      }
-    end
-  },
-  {
     'Shougo/ddc-nvim-lsp',
     config = function()
       vim.fn['ddc#custom#patch_global']('sourceOptions', { ['nvim-lsp'] = {
@@ -193,13 +178,11 @@ return {
     dependencies = {
       'glepnir/lspsaga.nvim',
       'folke/neodev.nvim',
+      'uga-rosa/ddc-nvim-lsp-setup',
     },
     config = function()
       require('settings/lsp/config')
     end,
-  },
-  {
-    'uga-rosa/ddc-nvim-lsp-setup',
   },
   {
     'jose-elias-alvarez/null-ls.nvim',
@@ -234,6 +217,7 @@ return {
   },
   {
     'hrsh7th/vim-vsnip',
+    event = { 'InsertEnter' },
     config = function()
       vim.fn['ddc#custom#patch_global']('sourceOptions', { vsnip = { mark = 'v', }})
 
@@ -275,30 +259,9 @@ return {
     end
   },
   {
-    'rust-lang/rust.vim',
-    init = function()
-      vim.g.rust_recommended_style = 0
-    end
-  },
-  {
     'aznhe21/actions-preview.nvim',
     init = function()
       vim.keymap.set("n", "<Leader>la", function() require('actions-preview').code_actions() end)
     end
-  },
-  {
-    'nvim-treesitter/nvim-treesitter-context',
-    config = function()
-      require'treesitter-context'.setup{
-        enable = true,
-        max_lines = 3,
-        min_window_height = 15,
-        line_numbers = true,
-        multiline_threshold = 20,
-        trim_scope = 'outer',
-        mode = 'topline',
-        zindex = 20,
-      }
-    end,
   },
 }
