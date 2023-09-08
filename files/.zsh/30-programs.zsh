@@ -24,3 +24,5 @@ if [ -z $SSH_AUTH_SOCK ] || \
     unset SSH_AGENT_PID
     export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 fi
+
+export SNCLIRC=~/.config/sncli/config.ini
