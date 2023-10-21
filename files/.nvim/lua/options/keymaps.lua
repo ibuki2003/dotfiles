@@ -104,3 +104,21 @@ vim.api.nvim_set_keymap('n', 'X', '"_X', { noremap = true })
 
 -- terminal escape
 vim.api.nvim_set_keymap('t', '<Esc><Esc>', '<C-\\><C-n>', { noremap = true })
+
+
+-- https://zenn.dev/vim_jp/articles/20230814_ekiden_fullpath
+-- <C-p> to insert full-path cwd
+
+local punct_ptn = vim.regex([[\k]])
+local function expandpath()
+  local pos = vim.fn.mode() == 'c' and vim.fn.getcmdpos() or vim.fn.col('.')
+  local line = vim.fn.mode() == 'c' and vim.fn.getcmdline() or vim.fn.getline('.')
+  local left = line:sub(pos - 1, pos - 1)
+
+  if left == '/' then
+    return vim.fn.expand('%:p:t')
+  elseif not punct_ptn:match_str(left) then
+    return vim.fn.expand('%:p:h') .. '/'
+  end
+end
+vim.keymap.set({'c','i'}, '<C-p>', expandpath, { noremap = true, expr = true })
