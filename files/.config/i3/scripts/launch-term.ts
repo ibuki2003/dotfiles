@@ -55,9 +55,8 @@ async function main() {
 
   const p = new Deno.Command("i3-msg", {
     args: ["exec --no-startup-id " + shell_escape(args)],
-    stdout: "piped",
   });
-  console.log(await p.output().then(s => new TextDecoder().decode(s.stdout)));
+  await p.spawn().status;
 }
 
 main();
