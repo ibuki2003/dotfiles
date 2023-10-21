@@ -25,6 +25,8 @@ window:
     # General application class
     #general: Alacritty
 
+  opacity: 0.9
+
 scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
@@ -50,7 +52,8 @@ font:
 
   builtin_box_drawing: true
 
-# background_opacity: 1.0
+colors:
+  transparent_background_colors: true
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t-"
