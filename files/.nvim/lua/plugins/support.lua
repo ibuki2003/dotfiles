@@ -36,7 +36,6 @@ return {
   },
   {
     'andymass/vim-matchup',
-    event = { 'CursorMoved', 'CursorMovedI' },
     init = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
@@ -58,7 +57,7 @@ return {
   },
   {
     'mattn/emmet-vim',
-    keys = { '<C-z>' },
+    keys = { { '<C-z>', mode = 'i' } },
     init = function()
       vim.g.user_emmet_leader_key = '<C-z>'
     end,
