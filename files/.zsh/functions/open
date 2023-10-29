@@ -1,4 +1,4 @@
-if type xdg-open > /dev/null 2>&1; then
+if (( $+commands[xdg-open] )); then
   for f in "$@"; do
     xdg-open "$f" &> /dev/null &|
   done

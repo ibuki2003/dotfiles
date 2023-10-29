@@ -6,7 +6,7 @@ alias fk=anyframe-widget-kill
 bindkey '^xF' anyframe-widget-insert-filename
 bindkey '^xb' anyframe-widget-insert-git-branch
 bindkey '^xh' anyframe-widget-put-history
-type ghq > /dev/null && bindkey '^xg' anyframe-widget-cd-ghq-repository
+(( $+commands[ghq] )) && bindkey '^xg' anyframe-widget-cd-ghq-repository
 
 
 function anyframe-widget-insert-filename-recursive () {
