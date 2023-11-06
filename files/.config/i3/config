@@ -228,5 +228,8 @@ exec --no-startup-id fcitx5
 exec --no-startup-id dex -as ~/.config/autostart/
 exec --no-startup-id albert
 
+exec --no-startup-id blueman-applet
+exec --no-startup-id nm-applet
+
 exec --no-startup-id sleep 3 && ~/.config/polybar/launch_polybar.sh
 exec --no-startup-id ~/.fehbg
