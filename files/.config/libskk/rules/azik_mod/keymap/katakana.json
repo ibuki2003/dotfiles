@@ -1,7 +1,7 @@
 {
     "include": [
-        "common",
-        "default/katakana"
+        "default/katakana",
+        "common"
     ],
     "define": {
         "keymap": {
