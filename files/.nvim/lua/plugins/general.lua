@@ -271,7 +271,6 @@ return {
   },
   {
     'kyoh86/vim-ripgrep',
-    cmd = { 'Rg' },
     init = function()
       vim.cmd("command! -nargs=* -complete=file Rg :call ripgrep#search('-. ' . <q-args>)")
     end
@@ -319,6 +318,12 @@ return {
           ]]
         end,
       })
+    end,
+  },
+  {
+    'bkad/CamelCaseMotion',
+    init = function()
+      vim.g.camelcasemotion_key = '<Leader>'
     end,
   },
 }
