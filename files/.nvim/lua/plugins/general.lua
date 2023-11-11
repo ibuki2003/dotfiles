@@ -36,40 +36,39 @@ return {
       vim.fn['operator#sandwich#set']('delete', 'all', 'hi_duration', 50)
 
       local recipes = {
-        { buns = {"(\\s*", "\\s*)"}, nesting = 1, regex = 1, match_syntax = 1, kind = {"delete", "replace", "textobj"}, action = {"delete"}, input = {"("} },
+        {
+          buns = {"(\\s*", "\\s*)"},
+          nesting = 1,
+          regex = 1,
+          match_syntax = 1,
+          kind = {"delete", "replace", "textobj"},
+          action = {"delete"},
+          input = {"("},
+        },
       }
 
       for _, k in ipairs({ {'{','}'}, {'[',']'} }) do
-        local op = k[1]
-        local cl = k[2]
+        local opr = vim.fn.escape(k[1], '[')
+
         table.insert(recipes, {
-            buns = { op .. " ", " " .. cl },
+            buns = { k[1] .. " ", " " .. k[2] },
             nesting = 1,
             match_syntax = 1,
-            motionwise = { 'char', 'block' }, -- not line
+            motionwise = { 'char', 'block' }, -- only not line
             kind = { "add", "replace" },
             action = { "add" },
-            input = { op }
+            input = { k[1] }
           })
+
         table.insert(recipes, {
-            buns = { op, cl },
-            nesting = 1,
-            match_syntax = 1,
-            motionwise = { 'line' }, -- line
-            kind = { "add", "replace" },
-            action = { "add" },
-            input = { op }
-          })
-        table.insert(recipes, {
-            buns = { op .. "\\s*", "\\s*" .. cl },
+            buns = { opr .. "\\s*", "\\s*" .. k[2] },
             nesting = 1,
             regex = 1,
             match_syntax = 1,
-            motionwise = { 'char', 'block' }, -- not line
             kind = { "delete", "replace", "textobj" },
             action = { "delete" },
-            input = { op }
-            })
+            input = { k[1] }
+          })
       end
       vim.g['sandwich#recipes'] = vim.list_extend(vim.g['sandwich#default_recipes'], recipes)
     end,
