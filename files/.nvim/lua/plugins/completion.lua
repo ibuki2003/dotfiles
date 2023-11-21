@@ -188,7 +188,7 @@ return {
     'creativenull/efmls-configs-nvim',
   },
   {
-    'jose-elias-alvarez/null-ls.nvim',
+    'nvimtools/none-ls.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
   },
   {
@@ -236,10 +236,11 @@ return {
     init = function()
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_ignore_node_version = true
+      vim.g.copilot_enabled = false
     end
   },
   {
-    'ibuki2003/ddc-source-copilot',
+    'Shougo/ddc-source-copilot',
     config = function()
       vim.fn['ddc#custom#patch_global']('sourceOptions', { copilot = {
         mark  = 'CP',
