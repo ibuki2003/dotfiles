@@ -8,8 +8,7 @@ return {
 
       vim.fn['ddc#custom#patch_global']('sources', {
           'copilot',
-          'nvim-lsp',
-          'tabnine',
+          'lsp',
           'around',
           'buffer',
           'file',
@@ -157,14 +156,14 @@ return {
     end
   },
   {
-    'Shougo/ddc-nvim-lsp',
+    'Shougo/ddc-source-lsp',
     config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { ['nvim-lsp'] = {
+      vim.fn['ddc#custom#patch_global']('sourceOptions', { ['lsp'] = {
         dup = 'keep',
         mark = 'lsp',
         keywordPattern = [[\k+]],
       }})
-      vim.fn['ddc#custom#patch_global']('sourceParams', { ['nvim-lsp'] = {
+      vim.fn['ddc#custom#patch_global']('sourceParams', { ['lsp'] = {
         snippetEngine = vim.fn['denops#callback#register'](function(body) return vim.fn['vsnip#anonymous'](body) end),
         enableResolveItem = true,
         enableAdditionalTextEdit = true,
@@ -178,7 +177,7 @@ return {
     dependencies = {
       'glepnir/lspsaga.nvim',
       'folke/neodev.nvim',
-      'uga-rosa/ddc-nvim-lsp-setup',
+      'uga-rosa/ddc-source-lsp-setup',
     },
     config = function()
       require('settings/lsp/config')
@@ -193,12 +192,14 @@ return {
   },
   {
     'j-hui/fidget.nvim',
-    tag = 'legacy',
-    config = function() require"fidget".setup{
-      sources = {
-        ["null-ls"] = { ignore = true },
+    opts = {
+      progress = {
+        ignore = {
+          'efm',
+          'null-ls',
+        },
       }
-    } end
+    },
   },
   {
     'lvimuser/lsp-inlayhints.nvim',
@@ -246,19 +247,6 @@ return {
         mark  = 'CP',
         matchers = {},
         minAutoCompleteLength = 0,
-      }})
-    end
-  },
-  {
-    'LumaKernel/ddc-tabnine',
-    config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { tabnine = {
-        mark  = 'TN',
-        maxItems = '5',
-        isVolatile = true,
-      }})
-      vim.fn['ddc#custom#patch_global']('sourceParams', { tabnine = {
-        maxNumResults = 10,
       }})
     end
   },
