@@ -232,16 +232,17 @@ return {
     end
   },
   {
-    'github/copilot.vim',
-    event = { 'InsertEnter' },
-    init = function()
-      vim.g.copilot_no_tab_map = true
-      vim.g.copilot_ignore_node_version = true
-      vim.g.copilot_enabled = false
-    end
-  },
-  {
-    'Shougo/ddc-source-copilot',
+    'ibuki2003/ddc-source-copilot-lua',
+    dependencies = {
+      {
+        'zbirenbaum/copilot.lua',
+        event = { 'InsertEnter' },
+        opts = {
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+        },
+      },
+    },
     config = function()
       vim.fn['ddc#custom#patch_global']('sourceOptions', { copilot = {
         mark  = 'CP',
