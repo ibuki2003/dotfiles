@@ -28,7 +28,8 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
 client.background       #F8F8F2
 
-font pango:Noto Sans CJK JP 10
+font pango:Noto Sans CJK JP 8
+for_window [class=".*"] title_window_icon yes
 
 default_border pixel 1
 default_floating_border pixel 1
@@ -58,7 +59,7 @@ bindsym $mod+Return exec deno run -A ~/.config/i3/scripts/launch-term.ts
 
 bindsym $mod+Shift+q kill
 
-bindcode $mod+40 exec "rofi -show"
+# bindcode $mod+40 exec "rofi -show"
 
 # focus
 bindsym $mod+h focus left
@@ -194,6 +195,10 @@ bindsym $mod+i exec --no-startup-id picom-trans -c -d
 ##########
 for_window [window_role="bubble"] floating enable
 for_window [class="zoom"] floating enable
+for_window [class="Yad"] floating enable
+for_window [class="org.remmina.Remmina"] floating enable
+no_focus [class="jetbrains-studio" title="splash"]
+no_focus [class="zoom"]
 
 
 ##########
@@ -221,6 +226,7 @@ exec --no-startup-id /usr/lib/kdeconnectd
 exec --no-startup-id kdeconnect-indicator
 exec --no-startup-id fcitx5
 exec --no-startup-id dex -as ~/.config/autostart/
+exec --no-startup-id albert
 
 exec --no-startup-id sleep 3 && ~/.config/polybar/launch_polybar.sh
 exec --no-startup-id ~/.fehbg
