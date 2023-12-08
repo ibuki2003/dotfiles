@@ -31,6 +31,7 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fo', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>fm', builtin.marks, {})
 vim.keymap.set('n', '<leader>fr', builtin.registers, {})
+vim.keymap.set('n', '<leader>fs', builtin.git_status, {})
 
 -- custom pickers
 vim.keymap.set("n", "<leader>fl", require "settings.telescope.lsp_picker", { noremap = true, silent = true })
