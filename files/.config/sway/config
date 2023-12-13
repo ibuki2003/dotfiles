@@ -1,183 +1,153 @@
-### General
-
+##########
+# General
+##########
 focus_follows_mouse no
 mouse_warping none
 
-### Appearance
-
-# Dracula theme
-    set $background   #282a36
-    set $current Line #44475a
-    set $foreground   #f8f8f2
-    set $comment      #6272a4
-    set $cyan         #8be9fd
-    set $green        #50fa7b
-    set $orange       #ffb86c
-    set $pink         #ff79c6
-    set $purple       #bd93f9
-    set $red          #ff5555
-    set $yellow       #f1fa8c
+#############
+# Appearance
+#############
+set $background   #282a36
+set $current Line #44475a
+set $foreground   #f8f8f2
+set $comment      #6272a4
+set $cyan         #8be9fd
+set $green        #50fa7b
+set $orange       #ffb86c
+set $pink         #ff79c6
+set $purple       #bd93f9
+set $red          #ff5555
+set $yellow       #f1fa8c
 
 # class                 border  bground text    indicator child_border
-    client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
-    client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
-    client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
-    client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
-    client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
-    client.background       #F8F8F2
+client.background       #F8F8F2
 
-    font pango:Noto Sans CJK JP 10
+font pango:Noto Sans CJK JP 8
+for_window [class=".*"] title_window_icon yes
 
-    gaps inner 5
-
-
-### Variables
-
-    # Mod4: meta
-    set $mod Mod4
-
-    set $term alacritty
-    set $menu dmenu_path | dmenu | xargs swaymsg exec --
+default_border pixel 1
+default_floating_border pixel 1
+hide_edge_borders vertical
+smart_borders on
+titlebar_padding 5 3
 
 
-### Each-app settings
-
-for_window [app_id="Alacritty"] {
-    opacity set 0.9
-}
-
-for_window [app_id="kitty"] {
-    opacity set 0.9
-}
-
-for_window [app_id=" zoom"] floating enable
-for_window [app_id="zoom"] floating enable
+# fx
+blur enable
+blur_radius 2
 
 
-### Key bindings
-#
-# Basics:
-#
-    # Start a terminal
-    #bindsym $mod+Return exec $term
-    bindsym $mod+Return exec deno run --allow-run --allow-env ~/.config/sway/scripts/launch-term.ts $term
+################
+# Key bindings
+################
 
-    # Kill focused window
-    bindsym $mod+Shift+q kill
+set $mod Mod4
 
-    # Start your launcher
-    bindsym $mod+d exec $menu
+# volume
+# Use pactl to adjust volume in PulseAudio.
 
-    # Drag floating windows by holding down $mod and left mouse button.
-    # Resize them with right mouse button + $mod.
-    # Despite the name, also works for non-floating windows.
-    # Change normal to inverse to use left mouse button for resizing and right
-    # mouse button for dragging.
-    floating_modifier $mod normal
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s 5%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 5%-
 
-    # Reload the configuration file
-    bindsym $mod+Shift+c reload
+set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-    # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
-# Moving around:
-#
-    # focus
-    bindsym $mod+h focus left
-    bindsym $mod+j focus down
-    bindsym $mod+k focus up
-    bindsym $mod+l focus right
 
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
+floating_modifier $mod normal
+bindsym $mod+Return exec deno run --allow-run --allow-env ~/.config/sway/scripts/launch-term.ts alacritty
 
-    # move
-    bindsym $mod+Shift+h move left
-    bindsym $mod+Shift+j move down
-    bindsym $mod+Shift+k move up
-    bindsym $mod+Shift+l move right
+bindsym $mod+Shift+q kill
 
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
+# bindsym $mod+d exec $menu
+bindsym $mod+d exec albert toggle
 
-    # move workspace
-    bindsym $mod+Control+h move workspace to output left
-    bindsym $mod+Control+j move workspace to output down
-    bindsym $mod+Control+k move workspace to output up
-    bindsym $mod+Control+l move workspace to output right
 
-    bindsym $mod+Control+Left move workspace to output left
-    bindsym $mod+Control+Down move workspace to output down
-    bindsym $mod+Control+Up move workspace to output up
-    bindsym $mod+Control+Right move workspace to output right
-#
-# Workspaces:
-#
-    # Switch to workspace
-    bindsym $mod+1 workspace number 1
-    bindsym $mod+2 workspace number 2
-    bindsym $mod+3 workspace number 3
-    bindsym $mod+4 workspace number 4
-    bindsym $mod+5 workspace number 5
-    bindsym $mod+6 workspace number 6
-    bindsym $mod+7 workspace number 7
-    bindsym $mod+8 workspace number 8
-    bindsym $mod+9 workspace number 9
-    bindsym $mod+0 workspace number 0
-    # Move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace number 1
-    bindsym $mod+Shift+2 move container to workspace number 2
-    bindsym $mod+Shift+3 move container to workspace number 3
-    bindsym $mod+Shift+4 move container to workspace number 4
-    bindsym $mod+Shift+5 move container to workspace number 5
-    bindsym $mod+Shift+6 move container to workspace number 6
-    bindsym $mod+Shift+7 move container to workspace number 7
-    bindsym $mod+Shift+8 move container to workspace number 8
-    bindsym $mod+Shift+9 move container to workspace number 9
-    bindsym $mod+Shift+0 move container to workspace number 0
-#
-# Layout stuff:
-#
-    # You can "split" the current object of your focus with
-    # $mod+b or $mod+v, for horizontal and vertical splits
-    # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
-    # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
+# focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
-    # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
-    # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+# move
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
-    # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
-    # Move focus to the parent container
-    bindsym $mod+a focus parent
-#
-# Scratchpad:
-#
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
+# move workspace
+bindsym $mod+Control+h move workspace to output left
+bindsym $mod+Control+j move workspace to output down
+bindsym $mod+Control+k move workspace to output up
+bindsym $mod+Control+l move workspace to output right
 
-    # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+Control+Left move workspace to output left
+bindsym $mod+Control+Down move workspace to output down
+bindsym $mod+Control+Up move workspace to output up
+bindsym $mod+Control+Right move workspace to output right
 
-    # Show the next scratchpad window or hide the focused scratchpad window.
-    # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+# split
+bindsym $mod+b split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
+
+# layout
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+a focus parent
+bindsym $mod+c focus child
+
+# scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# Switch to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
 #
 # Resizing containers:
 #
@@ -195,35 +165,59 @@ mode "resize" {
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
+
 bindsym $mod+r mode "resize"
+
+# screenshots
+bindsym           Print exec ~/.config/sway/scripts/screenshot.zsh --select --clip
+bindsym      Ctrl+Print exec ~/.config/sway/scripts/screenshot.zsh --clip
+bindsym      $mod+Print exec ~/.config/sway/scripts/screenshot.zsh --select
+bindsym $mod+Ctrl+Print exec ~/.config/sway/scripts/screenshot.zsh
+bindsym $mod+Shift+s    exec ~/.config/sway/scripts/screenshot.zsh --select --clip
 
 # Opacity keybind
 
-    bindsym $mod+u opacity minus 0.05
-    bindsym $mod+o opacity plus  0.05
+bindsym $mod+u opacity minus 0.05
+bindsym $mod+o opacity plus  0.05
+bindsym $mod+i opacity set   1
 
-# Screenshots
-    bindsym $mod+Shift+s exec ~/.config/sway/scripts/screenshot.zsh --select --clip
-    bindsym Print        exec ~/.config/sway/scripts/screenshot.zsh --select --clip
-    bindsym $mod+Print   exec ~/.config/sway/scripts/screenshot.zsh
+### Each-app settings
+
+for_window [app_id=" zoom"] floating enable
+for_window [app_id="zoom"] floating enable
+for_window [app_id="com.github.hluk.copyq"] floating enable
+no_focus [class="jetbrains-studio" title="splash"]
+no_focus [class="zoom"]
+for_window [app_id="albert"] blur disable
+
+
 
 
 ### Scripts
 
 # wob
-    set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
-    exec [[ -p $WOBSOCK ]] || mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
+set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
+exec [[ -p $WOBSOCK ]] || mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
 
-    # volume
-    bindsym XF86AudioRaiseVolume exec pamixer -ui 2 && pamixer --get-volume > $WOBSOCK
-    bindsym XF86AudioLowerVolume exec pamixer -ud 2 && pamixer --get-volume > $WOBSOCK
-    bindsym XF86AudioMute exec pamixer --toggle-mute && ( pamixer --get-mute && echo 0 > $WOBSOCK ) || pamixer --get-volume > $WOBSOCK
+# volume
+bindsym XF86AudioRaiseVolume exec pamixer -i 2 && pamixer --get-volume > $WOBSOCK
+bindsym XF86AudioLowerVolume exec pamixer -d 2 && pamixer --get-volume > $WOBSOCK
+bindsym XF86AudioMute        exec pamixer -t && ( `pamixer --get-mute` && echo 0 || pamixer --get-volume ) > $WOBSOCK
+
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # autostarts
-    exec /usr/lib/kdeconnectd
-    exec mako
-    exec waybar
-    exec fcitx5
+exec /usr/lib/kdeconnectd
+exec mako
+exec waybar
+exec fcitx5
+exec --no-startup-id kdeconnect-indicator
+exec --no-startup-id dex -as ~/.config/autostart/
+exec --no-startup-id albert
+
+exec --no-startup-id blueman-applet
+exec --no-startup-id nm-applet
 
 include ~/.config/sway/config.d/*.conf

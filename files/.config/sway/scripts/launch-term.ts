@@ -1,4 +1,4 @@
-import shell_escape from 'https://deno.land/x/shell_escape/index.ts';
+import shell_escape from "https://deno.land/x/shell_escape@1.0.0/index.ts";
 
 type Node = {
   id: number;
@@ -23,12 +23,12 @@ function* get_child_nodes(node: Node): Generator<Node> {
 }
 
 async function* get_nodes(): AsyncGenerator<Node> {
-  const tree_p = Deno.run({
-    cmd: ["swaymsg", "-t", "get_tree"],
+  const tree_p = new Deno.Command("swaymsg", {
+    args: ["-t", "get_tree"],
     stdout: "piped",
   });
 
-  const j = JSON.parse(new TextDecoder().decode(await tree_p.output()));
+  const j = JSON.parse(await (tree_p.output().then(s => new TextDecoder().decode(s.stdout))));
   yield* get_child_nodes(j);
 }
 
@@ -50,9 +50,9 @@ async function get_focused_pwd(): Promise<string | null> {
   if (!app_id) return null;
 
   if (["Alacritty"].indexOf(app_id) != -1) {
-    const pos = node.name.indexOf(": ");
-    if (pos == -1) return null;
-    return node.name.substring(pos + 2);
+    const match = node.name.match(/^\w+: (.+?)( : .+)?$/);
+    if (!match) return null;
+    return match[1];
   }
   return null;
 }
@@ -66,9 +66,10 @@ async function main() {
     args.push("--working-directory", pwd.replace(/^~/, Deno.env.get("HOME") || ''));
   }
 
-  Deno.run({
-    cmd: ["swaymsg", "exec " + shell_escape(args)],
-  });
+  console.log("exec " + shell_escape(args));
+  await (new Deno.Command("swaymsg", {
+    args: ["exec " + shell_escape(args)],
+  })).spawn().status;
 }
 
 main();
