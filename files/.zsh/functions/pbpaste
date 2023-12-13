@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+if [[ $OSTYPE == linux* ]]; then
+  if [[ $XDG_SESSION_TYPE == wayland ]]; then
+    wl-paste
+  elif [[ $XDG_SESSION_TYPE == x11 ]]; then
+    if (( ${+commands[xclip]} )); then
+      xclip -selection clipboard -out
+    elif (( ${+commands[xsel]} )); then
+      xsel -b
+    fi
+  elif [[ -r /proc/version && $(< /proc/version) == *[Mm]icrosoft* ]]; then
+    # WSL 1 or 2
+    if ! xclip -selection clipboard -out 2> /dev/null; then
+      powershell.exe -NoProfile -NonInteractive -Command Get-Clipboard
+    fi
+  fi
+elif [[ $OSTYPE == darwin* ]]; then
+  command pbpaste
+elif [[ $OSTYPE == (cygwin*|msys) ]]; then
+  print "$(< /dev/clipboard)"
+fi

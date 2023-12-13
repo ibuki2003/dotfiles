@@ -28,10 +28,6 @@ apply = ["defer"]
 github = 'zsh-users/zsh-syntax-highlighting'
 apply = ["defer"]
 
-[plugins.clipboard]
-github = 'zpm-zsh/clipboard'
-apply = ["defer"]
-
 [plugins.anyframe]
 github = 'mollifier/anyframe'
 apply = ["defer"]

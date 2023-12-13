@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+if [[ $OSTYPE == linux* ]]; then
+  if [[ $XDG_SESSION_TYPE == wayland ]]; then
+    wl-copy
+  elif [[ $XDG_SESSION_TYPE == x11 ]]; then
+    if (( ${+commands[xclip]} )); then
+      xclip -selection clipboard -in
+    elif (( ${+commands[xsel]} )); then
+      xsel -b
+    fi
+  elif [[ -r /proc/version && $(< /proc/version) == *[Mm]icrosoft* ]]; then
+    if ! xclip -selection clipboard -in 2> /dev/null; then
+      clip.exe
+    fi
+  fi
+elif [[ $OSTYPE == darwin* ]]; then
+  command pbcopy
+elif [[ $OSTYPE == (cygwin*|msys) ]]; then
+  tee > /dev/clipboard
+fi
