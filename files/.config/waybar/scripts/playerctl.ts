@@ -71,9 +71,12 @@ async function* playerctlStream(): AsyncGenerator<PlayerctlStatus> {
 }
 
 function format_duration(t: number) {
-  const h = Math.floor(t / 1000000 / 60 / 60);
-  const m = Math.floor(t / 1000000 / 60 % 60);
-  const s = Math.floor(t / 1000000 % 60);
+  if (isNaN(t)) return '--:--';
+
+  t /= 1000000;
+  const h = Math.floor(t / 60 / 60);
+  const m = Math.floor(t / 60 % 60);
+  const s = Math.floor(t % 60);
 
   if (h == 0) {
     return `${m}:${s.toString().padStart(2, '0')}`;
