@@ -106,7 +106,7 @@ async function update(ifs: Record<string, IfInfo>, primary_if: string | null) {
       } else {
         text += "\n";
       }
-      text += `${format_size(info.speed[0])} / ${format_size(info.speed[1])}\n`;
+      text += `${format_size(info.speed[1])} / ${format_size(info.speed[0])}\n`;
 
       text += info.ipv4
         .map((ip: { address: string }) => ` ${ip.address}`)
@@ -124,10 +124,12 @@ async function update(ifs: Record<string, IfInfo>, primary_if: string | null) {
 
   const text = p
     ? `${
-        p.essid ?? p.ipv4_addr
-      } ${format_size(p.speed[0] as number)} / ${format_size(
-        p.speed[1] as number,
-      )}`
+      p.essid ?? p.ipv4_addr
+    } ${
+      format_size(p.speed[1] as number)
+    } / ${
+      format_size(p.speed[0] as number)
+    }`
     : "No connection";
 
 
