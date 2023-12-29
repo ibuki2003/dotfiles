@@ -16,7 +16,7 @@
         "custom/playerctl",
         "custom/playerctl_next",
         "custom/memory",
-        "cpu",
+        "custom/cpu",
         "temperature",
         "custom/network",
         "backlight",
@@ -52,11 +52,6 @@
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}"
     },
-    "cpu": {
-        "format": "󰍛 {usage}%",
-        "interval": 3,
-        "tooltip": true,
-    },
     "custom/memory": {
         "interval": 3,
         "format": "{icon} {}",
@@ -65,6 +60,13 @@
         "exec-if": "true",
         "tooltip": true,
         "format-icons": ["󰝦", "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥"],
+    },
+    "custom/cpu": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "exec": "deno run --allow-read ~/.config/waybar/scripts/cpu.ts",
+        "tooltip": true,
+        "format-icons": "󰍛",
     },
     "temperature": {
         "critical-threshold": 70,
