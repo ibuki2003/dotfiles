@@ -1,4 +1,5 @@
 import { TextLineStream } from "https://deno.land/std@0.136.0/streams/mod.ts";
+import { escape } from "https://deno.land/x/html_escape/escape.ts";
 
 async function println(s: string) {
   return await Deno.stdout.write(new TextEncoder().encode(s + "\n"));
@@ -104,8 +105,8 @@ async function main() {
     );
 
     println(JSON.stringify({
-      text,
-      tooltip,
+      text: escape(text),
+      tooltip: escape(tooltip),
     }));
 
   }
