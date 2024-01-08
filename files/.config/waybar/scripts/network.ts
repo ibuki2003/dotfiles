@@ -67,10 +67,10 @@ async function get_usage(): Promise<Record<string, [number, number]>> {
 
 const LABELS = ["B", "K", "M", "G", "T"];
 function format_size(size: number): string {
-  size = Math.round(size);
-  let i = 0;
-  while (size > 1024) {
-    size >>= 10;
+  size = Math.round(size / 1024);
+  let i = 1;
+  while (size > 512) {
+    size = Math.round(size / 1024);
     ++i;
   }
   return `${size}${LABELS[i]}`;
@@ -83,38 +83,51 @@ function has<X, Y extends PropertyKey>(
   return Object.prototype.hasOwnProperty.call(x, y);
 }
 
-type IfInfo = {
+interface IfInfo {
   speed: [number, number];
 
-  ipv4: { address: string }[];
-  ipv6: { address: string }[];
+  ifc: {
+    ipv4: { address: string }[] | null;
+    ipv6: { address: string }[] | null;
+    [key: string]: unknown;
+  };
 
-  signal_level?: number;
-
-} & Record<string, unknown>;
+  iwc?: {
+    signal_level: number;
+    [key: string]: unknown;
+  };
+};
 
 async function update(ifs: Record<string, IfInfo>, primary_if: string | null) {
   const tooltip = Object.keys(ifs)
     .map((i) => {
       const info = ifs[i];
       let text = i;
-      if (has(info, "essid")) {
+      if (info.iwc) {
         // wifi
         text +=
-          ` ${info.essid} ${info.frequency}${info.frequency_unit}\n` +
-          `${info.signal_level}${info.signal_level_unit} ${info.bit_rate}${info.bit_rate_unit}\n`;
+          ` ${info.iwc.essid} ${info.iwc.frequency}${info.iwc.frequency_unit}\n`;
+        if (info.iwc.signal_level)
+          text += `${info.iwc.signal_level}${info.iwc.signal_level_unit} `;
+        if (info.iwc.bit_rate)
+          text += `${info.iwc.bit_rate}${info.iwc.bit_rate_unit}\n`;
       } else {
         text += "\n";
       }
       text += `${format_size(info.speed[1])} / ${format_size(info.speed[0])}\n`;
 
-      text += info.ipv4
-        .map((ip: { address: string }) => ` ${ip.address}`)
-        .join("\n");
-      text += '\n';
-      text += info.ipv6
-        .map((ip: { address: string }) => ` ${ip.address}`)
-        .join("\n");
+      if (info.ifc.ipv4) {
+        text += info.ifc.ipv4
+          .map((ip: { address: string }) => ` ${ip.address}`)
+          .join("\n");
+        text += '\n';
+      }
+      if (info.ifc.ipv6) {
+        text += info.ifc.ipv6
+          .map((ip: { address: string }) => ` ${ip.address}`)
+          .join("\n");
+        text += '\n';
+      }
 
       return text;
     })
@@ -124,7 +137,7 @@ async function update(ifs: Record<string, IfInfo>, primary_if: string | null) {
 
   const text = p
     ? `${
-      p.essid ?? p.ipv4_addr
+      p.iwc?.essid ?? p.ifc.ipv4_addr
     } ${
       format_size(p.speed[1] as number)
     } / ${
@@ -134,18 +147,19 @@ async function update(ifs: Record<string, IfInfo>, primary_if: string | null) {
 
 
   const mode = primary_if
-    ? has(p, "essid")
+    ? has(p, "iwc")
       ? "wifi"
       : "eth"
     : "nc";
 
-  const percentage =
-    p?.signal_level
-      ? Math.min(
-          Math.max(1 - (-45 - p.signal_level) / 45, 0),
+  const percentage = p?.iwc ?
+    Math.round(
+      Math.min(
+          Math.max(1 - (-45 - p.iwc.signal_level) / 45, 0),
           1,
         ) * 100
-      : 0;
+    )
+    : 0;
 
   await Deno.stdout.write(
     new TextEncoder().encode(
@@ -169,8 +183,10 @@ async function main() {
       for (const i of interfaces) {
         if (!infos[i]) infos[i] = {
           speed: [0, 0],
-          ipv4: [],
-          ipv6: [],
+          ifc: {
+            ipv4: [],
+            ipv6: [],
+          },
         };
       }
       Object.keys(infos).forEach((i) => {
@@ -180,16 +196,19 @@ async function main() {
     await Promise.all([
       get_primary_if().then((a) => { primary_if = a; }),
       get_iwconfig().then((w) => {
+        Object.keys(infos).forEach((i) => {
+          delete infos[i].iwc;
+        });
         w.forEach(i => {
-          if (has(infos, i.interface)) {
-            Object.assign(infos[i.interface], i);
+          if (has(infos, i.name)) {
+            infos[i.name].iwc = i as IfInfo['iwc'];
           }
         });
       }),
       get_ifconfig().then((a) => {
         a.forEach((i) => {
           if (has(infos, i.name)) {
-            Object.assign(infos[i.name], i);
+            infos[i.name].ifc = i as IfInfo['ifc'];
           }
         });
       }),
