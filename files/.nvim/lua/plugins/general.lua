@@ -141,15 +141,6 @@ return {
     end
   },
   {
-    'simplenote-vim/simplenote.vim',
-    cond = 'vim.fn.exists("g:SimplenoteUsername")',
-    init = function()
-      vim.g.SimplenoteFiletype = 'markdown'
-      vim.api.nvim_create_user_command('SL', 'SimplenoteList', {})
-      vim.api.nvim_create_user_command('SN', 'SimplenoteNew', {})
-    end
-  },
-  {
     'monaqa/dial.nvim',
     keys = {
       { '<C-a>', mode = {'n', 'x'} },
@@ -329,6 +320,58 @@ return {
     'subnut/nvim-ghost.nvim',
     init = function()
       vim.g.nvim_ghost_autostart = 0
+    end,
+  },
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*", -- to use release
+    lazy = false,
+    event = {
+      "BufReadPre /home/fuwa/Notes/**.md",
+      "BufNewFile /home/fuwa/Notes/**.md",
+    },
+    cmd = {
+      "ObsidianNew",
+      "ObsidianQuickSwitch",
+      "ObsidianToday",
+      "ObsidianYesterday",
+      "ObsidianTomorrow",
+      "ObsidianSearch",
+    },
+    keys = {
+      { '<Leader>fn', '<cmd>ObsidianQuickSwitch<CR>', mode = 'n' },
+      { '<Leader>fN', '<cmd>ObsidianSearch<CR>', mode = 'n' },
+    },
+    dependencies = { "nvim-lua/plenary.nvim", },
+    opts = {
+      workspaces = {
+        {
+          name = "main",
+          path = "~/Notes/main",
+        },
+      },
+      daily_notes = {
+        folder = "daily",
+        date_format = "%Y-%m-%d",
+        template = nil
+      },
+      finder = "telescope.nvim",
+      note_frontmatter_func = function(note)
+        local out = { tags = note.tags }
+        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+          for k, v in pairs(note.metadata) do out[k] = v end
+        end
+        return out
+      end,
+    },
+    init = function()
+      vim.keymap.set("n", "gf", function()
+        if require("obsidian").util.cursor_on_markdown_link() then
+          return "<cmd>ObsidianFollowLink<CR>"
+        else
+          return "gf"
+        end
+      end, { noremap = false, expr = true })
     end,
   },
 }
