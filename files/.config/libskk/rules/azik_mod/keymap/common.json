@@ -3,7 +3,8 @@
         "keymap": {
             ":": "upper-;",
             "X": null,
-            "<": "purge-candidate"
+            "<": "purge-candidate",
+            "\\": null
         }
     }
 }
