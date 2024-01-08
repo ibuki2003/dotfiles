@@ -73,7 +73,6 @@ return {
         config = function()
           vim.fn['pum#set_option']({
             scrollbar_char = '█',
-            use_complete= true,
             highlight_matches= 'MatchParen',
           })
         end,
