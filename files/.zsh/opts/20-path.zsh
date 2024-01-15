@@ -7,3 +7,5 @@ path=(
   $path
 )
 export PATH
+
+fpath=(~/.zsh/functions ~/.zsh/functions/*(N-/) $fpath)

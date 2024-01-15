@@ -49,7 +49,7 @@ for i in $ZSHHOME/opts/*.zsh(.r); do
 done
 
 for i in $ZSHHOME/lazy/*.zsh(.r); do
-  source $i
+  dsource $i
 done
 
 autoload -Uz compinit && zsh-defer compinit -C

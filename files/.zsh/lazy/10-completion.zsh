@@ -5,8 +5,8 @@ zstyle ':completion:*' matcher-list \
   'm:{[:lower:]}={[:upper:]}' \
   'r:|?=** m:{[:lower:]}={[:upper:]}'
 
-zstyle ':completion:*' menu select
-zstyle ':completion:*' completer _mycompleter
+zstyle ':completion:*' menu select search
+zstyle ':completion:*' completer _prefix _mycompleter
 
 zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
