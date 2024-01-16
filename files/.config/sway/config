@@ -192,9 +192,11 @@ for_window [app_id="zoom"] floating enable
 for_window [app_id="com.github.hluk.copyq"] floating enable
 no_focus [class="jetbrains-studio" title="splash"]
 no_focus [class="zoom"]
+for_window [title="Picture-in-Picture"] floating enable
 for_window [app_id="albert"] blur disable
 
 
+bindsym Control+Semicolon exec copyq menu
 
 
 ### Scripts
