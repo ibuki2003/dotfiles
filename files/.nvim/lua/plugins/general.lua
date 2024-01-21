@@ -363,6 +363,16 @@ return {
         end
         return out
       end,
+      note_id_func = function(title)
+        if title ~= nil then
+          return title:gsub("%s+", "-"):lower()
+        else
+          local s = ""
+          for _ = 1, 4 do
+            s = s .. string.char(math.random(97, 122))
+          end
+        end
+      end,
     },
     init = function()
       vim.keymap.set("n", "gf", function()
