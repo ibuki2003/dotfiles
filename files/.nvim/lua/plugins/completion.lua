@@ -174,7 +174,6 @@ return {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre' },
     dependencies = {
-      'glepnir/lspsaga.nvim',
       'folke/neodev.nvim',
       'uga-rosa/ddc-source-lsp-setup',
     },

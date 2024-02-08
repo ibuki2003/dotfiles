@@ -10,6 +10,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
   },
 })
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float_opts)
+
 vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
 vim.api.nvim_create_autocmd("LspAttach", {
   group = "LspAttach_inlayhints",
@@ -23,35 +25,34 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- lspsaga
-require("lspsaga").setup({
-  ui = { icons = false },
-  border_style = "single",
-  finder = {
-    max_height = 0.5,
-  },
-  definition = {
-    edit = "o",
-  },
-  symbol_in_winbar = { enable = false, },
-  lightbulb = { enable = false },
-})
-
 -- keybinds
 
-local maps = {
-  ['<leader>ld'] = "<cmd>Lspsaga lsp_finder<CR>",
-  ['<leader>lD'] = "<cmd>Lspsaga peek_definition<CR>",
-  ['<leader>lt'] = "<cmd>Lspsaga peek_type_definition<CR>",
+local function format_diagnostics_hover(diag)
+  if diag.user_data.lsp and diag.user_data.lsp.data and diag.user_data.lsp.data.rendered then
+    return diag.user_data.lsp.data.rendered
+  end
+  return diag.message
+end
 
+local maps = {
+  ['<leader>ld'] = function() vim.lsp.buf.definition() end,
+  ['<leader>lt'] = function() vim.lsp.buf.type_definition() end,
+  ['<leader>lc'] = function() vim.lsp.buf.declaration() end,
+  ['<leader>li'] = function() vim.lsp.buf.implementation() end,
   ['<leader>lr'] = function() vim.lsp.buf.rename() end,
+  ['<leader>lR'] = function() vim.lsp.buf.references() end,
   ['<leader>la'] = require('actions-preview').code_actions,
 
-  ['<leader>ll'] = "<cmd>Lspsaga hover_doc<CR>",
-  ['<leader>le'] = "<cmd>Lspsaga show_line_diagnostics<CR>",
+  ['<leader>ll'] = vim.lsp.buf.hover,
 
-  [']e'] = "<cmd>Lspsaga diagnostic_jump_next<CR>",
-  ['[e'] = "<cmd>Lspsaga diagnostic_jump_prev<CR>",
+  ['<leader>le'] = function() vim.diagnostic.open_float(0, vim.tbl_extend("force", float_opts, { scope = "line", })) end,
+  ['<leader>lE'] = function() vim.diagnostic.open_float(0, vim.tbl_extend("force", float_opts, {
+    scope = "line",
+    format = format_diagnostics_hover,
+  })) end,
+
+  [']e'] = function() vim.diagnostic.goto_next({ wrap = true, float = float_opts }) end,
+  ['[e'] = function() vim.diagnostic.goto_prev({ wrap = true, float = float_opts }) end,
 }
 
 for k, v in pairs(maps) do
