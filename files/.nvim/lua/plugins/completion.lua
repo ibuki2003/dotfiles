@@ -214,6 +214,10 @@ return {
   {
     'matsui54/denops-signature_help',
     config = function()
+      vim.g['signature_help_config'] = {
+        viewStyle = "floating",
+        multiLabel = true,
+      }
       vim.fn['signature_help#enable']()
     end,
   },
@@ -238,6 +242,9 @@ return {
         opts = {
           suggestion = { enabled = false },
           panel = { enabled = false },
+          filetypes = {
+            markdown = false,
+          },
         },
       },
     },
