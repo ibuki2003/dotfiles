@@ -43,18 +43,16 @@ window#waybar {
  * - urgent
  * - focused: active
  * - visible: shown
- * - persistent: set by config
- * - current_output: ???
  */
 
 #workspaces button.urgent { color: #ffb86c; }
 #workspaces button.visible {
     background-color: #44475a;
     border-bottom: 3px solid #50fa7b;
+    min-height: 1px;
 }
 
 #workspaces button.focused { font-weight: bold; }
-#workspaces button.persistent { color: #6272a4; }
 
 /* Omit margin on the ends */
 .modules-left > widget:first-child > #workspaces { margin-left: 0; }
