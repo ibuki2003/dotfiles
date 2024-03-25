@@ -1,13 +1,13 @@
 return {
   'vim-jp/vimdoc-ja',
   { 'vim-denops/denops.vim', priority = 1000 },
-  'sheerun/vim-polyglot',
 
   {
     'stevearc/dressing.nvim',
   },
   {
     'machakann/vim-sandwich',
+    lazy = false,
     keys = {
       { 's',   '<Plug>(sandwich-add)',             mode = 'n' },
       { 'S',   '<Plug>(sandwich-add)g_',           mode = 'n' },
@@ -98,8 +98,8 @@ return {
   },
   {
     'kana/vim-operator-replace',
+    lazy = false,
     dependencies = { 'kana/vim-operator-user' },
-    keys = { '<Leader>r', '<Plug>(operator-replace)' }
   },
   {
     'junegunn/vim-easy-align',
@@ -325,7 +325,7 @@ return {
   {
     "epwalsh/obsidian.nvim",
     version = "*", -- to use release
-    lazy = false,
+    lazy = true,
     event = {
       "BufReadPre /home/fuwa/Notes/**.md",
       "BufNewFile /home/fuwa/Notes/**.md",

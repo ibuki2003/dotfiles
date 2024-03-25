@@ -185,10 +185,6 @@ return {
     'creativenull/efmls-configs-nvim',
   },
   {
-    'nvimtools/none-ls.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-  },
-  {
     'j-hui/fidget.nvim',
     opts = {
       progress = {
@@ -261,20 +257,5 @@ return {
     init = function()
       vim.keymap.set("n", "<Leader>la", function() require('actions-preview').code_actions() end)
     end
-  },
-  {
-    'nvim-treesitter/nvim-treesitter-context',
-    config = function()
-      require'treesitter-context'.setup{
-        enable = true,
-        max_lines = 3,
-        min_window_height = 15,
-        line_numbers = true,
-        multiline_threshold = 20,
-        trim_scope = 'outer',
-        mode = 'topline',
-        zindex = 20,
-      }
-    end,
   },
 }

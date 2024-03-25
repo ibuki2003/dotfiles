@@ -7,6 +7,8 @@ local lspconfig = require('lspconfig')
 
 
 local servers = {
+  efm = require('settings.lsp.efm'),
+
   vimls = {},
   intelephense = {},
   clangd = { capabilities = { offsetEncoding = 'utf-8' } },

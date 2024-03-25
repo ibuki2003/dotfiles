@@ -1,5 +1,4 @@
 require("settings/lsp/servers")
-require("settings/lsp/nls")
 
 local float_opts = {
   border = "rounded",

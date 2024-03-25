@@ -12,7 +12,7 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter',
-    requires = {
+    dependencies = {
       'yioneko/nvim-yati',
     },
     config = function()
