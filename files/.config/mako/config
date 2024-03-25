@@ -17,3 +17,5 @@ on-button-right=dismiss-all
 
 [mode=do-not-disturb]
 invisible=1
+ignore-timeout=1
+default-timeout=0

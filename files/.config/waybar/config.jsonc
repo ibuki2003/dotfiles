@@ -15,6 +15,7 @@
         "custom/playerctl_prev",
         "custom/playerctl",
         "custom/playerctl_next",
+        "custom/mako",
         "custom/memory",
         "custom/cpu",
         "temperature",
@@ -140,5 +141,11 @@
         "tooltip": false,
         "on-click": "playerctl -p playerctld next",
     },
+    "custom/mako": {
+        "format": "{}",
+        "exec": "~/.config/waybar/scripts/mako.sh",
+        "exec-on-event": true,
+        "interval": 10,
+        "on-click": "~/.config/waybar/scripts/mako.sh toggle",
+    },
 }
-
