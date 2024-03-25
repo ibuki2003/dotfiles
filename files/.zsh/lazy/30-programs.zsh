@@ -18,7 +18,7 @@ if (( $+commands[gpgconf] )) || [ ! -z $GPG_AGENT_INFO ]; then
 fi
 
 if [ -z $SSH_AUTH_SOCK ] || \
-    ! ( [ -p "$SSH_AUTH_SOCK" ] && ss -l | grep "$SSH_AUTH_SOCK" > /dev/null ); then
+    ! ( [ -p "$SSH_AUTH_SOCK" -o -S "$SSH_AUTH_SOCK" ] && ss -l | grep "$SSH_AUTH_SOCK" > /dev/null ); then
 
     # default socket path
     unset SSH_AGENT_PID
