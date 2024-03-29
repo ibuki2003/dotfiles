@@ -173,11 +173,11 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # screenshots
-bindsym           Print exec ~/.config/sway/scripts/screenshot.zsh --select --clip
-bindsym      Ctrl+Print exec ~/.config/sway/scripts/screenshot.zsh --clip
-bindsym      $mod+Print exec ~/.config/sway/scripts/screenshot.zsh --select
-bindsym $mod+Ctrl+Print exec ~/.config/sway/scripts/screenshot.zsh
-bindsym $mod+Shift+s    exec ~/.config/sway/scripts/screenshot.zsh --select --clip
+bindsym           Print exec ~/.config/sway/scripts/grimshot.sh --notify copy anything
+bindsym      Ctrl+Print exec ~/.config/sway/scripts/grimshot.sh --notify copy screen
+bindsym      $mod+Print exec ~/.config/sway/scripts/grimshot.sh --notify save anything
+bindsym $mod+Ctrl+Print exec ~/.config/sway/scripts/grimshot.sh --notify save screen
+bindsym $mod+Shift+s    exec ~/.config/sway/scripts/grimshot.sh --notify copy anything
 
 # Opacity keybind
 
