@@ -84,8 +84,6 @@ function has<X, Y extends PropertyKey>(
 }
 
 interface IfInfo {
-  speed: [number, number];
-
   ifc: {
     ipv4: { address: string }[] | null;
     ipv6: { address: string }[] | null;
@@ -98,10 +96,15 @@ interface IfInfo {
   };
 };
 
-async function update(ifs: Record<string, IfInfo>, primary_if: string | null) {
+type Ifs = Record<string, IfInfo>;
+type Speeds = Record<string, [number, number]>;
+
+async function update(ifs: Ifs, speeds: Speeds, primary_if: string | null) {
   const tooltip = Object.keys(ifs)
+    .filter((i) => speeds[i])
     .map((i) => {
       const info = ifs[i];
+      const spd = speeds[i];
       let text = i;
       if (info.iwc) {
         // wifi
@@ -114,7 +117,7 @@ async function update(ifs: Record<string, IfInfo>, primary_if: string | null) {
       } else {
         text += "\n";
       }
-      text += `${format_size(info.speed[1])} / ${format_size(info.speed[0])}\n`;
+      text += `${format_size(spd[1])} / ${format_size(spd[0])}\n`;
 
       if (info.ifc.ipv4) {
         text += info.ifc.ipv4
@@ -134,14 +137,15 @@ async function update(ifs: Record<string, IfInfo>, primary_if: string | null) {
     .join("\n\n");
 
   const p = primary_if ? ifs[primary_if] : null;
+  const s = primary_if ? speeds[primary_if] ?? [0, 0] : [0, 0];
 
   const text = p
     ? `${
       p.iwc?.essid ?? p.ifc.ipv4_addr
     } ${
-      format_size(p.speed[1] as number)
+      format_size(s[1])
     } / ${
-      format_size(p.speed[0] as number)
+      format_size(s[0])
     }`
     : "No connection";
 
@@ -173,77 +177,79 @@ async function update(ifs: Record<string, IfInfo>, primary_if: string | null) {
   );
 }
 
-async function main() {
-  const infos: Record<string, IfInfo> = {};
+let last_usage: Record<string, [number, number]> = {};
+async function get_speeds(interval: number): Promise<Speeds> {
+  const ret: Speeds = {};
+  const a = await get_usage();
+  Object.keys(a).forEach((i) => {
+    if (has(last_usage, i)) {
+      ret[i] = [
+        (a[i][0] - last_usage[i][0]) / interval,
+        (a[i][1] - last_usage[i][1]) / interval,
+      ];
+    }
+  });
+  last_usage = a;
+  return ret;
+}
 
-  let primary_if: string | null = null;
-
-  const update_infos = async () => {
-    await get_interfaces().then((interfaces) => {
-      for (const i of interfaces) {
-        if (!infos[i]) infos[i] = {
-          speed: [0, 0],
-          ifc: {
-            ipv4: [],
-            ipv6: [],
-          },
-        };
-      }
-      Object.keys(infos).forEach((i) => {
-        if (!interfaces.includes(i)) delete infos[i];
-      });
-    });
-    await Promise.all([
-      get_primary_if().then((a) => { primary_if = a; }),
-      get_iwconfig().then((w) => {
-        Object.keys(infos).forEach((i) => {
-          delete infos[i].iwc;
-        });
-        w.forEach(i => {
-          if (has(infos, i.name)) {
-            infos[i.name].iwc = i as IfInfo['iwc'];
-          }
-        });
-      }),
-      get_ifconfig().then((a) => {
-        a.forEach((i) => {
-          if (has(infos, i.name)) {
-            infos[i.name].ifc = i as IfInfo['ifc'];
-          }
-        });
-      }),
-    ]);
-  };
-
-  let last_usage: Record<string, [number, number]> = {};
-  const speed_interval = 3;
-  const update_speed = async () => {
-    await get_usage().then((a) => {
-      Object.keys(a).forEach((i) => {
-        if (has(infos, i) && has(last_usage, i)) {
-          infos[i].speed = [
-            (a[i][0] - last_usage[i][0]) / speed_interval,
-            (a[i][1] - last_usage[i][1]) / speed_interval,
-          ];
+async function get_infos(): Promise<Ifs> {
+  const ret: Ifs = {};
+  await get_interfaces().then((interfaces) => {
+    for (const i of interfaces) {
+      ret[i] = {
+        ifc: {
+          ipv4: [],
+          ipv6: [],
+        },
+      };
+    }
+  });
+  await Promise.all([
+    get_iwconfig().then((w) => {
+      w.forEach(i => {
+        if (has(ret, i.name)) {
+          ret[i.name].iwc = i as IfInfo['iwc'];
         }
       });
-      last_usage = a;
-    });
-  };
+    }),
+    get_ifconfig().then((a) => {
+      a.forEach((i) => {
+        if (has(ret, i.name)) {
+          ret[i.name].ifc = i as IfInfo['ifc'];
+        }
+      });
+    }),
+  ]);
+  return ret;
+}
 
-  await update_infos();
-  await update_speed();
-  await update(infos, primary_if);
+function sleep(duration: number) {
+  return new Promise((resolve) => setTimeout(resolve, duration));
+}
 
-  setInterval(async () => {
-    await update_infos();
-    await update(infos, primary_if);
-  }, 10000);
+const interval = 3; // seconds
+const info_itv = 30; // times
 
-  setInterval(async () => {
-    await update_speed();
-    await update(infos, primary_if);
-  }, speed_interval * 1000);
+async function main() {
+  let infos: Ifs = {};
+  let primary_if: string | null = null;
+  let speeds: Speeds = {};
+
+  let c = 0;
+  while (true) {
+    speeds = await get_speeds(interval);
+
+    const need_update = Object.keys(speeds).some((i) => infos[i]);
+    if (c-- <= 0 || need_update) {
+      primary_if = await get_primary_if();
+      infos = await get_infos();
+      c = info_itv;
+    }
+    await update(infos, speeds, primary_if);
+
+    await sleep(interval * 1000);
+  }
 }
 
 await main();
