@@ -239,6 +239,7 @@ return {
           suggestion = { enabled = false },
           panel = { enabled = false },
           filetypes = {
+            [""] = false,
             markdown = false,
           },
         },

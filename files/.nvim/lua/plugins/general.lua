@@ -387,4 +387,10 @@ return {
       end, { noremap = false, expr = true })
     end,
   },
+  {
+    'tani/dmacro.nvim',
+    opts = {
+      dmacro_key = '<C-q>'
+    },
+  },
 }
