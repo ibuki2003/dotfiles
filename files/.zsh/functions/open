@@ -1,6 +1,7 @@
 if (( $+commands[xdg-open] )); then
   for f in "$@"; do
     xdg-open "$f" &> /dev/null &|
+    sleep 0.1
   done
 else
   echo "xdg-open not available." > /dev/stderr
