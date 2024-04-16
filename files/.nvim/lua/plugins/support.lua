@@ -70,4 +70,24 @@ return {
     },
     dependencies = { 'kana/vim-textobj-user' },
   },
+
+  {
+    'saecki/crates.nvim',
+    event = { 'BufRead Cargo.toml' },
+    opts = {
+      lsp = {
+        enabled = true,
+        on_attach = function(client, bufnr)
+          -- add keybinds
+          vim.keymap.set('n', '<leader>lf', function()
+            require'crates'.show_features_popup()
+          end, { noremap = true, silent = true, buffer = bufnr })
+
+        end,
+        actions = true,
+        completion = true,
+        hover = true,
+      }
+    },
+  },
 }

@@ -203,12 +203,16 @@ return {
   },
   {
     'matsui54/denops-popup-preview.vim',
+    dependencies = { 'vim-denops/denops.vim' },
+    event = { 'User DenopsReady' },
     config = function()
       vim.fn['popup_preview#enable']()
     end
   },
   {
     'matsui54/denops-signature_help',
+    dependencies = { 'vim-denops/denops.vim' },
+    event = { 'User DenopsReady' },
     config = function()
       vim.g['signature_help_config'] = {
         viewStyle = "floating",

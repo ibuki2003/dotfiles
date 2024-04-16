@@ -1,4 +1,5 @@
 return {
+  'sheerun/vim-polyglot',
   {
     'rust-lang/rust.vim',
     init = function()
@@ -7,5 +8,4 @@ return {
   },
   'udalov/kotlin-vim',
   'DingDean/wgsl.vim',
-  'chrisbra/csv.vim',
 }
