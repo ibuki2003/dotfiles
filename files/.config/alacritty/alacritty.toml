@@ -21,15 +21,6 @@ WINIT_X11_SCALE_FACTOR = "1"
 builtin_box_drawing = true
 size = 13.0
 
-[font.bold]
-style = "Bold"
-
-[font.bold_italic]
-style = "Bold Oblique"
-
-[font.italic]
-style = "Oblique"
-
 [font.normal]
 family = "HackGen Console NF"
 style = "Regular"
