@@ -25,18 +25,6 @@ window#waybar {
     margin: 0 .2em;
     padding: 0 2px;
 }
-#workspaces button:hover {
-    /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-
-    background: inherit;
-    border: inherit;
-    border-bottom: inherit;
-    padding: 0 2px;
-    box-shadow: inherit;
-    text-shadow: inherit;
-
-    font-weight: bold;
-}
 
 /**
  * Workspace types:
@@ -48,8 +36,7 @@ window#waybar {
 #workspaces button.urgent { color: #ffb86c; }
 #workspaces button.visible {
     background-color: #44475a;
-    border-bottom: 3px solid #50fa7b;
-    min-height: 1px;
+    border-color: #50fa7b;
 }
 
 #workspaces button.focused { font-weight: bold; }
