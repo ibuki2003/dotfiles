@@ -1,178 +1,134 @@
 return {
   {
-    'Shougo/ddc.vim',
-    dependencies = { 'vim-denops/denops.vim' },
-    priority = 100,
+    'hrsh7th/nvim-cmp',
     config = function()
-      vim.fn['ddc#custom#patch_global']('ui', 'pum')
+      local cmp = require'cmp'
 
-      vim.fn['ddc#custom#patch_global']('sources', {
-          'copilot',
-          'lsp',
-          'around',
-          'buffer',
-          'file',
-          'dictionary',
-        })
+      local has_words_before = function()
+        unpack = unpack or table.unpack
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+      end
 
-      vim.fn['ddc#custom#patch_global']('sourceOptions', {
-        _ = {
-          matchers = { 'matcher_fuzzy' },
-          converters = { 'converter_remove_overlap' },
-          sorters = { 'sorter_fuzzy' },
-          minAutoCompleteLength = 1,
-          timeout = 500,
-          dup = 'keep',
+      local feedkey = function(key, mode)
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+      end
+
+      local selectBehavior = cmp.SelectBehavior.Select
+
+      cmp.setup ({
+        snippet = {
+          expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+          end,
         },
-      })
+        confirmation = {
+          default_behavior = cmp.ConfirmBehavior.Insert,
+          get_commit_characters = function(c)
+            return vim.list_extend({
+              ";", ",", ":", ".", "(", ")", "{", "}", "[", "]", "<", ">", "/", "\\", "|", "=", "-", "+", "*", "&", "%", "#", "@", "!", "?",
+              " ",
+            }, c)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ['<CR>'] = cmp.mapping(function(fallback)
+            if cmp.visible() and cmp.get_selected_entry() then
+              -- confirm
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+              -- and then insert a newline
+              vim.api.nvim_feedkeys(
+                vim.api.nvim_replace_termcodes("<CR>", true, true, true),
+                "n", true)
+            else
+              fallback()
+            end
+          end, {"i", "s"}),
+          ['<Esc>'] = cmp.mapping(function(fallback)
+            if cmp.visible() and cmp.get_selected_entry() then
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+              vim.api.nvim_feedkeys(
+                vim.api.nvim_replace_termcodes("<Esc>", true, true, true),
+                "n", true)
+            else
+              fallback()
+            end
+          end, {"i", "s"}),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item({ behavior = selectBehavior })
+            elseif vim.fn["vsnip#available"](1) == 1 then
+              feedkey("<Plug>(vsnip-expand-or-jump)", "")
+            elseif has_words_before() then
+              cmp.complete()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
 
-      vim.fn['ddc#custom#patch_global']('autoCompleteEvents',
-        { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged' })
-      vim.fn['ddc#custom#patch_global']('cmdlineSources', { 'necovim', 'cmdline', 'file', 'around' })
-      vim.fn['ddc#custom#patch_global']('sourceOptions', {
-        necovim = { ignoreCase = true, },
-        cmdline = { ignoreCase = true, },
-      })
-      vim.api.nvim_set_keymap('c', '<Tab>', '', {
-        expr = true,
-        noremap = true,
-        callback = function()
-          if vim.fn['pum#visible']() then
-            vim.fn['pum#map#insert_relative'](1)
-          else
-            return vim.fn['ddc#map#manual_complete']()
-          end
-        end,
-      })
-      vim.api.nvim_set_keymap('c', '<S-Tab>', '', { callback = function() vim.fn['pum#map#insert_relative'](-1) end })
-      vim.api.nvim_set_keymap('c', '<C-e>',   '', { callback = function() vim.fn['pum#map#cancel']() end })
+          ["<S-Tab>"] = cmp.mapping(function()
+            if cmp.visible() then
+              cmp.select_prev_item({ behavior = selectBehavior })
+            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+              feedkey("<Plug>(vsnip-jump-prev)", "")
+            end
+          end, { "i", "s" }),
+        }),
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'buffer' },
+          { name = 'calc' },
+          { name = 'async_path' },
+          {
+            name = 'copilot',
+            options = { fix_pairs = false, },
+          },
+          { name = 'vsnip' },
+          { name = 'buffer' },
+        }),
+        comparators = {
+          require'copilot_cmp.comparators'.prioritize,
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          cmp.config.compare.kind,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        },
 
-      vim.api.nvim_create_autocmd('InsertEnter', {
-        pattern = '*',
-        callback = function()
-          -- Start ddc.
-          vim.fn['ddc#enable']()
-        end,
+        experimental = { ghost_text = true },
       })
-
-      vim.api.nvim_set_keymap('n', ':', '', {
-        expr = true,
-        noremap = true,
-        callback = function()
-          vim.fn['ddc#enable_cmdline_completion']()
-          return ':'
-        end,
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+          { name = 'cmdline' }
+        }),
+        matching = { disallow_symbol_nonprefix_matching = false }
       })
     end,
   },
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-cmdline',
+  'hrsh7th/cmp-vsnip',
+  'hrsh7th/cmp-calc',
+  'hrsh7th/cmp-buffer',
+  'https://codeberg.org/FelipeLema/cmp-async-path',
   {
-    'Shougo/ddc-ui-pum',
-    dependencies = {
-      {
-        'Shougo/pum.vim',
-        config = function()
-          vim.fn['pum#set_option']({
-            scrollbar_char = '█',
-            highlight_matches= 'MatchParen',
-          })
-        end,
-      },
-    },
-  },
-  {
-    'Shougo/neco-vim',
-    config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { necovim = {
-        mark = 'V',
-      }})
-    end,
-  },
-  {
-    'Shougo/ddc-source-cmdline',
-    config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { cmdline = {
-        mark = 'C',
-      }})
-    end,
-  },
-  {
-    'Shougo/ddc-source-around',
-    config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { around = {
-        mark = 'A',
-      }})
-      vim.fn['ddc#custom#patch_global']('sourceParams', { around = {
-        maxSize = 1000,
-      }})
+    "zbirenbaum/copilot-cmp",
+    config = function ()
+      require("copilot_cmp").setup()
     end
   },
-  {
-    'matsui54/ddc-buffer',
-    config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { buffer = {
-        mark = 'B',
-      }})
-      vim.fn['ddc#custom#patch_global']('sourceParams', { buffer = {
-        requireSameFiletype = false,
-        limitBytes = 5000000,
-        fromAltBuf = true,
-        forceCollect = true,
-      }})
-    end
-  },
-  {
-    'matsui54/ddc-dictionary',
-    config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { dictionary = {
-        mark = 'D',
-        maxItems = 5,
-      }})
-      vim.fn['ddc#custom#patch_global']('sourceParams', { dictionary = {
-        dictPaths = { '/usr/share/dict/words' },
-        smartCase = true,
-        showMenu = false,
-        isVolatile = true,
-      }})
-    end
-  },
-  {
-    'Shougo/ddc-matcher_head',
-  },
-  {
-    'tani/ddc-fuzzy',
-  },
-  {
-    'Shougo/ddc-converter_remove_overlap',
-  },
-  {
-    'LumaKernel/ddc-source-file',
-    config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { file = {
-        mark = 'F',
-        isVolatile = true,
-        forceCompletionPattern = '\\S/\\S*',
-      }})
-    end
-  },
-  {
-    'Shougo/ddc-source-lsp',
-    config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { ['lsp'] = {
-        dup = 'keep',
-        mark = 'lsp',
-        keywordPattern = [[\k+]],
-      }})
-      vim.fn['ddc#custom#patch_global']('sourceParams', { ['lsp'] = {
-        snippetEngine = vim.fn['denops#callback#register'](function(body) return vim.fn['vsnip#anonymous'](body) end),
-        enableResolveItem = true,
-        enableAdditionalTextEdit = true,
-        confirmBehavior = 'replace',
-      }})
-    end
-  },
+
   {
     'neovim/nvim-lspconfig',
-    event = { 'BufReadPre' },
+    event = { 'BufReadPre', 'BufNew', 'BufNewFile', 'InsertEnter' },
     dependencies = {
       'folke/neodev.nvim',
       'uga-rosa/ddc-source-lsp-setup',
@@ -225,8 +181,6 @@ return {
     'hrsh7th/vim-vsnip',
     event = { 'InsertEnter' },
     config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { vsnip = { mark = 'v', }})
-
       vim.cmd[[
       imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
       smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
@@ -234,28 +188,16 @@ return {
     end
   },
   {
-    'ibuki2003/ddc-source-copilot-lua',
-    dependencies = {
-      {
-        'zbirenbaum/copilot.lua',
-        event = { 'InsertEnter' },
-        opts = {
-          suggestion = { enabled = false },
-          panel = { enabled = false },
-          filetypes = {
-            [""] = false,
-            markdown = false,
-          },
-        },
+    'zbirenbaum/copilot.lua',
+    event = { 'InsertEnter' },
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      filetypes = {
+        [""] = false,
+        markdown = false,
       },
     },
-    config = function()
-      vim.fn['ddc#custom#patch_global']('sourceOptions', { copilot = {
-        mark  = 'CP',
-        matchers = {},
-        minAutoCompleteLength = 0,
-      }})
-    end
   },
   {
     'aznhe21/actions-preview.nvim',

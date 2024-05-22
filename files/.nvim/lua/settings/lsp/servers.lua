@@ -1,7 +1,7 @@
 require("neodev").setup{}
 
--- set capabilities automatically
-require("ddc_source_lsp_setup").setup()
+local cap = require("cmp_nvim_lsp").default_capabilities()
+
 
 local lspconfig = require('lspconfig')
 
@@ -108,7 +108,9 @@ local servers = {
   },
 }
 
-local overwrites = { }
+local overwrites = {
+  capabilities = cap,
+}
 
 for lsp, opt in pairs(servers) do
   opt = vim.tbl_deep_extend('keep', opt, overwrites)
