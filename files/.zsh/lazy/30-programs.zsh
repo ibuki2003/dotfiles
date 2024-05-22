@@ -29,3 +29,5 @@ export SNCLIRC=~/.config/sncli/config.ini
 
 export AQUA_GLOBAL_CONFIG=${AQUA_GLOBAL_CONFIG:-}:${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml
 export AQUA_POLICY_CONFIG=~/.config/aquaproj-aqua/aqua-policy.yaml
+
+export PNPM_HOME="/home/fuwa/.local/share/pnpm"
