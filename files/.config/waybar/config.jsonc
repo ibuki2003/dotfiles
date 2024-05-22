@@ -80,7 +80,7 @@
     "custom/cpu": {
         "format": "{icon} {}",
         "return-type": "json",
-        "exec": "deno run --allow-read ~/.config/waybar/scripts/cpu.ts",
+        "exec": "deno run -A ~/.config/waybar/scripts/cpu.ts",
         "tooltip": true,
         "format-icons": "󰍛",
     },
