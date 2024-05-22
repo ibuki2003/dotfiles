@@ -1,0 +1,9 @@
+#!/bin/bash
+file=$(mktemp)
+trap 'rm -f "$file"' EXIT
+wl-paste > $file
+if file --mime-type -b $file 2>/dev/null | grep -q '^image/'; then
+  imv $file
+else
+  notify-send "not an image"
+fi

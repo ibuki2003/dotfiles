@@ -197,6 +197,7 @@ for_window [app_id="albert"] blur disable
 
 
 bindsym Control+Semicolon exec copyq menu
+bindsym $mod+Shift+p exec --no-startup-id ~/.config/sway/scripts/pbimg
 
 
 ### Scripts
