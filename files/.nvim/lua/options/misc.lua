@@ -1,8 +1,9 @@
+vim.api.nvim_create_augroup("fuwa", {})
+
 -- highlight ideographic space
-vim.api.nvim_create_augroup("invisible", {})
 vim.api.nvim_create_autocmd({"BufNew", "BufRead"}, {
   pattern = "*",
-  group = "invisible",
+  group = "fuwa",
   callback = function()
     vim.cmd[[
       syntax match InvisibleJISX0208Space "　" display containedin=ALL
@@ -11,10 +12,9 @@ vim.api.nvim_create_autocmd({"BufNew", "BufRead"}, {
   end,
 })
 
-vim.api.nvim_create_augroup("Mkdir", {})
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
   pattern = "*",
-  group = "Mkdir",
+  group = "fuwa",
   callback = function()
     vim.fn.mkdir(vim.fn.expand("<afile>:p:h"), "p")
   end,
@@ -22,6 +22,7 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
 
 vim.api.nvim_create_autocmd({"QuickFixCmdPost"}, {
   pattern = "*grep*",
+  group = "fuwa",
   callback = function()
     vim.cmd("cwindow")
   end,
@@ -29,6 +30,7 @@ vim.api.nvim_create_autocmd({"QuickFixCmdPost"}, {
 
 vim.api.nvim_create_autocmd({"BufReadPost"}, {
   pattern = "*",
+  group = "fuwa",
   callback = function()
     if vim.fn.line("'\"") >= 1 and vim.fn.line("'\"") <= vim.fn.line("$") then
       vim.cmd("normal! g`\"")

@@ -74,3 +74,14 @@ local function expandpath()
   end
 end
 vim.keymap.set({'c','i'}, '<C-p>', expandpath, { noremap = true, expr = true })
+
+vim.keymap.set("n", "gf", function()
+  local cfile = vim.fn.expand("<cfile>")
+  print("nyan", cfile)
+  if cfile:match("^https?://") then
+    -- Neovim nightlyなら `vim.ui.open(cfile)` が便利。
+    vim.fn.system({"xdg-open", cfile})
+  else
+    vim.cmd("normal! gF")
+  end
+end)

@@ -13,7 +13,7 @@ end
 
 local function lsp_names()
   local clients = {}
-  for _, client in ipairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+  for _, client in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
     if client.name ~= 'null-ls' then
       table.insert(clients, client.name)
     end

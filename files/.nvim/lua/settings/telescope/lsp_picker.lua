@@ -10,7 +10,7 @@ local lsp_clients_picker = function(opts)
   pickers.new(opts, {
     prompt_title = "LSP clients",
     finder = finders.new_dynamic {
-      fn = function() return vim.lsp.get_active_clients() end,
+      fn = function() return vim.lsp.get_clients() end,
       entry_maker = function(entry)
         local attached = (entry.attached_buffers[bufnr]) or false
         return {

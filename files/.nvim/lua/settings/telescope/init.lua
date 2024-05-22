@@ -7,6 +7,11 @@ require('telescope').setup {
         ['<C-u>'] = false,
       },
     },
+    path_display = {
+      filename_first = {
+        reverse_directories = true,
+      },
+    },
   },
 }
 
