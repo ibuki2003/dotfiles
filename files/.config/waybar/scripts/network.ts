@@ -1,6 +1,10 @@
 const decode = (s: Uint8Array) => new TextDecoder().decode(s);
 
-const NmAvailable = true;
+const NmAvailable = new Deno.Command("nmcli", {
+  args: ["-v"],
+  stdout: "null",
+  stderr: "null",
+}).outputSync().success;
 
 async function get_ifs() {
   let fields = [];
@@ -54,7 +58,12 @@ function unquote(s: string): string {
 }
 
 async function get_iwconfig(): Promise<Record<string, Rec>> {
-  const p = await new Deno.Command("iwconfig", { stdout: "piped" }).output();
+  let p;
+  try {
+    p = await new Deno.Command("iwconfig", { stdout: "piped" }).output();
+  } catch (_) {
+    return {};
+  }
   if (!p.success) return {};
   const o = decode(p.stdout);
 
@@ -68,7 +77,6 @@ async function get_iwconfig(): Promise<Record<string, Rec>> {
           l.slice(0, i).trim().toLowerCase().replace(/[ -]/g, "_"),
           unquote(l.slice(i + 1).trim()),
         ];
-
       }));
       f.protocol = protocol;
       return [name, f];
@@ -145,12 +153,11 @@ async function update(
   })
     .join("\n\n");
 
-  // TODO
   let text = "No connection";
   let mode = "nc";
   let percentage = 0;
 
-  if (primary_if) {
+  if (primary_if && ifs[primary_if]) {
     const p = ifs[primary_if];
     const s = speeds[primary_if] ?? [0, 0];
     const l = p.split("\n").map((l) => l.trim());
@@ -161,11 +168,9 @@ async function update(
       ? /: connected to (.+?)$/.exec(l[0])?.[1]
       : l.filter((l) =>
         l.startsWith("inet")
-      )[0]) ?? "Unknown";
+      )[0].split(" ")[1]) ?? "Unknown";
 
-    text = `${name} ${format_size(s[1])} / ${
-      format_size(s[0])
-    }`;
+    text = `${name} ${format_size(s[1])} / ${format_size(s[0])}`;
 
     mode = is_wifi ? "wifi" : "eth";
 
@@ -222,6 +227,8 @@ async function* usage_speed() {
           (usage[i][0] - last_usage[i][0]) / itv,
           (usage[i][1] - last_usage[i][1]) / itv,
         ];
+      } else {
+        ret[i] = [0, 0];
       }
     });
     last_usage = usage;
@@ -240,10 +247,10 @@ async function* interval(t: number) {
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function main() {
-  let infos: Record<string, string> = {};
-  let primary_if: string | null = null;
+  let infos: Record<string, string> = await get_ifs();
+  let primary_if: string | null = await get_primary_if();
   let speeds: Speeds = {};
-  let iw_info: Record<string, Rec> = {};
+  let iw_info: Record<string, Rec> = await get_iwconfig();
 
   const watch = watch_nmcli();
   const watch_speed = usage_speed();
@@ -251,7 +258,7 @@ async function main() {
   const itv = interval(5000);
 
   while (true) {
-    await Promise.any([
+    await Promise.race([
       watch.next().then(async () => {
         infos = await get_ifs();
         primary_if = await get_primary_if();

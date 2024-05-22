@@ -112,7 +112,7 @@
     "custom/network": {
         "format": "{icon} {}",
         "return-type": "json",
-        "exec": "deno run --allow-run --allow-read ~/.config/waybar/scripts/network.ts",
+        "exec": "deno run -A ~/.config/waybar/scripts/network.ts",
         "tooltip": true,
         // "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "format-icons": {
