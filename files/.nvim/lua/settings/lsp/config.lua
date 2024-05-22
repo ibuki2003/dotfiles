@@ -29,6 +29,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+vim.diagnostic.config({severity_sort = true})
+
 -- keybinds
 
 local function format_diagnostics_hover(diag)
