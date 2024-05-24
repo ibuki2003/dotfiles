@@ -25,13 +25,13 @@ return {
         confirmation = {
           default_behavior = cmp.ConfirmBehavior.Insert,
           get_commit_characters = function(c)
-            return vim.list_extend({
-              ";", ",", ":", ".", "(", ")", "{", "}", "[", "]", "<", ">", "/", "\\", "|", "=", "-", "+", "*", "&", "%", "#", "@", "!", "?",
-              " ",
-            }, c)
+            return vim.list_extend(
+              vim.split([[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]], ""),
+              c
+            )
           end,
         },
-        mapping = cmp.mapping.preset.insert({
+        mapping = {
           ['<CR>'] = cmp.mapping(function(fallback)
             if cmp.visible() and cmp.get_selected_entry() then
               -- confirm
@@ -75,7 +75,7 @@ return {
               feedkey("<Plug>(vsnip-jump-prev)", "")
             end
           end, { "i", "s" }),
-        }),
+        },
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'buffer' },
