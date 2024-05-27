@@ -16,6 +16,7 @@ md_name = "Yubikey"
 md_description = "Yubikey TOTP source"
 md_license = "MIT"
 md_url = "https://fuwa.dev"
+md_lib_dependencies = ["clipboard"]
 
 def notify_send(title, text):
     subprocess.Popen(["notify-send", title, text])
