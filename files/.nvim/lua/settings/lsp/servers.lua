@@ -42,8 +42,9 @@ local servers = {
           callSnippet = "Replace",
         }
       }
-    }
+    },
   },
+  astro = {},
 
   tsserver = {
     root_dir = function(fname, buf)
