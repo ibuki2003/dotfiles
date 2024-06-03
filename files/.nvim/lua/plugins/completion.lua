@@ -1,6 +1,8 @@
 return {
   {
     'hrsh7th/nvim-cmp',
+    lazy = true,
+    event = { 'InsertEnter' },
     config = function()
       local cmp = require'cmp'
 
@@ -31,6 +33,7 @@ return {
             )
           end,
         },
+        preselect = cmp.PreselectMode.None,
         mapping = {
           ['<CR>'] = cmp.mapping(function(fallback)
             if cmp.visible() and cmp.get_selected_entry() then
@@ -110,25 +113,26 @@ return {
         matching = { disallow_symbol_nonprefix_matching = false }
       })
     end,
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-vsnip',
+      'hrsh7th/cmp-calc',
+      'hrsh7th/cmp-buffer',
+      'https://codeberg.org/FelipeLema/cmp-async-path',
+      {
+        "zbirenbaum/copilot-cmp",
+        config = function ()
+          require("copilot_cmp").setup()
+        end
+      },
+    }
   },
-  'hrsh7th/cmp-nvim-lsp',
-  'hrsh7th/cmp-buffer',
-  'hrsh7th/cmp-path',
-  'hrsh7th/cmp-cmdline',
-  'hrsh7th/cmp-vsnip',
-  'hrsh7th/cmp-calc',
-  'hrsh7th/cmp-buffer',
-  'https://codeberg.org/FelipeLema/cmp-async-path',
-  {
-    "zbirenbaum/copilot-cmp",
-    config = function ()
-      require("copilot_cmp").setup()
-    end
-  },
-
   {
     'neovim/nvim-lspconfig',
-    event = { 'BufReadPre', 'BufNew', 'BufNewFile', 'InsertEnter' },
+    event = { 'BufReadPre', 'BufNewFile', 'InsertEnter' },
     dependencies = {
       'folke/neodev.nvim',
       'uga-rosa/ddc-source-lsp-setup',
