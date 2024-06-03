@@ -1,5 +1,8 @@
 return {
-  'sheerun/vim-polyglot',
+  {
+    'chrisbra/csv.vim',
+    event = { "FileType csv" },
+  },
   {
     'rust-lang/rust.vim',
     init = function()
@@ -8,4 +11,5 @@ return {
   },
   'udalov/kotlin-vim',
   'DingDean/wgsl.vim',
+  'jxnblk/vim-mdx-js',
 }
