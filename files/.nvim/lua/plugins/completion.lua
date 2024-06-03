@@ -91,14 +91,17 @@ return {
           { name = 'vsnip' },
           { name = 'buffer' },
         }),
-        comparators = {
-          require'copilot_cmp.comparators'.prioritize,
-          cmp.config.compare.offset,
-          cmp.config.compare.exact,
-          cmp.config.compare.score,
-          cmp.config.compare.kind,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            require'copilot_cmp.comparators'.prioritize,
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            cmp.config.compare.kind,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+          },
         },
 
         experimental = { ghost_text = true },
