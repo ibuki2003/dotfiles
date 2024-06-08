@@ -12,6 +12,8 @@ vim.opt.autoread = true
 vim.opt.hidden = true
 vim.opt.showcmd = true
 
+vim.opt.background = "dark"
+
 vim.opt.virtualedit = {"block", "onemore"}
 vim.opt.backspace = {"indent", "eol", "start"}
 vim.opt.ambiwidth = "double"

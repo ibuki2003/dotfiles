@@ -1,10 +1,11 @@
-require("neodev").setup{}
-
-local cap = require("cmp_nvim_lsp").default_capabilities()
-
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'lua',
+  callback = function()
+    require("neodev").setup{}
+  end,
+})
 
 local lspconfig = require('lspconfig')
-
 
 local servers = {
   efm = require('settings.lsp.efm'),
@@ -109,11 +110,41 @@ local servers = {
   },
 }
 
-local overwrites = {
-  capabilities = cap,
-}
+local _cap = nil
+local cap = function()
+  if _cap == nil then
+    _cap = require("cmp_nvim_lsp").default_capabilities()
+  end
+  return _cap
+end
 
-for lsp, opt in pairs(servers) do
-  opt = vim.tbl_deep_extend('keep', opt, overwrites)
-  lspconfig[lsp].setup(opt)
+local setup_done = {}
+local setup = function(name)
+  if setup_done[name] then return end
+  setup_done[name] = true
+
+  local opt = vim.tbl_deep_extend('keep',
+    servers[name],
+    {
+      capabilities = cap(),
+    }
+  )
+  local t = vim.uv.hrtime()
+  lspconfig[name].setup(opt)
+end
+
+for lsp, _ in pairs(servers) do
+  local fts = servers[lsp].filetypes or require('lspconfig.server_configurations.' .. lsp).default_config.filetypes
+
+  if not fts then
+    setup(lsp)
+  else
+    for _, lang in ipairs(fts) do
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = lang,
+        once = true,
+        callback = function() setup(lsp) end,
+      })
+    end
+  end
 end

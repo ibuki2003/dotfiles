@@ -11,10 +11,13 @@ return {
     end,
   },
   {
+    'yioneko/nvim-yati',
+    lazy = true,
+    event = { 'CursorMoved', 'CursorMovedI' },
+    config = function() vim.cmd[[TSEnable yati]] end,
+  },
+  {
     'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'yioneko/nvim-yati',
-    },
     config = function()
       require'nvim-treesitter.configs'.setup {
         highlight = {
@@ -24,7 +27,8 @@ return {
           enable = false,
         },
         yati = {
-          enable = true,
+          -- HACK: disable at startup and enable later to speed up
+          enable = false,
           default_lazy = true,
           default_fallback = "cindent",
         },
@@ -43,6 +47,7 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
+    event = { 'CursorMoved' },
     config = function()
       require'treesitter-context'.setup{
         enable = true,
@@ -70,25 +75,5 @@ return {
       { 'ax', mode = 'o' },
     },
     dependencies = { 'kana/vim-textobj-user' },
-  },
-
-  {
-    'saecki/crates.nvim',
-    event = { 'BufRead Cargo.toml' },
-    opts = {
-      lsp = {
-        enabled = true,
-        on_attach = function(client, bufnr)
-          -- add keybinds
-          vim.keymap.set('n', '<leader>lf', function()
-            require'crates'.show_features_popup()
-          end, { noremap = true, silent = true, buffer = bufnr })
-
-        end,
-        actions = true,
-        completion = true,
-        hover = true,
-      }
-    },
   },
 }

@@ -138,7 +138,12 @@ return {
     event = { 'BufReadPre', 'BufNewFile', 'InsertEnter' },
     dependencies = {
       'folke/neodev.nvim',
-      'uga-rosa/ddc-source-lsp-setup',
+      {
+        'lvimuser/lsp-inlayhints.nvim',
+        config = function()
+          require("lsp-inlayhints").setup()
+        end,
+      },
     },
     config = function()
       require('settings/lsp/config')
@@ -157,12 +162,6 @@ return {
         },
       }
     },
-  },
-  {
-    'lvimuser/lsp-inlayhints.nvim',
-    config = function()
-      require("lsp-inlayhints").setup()
-    end,
   },
   {
     'matsui54/denops-popup-preview.vim',
@@ -208,8 +207,8 @@ return {
   },
   {
     'aznhe21/actions-preview.nvim',
-    init = function()
-      vim.keymap.set("n", "<Leader>la", function() require('actions-preview').code_actions() end)
-    end
+    keys = {
+      { "<Leader>la", function() require('actions-preview').code_actions() end },
+    },
   },
 }

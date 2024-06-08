@@ -47,7 +47,6 @@ local maps = {
   ['<leader>li'] = function() vim.lsp.buf.implementation() end,
   ['<leader>lr'] = function() vim.lsp.buf.rename() end,
   ['<leader>lR'] = function() vim.lsp.buf.references() end,
-  ['<leader>la'] = require('actions-preview').code_actions,
 
   ['<leader>ll'] = vim.lsp.buf.hover,
 

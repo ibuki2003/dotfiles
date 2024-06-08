@@ -18,6 +18,8 @@ return {
   },
   {
     'alexmozaidze/palenight.nvim',
+    priority = 10000,
+    init = function() vim.cmd[[colorscheme palenight]] end,
     opts = {
       italic = true,
     },
@@ -28,7 +30,6 @@ return {
   },
   {
     'nvim-lualine/lualine.nvim',
-    -- after = {'dracula'},
     config = function() require'settings.lualine' end
   },
   {

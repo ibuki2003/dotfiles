@@ -7,7 +7,7 @@ return {
   },
   {
     'machakann/vim-sandwich',
-    lazy = false,
+    lazy = true,
     keys = {
       { 's',   '<Plug>(sandwich-add)',             mode = 'n' },
       { 'S',   '<Plug>(sandwich-add)g_',           mode = 'n' },
@@ -75,6 +75,12 @@ return {
   },
   {
     'tpope/vim-commentary',
+    keys = {
+      { 'gc', '<Plug>Commentary', mode = { 'n', 'x', 'o'} },
+      { 'gcc', '<Plug>CommentaryLine' },
+      { 'gcu', '<Plug>Commentary<Plug>Commentary' },
+    },
+    command = { 'Commentary' },
   },
   {
     'tpope/vim-repeat',
@@ -98,14 +104,15 @@ return {
   },
   {
     'kana/vim-operator-replace',
-    lazy = false,
+    keys = {
+      { '<leader>r', '<Plug>(operator-replace)', mode = { 'n', 'x' } },
+    },
     dependencies = { 'kana/vim-operator-user' },
   },
   {
     'junegunn/vim-easy-align',
     keys = {
-      { 'ga', '<Plug>(EasyAlign)', mode = 'x' },
-      { 'ga', '<Plug>(EasyAlign)', mode = 'n' },
+      { 'ga', '<Plug>(EasyAlign)', mode = { 'n', 'x' } },
     },
     init = function()
       vim.g.easy_align_ignore_groups = {'String'}
@@ -261,6 +268,7 @@ return {
   },
   {
     'kyoh86/vim-ripgrep',
+    command = { 'Rg' },
     init = function()
       vim.cmd("command! -nargs=* -complete=file Rg :call ripgrep#search('-. ' . <q-args>)")
     end
@@ -290,7 +298,6 @@ return {
     event = { 'BufRead', 'BufNewFile' },
     config = function() require'settings.ccc' end,
   },
-  'sharat87/roast.vim',
   'chrisbra/Recover.vim',
   {
     'rhysd/conflict-marker.vim',
@@ -311,13 +318,24 @@ return {
     end,
   },
   {
-    'bkad/CamelCaseMotion',
-    init = function()
-      vim.g.camelcasemotion_key = '<Leader>'
+    'chaoren/vim-wordmotion',
+    keys = function()
+      local tbl = {}
+      for _, t in ipairs({'w', 'W', 'b', 'B', 'e', 'E', 'ge', 'gE'}) do
+        table.insert(tbl, { '<leader>' .. t, '<Plug>WordMotion_' .. t, mode = {'n','x','o'} })
+      end
+      for _, t in ipairs({ 'w', 'W' }) do
+        for _, m in ipairs({ 'i', 'a' }) do
+          table.insert(tbl, { '<leader>' .. m .. t, '<Plug>WordMotion_' .. m .. t, mode = {'x','o'} })
+          table.insert(tbl, { m .. '<leader>' .. t, '<Plug>WordMotion_' .. m .. t, mode = {'x','o'} })
+        end
+      end
+      return tbl
     end,
   },
   {
     'subnut/nvim-ghost.nvim',
+    cmd = { 'GhostTextStart' },
     init = function()
       vim.g.nvim_ghost_autostart = 0
     end,
@@ -389,6 +407,7 @@ return {
   },
   {
     'tani/dmacro.nvim',
+    event = { 'VimEnter' },
     opts = {
       dmacro_key = '<C-q>'
     },
