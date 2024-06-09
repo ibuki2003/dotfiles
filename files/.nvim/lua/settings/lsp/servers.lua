@@ -97,6 +97,7 @@ local servers = {
     }
   },
   kotlin_language_server = {
+    languages = { "kotlin" },
     -- root_dir = lspconfig.util.root_pattern("build.gradle", "settings.gradle"),
     settings = {
       kotlin = {
@@ -131,6 +132,7 @@ local setup = function(name)
   )
   local t = vim.uv.hrtime()
   lspconfig[name].setup(opt)
+  lspconfig[name].launch()
 end
 
 for lsp, _ in pairs(servers) do

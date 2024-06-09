@@ -332,6 +332,7 @@ return {
       end
       return tbl
     end,
+    init = function() vim.g.wordmotion_nomap = 1 end,
   },
   {
     'subnut/nvim-ghost.nvim',
