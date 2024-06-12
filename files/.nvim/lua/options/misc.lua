@@ -43,8 +43,6 @@ vim.api.nvim_create_user_command("Rename", function (opts)
   local nargs = #args
   local newfilename
   local curfilename = vim.fn.expand("%")
-  print(vim.inspect(opts))
-  print(nargs)
   if nargs == 1 then
     -- move to
     newfilename = vim.fs.normalize(args[1])

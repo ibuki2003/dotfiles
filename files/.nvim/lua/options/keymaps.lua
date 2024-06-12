@@ -85,3 +85,11 @@ vim.keymap.set("n", "gf", function()
     vim.cmd("normal! gF")
   end
 end)
+
+-- https://blog.atusy.net/2024/05/29/vim-hl-enhanced/
+vim.api.nvim_set_keymap('n', 'H', 'H<Plug>(H)', { noremap = true })
+vim.api.nvim_set_keymap('n', 'L', 'L<Plug>(L)', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Plug>(H)H', '<C-u>H<Plug>(H)', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Plug>(L)L', '<C-d>Lzb<Plug>(L)', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Plug>(H)', '<Nop>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Plug>(L)', '<Nop>', { noremap = true })

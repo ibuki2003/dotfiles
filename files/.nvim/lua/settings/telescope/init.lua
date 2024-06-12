@@ -8,9 +8,7 @@ require('telescope').setup {
       },
     },
     path_display = {
-      filename_first = {
-        reverse_directories = true,
-      },
+      "filename_first",
     },
   },
 }

@@ -35,6 +35,7 @@ return {
         matchup = {
           enable = true,
         },
+        auto_install = false,
       }
     end
   },

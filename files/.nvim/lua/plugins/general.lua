@@ -413,4 +413,14 @@ return {
       dmacro_key = '<C-q>'
     },
   },
+  {
+    'mbbill/undotree',
+    cmd = { 'UndotreeToggle' },
+    keys = { {'<leader>u', '<cmd>UndotreeToggle<CR>', mode = 'n'} },
+    init = function()
+      vim.g.undotree_SetFocusWhenToggle = 1
+      vim.g.undotree_DiffCommand = 'diff -u'
+    end,
+  },
+  'rbtnn/vim-ambiwidth',
 }
