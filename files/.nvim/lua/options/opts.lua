@@ -77,8 +77,6 @@ vim.opt.showmode = false -- lightline
 
 vim.opt.inccommand = "nosplit" -- incremental substitution
 
-vim.opt.ambiwidth = "double"
-
 vim.opt.showtabline = 1
 if vim.fn.has("gui_running") == 1 then
   vim.opt.guioptions:remove("e")
