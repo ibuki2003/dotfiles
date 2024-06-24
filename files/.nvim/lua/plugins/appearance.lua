@@ -3,6 +3,7 @@ return {
     'dracula/vim',
     name = 'dracula',
     lazy = true,
+    priority = 10000, -- load before others
     init = function()
       vim.api.nvim_create_autocmd('ColorScheme', {
         pattern = 'dracula',
@@ -26,6 +27,7 @@ return {
   },
   {
     'navarasu/onedark.nvim',
+    priority = 10000, -- load before others
     lazy = true,
   },
   {

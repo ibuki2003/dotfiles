@@ -39,6 +39,10 @@ return {
     ft = { 'wgsl' },
   },
   {
+    'tikhomirov/vim-glsl',
+    ft = { 'glsl' },
+  },
+  {
     'jxnblk/vim-mdx-js',
     event = { 'BufRead *.mdx', 'BufNewFile *.mdx' },
     ft = { 'mdx' },

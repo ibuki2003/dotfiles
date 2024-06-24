@@ -126,13 +126,8 @@ return {
         vim.g.IM_CtrlMode = 6
       elseif vim.fn.executable('fcitx5-remote') == 1 then
         _G.IMCtrl = function (cmd)
-          if cmd == 'On' then
-            vim.fn.system('fcitx5-remote -o > /dev/null 2>&1 ' .. vim.g.IM_CtrlAsync)
-          elseif cmd == 'Off' then
-            vim.fn.system('fcitx5-remote -c > /dev/null 2>&1 ' .. vim.g.IM_CtrlAsync)
-          elseif cmd == 'Toggle' then
-            vim.fn.system('fcitx5-remote -t > /dev/null 2>&1 ' .. vim.g.IM_CtrlAsync)
-          end
+          local c = ({ On = ' -o', Off = ' -c', Toggle = ' -t', })[cmd] or ''
+          vim.fn.system('fcitx5-remote ' .. c  .. ' > /dev/null 2>&1 ' .. vim.g.IM_CtrlAsync)
           return ''
         end
         vim.cmd[[
@@ -141,9 +136,10 @@ return {
         endfunction
         ]]
         vim.g.IM_CtrlMode = 1
-        vim.g.IM_vi_CooperativeMode = 1
-        vim.g.IM_JpFixModeAutoToggle = 0
       end
+      vim.g.IM_vi_CooperativeMode = 1
+      vim.g.IM_JpFixModeAutoToggle = 0
+      vim.g.IM_CtrlBufLocalMode = 1
       vim.api.nvim_set_keymap('i', '<C-k>', '<C-r>=IMState("FixMode")<CR>', { noremap = true, silent = true })
     end
   },
@@ -244,7 +240,12 @@ return {
   },
   {
     'juro106/ftjpn',
-    keys = { 'f', 'F', 't', 'T' },
+    keys = {
+      { 'f', mode = { 'n', 'x', 'o' } },
+      { 'F', mode = { 'n', 'x', 'o' } },
+      { 't', mode = { 'n', 'x', 'o' } },
+      { 'T', mode = { 'n', 'x', 'o' } },
+    },
     init = function()
       vim.g.ftjpn_key_list = {
         { '.', '。', '．' },
@@ -335,11 +336,8 @@ return {
     init = function() vim.g.wordmotion_nomap = 1 end,
   },
   {
-    'subnut/nvim-ghost.nvim',
-    cmd = { 'GhostTextStart' },
-    init = function()
-      vim.g.nvim_ghost_autostart = 0
-    end,
+    'gamoutatsumi/dps-ghosttext.vim',
+    cmd = { 'GhostStart' },
   },
   {
     "epwalsh/obsidian.nvim",
