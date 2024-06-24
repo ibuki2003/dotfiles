@@ -90,6 +90,8 @@ return {
           },
           { name = 'vsnip' },
           { name = 'buffer' },
+
+          { name = "lazydev" },
         }),
         sorting = {
           priority_weight = 2,
@@ -137,7 +139,6 @@ return {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile', 'InsertEnter' },
     dependencies = {
-      'folke/neodev.nvim',
       {
         'lvimuser/lsp-inlayhints.nvim',
         config = function()
@@ -148,6 +149,20 @@ return {
     config = function()
       require('settings/lsp/config')
     end,
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    dependencies = {
+      { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+    },
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
   },
   {
     'creativenull/efmls-configs-nvim',
