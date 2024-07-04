@@ -8,23 +8,18 @@ _mycompleter() {
   done
   if [[ $ret -ne 0 ]]; then return 1; fi
 
-  # for after 1st completion
-  compstate[insert]='menu'
-  compstate[list]=''
-
   local pre suf
 
   pre="$HISTNO$LBUFFER"
   suf="$RBUFFER"
-  # pre="$PREFIX"
-  # suf="$SUFFIX"
+
+  # only if first completion
   if [[ "$pre" != "$_hoge_prefix" || "$suf" != "$_hoge_suffix" ]]; then
     _hoge_prefix="$pre"
     _hoge_suffix="$suf"
 
     if [[ $compstate[nmatches] -ne 1 ]]; then
       # show list not menu
-      compstate[insert]=''
       compstate[list]='list force'
     else
       # insert the only match
