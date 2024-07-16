@@ -2,6 +2,20 @@
 
 root=$(realpath $(dirname "$0"))
 
+function ln_checked() {
+  # check if already linked
+  if [[ -L "$2" ]]; then
+    if [[ $(readlink "$2") = "$1" ]]; then
+      echo "Already linked: ~/$fn"
+      return
+    else
+      echo "Skipping $2, already linked to $(readlink $2)"
+      return
+    fi
+  fi
+  ln -vfTns "$1" "$2"
+}
+
 function ln_files() {
     if [ ! -e ~/"$1" ]; then
         mkdir -p ~/"$1"
@@ -14,7 +28,7 @@ function ln_files() {
                 ln_files $filename
                 ;;
             *)
-                ln -vfTns "$root/files/$fn" ~/"$fn"
+                ln_checked "$root/files/$fn" ~/"$fn"
                 ;;
         esac
     done
@@ -23,4 +37,4 @@ function ln_files() {
 ln_files .
 
 mkdir -p ~/.local/share/albert/python
-ln -vfTns $root/etc/albert_plugins ~/.local/share/albert/python/plugins
+ln_checked $root/etc/albert_plugins ~/.local/share/albert/python/plugins
