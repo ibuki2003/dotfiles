@@ -31,3 +31,5 @@ export AQUA_GLOBAL_CONFIG=${AQUA_GLOBAL_CONFIG:-}:${XDG_CONFIG_HOME:-$HOME/.conf
 export AQUA_POLICY_CONFIG=~/.config/aquaproj-aqua/aqua-policy.yaml
 
 export PNPM_HOME="/home/fuwa/.local/share/pnpm"
+
+export COREPACK_ENABLE_AUTO_PIN=0
