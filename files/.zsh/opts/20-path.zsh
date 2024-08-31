@@ -2,6 +2,8 @@ typeset -U path PATH
 
 path=(
   ~/.local/bin
+  ~/.bin
+  ~/.bin/scripts
   ~/.cargo/bin
   ~/.config/yarn/global/node_modules/.bin
   ~/.local/share/pnpm

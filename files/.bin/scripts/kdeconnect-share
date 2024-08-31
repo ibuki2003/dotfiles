@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# reject if fzf is not available
+if ! command -v fzf &> /dev/null; then
+    echo "fzf is required to run this script" >&2
+    exit 1
+fi
+
+device=$(
+  kdeconnect-cli -a 2>/dev/null \
+    | sed -E 's/ \(.+$//' \
+    | fzf --prompt="Select device: " --height=10 \
+    | sed -E 's/^.+: //'
+  )
+
+for file in "$@"; do
+  kdeconnect-cli --device "$device" --share "$file"
+done

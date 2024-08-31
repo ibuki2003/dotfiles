@@ -23,14 +23,11 @@ function ln_files() {
 
     for filename in $(find "$root/files/$1" -mindepth 1 -maxdepth 1 | xargs -n1 basename); do
         fn="$1/$filename"
-        case $filename in
-            .config)
-                ln_files $filename
-                ;;
-            *)
-                ln_checked "$root/files/$fn" ~/"$fn"
-                ;;
-        esac
+        if [[ $filename = .config || $filename = .bin ]]; then
+            ln_files $filename
+        else
+            ln_checked "$root/files/$fn" ~/"$fn"
+        fi
     done
 }
 

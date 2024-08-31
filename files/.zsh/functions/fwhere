@@ -1,0 +1,17 @@
+if (( ${+commands[$1]} || ${+aliases[$1]} )); then
+  # just print the result of `where`
+  where "$1"
+elif (( ${+functions[$1]} )); then
+  if [[ ${functions[$1]} == "builtin autoload "* ]]; then
+    # show the source of the function
+    for i in ${^fpath}/"$1"(N); do
+      echo $i
+    done
+  else
+    # just print the result of `where`
+    where "$1"
+  fi
+else
+  echo "No such command, function or alias: $1" >&2
+  return 1
+fi
