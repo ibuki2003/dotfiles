@@ -200,6 +200,7 @@ return {
       local gs = require('gitsigns')
       gs.setup {
         signcolumn = true,
+        signs_staged_enable = false,
         numhl = false,
         attach_to_untracked = true,
       }
@@ -407,9 +408,9 @@ return {
   {
     'tani/dmacro.nvim',
     event = { 'VimEnter' },
-    opts = {
-      dmacro_key = '<C-q>'
-    },
+    config = function()
+      vim.keymap.set({ 'i', 'n' }, '<C-q>', '<Plug>(dmacro-play-macro)', { noremap = true })
+    end,
   },
   {
     'mbbill/undotree',

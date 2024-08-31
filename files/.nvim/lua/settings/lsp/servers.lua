@@ -123,7 +123,6 @@ local setup = function(name)
       capabilities = cap(),
     }
   )
-  local t = vim.uv.hrtime()
   lspconfig[name].setup(opt)
   lspconfig[name].launch()
 end

@@ -58,7 +58,14 @@ return {
             end
           end, {"i", "s"}),
           ['<C-e>'] = cmp.mapping.abort(),
-          ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+          ['<C-y>'] = cmp.mapping(function(fallback)
+            if cmp.visible() and cmp.get_selected_entry() then
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+            else
+              cmp.complete()
+            end
+          end, {"i", "s"}),
+
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item({ behavior = selectBehavior })
@@ -146,7 +153,7 @@ return {
         end,
       },
     },
-    config = function()
+    init = function()
       require('settings/lsp/config')
     end,
   },
