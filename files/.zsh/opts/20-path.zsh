@@ -7,6 +7,7 @@ path=(
   ~/.cargo/bin
   ~/.config/yarn/global/node_modules/.bin
   ~/.local/share/pnpm
+  ~/.nix-profile/bin
   $path
 )
 export PATH
