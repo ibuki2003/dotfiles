@@ -1,7 +1,7 @@
 {
     "layer": "bottom",
     "position": "top",
-    "height": 24,
+    "height": 16,
     "spacing": 0,
     // Choose the order of the modules
     "modules-left": [
@@ -36,7 +36,6 @@
         "format": "({app_id}/{shell}) {title}",
         "icon": true,
         "icon-size": 16,
-        "max-length": 50,
         "tooltip": true,
         "all-outputs": true,
     },
@@ -45,7 +44,7 @@
     },
     "tray": {
         "icon-size": 16,
-        "spacing": 10
+        "spacing": 5,
     },
     "clock": {
         "format": "{:%Y-%m-%d (%a) %H:%M:%S}",

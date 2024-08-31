@@ -209,6 +209,7 @@ async function* watch_nmcli() {
       if (n.value) yield 1;
       if (n.done) break;
     }
+    await p.cancel();
   }
 }
 
