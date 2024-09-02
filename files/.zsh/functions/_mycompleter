@@ -1,12 +1,8 @@
 _mycompleter() {
   local cctx=$curcontext
 
-  local ret=1
-  for f in complete ignored; do
-    curcontext=${cctx//mycompleter/$f}
-    if _$f; then ret=0; break; fi
-  done
-  if [[ $ret -ne 0 ]]; then return 1; fi
+  curcontext=${cctx//mycompleter/complete}
+  if ! _complete; then return 1; fi
 
   local pre suf
 
@@ -20,11 +16,14 @@ _mycompleter() {
 
     if [[ $compstate[nmatches] -ne 1 ]]; then
       # show list not menu
+      compstate[insert]=''
       compstate[list]='list force'
     else
       # insert the only match
       compstate[insert]='unambiguous'
     fi
+  else
+    compstate[insert]='automenu'
   fi
 
   return 0
