@@ -16,6 +16,7 @@ md_name = "disks"
 md_description = "udisksctl mounting"
 md_license = "MIT"
 md_url = "https://fuwa.dev"
+md_authors = "fuwa"
 
 def notify_send(title, text):
     subprocess.Popen(["notify-send", title, text])
@@ -23,15 +24,16 @@ def notify_send(title, text):
 class Plugin(PluginInstance, GlobalQueryHandler):
 
     def __init__(self):
-        GlobalQueryHandler.__init__(self,
-                                    id=md_id,
-                                    name=md_name,
-                                    description=md_description,
-                                    defaultTrigger='d ',
-                                    synopsis='<disk name>',
-                                    supportsFuzzyMatching=True,
-                                    )
-        PluginInstance.__init__(self, extensions=[self])
+        PluginInstance.__init__(self)
+        GlobalQueryHandler.__init__(
+            self,
+            id=self.id,
+            name=self.name,
+            description=self.description,
+            defaultTrigger='d ',
+            synopsis='<disk name>',
+            supportsFuzzyMatching=True,
+        )
         self.icon_mount = [f"file:{Path(__file__).parent}/usb.svg"]
         self.icon_eject = [f"file:{Path(__file__).parent}/eject.svg"]
         self.client = None
@@ -39,9 +41,9 @@ class Plugin(PluginInstance, GlobalQueryHandler):
         self.cache = []
         self.cache_at = 0
 
-    def _get_disks(self):
+    def _get_disks(self, refresh=False):
         t = time.time()
-        if t - self.cache_at < 10:
+        if not refresh and (t - self.cache_at < 10):
             return self.cache
         self.cache_at = t
 
@@ -55,6 +57,7 @@ class Plugin(PluginInstance, GlobalQueryHandler):
 
         disks = []
         for b in d['blockdevices']:
+            if 'children' not in b: continue
             for t in b['children']:
                 if t['rm']:
                     disks.append(t | { 'device': b })
@@ -87,8 +90,8 @@ class Plugin(PluginInstance, GlobalQueryHandler):
         rank_items = []
         try:
 
-            disks = self._get_disks()
             q = query.string.lower()
+            disks = self._get_disks(refresh=(q == ""))
             for d in disks:
                 if not (
                     q in d['name'] or

@@ -16,6 +16,7 @@ md_name = "Yubikey"
 md_description = "Yubikey TOTP source"
 md_license = "MIT"
 md_url = "https://fuwa.dev"
+md_authors = "fuwa"
 md_lib_dependencies = ["clipboard"]
 
 def notify_send(title, text):
@@ -24,15 +25,16 @@ def notify_send(title, text):
 class Plugin(PluginInstance, GlobalQueryHandler):
 
     def __init__(self):
-        GlobalQueryHandler.__init__(self,
-                                    id=md_id,
-                                    name=md_name,
-                                    description=md_description,
-                                    defaultTrigger='yk ',
-                                    synopsis='<account name>',
-                                    supportsFuzzyMatching=True,
-                                    )
-        PluginInstance.__init__(self, extensions=[self])
+        PluginInstance.__init__(self)
+        GlobalQueryHandler.__init__(
+            self,
+            id=self.id,
+            name=self.name,
+            description=self.description,
+            defaultTrigger='yk ',
+            synopsis='<account name>',
+            supportsFuzzyMatching=True,
+        )
         self.icon = [f"file:{Path(__file__).parent}/yubikey.svg"]
 
         self.cache = []
@@ -89,6 +91,9 @@ class Plugin(PluginInstance, GlobalQueryHandler):
             rc = p.returncode
         except subprocess.TimeoutExpired:
             rc = 1
+        except Exception as e:
+            notify_send("error ykman", str(e))
+            return
 
         if not p or rc != 0:
             notify_send("error ykman", "Failed to get code")
