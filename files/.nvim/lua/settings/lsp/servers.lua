@@ -40,7 +40,7 @@ local servers = {
   },
   astro = {},
 
-  tsserver = {
+  ts_ls = {
     root_dir = function(fname, buf)
       if fname and vim.endswith(fname, '.vue') then return nil end
       return lspconfig.util.root_pattern("package.json", "node_modules")(fname, buf)

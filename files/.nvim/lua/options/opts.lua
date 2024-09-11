@@ -8,6 +8,7 @@ vim.opt.fileformats = {"unix", "dos", "mac"}
 vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.swapfile = true
+vim.opt.updatetime = 60000 -- ms
 vim.opt.autoread = true
 vim.opt.hidden = true
 vim.opt.showcmd = true
@@ -28,7 +29,7 @@ vim.opt.showmatch = true
 vim.opt.laststatus = 2
 
 vim.opt.formatoptions:remove("ro")
-vim.cmd [[au FileType * setlocal formatoptions-=ro]]
+vim.cmd [[ au Filetype * if &ft != 'markdown' | setlocal formatoptions-=ro | endif ]]
 
 vim.opt.completeopt:remove("preview")
 

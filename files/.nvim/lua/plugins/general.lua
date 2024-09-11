@@ -422,4 +422,5 @@ return {
     end,
   },
   'rbtnn/vim-ambiwidth',
+  'google/vim-searchindex',
 }

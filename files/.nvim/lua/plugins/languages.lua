@@ -1,7 +1,6 @@
 return {
   {
     'chrisbra/csv.vim',
-    ft = { 'csv' },
   },
   {
     'rust-lang/rust.vim',
