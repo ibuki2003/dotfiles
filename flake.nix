@@ -21,16 +21,23 @@
     in
   {
 
-    apps.${system}.update = {
-      type = "app";
-      program = toString (pkgs.writeShellScript "update-script" ''
-        set -e
-        echo "updating flake"
-        nix flake update
-        echo "updating home-manager"
-        nix run 'nixpkgs#home-manager' -- switch --flake '.#myHomeConfig'
-        echo "done"
-      '');
+    apps.${system} = {
+      update = {
+        type = "app";
+        program = toString (pkgs.writeShellScript "update-script" ''
+          set -e
+          nix flake update
+          nix run 'nixpkgs#home-manager' -- switch --flake '.#myHomeConfig'
+        '');
+      };
+
+      install = {
+        type = "app";
+        program = toString (pkgs.writeShellScript "update-script" ''
+          set -e
+          nix run 'nixpkgs#home-manager' -- switch --flake '.#myHomeConfig'
+        '');
+      };
     };
 
     homeConfigurations = {
