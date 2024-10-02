@@ -45,6 +45,10 @@ vim.keymap.set('n', 'X', '"_X')
 vim.keymap.set({'o', 'x'}, 'i<space>', 'iW')
 vim.keymap.set('n', 'M', '%')
 
+-- https://blog.atusy.net/2024/09/06/linewise-zf/
+vim.keymap.set('n', 'zf', 'zfV')
+vim.keymap.set('v', 'zf', function() return vim.fn.mode() == 'V' and 'zf' or 'Vzf' end, { expr = true })
+
 vim.keymap.set('n', 'i', function() if vim.fn.getline('.') == '' then return '"_cc' else return 'i' end end, { expr = true })
 vim.keymap.set('n', 'A', function() if vim.fn.getline('.') == '' then return '"_cc' else return 'A' end end, { expr = true })
 
