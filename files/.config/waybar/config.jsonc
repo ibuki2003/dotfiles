@@ -69,7 +69,7 @@
     },
     "custom/memory": {
         "interval": 3,
-        "format": "{icon} {}",
+        "format": "{icon} {0}",
         "return-type": "json",
         "exec": "deno run --allow-run ~/.config/waybar/scripts/memory.ts",
         "exec-if": "true",
@@ -77,7 +77,7 @@
         "format-icons": ["󰝦", "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥"],
     },
     "custom/cpu": {
-        "format": "{icon} {}",
+        "format": "{icon} {0}",
         "return-type": "json",
         "exec": "deno run -A ~/.config/waybar/scripts/cpu.ts",
         "tooltip": true,
@@ -109,7 +109,7 @@
 
     },
     "custom/network": {
-        "format": "{icon} {}",
+        "format": "{icon} {0}",
         "return-type": "json",
         "exec": "deno run -A ~/.config/waybar/scripts/network.ts",
         "tooltip": true,
@@ -136,7 +136,7 @@
         "on-click-right": "pavucontrol",
     },
     "custom/playerctl": {
-        "format": "{}",
+        "format": "{0}",
         "return-type": "json",
         "exec": "deno run --allow-run ~/.config/waybar/scripts/playerctl.ts",
         "tooltip": true,
@@ -156,7 +156,7 @@
         "on-click": "playerctl -p playerctld next",
     },
     "custom/mako": {
-        "format": "{}",
+        "format": "{0}",
         "exec": "~/.config/waybar/scripts/mako.sh",
         "exec-on-event": true,
         "interval": 10,
