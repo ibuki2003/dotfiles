@@ -7,7 +7,7 @@
         "keymap": {
             "'": "set-input-mode-hiragana",
             "q": null,
-            "Q": "start-preedit"
+            "Q": "start-preedit insert-kana-ン"
         }
     }
 }

@@ -7,7 +7,7 @@
         "keymap": {
             "'": "set-input-mode-katakana",
             "q": null,
-            "Q": "start-preedit"
+            "Q": "start-preedit insert-kana-ん"
         }
     }
 }
