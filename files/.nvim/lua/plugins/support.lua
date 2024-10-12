@@ -43,7 +43,20 @@ return {
     'andymass/vim-matchup',
     event = { 'CursorMoved', 'CursorMovedI' },
     init = function()
-      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+      vim.g.matchup_matchparen_offscreen = {
+        method = "popup",
+      }
+      -- TODO: use appropriate event
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          -- workaround: disable if not supported
+          if not vim.b.match_words then
+            vim.b.matchup_matchparen_enabled = 0
+          else
+            vim.b.matchup_matchparen_enabled = 1
+          end
+        end,
+      })
     end,
   },
   {
