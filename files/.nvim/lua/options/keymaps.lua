@@ -69,9 +69,9 @@ local function expandpath()
   local left = line:sub(pos - 1, pos - 1)
 
   if left == '/' then
-    return vim.fn.expand('%:p:t')
+    return vim.fn.expand('%:t')
   elseif not punct_ptn:match_str(left) then
-    return vim.fn.expand('%:p:h') .. '/'
+    return vim.fn.expand('%:h') .. '/'
   end
 end
 vim.keymap.set({'c','i'}, '<C-p>', expandpath, { noremap = true, expr = true })
