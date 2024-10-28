@@ -7,6 +7,14 @@ return {
     ft = { 'rust' },
     init = function()
       vim.g.rust_recommended_style = 1
+      vim.g.rustfmt_autosave = 1
+    end
+  },
+  {
+    'mrcjkb/rustaceanvim',
+    init = function()
+      vim.g.rustaceanvim = {
+      }
     end
   },
   {

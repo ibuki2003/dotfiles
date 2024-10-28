@@ -16,18 +16,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float_opts)
 
-vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = "LspAttach_inlayhints",
-  callback = function(args)
-    if not (args.data and args.data.client_id) then
-      return
-    end
-    local bufnr = args.buf
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    require("lsp-inlayhints").on_attach(client, bufnr)
-  end,
-})
+-- enable inlay hints by default
+vim.lsp.inlay_hint.enable(true, nil)
 
 vim.diagnostic.config({severity_sort = true})
 
@@ -50,14 +40,25 @@ local maps = {
 
   ['<leader>ll'] = vim.lsp.buf.hover,
 
-  ['<leader>le'] = function() vim.diagnostic.open_float(0, vim.tbl_extend("force", float_opts, { scope = "line", })) end,
-  ['<leader>lE'] = function() vim.diagnostic.open_float(0, vim.tbl_extend("force", float_opts, {
+  ['<leader>le'] = function() vim.diagnostic.open_float(vim.tbl_extend("force", float_opts, {
+    bufnr = 0,
+    scope = "line",
+  })) end,
+  ['<leader>lE'] = function() vim.diagnostic.open_float(vim.tbl_extend("force", float_opts, {
+    bufnr = 0,
     scope = "line",
     format = format_diagnostics_hover,
   })) end,
 
-  [']e'] = function() vim.diagnostic.goto_next({ wrap = true, float = float_opts }) end,
-  ['[e'] = function() vim.diagnostic.goto_prev({ wrap = true, float = float_opts }) end,
+  ['<leader>lh'] = function()
+    vim.lsp.inlay_hint.enable(
+      not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }),
+      { bufnr = 0 }
+    )
+  end,
+
+  [']e'] = function() vim.diagnostic.jump({ count = 1 ,wrap = true, float = float_opts }) end,
+  ['[e'] = function() vim.diagnostic.jump({ count = -1 ,wrap = true, float = float_opts }) end,
 }
 
 for k, v in pairs(maps) do

@@ -144,16 +144,10 @@ return {
   },
   {
     'neovim/nvim-lspconfig',
-    event = { 'BufReadPre', 'BufNewFile', 'InsertEnter' },
+    event = { 'BufReadPre', 'BufNewFile', 'InsertEnter', 'FileType' },
     dependencies = {
-      {
-        'lvimuser/lsp-inlayhints.nvim',
-        config = function()
-          require("lsp-inlayhints").setup()
-        end,
-      },
     },
-    init = function()
+    config = function()
       require('settings/lsp/config')
     end,
   },

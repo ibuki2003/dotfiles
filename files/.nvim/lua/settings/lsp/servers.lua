@@ -15,15 +15,6 @@ local servers = {
   },
   pylyzer = {},
   pyright = {},
-  rust_analyzer = {
-    settings = {
-      ["rust-analyzer"] = {
-        check = {
-          command = "clippy",
-        },
-      },
-    },
-  },
   eslint = {},
   texlab = {},
   gopls = {},
@@ -127,8 +118,8 @@ local setup = function(name)
   lspconfig[name].launch()
 end
 
-for lsp, _ in pairs(servers) do
-  local fts = servers[lsp].filetypes or require('lspconfig.server_configurations.' .. lsp).default_config.filetypes
+for lsp, opts in pairs(servers) do
+  local fts = opts.filetypes or require('lspconfig.configs.' .. lsp).default_config.filetypes
 
   if not fts then
     setup(lsp)
