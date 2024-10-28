@@ -60,7 +60,7 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>')
 
 
 -- https://zenn.dev/vim_jp/articles/20230814_ekiden_fullpath
--- <C-p> to insert full-path cwd
+-- <C-p> to insert path
 
 local punct_ptn = vim.regex([[\k]])
 local function expandpath()
