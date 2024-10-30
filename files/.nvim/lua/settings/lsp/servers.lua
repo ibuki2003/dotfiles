@@ -93,6 +93,15 @@ local servers = {
       }
     },
   },
+  -- typst_lsp = {
+  --   -- offset_encoding = 'utf-8', -- UTF-8 makes the server crash, UTF-16 causes the nvim error :(
+  -- },
+  tinymist = {
+    single_file_support = true,
+    settings = {
+      exportPdf = "onSave",
+    },
+  },
 }
 
 local _cap = nil
