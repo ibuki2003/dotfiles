@@ -1,6 +1,12 @@
 #!/usr/bin/env zsh
 
-if [[ $OSTYPE == linux* ]]; then
+fd=/dev/stdin
+
+if [[ $# -gt 0 ]]; then
+  fd=$1
+fi
+
+(if [[ $OSTYPE == linux* ]]; then
   if [[ $XDG_SESSION_TYPE == wayland ]]; then
     wl-copy
   elif [[ $XDG_SESSION_TYPE == x11 ]]; then
@@ -18,4 +24,4 @@ elif [[ $OSTYPE == darwin* ]]; then
   command pbcopy
 elif [[ $OSTYPE == (cygwin*|msys) ]]; then
   tee > /dev/clipboard
-fi
+fi) < $fd

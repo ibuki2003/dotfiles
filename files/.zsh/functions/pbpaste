@@ -1,6 +1,18 @@
 #!/usr/bin/env zsh
 
-if [[ $OSTYPE == linux* ]]; then
+fd=/dev/stdout
+
+if [[ $# -gt 0 ]]; then
+  # abort if file exists; for safety
+  if [[ -e $1 ]]; then
+    print -ru2 "error: destination file exists"
+    print -ru2 "note: to overwrite the file, use redirection"
+    return 1
+  fi
+  fd=$1
+fi
+
+(if [[ $OSTYPE == linux* ]]; then
   if [[ $XDG_SESSION_TYPE == wayland ]]; then
     wl-paste
   elif [[ $XDG_SESSION_TYPE == x11 ]]; then
@@ -10,7 +22,6 @@ if [[ $OSTYPE == linux* ]]; then
       xsel -b
     fi
   elif [[ -r /proc/version && $(< /proc/version) == *[Mm]icrosoft* ]]; then
-    # WSL 1 or 2
     if ! xclip -selection clipboard -out 2> /dev/null; then
       powershell.exe -NoProfile -NonInteractive -Command Get-Clipboard
     fi
@@ -19,4 +30,4 @@ elif [[ $OSTYPE == darwin* ]]; then
   command pbpaste
 elif [[ $OSTYPE == (cygwin*|msys) ]]; then
   print "$(< /dev/clipboard)"
-fi
+fi) > $fd
