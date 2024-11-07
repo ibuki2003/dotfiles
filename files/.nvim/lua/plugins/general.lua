@@ -414,4 +414,17 @@ return {
   },
   'rbtnn/vim-ambiwidth',
   'google/vim-searchindex',
+  {
+    'qpkorr/vim-bufkill',
+    init = function()
+      vim.g.BufKillCreateMappings = 0
+      vim.keymap.set("ca", "bd", function()
+        if vim.fn.getcmdtype() == ":" and vim.fn.getcmdline() == "bd" then
+          return "BD" -- redirect to custom command
+        else
+          return "bd"
+        end
+      end, { expr = true })
+    end,
+  }
 }
