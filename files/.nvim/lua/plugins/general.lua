@@ -7,7 +7,7 @@ return {
   },
   {
     'machakann/vim-sandwich',
-    lazy = true,
+    lazy = false,
     keys = {
       { 's',   '<Plug>(sandwich-add)',             mode = 'n' },
       { 'S',   '<Plug>(sandwich-add)g_',           mode = 'n' },
@@ -55,8 +55,7 @@ return {
             nesting = 1,
             match_syntax = 1,
             motionwise = { 'char', 'block' }, -- only not line
-            kind = { "add", "replace" },
-            action = { "add" },
+            action = { "add", "replace" },
             input = { k[1] }
           })
 
@@ -65,11 +64,16 @@ return {
             nesting = 1,
             regex = 1,
             match_syntax = 1,
-            kind = { "delete", "replace", "textobj" },
             action = { "delete" },
             input = { k[1] }
           })
       end
+      vim.list_extend(recipes, {
+        -- Type param Type<>
+        { buns = { 'input("typename: ") . "<"', '">"' }, action = { 'add', 'replace' }, expr = 1, input = { 'g' }},
+        { buns = { [[\%([^A-Za-z0-9:]\|^\)\@<=[A-Za-z0-9:]\+<]], [[>]] }, regex = 1, nesting = 1, action = { "delete" }, input = { 'g' }, },
+      })
+
       vim.g['sandwich#recipes'] = vim.list_extend(vim.g['sandwich#default_recipes'], recipes)
     end,
   },
