@@ -54,4 +54,26 @@ return {
     event = { 'BufRead *.mdx', 'BufNewFile *.mdx' },
     ft = { 'mdx' },
   },
+  {
+    'ixru/nvim-markdown',
+    lazy = false,
+    init = function()
+      vim.g.vim_markdown_no_default_key_mappings = 1
+      vim.g.vim_markdown_conceal = 0
+      vim.g.vim_markdown_math = 1
+    end,
+    keys = {
+      { ft='markdown', ']]', '<Plug>Markdown_MoveToNextHeader', mode={'n','v'} },
+      { ft='markdown', '[[', '<Plug>Markdown_MoveToPreviousHeader', mode={'n','v'} },
+      { ft='markdown', '][', '<Plug>Markdown_MoveToNextSiblingHeader', mode={'n','v'} },
+      { ft='markdown', '[]', '<Plug>Markdown_MoveToPreviousSiblingHeader', mode={'n','v'} },
+      { ft='markdown', ']u', '<Plug>Markdown_MoveToParentHeader', mode={'n','v'} },
+      { ft='markdown', ']c', '<Plug>Markdown_MoveToCurHeader', mode={'n','v'} },
+      { ft='markdown', '<C-c>', '<Plug>Markdown_Checkbox', mode='n' },
+      { ft='markdown', '<TAB>', '<Plug>Markdown_Fold', mode='n' },
+      { ft='markdown', 'o', '<Plug>Markdown_NewLineBelow', mode='n' },
+      { ft='markdown', 'O', '<Plug>Markdown_NewLineAbove', mode='n' },
+      { ft='markdown', '<CR>', '<Plug>Markdown_NewLineBelow', mode='i' },
+    },
+  },
 }
