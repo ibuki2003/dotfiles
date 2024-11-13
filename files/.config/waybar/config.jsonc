@@ -68,11 +68,9 @@
         },
     },
     "custom/memory": {
-        "interval": 3,
         "format": "{icon} {0}",
         "return-type": "json",
         "exec": "deno run --allow-run ~/.config/waybar/scripts/memory.ts",
-        "exec-if": "true",
         "tooltip": true,
         "format-icons": ["󰝦", "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥"],
     },

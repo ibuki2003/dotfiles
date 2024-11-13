@@ -1,3 +1,6 @@
+const enc = new TextEncoder();
+const dec = new TextDecoder();
+
 interface WaybarJson {
   text?: string;
   tooltip?: string;
@@ -29,8 +32,8 @@ function format_table(str: string): string {
 }
 
 
-async function getMemoryStatus(): Promise<WaybarJson> {
-  const raw = new TextDecoder().decode((await new Deno.Command("free", { args: [], stdout: "piped" }).output()).stdout);
+function getMemoryStatus(): WaybarJson {
+  const raw = dec.decode(new Deno.Command("free", { args: [], stdout: "piped" }).outputSync().stdout);
 
   const usage = raw.split("\n").slice(1).reduce((acc: {[type: string]: {total: number, used:number}}, line) => {
     if (!line.trim()) return acc;
@@ -47,12 +50,12 @@ async function getMemoryStatus(): Promise<WaybarJson> {
   text += `${Math.floor(usage["Mem"].used / usage["Mem"].total * 100)}%`;
 
   if (usage["Swap"].total != 0) {
-    text += ` (+${Math.floor(usage["Swap"].used / usage["Swap"].total * 100)}%)`;
+    text += `+${Math.floor(usage["Swap"].used / usage["Swap"].total * 100)}%`;
   }
 
   const percentage = usage["Mem"].used / usage["Mem"].total * 100;
 
-  const human_readable_raw = new TextDecoder().decode((await new Deno.Command("free", { args: ["-h"], stdout: "piped" }).output()).stdout);
+  const human_readable_raw = dec.decode(new Deno.Command("free", { args: ["-h"], stdout: "piped" }).outputSync().stdout);
 
   const human_readable = format_table(human_readable_raw);
 
@@ -63,4 +66,9 @@ async function getMemoryStatus(): Promise<WaybarJson> {
   };
 }
 
-Deno.stdout.write(new TextEncoder().encode(JSON.stringify(await getMemoryStatus())));
+function write(payload: unknown) {
+  Deno.stdout.write(enc.encode(JSON.stringify(payload) + '\n'));
+}
+
+write(getMemoryStatus()); // first execution
+setInterval(() => write(getMemoryStatus()), 3000);
