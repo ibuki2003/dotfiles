@@ -52,8 +52,6 @@ vim.keymap.set('x', 'zf', function() return vim.fn.mode() == 'V' and 'zf' or 'Vz
 vim.keymap.set('n', 'i', function() if vim.fn.getline('.') == '' then return '"_cc' else return 'i' end end, { expr = true })
 vim.keymap.set('n', 'A', function() if vim.fn.getline('.') == '' then return '"_cc' else return 'A' end end, { expr = true })
 
-vim.keymap.set('n', '/', '/\\v')
-vim.keymap.set('n', '?', '/\\V')
 
 -- terminal escape
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>')
