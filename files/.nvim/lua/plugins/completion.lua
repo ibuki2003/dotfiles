@@ -33,6 +33,9 @@ return {
             )
           end,
         },
+        completion = {
+          autocomplete = { 'InsertEnter', 'TextChanged' },
+        },
         preselect = cmp.PreselectMode.None,
         mapping = {
           ['<CR>'] = cmp.mapping(function(fallback)
@@ -97,8 +100,15 @@ return {
           },
           { name = 'vsnip' },
           { name = 'buffer' },
-
           { name = "lazydev" },
+          {
+            name = 'look',
+            keyword_length = 3,
+            option = {
+              convert_case = true,
+              loud = true,
+            },
+          },
         }),
         sorting = {
           priority_weight = 2,
@@ -106,6 +116,8 @@ return {
             require'copilot_cmp.comparators'.prioritize,
             cmp.config.compare.offset,
             cmp.config.compare.exact,
+            require'cmp_lsp_rs'.comparators.inscope_inherent_import,
+            require'cmp_lsp_rs'.comparators.sort_by_label_but_underscore_last,
             cmp.config.compare.score,
             cmp.config.compare.kind,
             cmp.config.compare.length,
@@ -140,12 +152,28 @@ return {
           require("copilot_cmp").setup()
         end
       },
+      {
+        'zjp-CN/nvim-cmp-lsp-rs',
+        opts = {
+          kind = function(k)
+            return { k.Module, k.Function }
+          end,
+        },
+      },
+      'octaltree/cmp-look',
     }
   },
   {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile', 'InsertEnter', 'FileType' },
     dependencies = {
+      {
+        'ray-x/lsp_signature.nvim',
+        event = "VeryLazy",
+        opts = {
+          hint_enable = false,
+        },
+      },
     },
     config = function()
       require('settings/lsp/config')
@@ -178,26 +206,6 @@ return {
         },
       }
     },
-  },
-  {
-    'matsui54/denops-popup-preview.vim',
-    dependencies = { 'vim-denops/denops.vim' },
-    event = { 'User DenopsReady' },
-    config = function()
-      vim.fn['popup_preview#enable']()
-    end
-  },
-  {
-    'matsui54/denops-signature_help',
-    dependencies = { 'vim-denops/denops.vim' },
-    event = { 'User DenopsReady' },
-    config = function()
-      vim.g['signature_help_config'] = {
-        viewStyle = "floating",
-        multiLabel = true,
-      }
-      vim.fn['signature_help#enable']()
-    end,
   },
   {
     'hrsh7th/vim-vsnip',
