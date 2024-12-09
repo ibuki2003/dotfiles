@@ -1,4 +1,4 @@
-#!/bin/bash
+#!env bash
 
 # argument: toggle
 if [[ "$1" == "toggle" ]]; then

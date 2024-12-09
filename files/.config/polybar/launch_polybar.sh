@@ -1,4 +1,4 @@
-#!/bin/bash
+#!env bash
 
 # kill once
 polybar-msg cmd quit

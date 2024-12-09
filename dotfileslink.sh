@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!env zsh
 
 root=$(realpath $(dirname "$0"))
 

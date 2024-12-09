@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!env zsh
 
 local -A opthash
 zparseopts -D -A opthash -- -select -clip

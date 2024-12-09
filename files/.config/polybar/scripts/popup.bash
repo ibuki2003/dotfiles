@@ -1,4 +1,4 @@
-#!/bin/bash
+#!env bash
 
 yad \
   --undecorated \
