@@ -14,7 +14,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "fuwavermeer-nix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -43,17 +43,21 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  #services.xserver.enable = false;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  #services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
+
+  services.gnome.gnome-keyring.enable = true;
+
+  services.playerctld.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -83,12 +87,9 @@
     description = "fuwa";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    #  thunderbird
     ];
+    shell = pkgs.zsh;
   };
-
-  # Install firefox.
-  programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -127,6 +128,68 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 
-  nix = { settings = { experimental-features = ["nix-command" "flakes"]; }; };
+  nix = {
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+    };
+  };
 
+  programs = {
+    git = {
+      enable = true;
+    };
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      viAlias = true;
+      vimAlias = true;
+    };
+    zsh = {
+      enable = true;
+    };
+    sway = {
+      enable = true;
+      package = pkgs.swayfx;
+      wrapperFeatures.gtk = true;
+      extraPackages = with pkgs; [
+        brightnessctl
+        grim
+        rofi
+        mako
+        waybar
+      ];
+    };
+    firefox = {
+      enable = true;
+      package = pkgs.firefox-devedition;
+    };
+  };
+
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5 = {
+      waylandFrontend = true;
+      addons = [pkgs.fcitx5-skk];
+    };
+  };
+
+  fonts = {
+    fonts = with pkgs; [
+      noto-fonts-cjk-serif
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
+      nerdfonts
+      hackgen-font
+      hackgen-nf-font
+    ];
+    fontDir.enable = true;
+    fontconfig = {
+      defaultFonts = {
+        serif = ["Noto Serif CJK JP" "Noto Color Emoji"];
+        sansSerif = ["Noto Sans CJK JP" "Noto Color Emoji"];
+        monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
+        emoji = ["Noto Color Emoji"];
+      };
+    };
+  };
 }
