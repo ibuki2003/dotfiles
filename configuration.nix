@@ -99,6 +99,8 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+    gcc
+    clang
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -131,45 +133,6 @@
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
-    };
-  };
-
-  programs = {
-    git = {
-      enable = true;
-    };
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      viAlias = true;
-      vimAlias = true;
-    };
-    zsh = {
-      enable = true;
-    };
-    sway = {
-      enable = true;
-      package = pkgs.swayfx;
-      wrapperFeatures.gtk = true;
-      extraPackages = with pkgs; [
-        brightnessctl
-        grim
-        rofi
-        mako
-        waybar
-      ];
-    };
-    firefox = {
-      enable = true;
-      package = pkgs.firefox-devedition;
-    };
-  };
-
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5 = {
-      waylandFrontend = true;
-      addons = [pkgs.fcitx5-skk];
     };
   };
 
