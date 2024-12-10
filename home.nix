@@ -28,32 +28,59 @@ in {
 
     packages = with pkgs; [
 
+      # libraries
       libnotify
 
+      # tools
       alacritty
       albert
       bat
+      bottom
       clang-tools
       cmake
       deno
+      dex
+      dig
       discord
+      dogdns
       eza
       fd
+      ffmpeg
       fzf
       ghq
+      gimp-with-plugins
+      htop
+      imagemagick
       imv
+      inkscape
+      jq
+      networkmanagerapplet
       nil # nix lsp
       nodejs
+      pamixer
+      pavucontrol
+      pciutils
+      pnpm
+      pulseaudio-ctl
       ripgrep
       rustup
       sheldon
+      skktools
       slack
       tig
       tmux
+      usbutils
       wl-clipboard
       yubikey-manager
       zathura
 
+      # lsp servers
+      efm-langserver
+      emmet-ls
+      lua-language-server
+      tinymist
+
+      # python
       (python312.withPackages (ps: [
         ps.pip
         ps.pipx
@@ -91,6 +118,7 @@ in {
         settings = {
           "browser.fullscreen.autohide" = false;
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          "browser.tabs.inTitlebar" = 0;
           # "browser.uiCustomization.state" = ""; # TODO
         };
       };
@@ -108,7 +136,10 @@ in {
     enabled = "fcitx5";
     fcitx5 = {
       # waylandFrontend = true;
-      addons = [pkgs.fcitx5-skk];
+      addons = [
+        pkgs.fcitx5-skk
+        pkgs.skk-dicts
+      ];
     };
   };
 

@@ -125,6 +125,7 @@
         rofi
         waybar
         wob
+        sway-contrib.grimshot
       ];
     };
   };
