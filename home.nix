@@ -9,6 +9,7 @@
 in {
   nixpkgs = {
     overlays = [
+      # inputs.neovim-nightly-overlay.overlays.default
     ];
     config = {
       allowUnfree = true;
@@ -26,29 +27,48 @@ in {
     enableNixpkgsReleaseCheck = false;
 
     packages = with pkgs; [
-      clang-tools
-      deno
-      alacritty
-      sheldon
-      albert
-      ripgrep
-      fd
-      eza
-      nodejs
-      nil # nix lsp
-      tmux
-      bat
-      python3
-      rustup
-      zsh # use my .zshrc
 
-      sway
-      brightnessctl
-      grim
-      rofi
-      mako
-      waybar
+      libnotify
+
+      alacritty
+      albert
+      bat
+      clang-tools
+      cmake
+      deno
+      discord
+      eza
+      fd
+      fzf
+      ghq
+      imv
+      nil # nix lsp
+      nodejs
+      ripgrep
+      rustup
+      sheldon
+      slack
+      tig
+      tmux
+      wl-clipboard
+      yubikey-manager
+      zathura
+
+      (python312.withPackages (ps: [
+        ps.pip
+        ps.pipx
+      ]))
     ];
+
+    pointerCursor = {
+      name = "Adwaita";
+      package = pkgs.gnome.adwaita-icon-theme;
+      size = 16;
+      x11 = {
+        enable = true;
+        defaultCursor = "Adwaita";
+      };
+    };
   };
 
   programs = {
@@ -56,6 +76,7 @@ in {
       enable = true;
     };
     neovim = {
+      package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
       enable = true;
       defaultEditor = true;
       viAlias = true;
@@ -67,7 +88,19 @@ in {
       profiles.dev-edition-default = {
         isDefault = true;
         userChrome = builtins.readFile ./etc/firefox/userChrome.css;
+        settings = {
+          "browser.fullscreen.autohide" = false;
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          # "browser.uiCustomization.state" = ""; # TODO
+        };
       };
+    };
+  };
+
+  services = {
+    kdeconnect = {
+      enable = true;
+      indicator = true;
     };
   };
 

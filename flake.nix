@@ -7,6 +7,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   outputs = {
@@ -21,10 +22,10 @@
   {
 
     nixosConfigurations = {
-      myNixOS = inputs.nixpkgs.lib.nixosSystem {
-        system = system;
+      vermeer = inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         modules = [
-          ./configuration.nix
+          ./nix/hosts/fuwavermeer.nix
         ];
       };
     };
