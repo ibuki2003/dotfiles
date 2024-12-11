@@ -1,16 +1,30 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "24.11"; # Did you read the comment?
+
   imports =
     [
       ../cachix.nix
     ];
 
+  nix = {
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      trusted-users = ["fuwa"];
+    };
+  };
+
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "fuwavermeer-nix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -19,6 +33,15 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  networking.nftables.enable = true;
+  networking.firewall = {
+    enable = lib.mkDefault true;
+    allowedTCPPorts = [ 22 ];
+    logRefusedConnections = false;
+
+    trustedInterfaces = [ "tailscale0" ];
+  };
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
@@ -109,17 +132,30 @@
     tailscale = {
       enable = true;
     };
+
+    fstrim.enable = true;
+
+    udev.packages = [
+      pkgs.yubikey-personalization
+    ];
+
+    udisks2.enable = true;
+
+    openssh.enable = true;
   };
 
   programs = {
     zsh = {
       enable = true;
+      # I will configure zsh with my .zshrc
+      setOptions = [];
     };
     sway = {
       enable = true;
       package = pkgs.swayfx;
       extraPackages = with pkgs; [
         brightnessctl
+        dmenu-wayland
         grim
         mako
         rofi
@@ -128,6 +164,7 @@
         sway-contrib.grimshot
       ];
     };
+    nix-ld.enable = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -140,44 +177,20 @@
 
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
-
-  nix = {
-    settings = {
-      experimental-features = ["nix-command" "flakes"];
-    };
-  };
-
   fonts = {
     packages = with pkgs; [
       noto-fonts-cjk-serif
       noto-fonts-cjk-sans
       noto-fonts-emoji
-      nerdfonts
       hackgen-font
       hackgen-nf-font
     ];
-    fontDir.enable = true;
+    fontDir.enable = false;
     fontconfig = {
       defaultFonts = {
         serif = ["Noto Serif CJK JP" "Noto Color Emoji"];
         sansSerif = ["Noto Sans CJK JP" "Noto Color Emoji"];
-        monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
+        monospace = ["Noto Sans Mono CJK JP" "Noto Color Emoji"];
         emoji = ["Noto Color Emoji"];
       };
     };

@@ -67,12 +67,16 @@ in {
       sheldon
       skktools
       slack
+      spotify
       tig
       tmux
+      unzipNLS
       usbutils
       wl-clipboard
+      xxd
       yubikey-manager
       zathura
+      zoom-us
 
       # lsp servers
       efm-langserver
@@ -89,7 +93,7 @@ in {
 
     pointerCursor = {
       name = "Adwaita";
-      package = pkgs.gnome.adwaita-icon-theme;
+      package = pkgs.adwaita-icon-theme;
       size = 16;
       x11 = {
         enable = true;
@@ -106,8 +110,6 @@ in {
       package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
       enable = true;
       defaultEditor = true;
-      viAlias = true;
-      vimAlias = true;
     };
     firefox = {
       enable = true;
@@ -119,6 +121,7 @@ in {
           "browser.fullscreen.autohide" = false;
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "browser.tabs.inTitlebar" = 0;
+          "browser.zoom.siteSpecific" = false;
           # "browser.uiCustomization.state" = ""; # TODO
         };
       };
@@ -129,6 +132,9 @@ in {
     kdeconnect = {
       enable = true;
       indicator = true;
+    };
+    syncthing = {
+      enable = true;
     };
   };
 
@@ -142,6 +148,15 @@ in {
       ];
     };
   };
+
+  fonts.fontconfig.enable = true;
+  xdg.configFile."fontconfig/conf.d/99-local.conf".text = ''
+    <?xml version="1.0"?>
+    <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+    <fontconfig>
+      <dir>/home/${username}/.fonts</dir>
+    </fontconfig>
+    '';
 
 
   programs.home-manager.enable = true;
