@@ -1,4 +1,4 @@
-#!env sh
+#!/usr/bin/env sh
 type bluetoothctl > /dev/null 2>&1 || exit
 
 if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]; then

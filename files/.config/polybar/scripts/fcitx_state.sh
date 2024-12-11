@@ -1,4 +1,4 @@
-#!env bash
+#!/usr/bin/env bash
 
 case `fcitx-remote` in
   0 ) echo "-";;

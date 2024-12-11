@@ -1,4 +1,4 @@
-#!env zsh
+#!/usr/bin/env zsh
 
 fd=/dev/stdin
 

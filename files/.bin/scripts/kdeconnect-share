@@ -1,4 +1,4 @@
-#!env bash
+#!/usr/bin/env bash
 
 # reject if fzf is not available
 if ! command -v fzf &> /dev/null; then

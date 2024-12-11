@@ -1,4 +1,4 @@
-#!env bash
+#!/usr/bin/env bash
 sleep_pid=0
 
 toggle() {
