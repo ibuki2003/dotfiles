@@ -29,7 +29,18 @@
           ./nix/hosts/fuwavermeer.nix
         ];
         specialArgs = {
-          inherit inputs sources;
+          inherit inputs;
+        };
+
+      };
+
+      fuwathink10 = inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./nix/hosts/fuwathink10.nix
+        ];
+        specialArgs = {
+          inherit inputs;
         };
 
       };
@@ -45,7 +56,7 @@
           ];
         };
         extraSpecialArgs = {
-          inherit inputs sources;
+          inherit inputs;
         };
         modules = [
           ./home.nix
