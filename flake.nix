@@ -8,6 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    swayfx.url = "github:WillPower3309/swayfx";
   };
 
   outputs = {
@@ -27,6 +28,10 @@
         modules = [
           ./nix/hosts/fuwavermeer.nix
         ];
+        specialArgs = {
+          inherit inputs sources;
+        };
+
       };
     };
 
@@ -35,9 +40,12 @@
         pkgs = import inputs.nixpkgs {
           system = system;
           config.allowUnfree = true;
+          overlays = [
+            inputs.neovim-nightly-overlay.overlays.default
+          ];
         };
         extraSpecialArgs = {
-          inherit inputs;
+          inherit inputs sources;
         };
         modules = [
           ./home.nix

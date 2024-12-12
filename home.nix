@@ -15,6 +15,8 @@ in {
       allowUnfree = true;
     };
   };
+  nix.package = pkgs.nix;
+  nix.settings.substituters = ["https://cache.nixos.org/"];
 
   home = {
     username = username;
@@ -32,33 +34,25 @@ in {
       libnotify
 
       # tools
-      alacritty
-      albert
       bat
       bottom
       clang-tools
       cmake
       deno
       dex
+      delta
       dig
-      discord
       dogdns
       eza
       fd
       ffmpeg
       fzf
       ghq
-      gimp-with-plugins
       htop
       imagemagick
-      imv
-      inkscape
       jq
-      networkmanagerapplet
-      nil # nix lsp
       nodejs
       pamixer
-      pavucontrol
       pciutils
       pnpm
       pulseaudio-ctl
@@ -66,8 +60,6 @@ in {
       rustup
       sheldon
       skktools
-      slack
-      spotify
       tig
       tmux
       unzipNLS
@@ -76,12 +68,25 @@ in {
       xxd
       yubikey-manager
       zathura
+
+      # desktop apps
+      alacritty
+      albert
+      discord
+      gimp-with-plugins
+      imv
+      inkscape
+      networkmanagerapplet
+      pavucontrol
+      slack
+      spotify
       zoom-us
 
       # lsp servers
       efm-langserver
       emmet-ls
       lua-language-server
+      nil # nix lsp
       tinymist
 
       # python
@@ -107,6 +112,8 @@ in {
       enable = true;
     };
     neovim = {
+      # TODO: using overlay doesn't seem to use binary cache?
+      # package = pkgs.neovim;
       package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
       enable = true;
       defaultEditor = true;

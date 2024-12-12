@@ -13,11 +13,16 @@
   ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  boot.loader.grub = {
+  boot.loader.systemd-boot = {
     enable = true;
-    device = "nodev";
-    efiSupport = true;
-    useOSProber = true;
+    configurationLimit = 3;
+
+    extraEntries = {
+      "grub.conf" = ''
+        title   Arch Linux
+        efi    /EFI/archlinux/grubx64.efi
+        '';
+    };
   };
 
   fileSystems."/" =
@@ -39,29 +44,37 @@
 
   swapDevices = [ ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking = {
-    nameservers = [ "1.1.1.1" "1.0.0.1" ];
-    interfaces = {
-      enp5s0 = {
-        ipv4 = {
-          addresses = [
-            { address = "192.168.0.12"; prefixLength = 24; }
-            { address = "192.168.1.12"; prefixLength = 24; } # for NAS multipath
-          ];
-        };
-        wakeOnLan.enable = false;
-      };
-    };
-    defaultGateway = {
-      address= "192.168.0.1";
-      interface = "enp5s0";
-    };
 
     firewall.enable = false; # this machine is behind a router
+
+    networkmanager = {
+      dhcp = "dhcpcd";
+      ensureProfiles = {
+        profiles = {
+          # auto configuration cannot use dhcpv6 and static ipv4 at the same time?
+          enp5s0 = {
+            connection = {
+              id = "enp5s0";
+              type = "ethernet";
+              autoconnect-priority = 0;
+              interface-name = "enp5s0";
+            };
+            ethernet.auto-negotiate = true;
+            ipv4 = {
+              address1 = "192.168.0.12/24,192.168.0.1";
+              address2 = "192.168.1.12/24";
+              dns = "192.168.0.1";
+              method = "manual";
+            };
+            ipv6 = {
+              addr-gen-mode = "stable-privacy";
+              method = "auto";
+            };
+          };
+        };
+      };
+    };
 
   };
 
@@ -84,23 +97,6 @@
   networking.hostName = "fuwavermeer-nix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  environment.systemPackages = with pkgs; [
-    gcc
-    clang
-    cachix
-  ];
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
-
   fonts = {
     fontconfig.localConf = ''
       <?xml version="1.0"?>
@@ -110,4 +106,12 @@
       </fontconfig>
     '';
   };
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "24.11"; # Did you read the comment?
 }

@@ -43,6 +43,14 @@
     trustedInterfaces = [ "tailscale0" ];
   };
 
+  networking.nameservers = lib.mkDefault [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+  services.resolved = {
+    enable = true;
+    dnssec = "true";
+    fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+    dnsovertls = "true";
+  };
+
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
 
@@ -152,7 +160,16 @@
     };
     sway = {
       enable = true;
-      package = pkgs.swayfx;
+      # package = pkgs.swayfx;
+      # TODO: how to use nvfetcher...?
+      # package = (pkgs.swayfx.override(attrs: {
+      #   swayfx-unwrapped = (pkgs.swayfx.overrideAttrs (final: prev: {
+      #     src = sources.swayfx.src;
+      #     version = sources.swayfx.version;
+      #   }));
+      # }));
+      package = inputs.swayfx.packages.${pkgs.system}.default;
+
       extraPackages = with pkgs; [
         brightnessctl
         dmenu-wayland
@@ -163,7 +180,9 @@
         wob
         sway-contrib.grimshot
       ];
+      extraSessionCommands = "export XMODIFIERS=@im=fcitx";
     };
+
     nix-ld.enable = true;
   };
 
@@ -195,4 +214,22 @@
       };
     };
   };
+
+  # HACK: hook graphical-session.target
+  # https://github-wiki-see.page/m/swaywm/sway/wiki/Systemd-integration
+  systemd.user.targets."my-graphical-session" = {
+    enable = true;
+    description = "Hack to hook graphical-session.target manually";
+    bindsTo = ["graphical-session.target"];
+    wants = [ "graphical-session-pre.target" ];
+    after = [ "graphical-session-pre.target" ];
+  };
+  environment.etc."sway/config.d/00-graphical-session-hook.conf" = {
+    text = ''
+      exec "systemctl --user import-environment {,WAYLAND_}DISPLAY SWAYSOCK; systemctl --user start my-graphical-session.target"
+      exec swaymsg -t subscribe '["shutdown"]' && systemctl --user stop my-graphical-session.target
+    '';
+    mode = "0644";
+  };
+
 }
