@@ -18,6 +18,7 @@
     settings = {
       experimental-features = ["nix-command" "flakes"];
       trusted-users = ["fuwa"];
+      auto-optimise-store = true;
     };
   };
 
@@ -25,11 +26,7 @@
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  boot.tmp.useTmpfs = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -131,25 +128,20 @@
       # };
     };
 
-    gnome.gnome-keyring.enable = true;
-    playerctld.enable = true;
-
     # Enable CUPS to print documents.
     printing.enable = true;
-
-    tailscale = {
-      enable = true;
-    };
-
-    fstrim.enable = true;
 
     udev.packages = [
       pkgs.yubikey-personalization
     ];
 
-    udisks2.enable = true;
-
+    fstrim.enable = true;
+    gnome.gnome-keyring.enable = true;
     openssh.enable = true;
+    pcscd.enable = true;
+    playerctld.enable = true;
+    tailscale.enable = true;
+    udisks2.enable = true;
   };
 
   programs = {
@@ -160,15 +152,13 @@
     };
     sway = {
       enable = true;
-      # package = pkgs.swayfx;
-      # TODO: how to use nvfetcher...?
+      package = pkgs.swayfx;
+      # now swayfx at master has bug so we cannot use it :(
       # package = (pkgs.swayfx.override(attrs: {
-      #   swayfx-unwrapped = (pkgs.swayfx.overrideAttrs (final: prev: {
-      #     src = sources.swayfx.src;
-      #     version = sources.swayfx.version;
-      #   }));
+      #   swayfx-unwrapped = pkgs.swayfx.override {
+      #     swayfx-unwrapped = inputs.swayfx.packages.${pkgs.system}.default;
+      #   };
       # }));
-      package = inputs.swayfx.packages.${pkgs.system}.default;
 
       extraPackages = with pkgs; [
         brightnessctl
@@ -181,6 +171,10 @@
         sway-contrib.grimshot
       ];
       extraSessionCommands = "export XMODIFIERS=@im=fcitx";
+      xwayland.enable = true;
+    };
+    xwayland = {
+      enable = true;
     };
 
     nix-ld.enable = true;
@@ -189,10 +183,6 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
 
   # List services that you want to enable:
 
@@ -215,6 +205,11 @@
     };
   };
 
+  # per-user setting doesn't work for now?
+  environment.variables = {
+    XMODIFIERS = "@im=fcitx";
+  };
+
   # HACK: hook graphical-session.target
   # https://github-wiki-see.page/m/swaywm/sway/wiki/Systemd-integration
   systemd.user.targets."my-graphical-session" = {
@@ -227,7 +222,8 @@
   environment.etc."sway/config.d/00-graphical-session-hook.conf" = {
     text = ''
       exec "systemctl --user import-environment {,WAYLAND_}DISPLAY SWAYSOCK; systemctl --user start my-graphical-session.target"
-      exec swaymsg -t subscribe '["shutdown"]' && systemctl --user stop my-graphical-session.target
+      # HACK: wait for sway exit
+      exec swaymsg -mt subscribe '[]' || true && systemctl --user stop my-graphical-session.target
     '';
     mode = "0644";
   };

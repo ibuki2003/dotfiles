@@ -1,7 +1,5 @@
 {
   inputs,
-  lib,
-  config,
   pkgs,
   ...
 }: let
@@ -34,6 +32,7 @@ in {
       libnotify
 
       # tools
+      atop
       bat
       bottom
       clang-tools
@@ -46,11 +45,15 @@ in {
       eza
       fd
       ffmpeg
+      file
       fzf
       ghq
+      gnupg
+      gnuplot
       htop
       imagemagick
       jq
+      libqalculate
       nodejs
       pamixer
       pciutils
@@ -64,6 +67,7 @@ in {
       tmux
       unzipNLS
       usbutils
+      vim
       wl-clipboard
       xxd
       yubikey-manager
@@ -125,10 +129,12 @@ in {
         isDefault = true;
         userChrome = builtins.readFile ./etc/firefox/userChrome.css;
         settings = {
+          "browser.aboutConfig.showWarning" = false;
           "browser.fullscreen.autohide" = false;
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "browser.tabs.inTitlebar" = 0;
           "browser.zoom.siteSpecific" = false;
+          "findbar.highlightAll" = true;
           # "browser.uiCustomization.state" = ""; # TODO
         };
       };
@@ -143,18 +149,27 @@ in {
     syncthing = {
       enable = true;
     };
+    gpg-agent = {
+      enable = true;
+      enableSshSupport = false;
+      pinentryPackage = pkgs.pinentry-all;
+      maxCacheTtl = 8640000; # 100 days
+      defaultCacheTtl = 8640000; # 100 days
+    };
+    ssh-agent.enable = true;
   };
 
   i18n.inputMethod = {
     enabled = "fcitx5";
     fcitx5 = {
-      # waylandFrontend = true;
       addons = [
         pkgs.fcitx5-skk
-        pkgs.skk-dicts
       ];
     };
   };
+  # note: https://github.com/nix-community/home-manager/issues/1011
+  home.sessionVariables.XMODIFIERS = "@im=fcitx";
+  systemd.user.sessionVariables.XMODIFIERS = "@im=fcitx";
 
   fonts.fontconfig.enable = true;
   xdg.configFile."fontconfig/conf.d/99-local.conf".text = ''

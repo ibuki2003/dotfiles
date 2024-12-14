@@ -25,22 +25,19 @@
     };
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fc84e8bb-6a86-4ac9-b125-bc6d8430c473";
-      fsType = "ext4";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/A32E-EB63";
-      fsType = "vfat";
-      # options = [ "fmask=0077" "dmask=0077" ];
-    };
-
-  fileSystems."/tmp" = {
-    device = "none";
-    fsType = "tmpfs";
-    options = [ "size=32G" "mode=1777" ];
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/fc84e8bb-6a86-4ac9-b125-bc6d8430c473";
+    fsType = "ext4";
+    options = [ "defaults" "discard" ];
   };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/A32E-EB63";
+    fsType = "vfat";
+    options = [ "defaults" ];
+  };
+
+  boot.tmp.tmpfsSize = "32G";
 
   swapDevices = [ ];
 
