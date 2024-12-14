@@ -102,6 +102,8 @@ local servers = {
       exportPdf = "onSave",
     },
   },
+
+  nil_ls = {},
 }
 
 local _cap = nil
