@@ -168,7 +168,7 @@ async function update(
       ? /: connected to (.+?)$/.exec(l[0])?.[1]
       : l.filter((l) =>
         l.startsWith("inet")
-      )[0].split(" ")[1]) ?? "Unknown";
+      )[0]?.split(" ")[1]) ?? "Unknown";
 
     text = `${name} ${format_size(s[1])} / ${format_size(s[0])}`;
 
@@ -206,6 +206,7 @@ async function* watch_nmcli() {
 
     while (true) {
       const n = await p.read();
+      await delay(100);
       if (n.value) yield 1;
       if (n.done) break;
     }
