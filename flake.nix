@@ -28,28 +28,15 @@
     in
   {
 
-    nixosConfigurations = {
-      vermeer = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./nix/hosts/fuwavermeer.nix
-        ];
-        specialArgs = {
-          inherit inputs sources;
-        };
-
+    nixosConfigurations = pkgs.lib.attrsets.mapAttrs (k: v: inputs.nixpkgs.lib.nixosSystem ({
+      system = "x86_64-linux";
+      modules = [ ];
+      specialArgs = {
+        inherit inputs sources;
       };
-
-      fuwathink10 = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./nix/hosts/fuwathink10.nix
-        ];
-        specialArgs = {
-          inherit inputs;
-        };
-
-      };
+    } // v)) {
+      vermeer = { modules = [ ./nix/hosts/fuwavermeer.nix ]; };
+      fuwathink10 = { modules = [ ./nix/hosts/fuwathink10.nix ]; };
     };
 
     homeConfigurations = {
@@ -62,7 +49,7 @@
           ];
         };
         extraSpecialArgs = {
-          inherit inputs;
+          inherit inputs sources;
         };
         modules = [
           ./nix/home.nix

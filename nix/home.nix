@@ -6,6 +6,10 @@
 }: let
   username = "fuwa";
 in {
+  imports = [
+    ./home_modules
+  ];
+
   nixpkgs = {
     overlays = [
       # inputs.neovim-nightly-overlay.overlays.default
@@ -28,6 +32,9 @@ in {
     enableNixpkgsReleaseCheck = false;
 
     packages = with pkgs; [
+
+      # nix tools
+      nixfmt-rfc-style
 
       # libraries
       libnotify
@@ -129,7 +136,7 @@ in {
       package = pkgs.firefox-devedition;
       profiles.dev-edition-default = {
         isDefault = true;
-        userChrome = builtins.readFile ./etc/firefox/userChrome.css;
+        userChrome = builtins.readFile ../etc/firefox/userChrome.css;
         settings = {
           "browser.aboutConfig.showWarning" = false;
           "browser.fullscreen.autohide" = false;
@@ -141,6 +148,14 @@ in {
         };
       };
     };
+
+    fcitx5 = {
+      dictionaries = (
+        with pkgs.skkDictionaries; [ l geo station jis2 jis3_4 assoc ]
+          |> map (d: d.override { useUtf8 = true; })
+      );
+    };
+
   };
 
   services = {
