@@ -82,6 +82,8 @@
     #media-session.enable = true;
   };
 
+  security.pam.services.gdm-password.enableGnomeKeyring = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.fuwa = {
     isNormalUser = true;
