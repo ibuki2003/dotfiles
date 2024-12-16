@@ -169,7 +169,6 @@ in {
   };
   # note: https://github.com/nix-community/home-manager/issues/1011
   home.sessionVariables.XMODIFIERS = "@im=fcitx";
-  systemd.user.sessionVariables.XMODIFIERS = "@im=fcitx";
 
   fonts.fontconfig.enable = true;
   xdg.configFile."fontconfig/conf.d/99-local.conf".text = ''

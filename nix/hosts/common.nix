@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs, lib, config, sources, ... }:
 
 {
   # This value determines the NixOS release from which the default
@@ -121,11 +121,6 @@
 
     displayManager = {
       defaultSession = "sway";
-
-      # sddm = {
-      #   enable = true;
-      #   wayland.enable = true;
-      # };
     };
 
     # Enable CUPS to print documents.
@@ -152,13 +147,12 @@
     };
     sway = {
       enable = true;
-      package = pkgs.swayfx;
-      # now swayfx at master has bug so we cannot use it :(
-      # package = (pkgs.swayfx.override(attrs: {
-      #   swayfx-unwrapped = pkgs.swayfx.override {
-      #     swayfx-unwrapped = inputs.swayfx.packages.${pkgs.system}.default;
-      #   };
-      # }));
+      package = (pkgs.swayfx.override(attrs: {
+        swayfx-unwrapped = pkgs.swayfx-unwrapped.overrideAttrs (oldAttrs: {
+          src = sources.swayfx.src;
+          version = sources.swayfx.version;
+        });
+      }));
 
       extraPackages = with pkgs; [
         brightnessctl
@@ -206,9 +200,8 @@
   };
 
   # per-user setting doesn't work for now?
-  environment.variables = {
-    XMODIFIERS = "@im=fcitx";
-  };
+  environment.sessionVariables.NIX_PROFILES =
+        builtins.concatStringsSep " " (lib.lists.reverseList config.environment.profiles);
 
   # HACK: hook graphical-session.target
   # https://github-wiki-see.page/m/swaywm/sway/wiki/Systemd-integration

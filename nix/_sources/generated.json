@@ -1,0 +1,22 @@
+{
+    "swayfx": {
+        "cargoLocks": null,
+        "date": "2024-11-15",
+        "extract": null,
+        "name": "swayfx",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "WillPower3309",
+            "repo": "swayfx",
+            "rev": "3e4b6b75f4b42b4cb04d883033b04b4a1b57bc90",
+            "sha256": "sha256-ZzdGyoffeKZARaqEuWpgt+T1DJLBJpJACXXQGprQ/Lo=",
+            "type": "github"
+        },
+        "version": "3e4b6b75f4b42b4cb04d883033b04b4a1b57bc90"
+    }
+}
