@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  sources,
   ...
 }: let
   username = "fuwa";
@@ -90,7 +91,8 @@ in {
       efm-langserver
       emmet-ls
       lua-language-server
-      nil # nix lsp
+      # nil # nix lsp
+      (pkgs.callPackage ./packages/nil.nix { inherit sources; })
       tinymist
 
       # python

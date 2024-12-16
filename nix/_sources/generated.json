@@ -1,4 +1,24 @@
 {
+    "nil": {
+        "cargoLocks": null,
+        "date": "2024-11-19",
+        "extract": null,
+        "name": "nil",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "oxalica",
+            "repo": "nil",
+            "rev": "2e24c9834e3bb5aa2a3701d3713b43a6fb106362",
+            "sha256": "sha256-DCIVdlb81Fct2uwzbtnawLBC/U03U2hqx8trqTJB7WA=",
+            "type": "github"
+        },
+        "version": "2e24c9834e3bb5aa2a3701d3713b43a6fb106362"
+    },
     "swayfx": {
         "cargoLocks": null,
         "date": "2024-11-15",
