@@ -93,6 +93,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.fuwa = {
+    uid = 1000;
     isNormalUser = true;
     description = "fuwa";
     extraGroups = [ "networkmanager" "wheel" ];
@@ -114,21 +115,28 @@
     python312Packages.pipx
     cachix
     udisks
+
+    # somewhy sddm.extraPackages doesn't work
+    (pkgs.catppuccin-sddm.override {
+      flavor = "macchiato";
+      background = "/etc/nixos/sddm-bg.png";
+    })
   ];
 
   services = {
 
     xserver = {
       enable = true;
-      displayManager = {
-        gdm = {
-          enable = true;
-          wayland = true;
-        };
-      };
     };
 
     displayManager = {
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+        package = pkgs.qt6Packages.sddm; # default to qt5. why?
+        extraPackages = [ ];
+        theme = "catppuccin-macchiato";
+      };
       defaultSession = "sway";
     };
 

@@ -26,16 +26,32 @@
     };
   };
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/fc84e8bb-6a86-4ac9-b125-bc6d8430c473";
-    fsType = "ext4";
-    options = [ "defaults" "discard" ];
-  };
+  fileSystems = {
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/A32E-EB63";
-    fsType = "vfat";
-    options = [ "defaults" ];
+    "/" = {
+      device = "/dev/disk/by-uuid/fc84e8bb-6a86-4ac9-b125-bc6d8430c473";
+      fsType = "ext4";
+      options = [ "defaults" "discard" ];
+    };
+
+    "/boot" = {
+      device = "/dev/disk/by-uuid/A32E-EB63";
+      fsType = "vfat";
+      options = [ "defaults" ];
+    };
+
+    "/mnt/arch" = {
+      device = "/dev/disk/by-uuid/5acb5921-b991-4127-86a1-bc569995651c";
+      fsType = "ext4";
+      options = [ "defaults" ];
+    };
+
+    "/windows" = {
+      device = "/dev/disk/by-uuid/BA0A01020A00BD7F";
+      fsType = "ntfs";
+      options = [ "defaults" ];
+    };
+
   };
 
   boot.tmp.tmpfsSize = "32G";
@@ -83,19 +99,13 @@
 
   };
 
-
-  fileSystems."/mnt/arch" = {
-    device = "/dev/disk/by-uuid/5acb5921-b991-4127-86a1-bc569995651c";
-    fsType = "ext4";
-    options = [ "defaults" ];
-  };
-
-  fileSystems."/windows" = {
-    device = "/dev/disk/by-uuid/BA0A01020A00BD7F";
-    fsType = "ntfs";
-    options = [ "defaults" ];
-  };
-
+  services.udev.extraRules = lib.concatStringsSep "\n"
+    [
+      # c270 usb reset workaround
+      ''
+        ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0825", TEST=="power/control", ATTR{power/control}="on"
+        ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0825", TEST=="power/autosuspend", ATTR{power/autosuspend}="123"
+    '' ];
 
   fonts = {
     fontconfig.localConf = ''

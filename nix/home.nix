@@ -19,7 +19,6 @@ in {
     };
   };
   nix.package = pkgs.nix;
-  nix.settings.substituters = ["https://cache.nixos.org/"];
 
   home = {
     username = username;
@@ -88,6 +87,7 @@ in {
       gimp-with-plugins
       imv
       inkscape
+      kicad
       networkmanagerapplet
       pavucontrol
       slack
@@ -152,7 +152,6 @@ in {
     fcitx5 = {
       dictionaries = (
         with pkgs.skkDictionaries; [ l geo station jis2 jis3_4 assoc ]
-          |> map (d: d.override { useUtf8 = true; })
       );
     };
 
@@ -195,6 +194,15 @@ in {
       <dir>/home/${username}/.fonts</dir>
     </fontconfig>
     '';
+
+  systemd.user.services.tmptmp = {
+    Unit.Description = "mkdir /tmp/tmp/";
+    Service = {
+      ExecStart = "mkdir -p /tmp/tmp/";
+      # Restart = ""; # TODO:
+    };
+    Install.WantedBy = [ "multi-user.target" ];
+  };
 
 
   programs.home-manager.enable = true;

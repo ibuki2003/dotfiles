@@ -29,24 +29,45 @@
     };
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/b5fe4aa7-3d1e-421b-b468-05b07bc4abdc";
+  fileSystems = {
+    "/" =
+      { device = "/dev/disk/by-uuid/b5fe4aa7-3d1e-421b-b468-05b07bc4abdc";
+        fsType = "ext4";
+      };
+
+    "/boot" =
+      { device = "/dev/disk/by-uuid/D09B-2897";
+        fsType = "vfat";
+        #options = [ "fmask=0077" "dmask=0077" ];
+      };
+
+    "/tmp" = {
+      device = "none";
+      fsType = "tmpfs";
+      options = [ "size=32G" "mode=1777" ];
+    };
+
+    "/mnt/arch" = {
+      device = "/dev/disk/by-uuid/43c411b5-b0d3-4bed-b6f4-0d22a0a088c5";
       fsType = "ext4";
+      options = [ "defaults" ];
     };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/D09B-2897";
-      fsType = "vfat";
-      #options = [ "fmask=0077" "dmask=0077" ];
+    "/windows" = {
+      device = "/dev/disk/by-uuid/C4349D48349D3DFC";
+      fsType = "ntfs";
+      options = [ "defaults" ];
     };
-
-  fileSystems."/tmp" = {
-    device = "none";
-    fsType = "tmpfs";
-    options = [ "size=32G" "mode=1777" ];
   };
 
   swapDevices = [ ];
+
+  hardware.graphics = {
+    extraPackages = with pkgs; [
+      intel-media-driver
+    ];
+  };
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
 
   networking = {
     firewall.enable = false; # this machine is behind a router
@@ -54,31 +75,6 @@
       dhcp = "dhcpcd";
     };
   };
-
-
-  fileSystems."/mnt/arch" = {
-    device = "/dev/disk/by-uuid/43c411b5-b0d3-4bed-b6f4-0d22a0a088c5";
-    fsType = "ext4";
-    options = [ "defaults" ];
-  };
-
-  fileSystems."/windows" = {
-    device = "/dev/disk/by-uuid/C4349D48349D3DFC";
-    fsType = "ntfs";
-    options = [ "defaults" ];
-  };
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-  networking.hostName = "fuwathink10-nix"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  hardware.graphics = {
-    extraPackages = with pkgs; [
-      intel-media-driver
-    ];
-  };
-  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
 
   fonts = {
     fontconfig.localConf = ''
