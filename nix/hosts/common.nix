@@ -9,6 +9,9 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.enableAllFirmware = true;
+
   imports =
     [
       ../cachix.nix
@@ -27,6 +30,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.tmp.useTmpfs = true;
+
+  hardware.graphics = {
+    enable = true;
+  };
 
   # Enable networking
   networking.networkmanager.enable = true;

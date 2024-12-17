@@ -5,7 +5,12 @@
     [
       ./common.nix
       (modulesPath + "/installer/scan/not-detected.nix")
+      inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
     ];
+
+  networking.hostName = "fuwathink10-nix"; # Define your hostname.
+
+  hardware.cpu.intel.updateMicrocode = true;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
@@ -68,6 +73,12 @@
 
   networking.hostName = "fuwathink10-nix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  hardware.graphics = {
+    extraPackages = with pkgs; [
+      intel-media-driver
+    ];
+  };
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
 
   fonts = {
     fontconfig.localConf = ''

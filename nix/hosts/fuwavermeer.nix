@@ -7,10 +7,11 @@
       (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+  networking.hostName = "fuwavermeer-nix"; # Define your hostname.
+
+  hardware.cpu.amd.updateMicrocode = true;
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [
-    "amdgpu"
-  ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
   boot.loader.systemd-boot = {
@@ -40,6 +41,13 @@
   boot.tmp.tmpfsSize = "32G";
 
   swapDevices = [ ];
+
+  hardware = {
+    graphics.extraPackages = with pkgs; [
+      rocmPackages.clr.icd
+    ];
+    amdgpu.amdvlk.enable = true;
+  };
 
   networking = {
 
@@ -88,11 +96,6 @@
     options = [ "defaults" ];
   };
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-  networking.hostName = "fuwavermeer-nix"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   fonts = {
     fontconfig.localConf = ''
