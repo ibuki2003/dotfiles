@@ -83,7 +83,9 @@ in {
       # desktop apps
       alacritty
       albert
-      discord
+      audacity
+      # discord
+      (pkgs.callPackage ./packages/discord_raw.nix {})
       gimp-with-plugins
       imv
       inkscape
