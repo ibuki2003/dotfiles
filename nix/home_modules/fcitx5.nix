@@ -8,7 +8,7 @@ let
 in {
   options.programs.fcitx5 = {
     dictionaries = mkOption {
-      type = listOf (either types.path types.derivation);
+      type = listOf (either types.str types.package);
       default = [ ];
       description = "List of dictionaries to use";
     };
