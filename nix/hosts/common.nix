@@ -96,7 +96,19 @@
     uid = 1000;
     isNormalUser = true;
     description = "fuwa";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+
+      "adm"
+      "audio"
+      "disk"
+      "docker"
+      "plugdev"
+      "tty"
+      "uucp"
+      "video"
+    ];
     shell = pkgs.zsh;
   };
 
@@ -106,8 +118,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    vim
+    wget
     gcc
     clang
     python312
@@ -145,7 +157,18 @@
 
     udev.packages = [
       pkgs.yubikey-personalization
-    ];
+      # allow users to access *ALL* USB devices
+      (pkgs.writeTextFile {
+        name = "udev-usb-rules";
+        text = ''
+          SUBSYSTEM=="usb", MODE="0660", TAG+="uaccess"
+        '';
+        # must be loaded before 73-seat-late.rules
+        # https://github.com/systemd/systemd/issues/4288#issuecomment-348166161
+        destination = "/etc/udev/rules.d/70-usb.rules";
+      })
+  ];
+
 
     fstrim.enable = true;
     gnome.gnome-keyring.enable = true;
@@ -189,11 +212,16 @@
     };
 
     nix-ld.enable = true;
+
+    # Some programs need SUID wrappers, can be configured further or are
+    # started in user sessions.
+    mtr.enable = true;
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.mtr.enable = true;
+  virtualisation.docker = {
+    enable = true;
+  };
+
 
   # List services that you want to enable:
 
@@ -238,4 +266,6 @@
     mode = "0644";
   };
 
+  # blacklist some kernel modules
+  hardware.rtl-sdr.enable = true;
 }

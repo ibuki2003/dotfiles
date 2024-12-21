@@ -42,7 +42,7 @@ in {
               else
                 "file=${file},mode=readonly,type=file"
               );
-          userDict = [ "file=$FCITX_CONFIG_DIR/skk/user.dict,mode=readwrite,type=file" ];
+          userDict = [ "encoding=UTF-8,file=$FCITX_CONFIG_DIR/skk/user.dict,mode=readwrite,type=file" ];
         in
           lib.concatStringsSep "\n" (
             userDict ++

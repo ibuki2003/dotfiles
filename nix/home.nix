@@ -57,14 +57,18 @@ in {
       ghq
       gnupg
       gnuplot
+      httpie
       htop
       imagemagick
       jq
       libqalculate
+      ncdu
       nodejs
       pamixer
       pciutils
+      picotool
       pnpm
+      probe-rs-tools
       pulseaudio-ctl
       ripgrep
       rustup
@@ -87,13 +91,17 @@ in {
       # discord
       (pkgs.callPackage ./packages/discord_raw.nix {})
       gimp-with-plugins
+      httpie-desktop
       imv
       inkscape
       kicad
       networkmanagerapplet
       pavucontrol
+      remmina
+      sdrpp
       slack
       spotify
+      vlc
       zoom-us
 
       # lsp servers
@@ -109,6 +117,10 @@ in {
         ps.pip
         ps.pipx
       ]))
+
+      # misc
+      (pkgs.callPackage ./packages/sparks.nix {})
+
     ];
 
     pointerCursor = {
@@ -200,10 +212,51 @@ in {
   systemd.user.services.tmptmp = {
     Unit.Description = "mkdir /tmp/tmp/";
     Service = {
-      ExecStart = "mkdir -p /tmp/tmp/";
-      # Restart = ""; # TODO:
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "/run/current-system/sw/bin/mkdir -p /tmp/tmp/";
+      Restart = "on-failure";
     };
-    Install.WantedBy = [ "multi-user.target" ];
+    Install.WantedBy = [ "default.target" ];
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = builtins.listToAttrs (
+      pkgs.lib.lists.flatten (
+        pkgs.lib.attrsets.mapAttrsToList
+          (
+            k:
+            builtins.map (v: {
+              name = v;
+              value = k;
+            })
+          )
+          {
+            "firefox-developer-edition.desktop" = [
+              "text/html"
+              "x-scheme-handler/http"
+              "x-scheme-handler/https"
+            ];
+            "imv.desktop" = [
+              "image/jpeg"
+              "image/png"
+              "image/gif"
+              "image/bmp"
+              "image/webp"
+            ];
+            "org.pwmt.zathura.desktop" = [
+              "application/pdf"
+            ];
+            "vlc.desktop" = [
+              "video/mp4"
+              "video/mpeg"
+              "video/quicktime"
+              "audio/mpeg"
+              "audio/x-wav"
+            ];
+          }
+        ));
   };
 
 
