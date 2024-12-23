@@ -93,4 +93,18 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
+
+  # start on boot
+  systemd.services.fprintd = {
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "simple";
+  };
+  services.fprintd = {
+    enable = true;
+  };
+  security.pam.services.login.fprintAuth = false;
+  security.pam.services.sudo.fprintAuth = true;
+  security.pam.services.swaylock.fprintAuth = true;
+
+
 }

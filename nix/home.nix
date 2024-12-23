@@ -74,6 +74,8 @@ in {
       rustup
       sheldon
       skktools
+      swayidle
+      swaylock-effects
       tig
       tmux
       unzipNLS
