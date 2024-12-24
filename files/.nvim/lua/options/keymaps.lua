@@ -43,7 +43,6 @@ vim.keymap.set('n', 'x', '"_x')
 vim.keymap.set('n', 'X', '"_X')
 
 vim.keymap.set({'o', 'x'}, 'i<space>', 'iW')
-vim.keymap.set({'n', 'o', 'x'}, 'M', '%')
 
 -- https://blog.atusy.net/2024/09/06/linewise-zf/
 vim.keymap.set('n', 'zf', 'zfV')

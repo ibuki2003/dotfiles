@@ -90,4 +90,28 @@ return {
     },
     dependencies = { 'kana/vim-textobj-user' },
   },
+  {
+    'atusy/treemonkey.nvim',
+    keys = {
+      { 'm',
+        function()
+          require("treemonkey").select({
+            ignore_injections = false,
+            highlight = { backdrop = "Comment" },
+          })
+        end,
+        mode = {'x', 'o'},
+      },
+      { 'M',
+        function()
+          require("treemonkey").select {
+            action = require("treemonkey.actions").jump,
+            steps = 1,
+            highlight = { backdrop = "Comment" },
+          }
+        end,
+        mode = {'n', 'x', 'o'},
+      },
+    },
+  },
 }
