@@ -94,6 +94,39 @@ return {
     },
   },
   {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    lazy = true,
+    build = "make tiktoken",
+    opts = {
+      selection = function(source)
+        -- return nil if no selection
+        return require('CopilotChat.select').visual(source)
+      end,
+      chat_autocomplete = false,
+    },
+    keys = {
+      { "<space>cc", function() require('CopilotChat').toggle() end },
+      {
+        "<space>ca",
+        function()
+          require("CopilotChat.integrations.telescope").pick(require("CopilotChat.actions").prompt_actions())
+        end,
+        mode = { "n", "x" },
+      },
+    },
+    cmd = {
+      -- NOTE: I won't use other available commands
+      "CopilotChat",
+      "CopilotChatAgents",
+      "CopilotChatModels",
+      "CopilotChatToggle",
+      "CopilotChatReset",
+      "CopilotChatDebugInfo",
+      "CopilotChatSave",
+      "CopilotChatLoad",
+    },
+  },
+  {
     'aznhe21/actions-preview.nvim',
     keys = {
       { "<Leader>la", function() require('actions-preview').code_actions() end },
