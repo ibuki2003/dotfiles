@@ -55,6 +55,7 @@ in {
       file
       fzf
       ghq
+      gnumake
       gnupg
       gnuplot
       httpie
@@ -118,6 +119,8 @@ in {
       (python312.withPackages (ps: [
         ps.pip
         ps.pipx
+        ps.numpy
+        ps.matplotlib
       ]))
 
       # misc
@@ -139,6 +142,7 @@ in {
   programs = {
     git = {
       enable = true;
+      lfs.enable = true;
     };
     neovim = {
       # TODO: using overlay doesn't seem to use binary cache?

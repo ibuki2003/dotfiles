@@ -135,6 +135,8 @@
     })
   ];
 
+  environment.wordlist.enable = true;
+
   services = {
 
     xserver = {
