@@ -75,6 +75,7 @@ in {
       rustup
       sheldon
       skktools
+      socat
       swayidle
       swaylock-effects
       tig
