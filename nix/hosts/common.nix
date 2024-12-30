@@ -41,7 +41,19 @@
   networking.nftables.enable = true;
   networking.firewall = {
     enable = lib.mkDefault true;
-    allowedTCPPorts = [ 22 ];
+    allowedTCPPorts = [
+      22
+    ];
+    allowedTCPPortRanges = [
+      { from = 1714; to = 1764; } # KDE Connect
+    ];
+    allowedUDPPorts = [
+      41641 # tailscale
+    ];
+    allowedUDPPortRanges = [
+      { from = 1714; to = 1764; } # KDE Connect
+    ];
+
     logRefusedConnections = false;
 
     trustedInterfaces = [ "tailscale0" ];
@@ -89,7 +101,7 @@
     #media-session.enable = true;
   };
 
-  security.pam.services.gdm-password.enableGnomeKeyring = true;
+  security.pam.services.sddm-greeter.enableGnomeKeyring = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.fuwa = {

@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   sources,
+  lib,
   ...
 }: let
   username = "fuwa";
@@ -104,8 +105,9 @@ in {
       remmina
       sdrpp
       slack
+      thunderbird-latest
       spotify
-      vlc
+      vlc libaacs
       zoom-us
 
       # lsp servers
@@ -232,6 +234,8 @@ in {
     };
     Install.WantedBy = [ "default.target" ];
   };
+
+  systemd.user.services.kdeconnect.Service.Restart = lib.mkForce "always";
 
   xdg.mimeApps = {
     enable = true;

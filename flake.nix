@@ -43,13 +43,7 @@
 
     homeConfigurations = {
       myHome = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import inputs.nixpkgs {
-          system = system;
-          config.allowUnfree = true;
-          overlays = [
-            inputs.neovim-nightly-overlay.overlays.default
-          ];
-        };
+        inherit pkgs;
         extraSpecialArgs = {
           inherit inputs sources;
         };

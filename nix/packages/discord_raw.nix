@@ -23,25 +23,27 @@ let
     hash = "sha256-Qlos8S8amL3iDelNK57M00tl3obfEI9tO7q+3ljgbMc=";
   };
 in
-  pkgs.discord.overrideAttrs (prev: let
-    # add missing dependencies
-    libpath = prev.libPath + ":" + lib.makeLibraryPath (with pkgs; [
-      alsa-lib
-      libdrm
-      libxkbcommon
-      xorg.libXdamage
-      xorg.libX11
-      xorg.libxcb
-      xorg.libxshmfence
-      mesa
-      nss
-    ]);
-  in
-    {
+  pkgs.discord.overrideAttrs (prev: rec {
       inherit src version;
       nativeBuildInputs = [ pkgs.makeShellWrapper ];
-      libPath = prev.libPath + ":" + libpath;
-      installPhase = builtins.replaceStrings [prev.libPath] [libpath]
+
+      # add missing dependencies
+      libPath = lib.makeLibraryPath (lib.lists.unique (
+        (lib.splitString ":" prev.libPath) ++
+        (with pkgs; [
+          alsa-lib
+          libdrm
+          libxkbcommon
+          xorg.libXdamage
+          xorg.libX11
+          xorg.libxcb
+          xorg.libxshmfence
+          mesa
+          nss
+        ])
+      ));
+
+      installPhase = builtins.replaceStrings [prev.libPath] [libPath]
         (banCommand "patchelf" prev.installPhase);
       dontPatchELF = true;
       dontStrip = true;

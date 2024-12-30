@@ -62,8 +62,15 @@
     graphics.extraPackages = with pkgs; [
       rocmPackages.clr.icd
     ];
-    amdgpu.amdvlk.enable = true;
+    amdgpu.opencl.enable = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    vulkan-validation-layers
+    radeontop
+    amdgpu_top
+    rocmPackages.rocm-smi
+  ];
 
   networking = {
 
