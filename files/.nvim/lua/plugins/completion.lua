@@ -105,7 +105,11 @@ return {
       chat_autocomplete = false,
     },
     keys = {
-      { "<space>cc", function() require('CopilotChat').toggle() end },
+      {
+        "<space>cc",
+        function() require('CopilotChat').toggle() end,
+        mode = { "n", "x" },
+      },
       {
         "<space>ca",
         function()
