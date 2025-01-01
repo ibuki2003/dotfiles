@@ -294,4 +294,9 @@
 
   # blacklist some kernel modules
   hardware.rtl-sdr.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+  };
 }

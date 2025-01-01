@@ -6,6 +6,7 @@
   ...
 }: let
   username = "fuwa";
+  mypkgs = pkgs.callPackage ./packages { inherit sources; };
 in {
   imports = [
     ./home_modules
@@ -38,6 +39,7 @@ in {
 
       # libraries
       libnotify
+      plasma-browser-integration
 
       # tools
       atop
@@ -58,7 +60,7 @@ in {
       ghq
       gnumake
       gnupg
-      gnuplot
+      gnuplot_qt
       httpie
       htop
       imagemagick
@@ -93,8 +95,7 @@ in {
       alacritty
       albert
       audacity
-      # discord
-      (pkgs.callPackage ./packages/discord_raw.nix {})
+      mypkgs.discord
       gimp-with-plugins
       httpie-desktop
       imv
@@ -114,8 +115,7 @@ in {
       efm-langserver
       emmet-ls
       lua-language-server
-      # nil # nix lsp
-      (pkgs.callPackage ./packages/nil.nix { inherit sources; })
+      mypkgs.nil # nix lsp
       tinymist
 
       # python
@@ -127,7 +127,7 @@ in {
       ]))
 
       # misc
-      (pkgs.callPackage ./packages/sparks.nix {})
+      mypkgs.sparks
 
     ];
 
@@ -157,6 +157,9 @@ in {
     firefox = {
       enable = true;
       package = pkgs.firefox-devedition;
+      nativeMessagingHosts = [
+        pkgs.plasma-browser-integration
+      ];
       profiles.dev-edition-default = {
         isDefault = true;
         userChrome = builtins.readFile ../etc/firefox/userChrome.css;
@@ -276,6 +279,23 @@ in {
         ));
   };
 
+  xdg.autostart.files = [
+    (pkgs.makeDesktopItem {
+      name = "slack-autostart";
+      desktopName = "Slack";
+      exec = "slack -u"; # minimize to tray
+    })
+    (pkgs.makeDesktopItem {
+      name = "discord";
+      desktopName = "Discord";
+      exec = "Discord --start-minimized";
+    })
+    (pkgs.makeDesktopItem {
+      name = "remmina-applet";
+      desktopName = "Remmina Applet";
+      exec = "remmina -i";
+    })
+  ];
 
   programs.home-manager.enable = true;
 }

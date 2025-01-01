@@ -28,20 +28,17 @@ in
       nativeBuildInputs = [ pkgs.makeShellWrapper ];
 
       # add missing dependencies
-      libPath = lib.makeLibraryPath (lib.lists.unique (
-        (lib.splitString ":" prev.libPath) ++
-        (with pkgs; [
-          alsa-lib
-          libdrm
-          libxkbcommon
-          xorg.libXdamage
-          xorg.libX11
-          xorg.libxcb
-          xorg.libxshmfence
-          mesa
-          nss
-        ])
-      ));
+      libPath = prev.libPath + lib.makeLibraryPath (with pkgs; [
+        alsa-lib
+        libdrm
+        libxkbcommon
+        xorg.libXdamage
+        xorg.libX11
+        xorg.libxcb
+        xorg.libxshmfence
+        mesa
+        nss
+      ]);
 
       installPhase = builtins.replaceStrings [prev.libPath] [libPath]
         (banCommand "patchelf" prev.installPhase);
