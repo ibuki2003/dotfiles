@@ -14,6 +14,7 @@
 
   imports =
     [
+      ../modules
       ../cachix.nix
     ];
 
@@ -37,6 +38,8 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
+  networking.wireless.iwd.enable = true;
 
   networking.nftables.enable = true;
   networking.firewall = {
@@ -204,6 +207,7 @@
     tailscale.enable = true;
     udisks2.enable = true;
   };
+  systemd.services.tailscaled.serviceConfig.LogLevelMax = lib.mkForce 5;
 
   programs = {
     zsh = {

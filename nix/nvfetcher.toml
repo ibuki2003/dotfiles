@@ -7,3 +7,8 @@ fetch.github = "WillPower3309/swayfx"
 src.git = "https://github.com/oxalica/nil"
 src.branch = "main"
 fetch.github = "oxalica/nil"
+
+[asd]
+src.git = "https://github.com/graysky2/anything-sync-daemon"
+src.branch = "master"
+fetch.github = "graysky2/anything-sync-daemon"

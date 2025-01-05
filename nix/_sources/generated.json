@@ -1,4 +1,24 @@
 {
+    "asd": {
+        "cargoLocks": null,
+        "date": "2022-03-26",
+        "extract": null,
+        "name": "asd",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "graysky2",
+            "repo": "anything-sync-daemon",
+            "rev": "19204c7fd227cd298f30b923f9b969d5d31f3e54",
+            "sha256": "sha256-6nfaAMH5YgK6gimuZ8j1zWLTDOi11KIwW7Bf0Iwh7+I=",
+            "type": "github"
+        },
+        "version": "19204c7fd227cd298f30b923f9b969d5d31f3e54"
+    },
     "nil": {
         "cargoLocks": null,
         "date": "2024-11-19",

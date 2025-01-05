@@ -60,7 +60,16 @@
     };
   };
 
-  swapDevices = [ ];
+  # swapDevices = [ {
+  #   device = "/swapfile";
+  #   size = 8 * 1024; # [MiB] = 8 GiB
+  # } ];
+  swapDevices = [];
+
+  zramSwap = {
+    enable = true;
+  };
+
 
   hardware.graphics = {
     extraPackages = with pkgs; [
@@ -93,6 +102,22 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
+
+  services.asd = {
+    enable = true;
+    synclist = [ "/opt/batlog/log" ];
+  };
+  systemd.services."batlog" = {
+    enable = true;
+    description = "battery logger";
+    serviceConfig = {
+      Type = "simple";
+      # TODO: manage this script with nix
+      ExecStart = "/opt/batlog/logger";
+      Restart = "always";
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
 
   # start on boot
   systemd.services.fprintd = {
