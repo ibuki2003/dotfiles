@@ -98,16 +98,19 @@ return {
     lazy = true,
     build = "make tiktoken",
     opts = {
-      selection = function(source)
-        -- return nil if no selection
-        return require('CopilotChat.select').visual(source)
-      end,
+      selection = function() return nil end,
       chat_autocomplete = false,
     },
     keys = {
       {
         "<space>cc",
-        function() require('CopilotChat').toggle() end,
+        function()
+          local config = {}
+          if vim.api.nvim_get_mode().mode == "v" or vim.api.nvim_get_mode().mode == "V" then
+            config.selection = require('CopilotChat.select').visual
+          end
+          require('CopilotChat').toggle(config)
+        end,
         mode = { "n", "x" },
       },
       {
