@@ -131,5 +131,23 @@
   security.pam.services.sudo.fprintAuth = true;
   security.pam.services.swaylock.fprintAuth = true;
 
+  services.tlp.enable = true;
+  services.tlp.settings = {
+
+    CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+    CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+    CPU_BOOST_ON_AC = "1";
+    CPU_BOOST_ON_BAT = "0";
+    CPU_HWP_DYN_BOOST_ON_AC = "1";
+    CPU_HWP_DYN_BOOST_ON_BAT = "0";
+
+    PLATFORM_PROFILE_ON_AC = "performance";
+    PLATFORM_PROFILE_ON_BAT = "balanced";
+
+    START_CHARGE_THRESH_BAT0 = "90";
+    STOP_CHARGE_THRESH_BAT0 = "95";
+    RESTORE_THRESHOLDS_ON_BAT = "1";
+  };
+
 
 }

@@ -66,6 +66,7 @@ in {
       imagemagick
       jq
       libqalculate
+      mold
       ncdu
       nodejs
       pamixer
@@ -117,6 +118,8 @@ in {
       lua-language-server
       mypkgs.nil # nix lsp
       tinymist
+      typescript-language-server
+      vscode-langservers-extracted
 
       # python
       (python312.withPackages (ps: [
@@ -126,8 +129,14 @@ in {
         ps.matplotlib
       ]))
 
-      # misc
+      # fonts
+      hackgen-font
+      hackgen-nf-font
       mypkgs.sparks
+      udev-gothic
+      jetbrains-mono
+      mplus-outline-fonts.githubRelease
+      rounded-mgenplus
 
     ];
 

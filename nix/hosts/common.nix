@@ -38,8 +38,6 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
-  networking.wireless.iwd.enable = true;
 
   networking.nftables.enable = true;
   networking.firewall = {
@@ -143,6 +141,7 @@
     python312Packages.pipx
     cachix
     udisks
+    cifs-utils
 
     # somewhy sddm.extraPackages doesn't work
     (pkgs.catppuccin-sddm.override {
@@ -246,6 +245,8 @@
     # Some programs need SUID wrappers, can be configured further or are
     # started in user sessions.
     mtr.enable = true;
+
+    obs-studio.enableVirtualCamera = true;
   };
 
   virtualisation.docker = {
@@ -260,8 +261,6 @@
       noto-fonts-cjk-serif
       noto-fonts-cjk-sans
       noto-fonts-emoji
-      hackgen-font
-      hackgen-nf-font
     ];
     fontDir.enable = false;
     fontconfig = {
