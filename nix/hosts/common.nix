@@ -24,6 +24,11 @@
       trusted-users = ["fuwa"];
       auto-optimise-store = true;
     };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
   };
 
   # Bootloader.
@@ -87,7 +92,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

@@ -17,14 +17,8 @@ let
         { cont = false; lines = []; }
         (lib.splitString "\n" script)
       ).lines;
-  version = "0.0.78";
-  src = pkgs.fetchzip {
-    url = "https://stable.dl2.discordapp.net/apps/linux/${version}/discord-${version}.tar.gz";
-    hash = "sha256-Qlos8S8amL3iDelNK57M00tl3obfEI9tO7q+3ljgbMc=";
-  };
 in
   pkgs.discord.overrideAttrs (prev: rec {
-      inherit src version;
       nativeBuildInputs = [ pkgs.makeShellWrapper ];
 
       # add missing dependencies

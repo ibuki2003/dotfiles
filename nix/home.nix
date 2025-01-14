@@ -97,7 +97,21 @@ in {
       zathura
 
       # desktop apps
-      alacritty
+      (alacritty.overrideAttrs (old: rec {
+        # *partial* patch, but it's enough for me
+        version = "0.15.0";
+        src = fetchFromGitHub {
+          owner = "alacritty";
+          repo = "alacritty";
+          tag = "v${version}";
+          hash = "sha256-CAxf0ltvYXYTdjQmLQnRwRRJUBgABbHSB8DxfAbgBdo=";
+        };
+        cargoDeps = old.cargoDeps.overrideAttrs (lib.const {
+          inherit src;
+          name = "${old.pname}-${version}-vendor.tar.gz";
+          outputHash = "sha256-pVwPo9O3ortTtVzZn1p1grFGLBA2gVTOatdNFqNQ5zc=";
+        });
+      }))
       albert
       audacity
       chromium
