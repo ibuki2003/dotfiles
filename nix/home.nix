@@ -52,6 +52,7 @@ in {
       delta
       dig
       dogdns
+      exiftool
       eza
       fd
       ffmpeg
@@ -65,10 +66,13 @@ in {
       htop
       imagemagick
       jq
+      plasma5Packages.kdeconnect-kde
       libqalculate
       mold
+      moreutils
       ncdu
       nodejs
+      openssl
       pamixer
       pciutils
       picotool
@@ -96,7 +100,9 @@ in {
       alacritty
       albert
       audacity
+      chromium
       mypkgs.discord
+      drawio
       gimp-with-plugins
       httpie-desktop
       imv
@@ -199,10 +205,6 @@ in {
   };
 
   services = {
-    kdeconnect = {
-      enable = true;
-      indicator = true;
-    };
     syncthing = {
       enable = true;
     };
@@ -247,7 +249,6 @@ in {
     Install.WantedBy = [ "default.target" ];
   };
 
-  systemd.user.services.kdeconnect.Service.Restart = lib.mkForce "always";
 
   xdg.mimeApps = {
     enable = true;
@@ -262,7 +263,7 @@ in {
             })
           )
           {
-            "firefox-developer-edition.desktop" = [
+            "firefox-devedition.desktop" = [
               "text/html"
               "x-scheme-handler/http"
               "x-scheme-handler/https"
@@ -283,6 +284,9 @@ in {
               "video/quicktime"
               "audio/mpeg"
               "audio/x-wav"
+            ];
+            "thunderbird.desktop" = [
+              "x-scheme-handler/mailto"
             ];
           }
         ));
