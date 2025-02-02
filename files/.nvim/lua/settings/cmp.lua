@@ -115,7 +115,7 @@ local cmp_lsp_rs = require'cmp_lsp_rs'
 opts.sorting = {
   priority_weight = 2,
   comparators = {
-    -- require'copilot_cmp.comparators'.prioritize,
+    require'copilot_cmp.comparators'.prioritize,
 
     cmp.config.compare.offset,
     cmp.config.compare.exact,

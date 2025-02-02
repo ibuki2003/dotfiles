@@ -3,6 +3,10 @@ return {
     'chrisbra/csv.vim',
   },
   {
+    'https://git.sr.ht/~sotirisp/vim-tsv',
+  },
+
+  {
     'rust-lang/rust.vim',
     ft = { 'rust' },
     init = function()

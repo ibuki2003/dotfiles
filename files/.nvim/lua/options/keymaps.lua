@@ -25,6 +25,9 @@ vim.keymap.set({'n','v'}, '<Leader>P', '"+P', { silent = true })
 
 vim.keymap.set('n', '<C-g>', 'ggVG')
 
+vim.keymap.set('n', '*', '*``')
+vim.keymap.set('n', '#', '#``')
+
 vim.api.nvim_set_keymap('n', '0', '', {
   noremap = true,
   expr = true,

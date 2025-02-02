@@ -245,12 +245,6 @@ return {
   },
   {
     'juro106/ftjpn',
-    keys = {
-      { 'f', mode = { 'n', 'x', 'o' } },
-      { 'F', mode = { 'n', 'x', 'o' } },
-      { 't', mode = { 'n', 'x', 'o' } },
-      { 'T', mode = { 'n', 'x', 'o' } },
-    },
     init = function()
       vim.g.ftjpn_key_list = {
         { '.', '。', '．' },
@@ -342,7 +336,6 @@ return {
   },
   {
     'gamoutatsumi/dps-ghosttext.vim',
-    cmd = { 'GhostStart' },
   },
   {
     "epwalsh/obsidian.nvim",
