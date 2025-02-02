@@ -58,6 +58,7 @@ in {
       ffmpeg
       file
       fzf
+      gh
       ghq
       gnumake
       gnupg
@@ -66,7 +67,7 @@ in {
       htop
       imagemagick
       jq
-      plasma5Packages.kdeconnect-kde
+      kdePackages.kdeconnect-kde
       libqalculate
       mold
       moreutils
@@ -119,6 +120,7 @@ in {
       drawio
       gimp-with-plugins
       httpie-desktop
+      imhex
       imv
       inkscape
       kicad
@@ -140,6 +142,7 @@ in {
       tinymist
       typescript-language-server
       vscode-langservers-extracted
+      pyright
 
       # python
       (python312.withPackages (ps: [
@@ -147,6 +150,7 @@ in {
         ps.pipx
         ps.numpy
         ps.matplotlib
+        ps.python-lsp-server
       ]))
 
       # fonts
