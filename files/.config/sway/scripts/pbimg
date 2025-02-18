@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-file=$(mktemp)
-trap 'rm -f "$file"' EXIT
-wl-paste > $file
-if file --mime-type -b $file 2>/dev/null | grep -q '^image/'; then
+type=$(wl-paste -l | grep '^image/' -m 1)
+if [[ $? -eq 0 ]]; then
+  file=$(mktemp -p /tmp pbimg-XXXXXX)
+  trap 'rm -f "$file"' EXIT
+  wl-paste -t $type > $file
   imv $file
 else
   notify-send "not an image"
