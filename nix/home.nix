@@ -18,6 +18,9 @@ in {
     ];
     config = {
       allowUnfree = true;
+      permittedInsecurePackages = [
+        "googleearth-pro-7.3.6.9796"
+      ];
     };
   };
   nix.package = pkgs.nix;
@@ -42,6 +45,7 @@ in {
       plasma-browser-integration
 
       # tools
+      android-tools
       atop
       bat
       bottom
@@ -52,6 +56,7 @@ in {
       delta
       dig
       dogdns
+      edir
       exiftool
       eza
       fd
@@ -63,11 +68,11 @@ in {
       gnumake
       gnupg
       gnuplot_qt
+      googleearth-pro
       httpie
       htop
       imagemagick
       jq
-      kdePackages.kdeconnect-kde
       libqalculate
       mold
       moreutils
@@ -92,6 +97,7 @@ in {
       unzipNLS
       usbutils
       vim
+      wayvnc
       wl-clipboard
       xxd
       yubikey-manager
@@ -118,14 +124,19 @@ in {
       chromium
       mypkgs.discord
       drawio
+      font-manager
       gimp-with-plugins
       httpie-desktop
       imhex
       imv
       inkscape
       kicad
+      libreoffice-fresh
+      mpv
       networkmanagerapplet
+      nwg-displays
       pavucontrol
+      prismlauncher
       remmina
       sdrpp
       slack
@@ -143,14 +154,15 @@ in {
       typescript-language-server
       vscode-langservers-extracted
       pyright
+      verible
 
       # python
-      (python312.withPackages (ps: [
-        ps.pip
-        ps.pipx
-        ps.numpy
-        ps.matplotlib
-        ps.python-lsp-server
+      (python312.withPackages (ps: with ps; [
+        pip
+        numpy
+        (matplotlib.override { enableQt = true; })
+        scipy
+        python-lsp-server
       ]))
 
       # fonts
@@ -235,6 +247,9 @@ in {
     };
     ssh-agent.enable = true;
   };
+
+  services.kdeconnect.enable = true;
+  systemd.user.services.kdeconnect.Service.Restart = lib.mkForce "always";
 
   i18n.inputMethod = {
     enabled = "fcitx5";

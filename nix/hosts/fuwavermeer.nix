@@ -106,6 +106,19 @@
 
   };
 
+  services.printing = {
+    drivers = lib.mkDefault [
+      pkgs.cnijfilter2
+    ];
+  };
+  hardware.sane = {
+    enable = true;
+    drivers.scanSnap.enable = true;
+    extraBackends = [
+      pkgs.sane-airscan
+    ];
+  };
+
   services.udev.extraRules = lib.concatStringsSep "\n"
     [
       # c270 usb reset workaround

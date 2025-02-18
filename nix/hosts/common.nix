@@ -68,10 +68,12 @@
   networking.nameservers = lib.mkDefault [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
   services.resolved = {
     enable = true;
-    dnssec = "true";
+    # dnssec = "allow-downgrade";
     fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
-    dnsovertls = "true";
+    dnsovertls = "opportunistic";
   };
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
@@ -117,6 +119,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "wireshark"
 
       "adm"
       "audio"
@@ -200,6 +203,28 @@
         '';
         destination = "/etc/udev/rules.d/90-picoprobe.rules";
       })
+
+      (pkgs.writeTextFile {
+        name = "xilinx-drivers";
+        text = ''
+        # 52-xilinx-digilent-usb.rules
+        ATTRS{idVendor}=="1443", MODE:="666"
+        ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{manufacturer}=="Digilent", MODE:="666"
+
+        # 52-xilinx-ftdi-usb.rules
+        ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{manufacturer}=="Xilinx", MODE:="666"
+
+        # 52-xilinx-pcusb.rules
+        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0008", MODE="666"
+        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0007", MODE="666"
+        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0009", MODE="666"
+        ATTR{idVendor}=="03fd", ATTR{idProduct}=="000d", MODE="666"
+        ATTR{idVendor}=="03fd", ATTR{idProduct}=="000f", MODE="666"
+        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0013", MODE="666"
+        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0015", MODE="666"
+        '';
+        destination = "/etc/udev/rules.d/52-xilinx.rules";
+      })
   ];
 
 
@@ -252,6 +277,15 @@
     mtr.enable = true;
 
     obs-studio.enableVirtualCamera = true;
+
+    java = {
+      enable = true;
+    };
+
+    wireshark = {
+      enable = true;
+      package = pkgs.wireshark;
+    };
   };
 
   virtualisation.docker = {
