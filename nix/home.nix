@@ -85,6 +85,7 @@ in {
       pnpm
       probe-rs-tools
       pulseaudio-ctl
+      ranger
       ripgrep
       rustup
       sheldon
@@ -215,14 +216,23 @@ in {
           "browser.tabs.inTitlebar" = 0;
           "browser.zoom.siteSpecific" = false;
           "findbar.highlightAll" = true;
+          "security.mixed_content.block_active_content" = false;
+          "network.security.ports.banned.override" = "1-65535";
           # "browser.uiCustomization.state" = ""; # TODO
         };
       };
     };
 
-    fcitx5 = {
+    fcitx5skk = {
       dictionaries = (
-        with pkgs.skkDictionaries; [ l geo station jis2 jis3_4 assoc ]
+        with pkgs.skkDictionaries; [ l geo station jis2 jis3_4 assoc ] ++
+        [
+          (pkgs.fetchurl {
+            url = "https://github.com/ibuki2003/skk_dics/releases/download/untagged-b135c1c0e0d8fb30f981/wikipedia_with_descripts_sorted.utf8.txt";
+            hash = "sha256-6a6Wh256nozUC62jMQWrPONet3TOKTpYgMAg93BahH0=";
+          })
+          "${sources.skkemoji.src}/SKK-JISYO.emoji.utf8"
+        ]
       );
     };
 

@@ -12,3 +12,8 @@ fetch.github = "oxalica/nil"
 src.git = "https://github.com/graysky2/anything-sync-daemon"
 src.branch = "master"
 fetch.github = "graysky2/anything-sync-daemon"
+
+[skkemoji]
+src.git = "https://github.com/uasi/skk-emoji-jisyo"
+src.branch = "master"
+fetch.github = "uasi/skk-emoji-jisyo"

@@ -4,9 +4,9 @@
 let
   inherit (lib) mkIf mkOption optionalString types;
   inherit (types) listOf either;
-  cfg = config.programs.fcitx5;
+  cfg = config.programs.fcitx5skk;
 in {
-  options.programs.fcitx5 = {
+  options.programs.fcitx5skk = {
     dictionaries = mkOption {
       type = listOf (either types.str types.package);
       default = [ ];
@@ -21,7 +21,7 @@ in {
         text = let
           dictFiles = cfg.dictionaries
             |> lib.map (dict:
-              if lib.isDerivation dict then
+              if (lib.isDerivation dict) && (builtins.readFileType dict == "directory") then
                 ( let base = "${dict}/share/skk"; in
                   if (builtins.pathExists base) then
                     (

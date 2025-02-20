@@ -39,6 +39,26 @@
         },
         "version": "2e24c9834e3bb5aa2a3701d3713b43a6fb106362"
     },
+    "skkemoji": {
+        "cargoLocks": null,
+        "date": "2025-01-02",
+        "extract": null,
+        "name": "skkemoji",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "uasi",
+            "repo": "skk-emoji-jisyo",
+            "rev": "18ff911d0dc445dbc8fbc4c5122874d08e56781b",
+            "sha256": "sha256-y/AuoOCoCDkhhCwBm9dSUajeL3Q/N47GE1RBXNhj5F0=",
+            "type": "github"
+        },
+        "version": "18ff911d0dc445dbc8fbc4c5122874d08e56781b"
+    },
     "swayfx": {
         "cargoLocks": null,
         "date": "2024-11-15",

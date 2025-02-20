@@ -25,6 +25,18 @@
     };
     date = "2024-11-19";
   };
+  skkemoji = {
+    pname = "skkemoji";
+    version = "18ff911d0dc445dbc8fbc4c5122874d08e56781b";
+    src = fetchFromGitHub {
+      owner = "uasi";
+      repo = "skk-emoji-jisyo";
+      rev = "18ff911d0dc445dbc8fbc4c5122874d08e56781b";
+      fetchSubmodules = false;
+      sha256 = "sha256-y/AuoOCoCDkhhCwBm9dSUajeL3Q/N47GE1RBXNhj5F0=";
+    };
+    date = "2025-01-02";
+  };
   swayfx = {
     pname = "swayfx";
     version = "3e4b6b75f4b42b4cb04d883033b04b4a1b57bc90";
