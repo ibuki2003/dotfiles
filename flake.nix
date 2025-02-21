@@ -37,7 +37,7 @@
         inherit inputs sources;
       };
     } // v)) {
-      vermeer = { modules = [ ./nix/hosts/fuwavermeer.nix ]; };
+      fuwavermeer = { modules = [ ./nix/hosts/fuwavermeer.nix ]; };
       fuwathink10 = { modules = [ ./nix/hosts/fuwathink10.nix ]; };
     };
 
@@ -50,6 +50,23 @@
         modules = [
           ./nix/home.nix
         ];
+      };
+    };
+
+    apps.${system} = {
+      # run with *this* flake
+      home-manager = {
+        type = "app";
+        program = toString (pkgs.writeShellScript "home-manager" ''
+          home-manager --flake ".#myHome" "$@"
+        '');
+      };
+      nixos-rebuild = {
+        type = "app";
+        program = toString (pkgs.writeShellScript "nixos-rebuild" ''
+          hostname=''${$(hostname)%-nix}
+          sudo nixos-rebuild --flake ".#''${hostname}" "$@"
+        '');
       };
     };
   };
