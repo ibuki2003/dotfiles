@@ -15,29 +15,10 @@
             "repo": "anything-sync-daemon",
             "rev": "19204c7fd227cd298f30b923f9b969d5d31f3e54",
             "sha256": "sha256-6nfaAMH5YgK6gimuZ8j1zWLTDOi11KIwW7Bf0Iwh7+I=",
+            "sparseCheckout": [],
             "type": "github"
         },
         "version": "19204c7fd227cd298f30b923f9b969d5d31f3e54"
-    },
-    "nil": {
-        "cargoLocks": null,
-        "date": "2024-11-19",
-        "extract": null,
-        "name": "nil",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "oxalica",
-            "repo": "nil",
-            "rev": "2e24c9834e3bb5aa2a3701d3713b43a6fb106362",
-            "sha256": "sha256-DCIVdlb81Fct2uwzbtnawLBC/U03U2hqx8trqTJB7WA=",
-            "type": "github"
-        },
-        "version": "2e24c9834e3bb5aa2a3701d3713b43a6fb106362"
     },
     "skkemoji": {
         "cargoLocks": null,
@@ -55,28 +36,9 @@
             "repo": "skk-emoji-jisyo",
             "rev": "18ff911d0dc445dbc8fbc4c5122874d08e56781b",
             "sha256": "sha256-y/AuoOCoCDkhhCwBm9dSUajeL3Q/N47GE1RBXNhj5F0=",
+            "sparseCheckout": [],
             "type": "github"
         },
         "version": "18ff911d0dc445dbc8fbc4c5122874d08e56781b"
-    },
-    "swayfx": {
-        "cargoLocks": null,
-        "date": "2024-11-15",
-        "extract": null,
-        "name": "swayfx",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "WillPower3309",
-            "repo": "swayfx",
-            "rev": "3e4b6b75f4b42b4cb04d883033b04b4a1b57bc90",
-            "sha256": "sha256-ZzdGyoffeKZARaqEuWpgt+T1DJLBJpJACXXQGprQ/Lo=",
-            "type": "github"
-        },
-        "version": "3e4b6b75f4b42b4cb04d883033b04b4a1b57bc90"
     }
 }

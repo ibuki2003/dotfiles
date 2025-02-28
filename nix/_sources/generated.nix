@@ -13,18 +13,6 @@
     };
     date = "2022-03-26";
   };
-  nil = {
-    pname = "nil";
-    version = "2e24c9834e3bb5aa2a3701d3713b43a6fb106362";
-    src = fetchFromGitHub {
-      owner = "oxalica";
-      repo = "nil";
-      rev = "2e24c9834e3bb5aa2a3701d3713b43a6fb106362";
-      fetchSubmodules = false;
-      sha256 = "sha256-DCIVdlb81Fct2uwzbtnawLBC/U03U2hqx8trqTJB7WA=";
-    };
-    date = "2024-11-19";
-  };
   skkemoji = {
     pname = "skkemoji";
     version = "18ff911d0dc445dbc8fbc4c5122874d08e56781b";
@@ -36,17 +24,5 @@
       sha256 = "sha256-y/AuoOCoCDkhhCwBm9dSUajeL3Q/N47GE1RBXNhj5F0=";
     };
     date = "2025-01-02";
-  };
-  swayfx = {
-    pname = "swayfx";
-    version = "3e4b6b75f4b42b4cb04d883033b04b4a1b57bc90";
-    src = fetchFromGitHub {
-      owner = "WillPower3309";
-      repo = "swayfx";
-      rev = "3e4b6b75f4b42b4cb04d883033b04b4a1b57bc90";
-      fetchSubmodules = false;
-      sha256 = "sha256-ZzdGyoffeKZARaqEuWpgt+T1DJLBJpJACXXQGprQ/Lo=";
-    };
-    date = "2024-11-15";
   };
 }

@@ -246,12 +246,7 @@
     };
     sway = {
       enable = true;
-      package = (pkgs.swayfx.override(attrs: {
-        swayfx-unwrapped = pkgs.swayfx-unwrapped.overrideAttrs (oldAttrs: {
-          src = sources.swayfx.src;
-          version = sources.swayfx.version;
-        });
-      }));
+      package = pkgs.swayfx;
 
       extraPackages = with pkgs; [
         brightnessctl
@@ -262,6 +257,7 @@
         waybar
         wob
         sway-contrib.grimshot
+        swaybg
       ];
       extraSessionCommands = "export XMODIFIERS=@im=fcitx";
       xwayland.enable = true;

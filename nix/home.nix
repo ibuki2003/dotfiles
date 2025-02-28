@@ -13,13 +13,10 @@ in {
   ];
 
   nixpkgs = {
-    overlays = [
-      # inputs.neovim-nightly-overlay.overlays.default
-    ];
     config = {
       allowUnfree = true;
       permittedInsecurePackages = [
-        "googleearth-pro-7.3.6.9796"
+        "googleearth-pro-7.3.6.10201"
       ];
     };
   };
@@ -42,7 +39,6 @@ in {
 
       # libraries
       libnotify
-      plasma-browser-integration
 
       # tools
       android-tools
@@ -105,21 +101,7 @@ in {
       zathura
 
       # desktop apps
-      (alacritty.overrideAttrs (old: rec {
-        # *partial* patch, but it's enough for me
-        version = "0.15.0";
-        src = fetchFromGitHub {
-          owner = "alacritty";
-          repo = "alacritty";
-          tag = "v${version}";
-          hash = "sha256-CAxf0ltvYXYTdjQmLQnRwRRJUBgABbHSB8DxfAbgBdo=";
-        };
-        cargoDeps = old.cargoDeps.overrideAttrs (lib.const {
-          inherit src;
-          name = "${old.pname}-${version}-vendor.tar.gz";
-          outputHash = "sha256-pVwPo9O3ortTtVzZn1p1grFGLBA2gVTOatdNFqNQ5zc=";
-        });
-      }))
+      alacritty
       albert
       audacity
       chromium
@@ -144,13 +126,14 @@ in {
       thunderbird-latest
       spotify
       vlc libaacs
+      wdisplays
       zoom-us
 
       # lsp servers
       efm-langserver
       emmet-ls
       lua-language-server
-      mypkgs.nil # nix lsp
+      nil # nix lsp
       tinymist
       typescript-language-server
       vscode-langservers-extracted
@@ -194,9 +177,7 @@ in {
       lfs.enable = true;
     };
     neovim = {
-      # TODO: using overlay doesn't seem to use binary cache?
-      # package = pkgs.neovim;
-      package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+      package = pkgs.neovim;
       enable = true;
       defaultEditor = true;
     };
@@ -204,7 +185,7 @@ in {
       enable = true;
       package = pkgs.firefox-devedition;
       nativeMessagingHosts = [
-        pkgs.plasma-browser-integration
+        pkgs.kdePackages.plasma-browser-integration
       ];
       profiles.dev-edition-default = {
         isDefault = true;
