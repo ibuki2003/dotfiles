@@ -70,16 +70,19 @@ in {
       imagemagick
       jq
       libqalculate
+      minicom
       mold
       moreutils
       ncdu
       nodejs
       openssl
+      p7zip
       pamixer
       pciutils
       picotool
       pnpm
-      probe-rs-tools
+      pulseaudio
+      procs
       pulseaudio-ctl
       ranger
       ripgrep
@@ -89,8 +92,10 @@ in {
       socat
       swayidle
       swaylock-effects
+      pdftk
       tig
       tmux
+      typst
       unzipNLS
       usbutils
       vim
@@ -100,11 +105,22 @@ in {
       yubikey-manager
       zathura
 
+      # cargo tools
+      cargo-binutils
+      cargo-bloat
+      cargo-edit
+      cargo-expand
+      probe-rs-tools
+
       # desktop apps
       alacritty
       albert
       audacity
       chromium
+      (cutter.withPlugins (ps: with ps; [
+        rz-ghidra
+        jsdec
+      ]))
       mypkgs.discord
       drawio
       font-manager
@@ -118,6 +134,7 @@ in {
       mpv
       networkmanagerapplet
       nwg-displays
+      obs-studio
       pavucontrol
       prismlauncher
       remmina
@@ -139,6 +156,7 @@ in {
       vscode-langservers-extracted
       pyright
       verible
+      intelephense
 
       # python
       (python312.withPackages (ps: with ps; [
@@ -157,7 +175,7 @@ in {
       jetbrains-mono
       mplus-outline-fonts.githubRelease
       rounded-mgenplus
-
+      material-design-icons
     ];
 
     pointerCursor = {
