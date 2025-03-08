@@ -42,6 +42,10 @@ return {
         config = function()
           local opts = {
             hint_enable = false,
+            max_height = 6,
+            doc_lines = 0,
+            toggle_key = "<C-h>",
+            toggle_key_flip_floatwin_setting = true,
           }
           vim.api.nvim_create_autocmd("LspAttach", {
             callback = function(args)

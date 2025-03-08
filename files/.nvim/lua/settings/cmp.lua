@@ -87,14 +87,14 @@ opts.mapping = {
   end, { "i", "s" }),
 }
 opts.sources = cmp.config.sources({
-  { name = 'nvim_lsp' },
-  { name = 'buffer' },
-  { name = 'calc' },
-  { name = 'async_path' },
   {
     name = 'copilot',
     options = { fix_pairs = false, },
   },
+  { name = 'nvim_lsp' },
+  { name = 'buffer' },
+  { name = 'calc' },
+  { name = 'async_path' },
   { name = 'vsnip' },
   { name = 'buffer' },
   { name = "lazydev" },
@@ -115,13 +115,11 @@ local cmp_lsp_rs = require'cmp_lsp_rs'
 opts.sorting = {
   priority_weight = 2,
   comparators = {
-    require'copilot_cmp.comparators'.prioritize,
-
-    cmp.config.compare.offset,
     cmp.config.compare.exact,
+    cmp.config.compare.score,
+    cmp.config.compare.offset,
 
     cmp_lsp_rs.comparators.inscope_inherent_import,
-    cmp.config.compare.score,
     cmp.config.compare.kind,
     cmp.config.compare.sort_text,
     cmp.config.compare.length,
@@ -129,6 +127,16 @@ opts.sorting = {
   },
 }
 opts.experimental = { ghost_text = true }
+
+-- disable switch
+opts.enabled = function()
+  local disabled = false
+  disabled = disabled or (vim.api.nvim_get_option_value('buftype', { buf = 0 }) == 'prompt')
+  disabled = disabled or (vim.fn.reg_recording() ~= '')
+  disabled = disabled or (vim.fn.reg_executing() ~= '')
+  disabled = disabled or (vim.fn.exists("b:cmp_enabled") == 1 and vim.api.nvim_buf_get_var(0, "cmp_enabled") == 0)
+  return not disabled
+end
 
 cmp.setup (opts)
 
