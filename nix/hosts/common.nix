@@ -151,6 +151,8 @@
     udisks
     cifs-utils
 
+    steam-run
+
     # somewhy sddm.extraPackages doesn't work
     (pkgs.catppuccin-sddm.override {
       flavor = "macchiato";
@@ -281,6 +283,13 @@
     wireshark = {
       enable = true;
       package = pkgs.wireshark;
+    };
+
+    steam = {
+      enable = true;
+      package = pkgs.steam.override {
+        extraPkgs = pkgs: with pkgs; [ migu ];
+      };
     };
   };
 
