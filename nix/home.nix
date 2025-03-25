@@ -39,6 +39,8 @@ in {
 
       # libraries
       libnotify
+      qt5.qtbase
+      qt6.qtbase
 
       # tools
       android-tools
@@ -246,6 +248,8 @@ in {
 
   };
 
+  qt.enable = true;
+
   services = {
     syncthing = {
       enable = true;
@@ -273,6 +277,14 @@ in {
   };
   # note: https://github.com/nix-community/home-manager/issues/1011
   home.sessionVariables.XMODIFIERS = "@im=fcitx";
+
+  home.sessionVariables.BROWSER = "firefox-devedition";
+
+  home.file.".profile".text = ''
+    . ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+    '';
+  home.file.".xprofile".text = ". ~/.profile";
+
 
   fonts.fontconfig.enable = true;
   xdg.configFile."fontconfig/conf.d/99-local.conf".text = ''
