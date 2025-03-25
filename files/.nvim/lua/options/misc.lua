@@ -32,6 +32,8 @@ vim.api.nvim_create_autocmd({"BufReadPost"}, {
   pattern = "*",
   group = "fuwa",
   callback = function()
+    if vim.bo.filetype == "gitcommit" then return end
+
     if vim.fn.line("'\"") >= 1 and vim.fn.line("'\"") <= vim.fn.line("$") then
       vim.cmd("normal! g`\"")
     end

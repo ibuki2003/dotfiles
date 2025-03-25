@@ -91,6 +91,7 @@ return {
     'hrsh7th/vim-vsnip',
     event = { 'InsertEnter' },
     config = function()
+      vim.g.vsnip_snippet_dir = '~/.nvim/snippets'
       vim.cmd[[
       imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
       smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
