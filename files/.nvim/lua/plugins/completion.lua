@@ -77,17 +77,6 @@ return {
     'creativenull/efmls-configs-nvim',
   },
   {
-    'j-hui/fidget.nvim',
-    opts = {
-      progress = {
-        ignore = {
-          'efm',
-          'null-ls',
-        },
-      }
-    },
-  },
-  {
     'hrsh7th/vim-vsnip',
     event = { 'InsertEnter' },
     config = function()
@@ -97,58 +86,6 @@ return {
       smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
      ]]
     end
-  },
-  {
-    'zbirenbaum/copilot.lua',
-    event = { 'InsertEnter' },
-    opts = {
-      suggestion = { enabled = false },
-      panel = { enabled = false },
-      filetypes = {
-        [""] = false,
-        markdown = false,
-      },
-    },
-  },
-  {
-    'CopilotC-Nvim/CopilotChat.nvim',
-    lazy = true,
-    build = "make tiktoken",
-    opts = {
-      selection = function() return nil end,
-      chat_autocomplete = false,
-    },
-    keys = {
-      {
-        "<space>cc",
-        function()
-          local config = {}
-          if vim.api.nvim_get_mode().mode == "v" or vim.api.nvim_get_mode().mode == "V" then
-            config.selection = require('CopilotChat.select').visual
-          end
-          require('CopilotChat').toggle(config)
-        end,
-        mode = { "n", "x" },
-      },
-      {
-        "<space>ca",
-        function()
-          require("CopilotChat.integrations.telescope").pick(require("CopilotChat.actions").prompt_actions())
-        end,
-        mode = { "n", "x" },
-      },
-    },
-    cmd = {
-      -- NOTE: I won't use other available commands
-      "CopilotChat",
-      "CopilotChatAgents",
-      "CopilotChatModels",
-      "CopilotChatToggle",
-      "CopilotChatReset",
-      "CopilotChatDebugInfo",
-      "CopilotChatSave",
-      "CopilotChatLoad",
-    },
   },
   {
     'aznhe21/actions-preview.nvim',

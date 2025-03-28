@@ -106,10 +106,8 @@ opts.sources = cmp.config.sources({
       loud = true,
     },
   },
-  { name = "copilotchat" },
 })
 
-cmp.register_source('copilotchat', require("settings.copilotchat-cmp"))
 
 local cmp_lsp_rs = require'cmp_lsp_rs'
 opts.sorting = {

@@ -6,6 +6,18 @@ return {
     'stevearc/dressing.nvim',
   },
   {
+    'j-hui/fidget.nvim',
+    opts = {
+      progress = {
+        ignore = {
+          'efm',
+          'null-ls',
+        },
+      }
+    },
+  },
+
+  {
     'machakann/vim-sandwich',
     lazy = false,
     keys = {
