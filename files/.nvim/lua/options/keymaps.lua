@@ -85,6 +85,8 @@ vim.keymap.set("n", "gf", function()
   end
 end)
 
+vim.keymap.set("n", "<Leader>q", "<cmd>copen<CR>")
+
 -- https://blog.atusy.net/2024/05/29/vim-hl-enhanced/
 vim.keymap.set('n', 'H', 'H<Plug>(H)')
 vim.keymap.set('n', 'L', 'L<Plug>(L)')

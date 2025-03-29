@@ -282,7 +282,7 @@ return {
     'kyoh86/vim-ripgrep',
     command = { 'Rg' },
     init = function()
-      vim.cmd("command! -nargs=* -complete=file Rg :call ripgrep#search('-. ' . <q-args>)")
+      vim.cmd([[command! -nargs=* -complete=file Rg :call ripgrep#search("--glob '!.git' -. " . <q-args>)]])
     end
   },
   {
@@ -435,5 +435,18 @@ return {
         end
       end, { expr = true })
     end,
-  }
+  },
+  {
+    'kevinhwang91/nvim-bqf',
+    ft = { 'qf' },
+  },
+  {
+    'itchyny/vim-qfedit',
+    -- TODO: undo not working for now
+    ft = { 'qf' },
+  },
+  {
+    'thinca/vim-qfreplace',
+    ft = { 'qf' },
+  },
 }
