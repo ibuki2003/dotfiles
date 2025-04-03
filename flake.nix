@@ -17,10 +17,6 @@
       url = "github:oxalica/nil";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    swayfx = {
-      url = "github:WillPower3309/swayfx";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
   };
 
@@ -34,7 +30,6 @@
       overlays = [
         inputs.neovim-nightly-overlay.overlays.default
         inputs.nil.overlays.nil
-        inputs.swayfx.overlays.default
       ];
       pkgs = import nixpkgs {
         inherit system overlays;
