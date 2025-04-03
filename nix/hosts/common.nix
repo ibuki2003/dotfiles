@@ -42,27 +42,29 @@
   };
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking = {
+    networkmanager.enable = true;
 
-  networking.nftables.enable = true;
-  networking.firewall = {
-    enable = lib.mkDefault true;
-    allowedTCPPorts = [
-      22
-    ];
-    allowedTCPPortRanges = [
-      { from = 1714; to = 1764; } # KDE Connect
-    ];
-    allowedUDPPorts = [
-      41641 # tailscale
-    ];
-    allowedUDPPortRanges = [
-      { from = 1714; to = 1764; } # KDE Connect
-    ];
+    nftables.enable = true;
+    firewall = {
+      enable = lib.mkDefault true;
+      allowedTCPPorts = [
+        22
+      ];
+      allowedTCPPortRanges = [
+        { from = 1714; to = 1764; } # KDE Connect
+      ];
+      allowedUDPPorts = [
+        41641 # tailscale
+      ];
+      allowedUDPPortRanges = [
+        { from = 1714; to = 1764; } # KDE Connect
+      ];
 
-    logRefusedConnections = false;
+      logRefusedConnections = false;
 
-    trustedInterfaces = [ "tailscale0" ];
+      trustedInterfaces = [ "tailscale0" ];
+    };
   };
 
   networking.nameservers = lib.mkDefault [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
