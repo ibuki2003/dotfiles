@@ -53,8 +53,8 @@
         inherit inputs sources;
       };
     })) {
-      fuwavermeer = { modules = [ ./nix/hosts/fuwavermeer.nix ]; };
-      fuwathink10 = { modules = [ ./nix/hosts/fuwathink10.nix ]; };
+      fuwavermeer = { modules = [ ./nix/nixos/hosts/fuwavermeer.nix ]; };
+      fuwathink10 = { modules = [ ./nix/nixos/hosts/fuwathink10.nix ]; };
     };
 
     homeConfigurations = {
@@ -64,27 +64,12 @@
           inherit inputs sources;
         };
         modules = [
-          ./nix/home.nix
+          ./nix/home/desktop.nix
         ];
       };
     };
 
     apps.${system} = {
-      # run with *this* flake
-      home-manager = {
-        type = "app";
-        program = toString (pkgs.writeShellScript "home-manager" ''
-          home-manager --flake ".#myHome" "$@"
-        '');
-      };
-      nixos-rebuild = {
-        type = "app";
-        program = toString (pkgs.writeShellScript "nixos-rebuild" ''
-          hostname=$(hostname)
-          hostname=''${hostname%-nix}
-          sudo nixos-rebuild --flake ".#''${hostname}" "$@"
-        '');
-      };
       nvfetcher = {
         type = "app";
         program = toString (pkgs.writeShellScript "nvfetcher" ''

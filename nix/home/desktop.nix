@@ -1,41 +1,26 @@
 {
-  inputs,
   pkgs,
   sources,
   lib,
   ...
 }: let
   username = "fuwa";
-  mypkgs = pkgs.callPackage ./packages { inherit sources; };
+  mypkgs = pkgs.callPackage ../packages { inherit sources; };
 in {
   imports = [
-    ./home_modules
+    ./base.nix
   ];
 
   nixpkgs = {
     config = {
-      allowUnfree = true;
       permittedInsecurePackages = [
         "googleearth-pro-7.3.6.10201"
       ];
     };
   };
-  nix.package = pkgs.nix;
 
   home = {
-    username = username;
-    homeDirectory = "/home/${username}";
-
-    # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-    stateVersion = "24.05";
-
-    # avoid warning
-    enableNixpkgsReleaseCheck = false;
-
     packages = with pkgs; [
-
-      # nix tools
-      nixfmt-rfc-style
 
       # libraries
       libnotify
@@ -43,79 +28,16 @@ in {
       qt6.qtbase
 
       # tools
-      android-tools
-      atop
-      bat
-      bottom
-      clang-tools
-      cmake
-      deno
-      dex
-      delta
-      dig
-      dogdns
-      edir
-      exiftool
-      eza
-      fd
-      ffmpeg
-      file
-      fzf
-      gh
-      ghq
-      gnumake
-      gnupg
-      gnuplot_qt
-      googleearth-pro
-      httpie
-      htop
-      imagemagick
-      jq
-      libqalculate
-      minicom
-      mold
-      moreutils
-      ncdu
-      nodejs
-      openssl
-      p7zip
       pamixer
-      pciutils
-      picotool
-      pnpm
-      poppler_utils
-      procs
       pulseaudio
       pulseaudio-ctl
-      ranger
-      ripgrep
-      rustup
-      sheldon
-      skktools
-      socat
       swayidle
       swaylock-effects
-      pdftk
-      tig
-      tmux
-      typst
-      unzipNLS
-      usbutils
-      vim
       wayvnc
       wl-clipboard
-      xxd
       yubikey-manager
-      zathura
 
-      # cargo tools
-      cargo-binutils
-      cargo-bloat
-      cargo-edit
-      cargo-expand
-      probe-rs-tools
-
-      # desktop apps
+      # apps
       alacritty
       albert
       audacity
@@ -149,27 +71,6 @@ in {
       wdisplays
       zoom-us
 
-      # lsp servers
-      efm-langserver
-      emmet-ls
-      lua-language-server
-      nil # nix lsp
-      tinymist
-      typescript-language-server
-      vscode-langservers-extracted
-      pyright
-      verible
-      intelephense
-
-      # python
-      (python312.withPackages (ps: with ps; [
-        pip
-        numpy
-        (matplotlib.override { enableQt = true; })
-        scipy
-        python-lsp-server
-      ]))
-
       # fonts
       hackgen-font
       hackgen-nf-font
@@ -195,15 +96,6 @@ in {
   };
 
   programs = {
-    git = {
-      enable = true;
-      lfs.enable = true;
-    };
-    neovim = {
-      package = pkgs.neovim;
-      enable = true;
-      defaultEditor = true;
-    };
     firefox = {
       enable = true;
       package = pkgs.firefox-devedition;
@@ -212,7 +104,7 @@ in {
       ];
       profiles.dev-edition-default = {
         isDefault = true;
-        userChrome = builtins.readFile ../etc/firefox/userChrome.css;
+        userChrome = builtins.readFile ../../etc/firefox/userChrome.css;
         settings = {
           "browser.aboutConfig.showWarning" = false;
           "browser.fullscreen.autohide" = false;
@@ -240,29 +132,9 @@ in {
       );
     };
 
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
-
-
   };
 
   qt.enable = true;
-
-  services = {
-    syncthing = {
-      enable = true;
-    };
-    gpg-agent = {
-      enable = true;
-      enableSshSupport = false;
-      pinentryPackage = pkgs.pinentry-all;
-      maxCacheTtl = 8640000; # 100 days
-      defaultCacheTtl = 8640000; # 100 days
-    };
-    ssh-agent.enable = true;
-  };
 
   services.kdeconnect.enable = true;
   systemd.user.services.kdeconnect.Service.Restart = lib.mkForce "always";
@@ -279,12 +151,6 @@ in {
   home.sessionVariables.XMODIFIERS = "@im=fcitx";
 
   home.sessionVariables.BROWSER = "firefox-devedition";
-
-  home.file.".profile".text = ''
-    . ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-    '';
-  home.file.".xprofile".text = ". ~/.profile";
-
 
   fonts.fontconfig.enable = true;
   xdg.configFile."fontconfig/conf.d/99-local.conf".text = ''
