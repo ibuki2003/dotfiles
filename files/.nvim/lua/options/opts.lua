@@ -72,7 +72,9 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.number = true
+vim.opt.numberwidth = 2
 vim.opt.signcolumn = "yes"
+vim.opt.foldcolumn = "1"
 
 vim.opt.showmode = false -- lightline
 

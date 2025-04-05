@@ -84,10 +84,10 @@ return {
   },
   {
     'whatyouhide/vim-textobj-xmlattr',
-    keys = {
-      { 'ix', mode = 'o' },
-      { 'ax', mode = 'o' },
-    },
+    dependencies = { 'kana/vim-textobj-user' },
+  },
+  {
+    'sgur/vim-textobj-parameter',
     dependencies = { 'kana/vim-textobj-user' },
   },
   {
