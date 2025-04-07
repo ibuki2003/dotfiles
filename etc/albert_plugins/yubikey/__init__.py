@@ -10,7 +10,7 @@ import subprocess
 import traceback
 import clipboard
 
-md_iid = "2.0"
+md_iid = "3.0"
 md_version = "1.6"
 md_name = "Yubikey"
 md_description = "Yubikey TOTP source"
@@ -26,20 +26,23 @@ class Plugin(PluginInstance, GlobalQueryHandler):
 
     def __init__(self):
         PluginInstance.__init__(self)
-        GlobalQueryHandler.__init__(
-            self,
-            id=self.id,
-            name=self.name,
-            description=self.description,
-            defaultTrigger='yk ',
-            synopsis='<account name>',
-            supportsFuzzyMatching=True,
-        )
+        GlobalQueryHandler.__init__(self)
         self.icon = [f"file:{Path(__file__).parent}/yubikey.svg"]
 
         self.cache = []
         self.cache_at = 0
 
+    def description(self) -> str:
+        return "Yubikey TOTP source"
+
+    def defaultTrigger(self) -> str:
+        return "yk "
+
+    def synopsis(self, query: str) -> str:
+        return "<account name>"
+
+    def supportsFuzzyMatching(self) -> bool:
+        return True
 
     CACHE_PATH = Path("~/.cache/albert/yubikey_cache.txt").expanduser()
 

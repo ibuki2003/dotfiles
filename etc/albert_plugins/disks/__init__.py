@@ -10,7 +10,7 @@ import json
 import subprocess
 import traceback
 
-md_iid = "2.0"
+md_iid = "3.0"
 md_version = "1.6"
 md_name = "disks"
 md_description = "udisksctl mounting"
@@ -25,21 +25,25 @@ class Plugin(PluginInstance, GlobalQueryHandler):
 
     def __init__(self):
         PluginInstance.__init__(self)
-        GlobalQueryHandler.__init__(
-            self,
-            id=self.id,
-            name=self.name,
-            description=self.description,
-            defaultTrigger='d ',
-            synopsis='<disk name>',
-            supportsFuzzyMatching=True,
-        )
+        GlobalQueryHandler.__init__(self)
         self.icon_mount = [f"file:{Path(__file__).parent}/usb.svg"]
         self.icon_eject = [f"file:{Path(__file__).parent}/eject.svg"]
         self.client = None
 
         self.cache = []
         self.cache_at = 0
+
+    def description(self) -> str:
+        return "udisksctl mounting"
+
+    def defaultTrigger(self) -> str:
+        return "d "
+
+    def synopsis(self, query: str) -> str:
+        return "<disk name>"
+
+    def supportsFuzzyMatching(self) -> bool:
+        return True
 
     def _get_disks(self, refresh=False):
         t = time.time()
