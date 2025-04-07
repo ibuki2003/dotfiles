@@ -57,32 +57,46 @@ function unquote(s: string): string {
   return r ? r[1] : s;
 }
 
-async function get_iwconfig(): Promise<Record<string, Rec>> {
-  let p;
-  try {
-    p = await new Deno.Command("iwconfig", { stdout: "piped" }).output();
-  } catch (_) {
+const wifi_columns = [
+  "device",
+  "in-use",
+  "ssid",
+  "bssid",
+  "chan",
+  "freq",
+  "rate",
+  "bandwidth",
+  "signal",
+  "security",
+] as const;
+type WifiInfo = Record<typeof wifi_columns[number], string>;
+
+async function get_wifi(): Promise<Record<string, WifiInfo>> {
+  if (!NmAvailable) {
     return {};
   }
+
+  const p = await new Deno.Command("nmcli", {
+    "args": ["-t", "-f", wifi_columns.join(","), "device", "wifi"],
+    "stdout": "piped",
+  }).output();
+
   if (!p.success) return {};
-  const o = decode(p.stdout);
+  const o: string = decode(p.stdout);
 
-  const entries = o.split("\n\n").filter(Boolean)
-    .map((e) => {
-      const [name, protocol, ...fields] = e.split(/ {2,}|\n/).filter(Boolean);
-      const f = Object.fromEntries(fields.map((l) => {
-        const i = /[:=]/.exec(l)?.index;
-        if (!i) return [];
-        return [
-          l.slice(0, i).trim().toLowerCase().replace(/[ -]/g, "_"),
-          unquote(l.slice(i + 1).trim()),
-        ];
-      }));
-      f.protocol = protocol;
-      return [name, f];
-    });
+  const lines = o.split("\n").filter(s => s.indexOf(":*:") !== -1);
 
-  return Object.fromEntries(entries);
+  const splitLines = lines.map(line => {
+    return line.split(/(?<!\\):/).map(s => s.replace(/\\:/g, ":"));
+  });
+
+  return Object.fromEntries(splitLines.map(line => {
+    const key = line[0];
+    const value = Object.fromEntries(
+      line.slice(2).map((s, i) => [wifi_columns[i + 2], unquote(s)])
+    ) as WifiInfo;
+    return [key, value];
+  }));
 }
 
 async function get_usage(): Promise<Speeds> {
@@ -127,7 +141,7 @@ type Speeds = Record<string, [number, number]>;
 
 async function update(
   ifs: Record<string, string>,
-  iw_info: Record<string, Rec>,
+  wifi_info: Record<string, WifiInfo>,
   primary_if: string | null,
   speeds: Speeds,
 ) {
@@ -135,17 +149,12 @@ async function update(
     let text = ifs[i] + "\n";
     const speed = (has(speeds, i) ? speeds[i] : null) ?? [0, 0];
 
-    if (has(iw_info, i)) {
-      const iwc = iw_info[i];
+    if (has(wifi_info, i)) {
+      const w = wifi_info[i];
 
       // wifi
-      text += `  ${iwc.essid} ${iwc.frequency}\n`;
-      if (iwc.signal_level) {
-        text += `  ${iwc.signal_level} `;
-      }
-      if (iwc.bit_rate) {
-        text += `  ${iwc.bit_rate}\n`;
-      }
+      text += `  ${w.bssid} ${w.security} ${w.signal}%\n`;
+      text += `  ch${w.chan} (${w.freq}/${w.bandwidth}) ${w.rate}\n`;
     }
     text += `  ${format_size(speed[1])} / ${format_size(speed[0])}\n`;
 
@@ -174,8 +183,8 @@ async function update(
 
     mode = is_wifi ? "wifi" : "eth";
 
-    const iw = has(iw_info, primary_if) ? iw_info[primary_if] : null;
-    percentage = link_quality_percentage(iw?.link_quality);
+    const w = has(wifi_info, primary_if) ? wifi_info[primary_if] : null;
+    percentage = w ? Number.parseInt(w.signal) : 0;
   }
 
   await Deno.stdout.write(
@@ -188,13 +197,6 @@ async function update(
       }) + "\n",
     ),
   );
-}
-
-function link_quality_percentage(quality: string | undefined): number {
-  if (!quality) return 0;
-  if (!quality.includes("/")) return 0;
-  const f = quality.split("/");
-  return Math.round(parseInt(f[0]) / parseInt(f[1]) * 100);
 }
 
 async function* watch_nmcli() {
@@ -252,7 +254,7 @@ async function main() {
   let infos: Record<string, string> = await get_ifs();
   let primary_if: string | null = await get_primary_if();
   let speeds: Speeds = {};
-  let iw_info: Record<string, Rec> = await get_iwconfig();
+  let wifi_info: Record<string, Rec> = await get_wifi();
 
   const watch = watch_nmcli();
   const watch_speed = usage_speed();
@@ -266,11 +268,11 @@ async function main() {
         primary_if = await get_primary_if();
       }),
       itv.next().then(async () => {
-        iw_info = await get_iwconfig();
+        wifi_info = await get_wifi();
         speeds = await watch_speed.next().then((x) => x.value) ?? {};
       }),
     ]);
-    update(infos, iw_info, primary_if, speeds);
+    update(infos, wifi_info, primary_if, speeds);
   }
 }
 
