@@ -69,6 +69,10 @@ in {
       moreutils
       ncdu
       nodejs
+      ocaml
+      ocamlPackages.utop
+      ocamlPackages.ocamlformat
+      opam
       openssl
       p7zip
       pciutils
@@ -110,6 +114,7 @@ in {
       pyright
       verible
       intelephense
+      ocamlPackages.ocaml-lsp
 
       # python
       (python312.withPackages (ps: with ps; [

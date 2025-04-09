@@ -28,6 +28,10 @@
   # Enable networking
   networking = {
     networkmanager.enable = true;
+    networkmanager.dhcp = "dhcpcd";
+    dhcpcd = {
+      persistent = true;
+    };
   };
 
   services.avahi.enable = true;

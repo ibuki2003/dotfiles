@@ -281,7 +281,8 @@
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nil": "nil",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "waveforms": "waveforms"
       }
     },
     "rust-overlay": {
@@ -338,6 +339,26 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "waveforms": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1742416103,
+        "narHash": "sha256-y0dToPU2BQNlKBcUTZsLuVj9mc0iNitHGl8MA1jn/v4=",
+        "owner": "liff",
+        "repo": "waveforms-flake",
+        "rev": "946e095a995c8501a2e365a8d518465142869ee0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "liff",
+        "repo": "waveforms-flake",
         "type": "github"
       }
     }

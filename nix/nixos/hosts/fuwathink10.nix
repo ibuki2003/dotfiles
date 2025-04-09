@@ -6,6 +6,8 @@
       ../desktop.nix
       (modulesPath + "/installer/scan/not-detected.nix")
       inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
+
+      inputs.waveforms.nixosModule
     ];
 
   networking.hostName = "fuwathink10-nix"; # Define your hostname.
