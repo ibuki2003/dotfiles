@@ -136,6 +136,13 @@ in {
 
   qt.enable = true;
 
+  services = {
+    copyq = {
+      enable = true;
+      forceXWayland = false;
+    };
+  };
+
   services.kdeconnect.enable = true;
   systemd.user.services.kdeconnect.Service.Restart = lib.mkForce "always";
 
