@@ -18,10 +18,13 @@ return {
       "CodeCompanionCmd",
       "CodeCompanionChat",
       "CodeCompanionActions",
+      "CodeCompanionAutoSaveChat",
+      "CodeCompanionHistory",
     },
     keys = {
-      { "<Space>cc", "<Cmd>CodeCompanionChat Toggle<CR>", mode = { "n" }, }, -- Just show the chat
-      { "<Space>cc", "<Cmd>CodeCompanionChat<CR>", mode = { "x" }, }, -- start new with visual selection
+      { "<Space>cc", "<Cmd>CodeCompanionAutoSaveToggle<CR>", mode = { "n" }, }, -- Just show the chat
+      { "<Space>ch", "<Cmd>CodeCompanionHistory<CR>", mode = { "n" }, }, -- History
+      { "<Space>cc", "<Cmd>CodeCompanionAutoSaveChat<CR>", mode = { "x" }, }, -- start new with visual selection
       { "<Space>ca", "<Cmd>CodeCompanion<CR>", mode = { "n", "x" }, },
       { "<Space>cA", "<Cmd>CodeCompanionActions<CR>", mode = { "n", "x" }, },
     },
@@ -34,7 +37,7 @@ return {
         chat = {
           adapter = "copilot",
           keymaps = {
-            clear = { modes = { n = nil } },
+            clear = { modes = { n = {} } }, -- undef
           },
         },
         inline = { adapter = "copilot" },
@@ -48,10 +51,15 @@ return {
           -- show_settings = true, -- NOTE: enabling this blocks adapter/model selection ui
         },
       },
+
+      history = {
+        file_path = vim.fn.expand("~/Documents/codecompanion_history"),
+      },
     },
     config = function(_, opts)
       require("codecompanion.fidget-spinner"):init()
       require("codecompanion").setup(opts)
+      require("settings.codecompanion-save").setup()
     end,
   },
 }
