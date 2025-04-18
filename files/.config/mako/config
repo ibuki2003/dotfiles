@@ -10,7 +10,7 @@ max-icon-size=32
 max-visible=15
 width=300
 
-on-button-left=exec makoctl menu -n "$id" dmenu-wl -p 'Select action: '
+on-button-left=exec makoctl menu -n "$id" -- dmenu-wl -p 'Select action: '
 on-button-middle=dismiss
 on-button-right=dismiss-all
 
