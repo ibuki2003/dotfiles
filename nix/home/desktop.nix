@@ -147,7 +147,8 @@ in {
   systemd.user.services.kdeconnect.Service.Restart = lib.mkForce "always";
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    enable = true;
+    type = "fcitx5";
     fcitx5 = {
       addons = [
         pkgs.fcitx5-skk
