@@ -30,6 +30,10 @@ in {
       # nix tools
       nixfmt-rfc-style
 
+      # man pages
+      man-pages
+      man-pages-posix
+
       # libraries
       qt5.qtbase
       qt6.qtbase

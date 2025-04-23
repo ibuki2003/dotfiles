@@ -163,4 +163,6 @@
   environment.sessionVariables.NIX_PROFILES =
         builtins.concatStringsSep " " (lib.lists.reverseList config.environment.profiles);
 
+  documentation.dev.enable = true;
+
 }
