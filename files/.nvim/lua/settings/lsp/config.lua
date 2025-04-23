@@ -1,4 +1,36 @@
-require("settings/lsp/servers")
+-- servers
+
+vim.lsp.config('*', {
+  capabilities = require('cmp_nvim_lsp').default_capabilities(),
+})
+
+vim.lsp.enable({
+  'efm',
+
+  'vimls',
+  'intelephense',
+  'clangd',
+  'pylsp',
+  -- 'pylyzer',
+  'pyright',
+  'eslint',
+  'texlab',
+  'gopls',
+  'arduino_language_server',
+  'lua_ls',
+  'astro',
+  'volar',
+  'emmet_ls',
+  'kotlin_language_server',
+  'typst_lsp',
+  'tinymist',
+
+  'nil_ls',
+  'verible',
+
+  -- broken?
+  -- 'ocamllsp',
+})
 
 local float_opts = {
   border = "rounded",
@@ -19,7 +51,10 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, fl
 -- enable inlay hints by default
 vim.lsp.inlay_hint.enable(true, nil)
 
-vim.diagnostic.config({severity_sort = true})
+vim.diagnostic.config({
+  severity_sort = true,
+  virtual_text = true,
+})
 
 -- keybinds
 
