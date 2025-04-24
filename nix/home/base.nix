@@ -57,6 +57,7 @@ in {
       ffmpeg
       file
       fzf
+      gdb
       gh
       ghq
       gnumake
@@ -108,17 +109,20 @@ in {
       probe-rs-tools
 
       # lsp servers
+      astro-language-server
       efm-langserver
       emmet-ls
+      intelephense
       lua-language-server
       nil # nix lsp
+      pyright
       tinymist
       typescript-language-server
-      vscode-langservers-extracted
-      pyright
       verible
       intelephense
       ocamlPackages.ocaml-lsp
+      intelephense
+      vscode-langservers-extracted
 
       # python
       (python312.withPackages (ps: with ps; [

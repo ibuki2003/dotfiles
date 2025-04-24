@@ -20,8 +20,15 @@
 
     extraEntries = {
       "grub.conf" = ''
-        title   Arch Linux
+        title   Arch Linux (GRUB)
         efi    /EFI/archlinux/grubx64.efi
+        '';
+      "arch.conf" = ''
+        title   Arch Linux
+        linux   /vmlinuz-linux
+        initrd  /amd-ucode.img
+        initrd  /initramfs-linux.img
+        options "root=/dev/disk/by-uuid/5acb5921-b991-4127-86a1-bc569995651c rw"
         '';
     };
   };

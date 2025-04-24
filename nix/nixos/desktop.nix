@@ -152,7 +152,10 @@
       enable = true;
     };
 
-    obs-studio.enableVirtualCamera = true;
+    obs-studio = {
+      enable = true;
+      enableVirtualCamera = true;
+    };
 
     wireshark = {
       enable = true;

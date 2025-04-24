@@ -23,10 +23,12 @@
       experimental-features = ["nix-command" "flakes" "pipe-operators"];
       trusted-users = ["fuwa"];
       auto-optimise-store = true;
+      keep-outputs = true;
+      keep-derivations = true;
     };
     gc = {
       automatic = true;
-      dates = "weekly";
+      dates = "monthly";
       options = "--delete-older-than 14d";
     };
   };
