@@ -34,10 +34,6 @@ in {
       man-pages
       man-pages-posix
 
-      # libraries
-      qt5.qtbase
-      qt6.qtbase
-
       # tools
       android-tools
       atop
@@ -63,7 +59,6 @@ in {
       gnumake
       gnupg
       gnuplot_qt
-      googleearth-pro
       httpie
       htop
       imagemagick
@@ -85,11 +80,9 @@ in {
       pnpm
       poppler_utils
       procs
-      ranger
       ripgrep
       rustup
       sheldon
-      skktools
       socat
       pdftk
       tig
@@ -99,7 +92,6 @@ in {
       usbutils
       vim
       xxd
-      zathura
 
       # cargo tools
       cargo-binutils

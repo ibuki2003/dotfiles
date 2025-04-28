@@ -50,6 +50,7 @@ in {
       drawio
       font-manager
       gimp-with-plugins
+      googleearth-pro
       httpie-desktop
       imhex
       imv
@@ -62,13 +63,16 @@ in {
       obs-studio
       pavucontrol
       prismlauncher
+      ranger
       remmina
       sdrpp
+      skktools
       slack
       thunderbird-latest
       spotify
       vlc libaacs
       wdisplays
+      zathura
       zoom-us
 
       # fonts
