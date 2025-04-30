@@ -92,7 +92,9 @@ opts.sources = cmp.config.sources({
     options = { fix_pairs = false, },
   },
   { name = 'nvim_lsp' },
-  { name = 'buffer' },
+  { name = 'buffer', option = {
+    get_bufnrs = function() return vim.api.nvim_list_bufs() end,
+  } },
   { name = 'calc' },
   { name = 'async_path' },
   { name = 'vsnip' },

@@ -251,7 +251,11 @@ return {
       vim.g.table_mode_corner = "|"
       vim.api.nvim_create_autocmd('Filetype', {
         pattern = { 'markdown', 'markdown_tablemode', 'mdx' },
-        command = 'TableModeEnable',
+        callback = function()
+          if vim.bo.modifiable then -- only enable if modifiable
+            vim.cmd('TableModeEnable')
+          end
+        end,
       })
     end
   },
@@ -298,6 +302,7 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     keys = { '<C-p>', '<leader>f' },
+    cmd = { 'Telescope' },
     module = 'telescope',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()

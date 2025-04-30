@@ -36,7 +36,7 @@ local float_opts = {
   focusable = false,
 }
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.diagnostic.config({
   update_in_insert = false,
   virtual_text = {
     format = function(d)
@@ -44,8 +44,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
     end,
   },
 })
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float_opts)
 
 -- enable inlay hints by default
 vim.lsp.inlay_hint.enable(true, nil)
@@ -72,7 +70,7 @@ local maps = {
   ['<leader>lr'] = function() vim.lsp.buf.rename() end,
   ['<leader>lR'] = function() vim.lsp.buf.references() end,
 
-  ['<leader>ll'] = vim.lsp.buf.hover,
+  ['<leader>ll'] = function() vim.lsp.buf.hover(float_opts) end,
 
   ['<leader>le'] = function() vim.diagnostic.open_float(vim.tbl_extend("force", float_opts, {
     bufnr = 0,
