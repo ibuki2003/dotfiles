@@ -51,7 +51,12 @@ return {
             callback = function(args)
               local bufnr = args.buf
               local client = vim.lsp.get_client_by_id(args.data.client_id)
-              if client == nil or vim.tbl_contains({ 'null-ls' }, client.name) then  -- blacklist lsp
+              -- NOTE: some clients do not support lsp_signature.nvim
+              if
+                client == nil
+                or vim.tbl_contains({ 'null-ls' }, client.name) -- blacklist lsp
+                or vim.tbl_contains({ 'ocaml' }, vim.bo[bufnr].filetype) -- blacklist filetypes
+              then
                 return
               end
               require("lsp_signature").on_attach(opts, bufnr)
