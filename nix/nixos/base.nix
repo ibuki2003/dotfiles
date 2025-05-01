@@ -14,6 +14,7 @@
 
   imports =
     [
+      ./modules
       ../modules
       ../cachix.nix
     ];

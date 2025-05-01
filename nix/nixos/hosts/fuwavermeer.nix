@@ -61,6 +61,16 @@
 
   };
 
+  services.fuwanas = {
+    enable = true;
+    host = "192.168.0.64"; # connect directly
+    target = "/fuwanas";
+    extraMountOptions = [
+      "vers=3.11"
+      "multichannel"
+    ];
+  };
+
   boot.tmp.tmpfsSize = "32G";
 
   swapDevices = [ ];

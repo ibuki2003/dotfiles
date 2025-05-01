@@ -62,6 +62,15 @@
     };
   };
 
+  services.fuwanas = {
+    enable = true;
+    target = "/fuwanas";
+    extraMountOptions = [
+      "vers=3.11"
+    ];
+  };
+
+
   # swapDevices = [ {
   #   device = "/swapfile";
   #   size = 8 * 1024; # [MiB] = 8 GiB
