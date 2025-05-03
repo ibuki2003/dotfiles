@@ -65,11 +65,12 @@ in {
       prismlauncher
       ranger
       remmina
+      ripdrag
       sdrpp
       skktools
       slack
-      thunderbird-latest
       spotify
+      thunderbird-latest
       vlc libaacs
       wdisplays
       zathura

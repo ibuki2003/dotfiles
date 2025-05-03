@@ -6,6 +6,7 @@
 in {
   imports = [
     ./modules
+    ../cachix.nix
   ];
 
   nixpkgs = {
@@ -41,9 +42,9 @@ in {
       bottom
       clang-tools
       cmake
+      delta
       deno
       dex
-      delta
       dig
       dogdns
       edir
@@ -59,8 +60,8 @@ in {
       gnumake
       gnupg
       gnuplot_qt
-      httpie
       htop
+      httpie
       imagemagick
       jq
       libqalculate
@@ -68,23 +69,25 @@ in {
       mold
       moreutils
       ncdu
+      nkf
       nodejs
       ocaml
-      ocamlPackages.utop
       ocamlPackages.ocamlformat
+      ocamlPackages.utop
       opam
       openssl
       p7zip
       pciutils
+      pdftk
       picotool
       pnpm
       poppler_utils
       procs
+      pv
       ripgrep
       rustup
       sheldon
       socat
-      pdftk
       tig
       tmux
       typst
@@ -92,6 +95,7 @@ in {
       usbutils
       vim
       xxd
+      zip
 
       # cargo tools
       cargo-binutils
