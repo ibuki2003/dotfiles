@@ -168,4 +168,8 @@
 
   documentation.dev.enable = true;
 
+  security.pki.certificateFiles = [
+    ../../etc/mkcert.pem
+  ];
+
 }
