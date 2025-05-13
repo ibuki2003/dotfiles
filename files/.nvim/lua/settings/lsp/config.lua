@@ -11,7 +11,6 @@ vim.lsp.enable({
   'intelephense',
   'clangd',
   'pylsp',
-  -- 'pylyzer',
   'pyright',
   'eslint',
   'texlab',
@@ -22,14 +21,13 @@ vim.lsp.enable({
   'volar',
   'emmet_ls',
   'kotlin_language_server',
-  'typst_lsp',
   'tinymist',
-
+  'denols',
+  'ts_ls',
+  'ocamllsp',
   'nil_ls',
   'nixd',
   'verible',
-
-  'ocamllsp',
 })
 
 local float_opts = {
