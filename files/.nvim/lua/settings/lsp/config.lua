@@ -26,6 +26,7 @@ vim.lsp.enable({
   'tinymist',
 
   'nil_ls',
+  'nixd',
   'verible',
 
   'ocamllsp',

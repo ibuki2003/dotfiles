@@ -38,6 +38,7 @@ in {
       yubikey-manager
 
       # apps
+      aider-chat
       alacritty
       albert
       audacity
@@ -133,6 +134,7 @@ in {
             hash = "sha256-6a6Wh256nozUC62jMQWrPONet3TOKTpYgMAg93BahH0=";
           })
           "${sources.skkemoji.src}/SKK-JISYO.emoji.utf8"
+          "${../../etc/skk/symbols.sorted.utf8.txt}"
         ]
       );
     };

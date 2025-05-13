@@ -93,7 +93,7 @@
         # create COM port for target CDC
         ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-UART",    SYMLINK+="ttyPicoTarget"
         ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-DEBUG",   SYMLINK+="ttyPicoProbe"
-        ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-SIGROK",  SYMLINK+="ttyPicoSigRok
+        ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-SIGROK",  SYMLINK+="ttyPicoSigRok"
         ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-SysView", SYMLINK+="ttyPicoSysView"
         '';
         destination = "/etc/udev/rules.d/90-picoprobe.rules";
@@ -120,7 +120,7 @@
         '';
         destination = "/etc/udev/rules.d/52-xilinx.rules";
       })
-  ];
+    ];
 
 
     pcscd.enable = true;

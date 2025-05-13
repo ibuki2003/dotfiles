@@ -6,7 +6,6 @@
 in {
   imports = [
     ./modules
-    ../cachix.nix
   ];
 
   nixpkgs = {
@@ -112,6 +111,7 @@ in {
       intelephense
       lua-language-server
       nil # nix lsp
+      nixd
       pyright
       tinymist
       typescript-language-server
