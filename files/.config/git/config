@@ -5,10 +5,12 @@
     defaultBranch = master
 [core]
     quotepath = off
-    editor = vim
-    pager = "LESSCHARSET=utf-8 less"
+    editor = nvim
+    pager = delta
     quotepath = false
     autocrlf = input
+[interactive]
+    diffFilter = delta --color-only
 [diff]
     tool = vimdiff
     algorithm = histogram
@@ -17,6 +19,7 @@
     prompt = false
 [merge]
     tool = vimdiff
+    conflictstyle = zdiff3
 [mergetool]
     prompt = false
 [push]
@@ -25,11 +28,21 @@
     ff = only
 [fetch]
     prune = true
+
 [filter "lfs"]
     process = git-lfs filter-process
     required = true
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
+
+[delta]
+    navigate = true
+    dark = true
+    side-by-side = true
+    line-numbers = true
+
+[github]
+  user = 'ibuki2003'
 [ghq]
     root = ~/dev/repo
     user = ibuki2003

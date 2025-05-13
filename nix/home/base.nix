@@ -57,6 +57,7 @@ in {
       gdb
       gh
       ghq
+      git git-lfs
       gnumake
       gnupg
       gnuplot_qt
@@ -133,10 +134,6 @@ in {
   };
 
   programs = {
-    git = {
-      enable = true;
-      lfs.enable = true;
-    };
     neovim = {
       package = pkgs.neovim;
       enable = true;
