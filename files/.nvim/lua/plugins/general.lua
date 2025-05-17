@@ -83,7 +83,13 @@ return {
       vim.list_extend(recipes, {
         -- Type param Type<>
         { buns = { 'input("typename: ") . "<"', '">"' }, action = { 'add', 'replace' }, expr = 1, input = { 'g' }},
-        { buns = { [[\%([^A-Za-z0-9:]\|^\)\@<=[A-Za-z0-9:]\+<]], [[>]] }, regex = 1, nesting = 1, action = { "delete" }, input = { 'g' }, },
+        { buns = {
+          [[\%([^A-Za-z0-9:]\|^\)\@<=[A-Za-z0-9:]\+<]],
+          [[>]],
+        }, regex = 1, nesting = 1, action = { "delete" }, input = { 'g' }, },
+
+        -- math
+        { buns = { '$', '$' }, action = { "add", "replace", "delete" }, input = { 'm', '$' } },
       })
 
       vim.g['sandwich#recipes'] = vim.list_extend(vim.g['sandwich#default_recipes'], recipes)

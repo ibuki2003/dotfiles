@@ -1,4 +1,2 @@
-secrets.vim
-local.vim
-plugin
+secrets
 lazy-lock.json
