@@ -155,7 +155,7 @@ in {
     gpg-agent = {
       enable = true;
       enableSshSupport = false;
-      pinentryPackage = pkgs.pinentry-all;
+      pinentry.package = pkgs.pinentry-all;
       maxCacheTtl = 8640000; # 100 days
       defaultCacheTtl = 8640000; # 100 days
     };
