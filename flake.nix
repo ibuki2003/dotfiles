@@ -23,6 +23,7 @@
       url = "github:liff/waveforms-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lan-mouse = { url = "github:feschber/lan-mouse"; inputs.nixpkgs.follows = "nixpkgs"; };
 
   };
 
