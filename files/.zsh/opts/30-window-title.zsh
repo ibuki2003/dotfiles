@@ -1,11 +1,16 @@
 function set_title() {
-  if [[ "$TERM" == "rxvt-unicode" || "$TERM" == "rxvt-unicode-256color" ]]; then
-    local t='urxvt'
-  elif [[ "$TERM_PROGRAM" == "alacritty" ]]; then
-    local t='Alacritty'
-  elif [[ "$TERM_PROGRAM" == "kitty" ]]; then
-    local t='Kitty'
-  fi
+  local t
+  case "$TERM_PROGRAM" in
+    alacritty)
+      t='Alacritty'
+      ;;
+    kitty)
+      t='Kitty'
+      ;;
+    *)
+      # return
+      ;;
+  esac
   echo -ne "\e]0;$t: $@\a"
 }
 
