@@ -38,19 +38,16 @@ local float_opts = {
 vim.diagnostic.config({
   update_in_insert = false,
   virtual_text = {
-    format = function(d)
-      return string.format("%s (%s: %s)", d.message, d.source, d.code)
-    end,
+    suffix = function(d) return string.format(" (%s: %s)", d.source, d.code) end,
   },
+  float = {
+    suffix = function(d) return string.format(" (%s: %s)", d.source or '', d.code or '?'), '' end,
+  },
+  severity_sort = true,
 })
 
 -- enable inlay hints by default
 vim.lsp.inlay_hint.enable(true, nil)
-
-vim.diagnostic.config({
-  severity_sort = true,
-  virtual_text = true,
-})
 
 -- keybinds
 
