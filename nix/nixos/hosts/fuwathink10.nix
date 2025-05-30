@@ -49,12 +49,6 @@
       options = [ "size=32G" "mode=1777" ];
     };
 
-    "/mnt/arch" = {
-      device = "/dev/disk/by-uuid/43c411b5-b0d3-4bed-b6f4-0d22a0a088c5";
-      fsType = "ext4";
-      options = [ "defaults" ];
-    };
-
     "/windows" = {
       device = "/dev/disk/by-uuid/C4349D48349D3DFC";
       fsType = "ntfs";
@@ -71,15 +65,18 @@
   };
 
 
-  # swapDevices = [ {
-  #   device = "/swapfile";
-  #   size = 8 * 1024; # [MiB] = 8 GiB
-  # } ];
-  swapDevices = [];
+  swapDevices = [ {
+    device = "/swapfile";
+    size = 8 * 1024; # [MiB] = 8 GiB
+    priority = 10;
+    discardPolicy = "both";
+  } ];
 
   zramSwap = {
     enable = true;
+    priority = 100;
   };
+  boot.kernel.sysctl."vm.swappiness" = 30;
 
 
   hardware.graphics = {
@@ -152,7 +149,7 @@
   services.tlp.enable = true;
   services.tlp.settings = {
 
-    CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+    CPU_SCALING_GOVERNOR_ON_AC = "performance";
     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
     CPU_BOOST_ON_AC = "1";
     CPU_BOOST_ON_BAT = "0";

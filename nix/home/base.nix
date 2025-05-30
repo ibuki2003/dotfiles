@@ -65,6 +65,8 @@ in {
       imagemagick
       jq
       libqalculate
+      linuxPackages.cpupower
+      lm_sensors
       minicom
       mold
       moreutils
@@ -93,6 +95,7 @@ in {
       typst
       unzipNLS
       usbutils
+      verilator
       vim
       xxd
       zip
