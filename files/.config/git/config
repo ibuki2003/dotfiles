@@ -23,7 +23,7 @@
 [mergetool]
     prompt = false
 [push]
-    default = current
+    autoSetupRemote = true
 [pull]
     ff = only
 [fetch]
@@ -49,3 +49,5 @@
 
 [include]
     path = ~/.gitconfig.local
+[alias]
+	recommit = !git commit -eF $(git rev-parse --git-dir)/COMMIT_EDITMSG
