@@ -18,7 +18,7 @@ vim.lsp.enable({
   'arduino_language_server',
   'lua_ls',
   'astro',
-  'volar',
+  'vue_ls',
   'emmet_ls',
   'kotlin_language_server',
   'tinymist',
