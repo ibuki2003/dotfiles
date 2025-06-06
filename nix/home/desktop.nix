@@ -132,8 +132,8 @@ in {
         with pkgs.skkDictionaries; [ l geo station jis2 jis3_4 assoc ] ++
         [
           (pkgs.fetchurl {
-            url = "https://github.com/ibuki2003/skk_dics/releases/download/untagged-b135c1c0e0d8fb30f981/wikipedia_with_descripts_sorted.utf8.txt";
-            hash = "sha256-6a6Wh256nozUC62jMQWrPONet3TOKTpYgMAg93BahH0=";
+            url = "https://fuwa.dev/Downloads/wikipedia_with_descripts_sorted.utf8.txt";
+            hash = "sha256-lwrUz7abBQQ8akXN+iDHvgBwJC9ZNpqKW+x9svxvCc8=";
           })
           "${sources.skkemoji.src}/SKK-JISYO.emoji.utf8"
           "${../../etc/skk/symbols.sorted.utf8.txt}"
