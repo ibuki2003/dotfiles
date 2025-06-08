@@ -19,11 +19,12 @@ return {
   },
   {
     'alexmozaidze/palenight.nvim',
+    lazy = false, -- use default
     priority = 10000,
-    init = function() vim.cmd[[colorscheme palenight]] end,
-    opts = {
-      italic = true,
-    },
+    config = function()
+      require('palenight').setup({ italic = true })
+      vim.cmd[[colorscheme palenight]]
+    end,
   },
   {
     'navarasu/onedark.nvim',

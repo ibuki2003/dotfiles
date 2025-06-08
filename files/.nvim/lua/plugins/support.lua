@@ -41,7 +41,6 @@ return {
   },
   {
     'andymass/vim-matchup',
-    event = { 'CursorMoved', 'CursorMovedI' },
     init = function()
       vim.g.matchup_matchparen_offscreen = {
         method = "popup",
