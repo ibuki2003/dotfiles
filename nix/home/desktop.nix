@@ -30,6 +30,7 @@ in {
       qt6.qtbase
 
       # tools
+      libsecret
       pamixer
       pulseaudio
       pulseaudio-ctl
@@ -70,6 +71,7 @@ in {
       remmina
       ripdrag
       sdrpp
+      seahorse
       skktools
       slack
       spotify
