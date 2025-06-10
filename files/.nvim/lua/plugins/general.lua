@@ -3,108 +3,6 @@ return {
   { 'vim-denops/denops.vim', priority = 1000 },
 
   {
-    'stevearc/dressing.nvim',
-  },
-  {
-    'j-hui/fidget.nvim',
-    opts = {
-      progress = {
-        ignore = {
-          'efm',
-          'null-ls',
-        },
-      }
-    },
-  },
-
-  {
-    'machakann/vim-sandwich',
-    lazy = false,
-    keys = {
-      { 's',   '<Plug>(sandwich-add)',             mode = 'n' },
-      { 'S',   '<Plug>(sandwich-add)g_',           mode = 'n' },
-      { 's',   '<Plug>(sandwich-add)',             mode = 'x' },
-
-      { 'ds',  '<Plug>(sandwich-delete)',          mode = 'n' },
-      { 'dsb', '<Plug>(sandwich-delete-auto)',     mode = 'n' },
-      { 'cs',  '<Plug>(sandwich-replace)',         mode = 'n' },
-      { 'csb', '<Plug>(sandwich-replace-auto)',    mode = 'n' },
-      { 'sr',  '<Plug>(sandwich-replace)',         mode = 'n' },
-      { 'srb', '<Plug>(sandwich-replace-auto)',    mode = 'n' },
-
-      { 'ib',  '<Plug>(textobj-sandwich-auto-i)',  mode = 'o' },
-      { 'ib',  '<Plug>(textobj-sandwich-auto-i)',  mode = 'x' },
-      { 'ab',  '<Plug>(textobj-sandwich-auto-a)',  mode = 'o' },
-      { 'ab',  '<Plug>(textobj-sandwich-auto-a)',  mode = 'x' },
-
-      { 'is',  '<Plug>(textobj-sandwich-query-i)', mode = 'o' },
-      { 'is',  '<Plug>(textobj-sandwich-query-i)', mode = 'x' },
-      { 'as',  '<Plug>(textobj-sandwich-query-a)', mode = 'o' },
-      { 'as',  '<Plug>(textobj-sandwich-query-a)', mode = 'x' },
-    },
-    config = function()
-      vim.g.sandwich_no_default_key_mappings = 1
-      vim.g['sandwich#input_fallback'] = 0
-      vim.fn['operator#sandwich#set']('delete', 'all', 'hi_duration', 50)
-
-      local recipes = {
-        {
-          buns = {"(\\s*", "\\s*)"},
-          nesting = 1,
-          regex = 1,
-          match_syntax = 1,
-          kind = {"delete", "replace", "textobj"},
-          action = {"delete"},
-          input = {"("},
-        },
-      }
-
-      for _, k in ipairs({ {'{','}'}, {'[',']'} }) do
-        local opr = vim.fn.escape(k[1], '[')
-
-        table.insert(recipes, {
-            buns = { k[1] .. " ", " " .. k[2] },
-            nesting = 1,
-            match_syntax = 1,
-            motionwise = { 'char', 'block' }, -- only not line
-            action = { "add", "replace" },
-            input = { k[1] }
-          })
-
-        table.insert(recipes, {
-            buns = { opr .. "\\s*", "\\s*" .. k[2] },
-            nesting = 1,
-            regex = 1,
-            match_syntax = 1,
-            action = { "delete" },
-            input = { k[1] }
-          })
-      end
-      vim.list_extend(recipes, {
-        -- Type param Type<>
-        { buns = { 'input("typename: ") . "<"', '">"' }, action = { 'add', 'replace' }, expr = 1, input = { 'g' }},
-        { buns = {
-          [[\%([^A-Za-z0-9:]\|^\)\@<=[A-Za-z0-9:]\+<]],
-          [[>]],
-        }, regex = 1, nesting = 1, action = { "delete" }, input = { 'g' }, },
-
-        -- math
-        { buns = { '$', '$' }, action = { "add", "replace", "delete" }, input = { 'm', '$' } },
-      })
-
-      vim.g['sandwich#recipes'] = vim.list_extend(vim.g['sandwich#default_recipes'], recipes)
-    end,
-  },
-  {
-    'tpope/vim-commentary',
-    keys = {
-      { 'gc', '<Plug>Commentary', mode = { 'n', 'x', 'o'} },
-      { 'gcc', '<Plug>CommentaryLine' },
-      { 'gcu', '<Plug>Commentary<Plug>Commentary' },
-    },
-    command = { 'Commentary' },
-  },
-  {
     'tpope/vim-repeat',
   },
   {
@@ -119,26 +17,11 @@ return {
     'wakatime/vim-wakatime',
   },
   {
-    'machakann/vim-highlightedyank',
-    init = function()
-      vim.g.highlightedyank_highlight_duration = 300
-    end
-  },
-  {
     'kana/vim-operator-replace',
     keys = {
       { '<leader>r', '<Plug>(operator-replace)', mode = { 'n', 'x' } },
     },
     dependencies = { 'kana/vim-operator-user' },
-  },
-  {
-    'junegunn/vim-easy-align',
-    keys = {
-      { 'ga', '<Plug>(EasyAlign)', mode = { 'n', 'x' } },
-    },
-    init = function()
-      vim.g.easy_align_ignore_groups = {'String'}
-    end
   },
   {
     'fuenor/im_control.vim',
@@ -166,124 +49,13 @@ return {
     end
   },
   {
-    'monaqa/dial.nvim',
-    keys = {
-      { '<C-a>', mode = {'n', 'x'} },
-      { '<C-x>', mode = {'n', 'x'} },
-      { 'g<C-a>', mode = {'n', 'x'} },
-      { 'g<C-x>', mode = {'n', 'x'} },
-    },
-    config = function()
-      local augend = require("dial.augend")
-      augend.constant.alias.alpha.config.cyclic = true
-      augend.constant.alias.Alpha.config.cyclic = true
-
-      local augends = require("dial.config").augends
-      augends.group.default = {
-        augend.integer.alias.decimal,
-        augend.integer.alias.binary,
-        augend.integer.alias.hex,
-        augend.date.alias['%Y-%m-%d'],
-        augend.date.alias['%Y/%m/%d'],
-        augend.hexcolor.new{ case = "lower", }, -- TODO: preserve case
-        augend.constant.new{
-          elements = {"true", "false"},
-          word = true,
-          cyclic = true,
-          preserve_case = true,
-        },
-      }
-      augends.group.visual = {}
-      vim.list_extend(augends.group.visual, augends.group.default)
-      vim.list_extend(augends.group.visual, {
-        augend.constant.alias.alpha,
-        augend.constant.alias.Alpha,
-      })
-
-      local manip = require("dial.map").manipulate
-      vim.keymap.set('n',  '<C-a>', function() manip("increment", "normal") end)
-      vim.keymap.set('n',  '<C-x>', function() manip("decrement", "normal") end)
-      vim.keymap.set('x',  '<C-a>', function() manip("increment", "visual", "visual"); vim.fn.feedkeys('gv', 'n') end)
-      vim.keymap.set('x',  '<C-x>', function() manip("decrement", "visual", "visual"); vim.fn.feedkeys('gv', 'n') end)
-      vim.keymap.set('n', 'g<C-a>', function() manip("increment", "gnormal") end)
-      vim.keymap.set('n', 'g<C-x>', function() manip("decrement", "gnormal") end)
-      vim.keymap.set('x', 'g<C-a>', function() manip("increment", "gvisual", "visual") end)
-      vim.keymap.set('x', 'g<C-x>', function() manip("decrement", "gvisual", "visual") end)
-    end,
-  },
-  {
     'tpope/vim-fugitive',
     cmd = { 'G', 'Git' },
   },
   {
     'lewis6991/gitsigns.nvim',
     event = { 'BufRead', 'BufNewFile' },
-    config = function()
-      local gs = require('gitsigns')
-      gs.setup {
-        signcolumn = true,
-        signs_staged_enable = false,
-        numhl = false,
-        attach_to_untracked = true,
-      }
-
-      vim.keymap.set('n', ']c', function()
-        if vim.wo.diff then return ']c' end
-        vim.schedule(function() gs.next_hunk() end)
-        return '<Ignore>'
-      end, {expr=true})
-
-      vim.keymap.set('n', '[c', function()
-        if vim.wo.diff then return '[c' end
-        vim.schedule(function() gs.prev_hunk() end)
-        return '<Ignore>'
-      end, {expr=true})
-
-      vim.keymap.set({'n','v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>', { silent = true, noremap = true })
-      vim.keymap.set({'n','v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>', { silent = true, noremap = true })
-      vim.keymap.set('n', '<leader>hu', gs.undo_stage_hunk)
-      vim.keymap.set('n', '<leader>hp', gs.preview_hunk)
-      vim.keymap.set('n', '<leader>hb', function() gs.blame_line{full=true} end)
-      vim.keymap.set('n', '<leader>hd', gs.diffthis)
-      vim.keymap.set('n', '<leader>hD', function() gs.diffthis('~') end)
-      vim.keymap.set('n', '<leader>htd', gs.toggle_deleted)
-      -- Text object
-      vim.keymap.set({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { silent = true, noremap = true })
-    end
-  },
-  {
-    'dhruvasagar/vim-table-mode',
-    config = function()
-      vim.g.table_mode_corner = "|"
-      vim.api.nvim_create_autocmd('Filetype', {
-        pattern = { 'markdown', 'markdown_tablemode', 'mdx' },
-        callback = function()
-          if vim.bo.modifiable then -- only enable if modifiable
-            vim.cmd('TableModeEnable')
-          end
-        end,
-      })
-    end
-  },
-  {
-    'juro106/ftjpn',
-    init = function()
-      vim.g.ftjpn_key_list = {
-        { '.', '。', '．' },
-        { ',', '、', '，' },
-        { '/', '・' },
-        { '(', '（' },
-        { ')', '）' },
-        { '{', '｛' },
-        { '}', '｝' },
-        { '[', '「', '『', '【', '〔' },
-        { ']', '」', '』', '】', '〕' },
-        { '<', '〈', '《' },
-        { '>', '〉', '》' },
-        { '!', '！' },
-        { '?', '？' },
-      }
-    end
+    opts = function() return require'settings.gitsigns' end,
   },
   {
     'jasonccox/vim-wayland-clipboard',
@@ -304,16 +76,6 @@ return {
     keys = {
       { '<C-x>', function() vim.fn['magic#expr']() end, mode = 'c' },
     },
-  },
-  {
-    'nvim-telescope/telescope.nvim',
-    keys = { '<C-p>', '<leader>f' },
-    cmd = { 'Telescope' },
-    module = 'telescope',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      require"settings.telescope"
-    end,
   },
   {
     'uga-rosa/ccc.nvim',
@@ -339,23 +101,6 @@ return {
         end,
       })
     end,
-  },
-  {
-    'chaoren/vim-wordmotion',
-    keys = function()
-      local tbl = {}
-      for _, t in ipairs({'w', 'W', 'b', 'B', 'e', 'E', 'ge', 'gE'}) do
-        table.insert(tbl, { '<leader>' .. t, '<Plug>WordMotion_' .. t, mode = {'n','x','o'} })
-      end
-      for _, t in ipairs({ 'w', 'W' }) do
-        for _, m in ipairs({ 'i', 'a' }) do
-          table.insert(tbl, { '<leader>' .. m .. t, '<Plug>WordMotion_' .. m .. t, mode = {'x','o'} })
-          table.insert(tbl, { m .. '<leader>' .. t, '<Plug>WordMotion_' .. m .. t, mode = {'x','o'} })
-        end
-      end
-      return tbl
-    end,
-    init = function() vim.g.wordmotion_nomap = 1 end,
   },
   {
     'gamoutatsumi/dps-ghosttext.vim',
@@ -459,23 +204,5 @@ return {
   {
     'thinca/vim-qfreplace',
     ft = { 'qf' },
-  },
-  {
-    'luukvbaal/statuscol.nvim',
-    opts = function()
-      local builtin = require('statuscol.builtin')
-      return {
-        segments = {
-          { sign = { namespace = { 'gitsigns.*' }, maxwidth = 1, colwidth = 1, wrap = true } },
-          { sign = { namespace = { '.*' }, name = { '.*' }, maxwidth = 1, colwidth = 1 } }, -- fallback
-          { text = {
-            '%C', -- fold
-            builtin.lnumfunc,
-            ' ',
-          } },
-        },
-        setopt = true,
-      }
-    end,
   },
 }

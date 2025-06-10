@@ -37,7 +37,6 @@ return {
   },
   {
     'lukas-reineke/indent-blankline.nvim',
-    -- event = { "UIEnter" },
     config = function()
       require"ibl".setup {
         indent = {
@@ -56,4 +55,28 @@ return {
     end,
   },
   'bronson/vim-trailing-whitespace',
+  {
+    'machakann/vim-highlightedyank',
+    init = function()
+      vim.g.highlightedyank_highlight_duration = 300
+    end
+  },
+  {
+    'luukvbaal/statuscol.nvim',
+    opts = function()
+      local builtin = require('statuscol.builtin')
+      return {
+        segments = {
+          { sign = { namespace = { 'gitsigns.*' }, maxwidth = 1, colwidth = 1, wrap = true } },
+          { sign = { namespace = { '.*' }, name = { '.*' }, maxwidth = 1, colwidth = 1 } }, -- fallback
+          { text = {
+            '%C', -- fold
+            builtin.lnumfunc,
+            ' ',
+          } },
+        },
+        setopt = true,
+      }
+    end,
+  },
 }
