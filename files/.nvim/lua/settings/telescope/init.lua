@@ -1,4 +1,5 @@
-require('telescope').setup {
+local telescope = require('telescope')
+telescope.setup {
   defaults = {
     mappings = {
       i = {
@@ -11,7 +12,20 @@ require('telescope').setup {
       "filename_first",
     },
   },
+  extensions = {
+    ['ui-select'] = {
+      require('telescope.themes').get_dropdown {
+        initial_mode = 'normal',
+        layout_config = {
+          width = 0.5,
+          height = 0.5,
+        },
+      },
+    },
+  },
 }
+
+telescope.load_extension('ui-select')
 
 
 local function is_git_repo()

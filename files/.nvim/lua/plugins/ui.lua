@@ -1,6 +1,10 @@
 return {
   {
-    'stevearc/dressing.nvim',
+    'MunifTanjim/nui.nvim',
+    init = function()
+      -- vim.ui.input wrapper
+      require'settings.nui_input'
+    end,
   },
   {
     'j-hui/fidget.nvim',
@@ -18,7 +22,10 @@ return {
     keys = { '<C-p>', '<leader>f' },
     cmd = { 'Telescope' },
     module = 'telescope',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-ui-select.nvim',
+    },
     config = function()
       require"settings.telescope"
     end,
