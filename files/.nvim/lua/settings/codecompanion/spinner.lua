@@ -1,111 +1,73 @@
--- https://github.com/olimorris/codecompanion.nvim/discussions/640#discussioncomment-12866279
-local M = {
-  processing = false,
-  spinner_index = 1,
-  namespace_id = nil,
-  timer = nil,
-  spinner_symbols = {
-    "⠋",
-    "⠙",
-    "⠹",
-    "⠸",
-    "⠼",
-    "⠴",
-    "⠦",
-    "⠧",
-    "⠇",
-    "⠏",
-  },
-  filetype = "codecompanion",
-}
+-- https://github.com/olimorris/codecompanion.nvim/discussions/813#discussioncomment-12866279
 
-function M:get_buf(filetype)
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].filetype == filetype then
-      return buf
-    end
-  end
-  return nil
-end
+local progress = require("fidget.progress")
 
-function M:update_spinner()
-  if not self.processing then
-    self:stop_spinner()
-    return
-  end
-
-  self.spinner_index = (self.spinner_index % #self.spinner_symbols) + 1
-
-  local buf = self:get_buf(self.filetype)
-  if buf == nil then
-    return
-  end
-
-  -- Clear previous virtual text
-  vim.api.nvim_buf_clear_namespace(buf, self.namespace_id, 0, -1)
-
-  local last_line = vim.api.nvim_buf_line_count(buf) - 1
-  vim.api.nvim_buf_set_extmark(buf, self.namespace_id, last_line, 0, {
-    virt_lines = { { { self.spinner_symbols[self.spinner_index] .. " Processing...", "Comment" } } },
-    virt_lines_above = true, -- false means below the line
-  })
-end
-
-function M:start_spinner()
-  self.processing = true
-  self.spinner_index = 0
-
-  if self.timer then
-    self.timer:stop()
-    self.timer:close()
-    self.timer = nil
-  end
-
-  self.timer = vim.loop.new_timer()
-  self.timer:start(
-    0,
-    100,
-    vim.schedule_wrap(function()
-      self:update_spinner()
-    end)
-  )
-end
-
-function M:stop_spinner()
-  self.processing = false
-
-  if self.timer then
-    self.timer:stop()
-    self.timer:close()
-    self.timer = nil
-  end
-
-  local buf = self:get_buf(self.filetype)
-  if buf == nil then
-    return
-  end
-
-  vim.api.nvim_buf_clear_namespace(buf, self.namespace_id, 0, -1)
-end
+local M = {}
 
 function M:init()
-  -- Create namespace for virtual text
-  self.namespace_id = vim.api.nvim_create_namespace("CodeCompanionSpinner")
-
-  vim.api.nvim_create_augroup("CodeCompanionHooks", { clear = true })
-  local group = vim.api.nvim_create_augroup("CodeCompanionHooks", {})
+  local group = vim.api.nvim_create_augroup("CodeCompanionFidgetHooks", {})
 
   vim.api.nvim_create_autocmd({ "User" }, {
-    pattern = "CodeCompanionRequest*",
+    pattern = "CodeCompanionRequestStarted",
     group = group,
     callback = function(request)
-      if request.match == "CodeCompanionRequestStarted" then
-        self:start_spinner()
-      elseif request.match == "CodeCompanionRequestFinished" then
-        self:stop_spinner()
+      local handle = M:create_progress_handle(request)
+      M:store_progress_handle(request.data.id, handle)
+    end,
+  })
+
+  vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = "CodeCompanionRequestFinished",
+    group = group,
+    callback = function(request)
+      local handle = M:pop_progress_handle(request.data.id)
+      if handle then
+        M:report_exit_status(handle, request)
+        handle:finish()
       end
     end,
   })
+end
+
+M.handles = {}
+
+function M:store_progress_handle(id, handle)
+  M.handles[id] = handle
+end
+
+function M:pop_progress_handle(id)
+  local handle = M.handles[id]
+  M.handles[id] = nil
+  return handle
+end
+
+function M:create_progress_handle(request)
+  return progress.handle.create({
+    title = " Requesting assistance (" .. request.data.strategy .. ")",
+    message = "In progress...",
+    lsp_client = {
+      name = M:llm_role_title(request.data.adapter),
+    },
+  })
+end
+
+function M:llm_role_title(adapter)
+  local parts = {}
+  table.insert(parts, adapter.formatted_name)
+  if adapter.model and adapter.model ~= "" then
+    table.insert(parts, "(" .. adapter.model .. ")")
+  end
+  return table.concat(parts, " ")
+end
+
+function M:report_exit_status(handle, request)
+  if request.data.status == "success" then
+    handle.message = "Completed"
+  elseif request.data.status == "error" then
+    handle.message = " Error"
+  else
+    handle.message = "󰜺 Cancelled"
+  end
 end
 
 return M

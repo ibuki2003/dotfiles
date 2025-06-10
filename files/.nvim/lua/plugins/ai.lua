@@ -23,6 +23,8 @@ return {
     },
     keys = {
       { "<Space>cc", ":CodeCompanionChat Toggle<CR>", mode = { "n" }, }, -- Just show the chat
+      { "<Space>cc", ":CodeCompanionChat Add<CR>", mode = { "x" }, }, -- Add selection to chat
+      { "<Space>cC", ":CodeCompanionChat<CR>", mode = { "n", "x" }, }, -- Start new chat
       { "<Space>ca", ":CodeCompanion<CR>", mode = { "n", "x" }, },
       { "<Space>cA", ":CodeCompanionActions<CR>", mode = { "n", "x" }, },
     },
