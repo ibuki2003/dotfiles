@@ -3,6 +3,7 @@ if not ok and not string.match(msg, "module 'options.local' not found") then
   vim.notify(msg, vim.log.levels.ERROR)
 end
 
+require'options.unmap'
 require'options.opts'
 require'options.keymaps'
 require'options.misc'
