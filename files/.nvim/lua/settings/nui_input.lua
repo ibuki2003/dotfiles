@@ -34,8 +34,14 @@ local function UIInput()
         col = 0,
       },
       size = {
-        -- minimum width 20
-        width = math.max(20, vim.api.nvim_strwidth(default_value)),
+        -- clamp the width to a reasonable size
+        width = math.min(
+          math.max(
+            vim.api.nvim_strwidth(default_value) + 5,
+            50
+          ),
+          vim.o.columns - 5
+        ),
       },
       border = {
         style = "rounded",
