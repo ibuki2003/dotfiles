@@ -1,12 +1,12 @@
 typeset -U path PATH
 
 # skip if already added
-if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+if [[ -z ${_PATH_ADDED:-} ]]; then
   path=(
     ~/.local/bin
     ~/.bin
-    ~/.bin/scripts
     ~/.cargo/bin
+    ~/.deno/bin
     ~/.local/share/aquaproj-aqua/bin
     ~/.config/yarn/global/node_modules/.bin
     ~/.local/share/pnpm
@@ -14,6 +14,7 @@ if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     $path
   )
   export PATH
+  export _PATH_ADDED=1
 fi
 
 fpath=(~/.zsh/functions ~/.zsh/functions/*(N-/) $fpath)
