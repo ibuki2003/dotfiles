@@ -1,0 +1,66 @@
+#!/usr/bin/env zsh
+
+# patch elf binaries to remove the interpreter
+# Nixでビルドしたバイナリを他の環境で実行できるようにするのに使う
+
+# Usage: unnix [options] <source> <destination>
+# Options:
+# -i, --in-place   Modify files in place
+
+# cp $< $@
+# patchelf --set-interpreter $(INTERP) --set-rpath '' $@
+
+function usage() {
+  echo "Usage: unnix [options] <source> <destination>"
+  echo "Options:"
+  echo "  -i, --in-place   Modify files in place"
+  exit 1
+}
+
+in_place=0
+args=()
+
+INTERP="/lib64/ld-linux-x86-64.so.2"
+
+if ! command -v patchelf &>/dev/null; then
+  echo "patchelf not found. Please install it first." >&2
+  exit 1
+fi
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -i|--in-place)
+      in_place=1
+      shift
+      ;;
+    -*)
+      usage
+      ;;
+    *)
+      args+=("$1")
+      shift
+      ;;
+  esac
+done
+
+if [[ $in_place -eq 1 ]]; then
+  if [[ ${#args[@]} -ne 1 ]]; then
+    usage
+  fi
+  file=${args[1]}
+else
+  if [[ ${#args[@]} -ne 2 ]]; then
+    usage
+  fi
+  if ! cp "${args[1]}" "${args[2]}"; then
+    echo "Failed to copy ${args[1]} to ${args[2]}" >&2
+    exit 1
+  fi
+  file=${args[2]}
+fi
+
+
+if ! patchelf --set-interpreter "$INTERP" --set-rpath '' "$file"; then
+  echo "patchelf patching failed on $file" >&2
+  exit 1
+fi
