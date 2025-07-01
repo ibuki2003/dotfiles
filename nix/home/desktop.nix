@@ -16,7 +16,6 @@ in {
   nixpkgs = {
     config = {
       permittedInsecurePackages = [
-        "googleearth-pro-7.3.6.10201"
       ];
     };
   };
@@ -54,7 +53,6 @@ in {
       drawio
       font-manager
       gimp-with-plugins
-      googleearth-pro
       httpie-desktop
       imhex
       imv
