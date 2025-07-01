@@ -59,6 +59,18 @@
       options = [ "defaults" ];
     };
 
+    "/data" = {
+      device = "/dev/disk/by-uuid/9b548a2f-89db-42a8-b5c4-cecd7db12b2a";
+      fsType = "btrfs";
+      options = [ "defaults" "compress=zstd" "subvol=@data" ];
+    };
+
+  };
+
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+    fileSystems = [ "/data" ];
   };
 
   services.fuwanas = {
@@ -87,6 +99,8 @@
     radeontop
     amdgpu_top
     rocmPackages.rocm-smi
+
+    btrfs-progs
   ];
 
   networking = {
@@ -122,6 +136,13 @@
     };
 
   };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    package = pkgs.bluez;
+  };
+  services.blueman.enable = true;
 
   services.printing = {
     drivers = lib.mkDefault [
