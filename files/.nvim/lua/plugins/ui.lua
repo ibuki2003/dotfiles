@@ -1,12 +1,5 @@
 return {
   {
-    'MunifTanjim/nui.nvim',
-    init = function()
-      -- vim.ui.input wrapper
-      require'settings.nui_input'
-    end,
-  },
-  {
     'j-hui/fidget.nvim',
     opts = {
       progress = {
