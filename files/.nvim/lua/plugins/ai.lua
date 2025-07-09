@@ -32,59 +32,63 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
     },
-    opts = {
-      strategies = {
-        chat = {
-          adapter = "openai",
-          keymaps = {
-            clear = { modes = { n = {} } }, -- undef
-          },
-        },
-        inline = { adapter = "openai" },
-      },
-      display = {
-        action_palette = { provider = "telescope" },
-        chat = {
-          auto_scroll = false,
-
-          show_header_separator = true,
-          -- show_settings = true, -- NOTE: enabling this blocks adapter/model selection ui
-        },
-      },
-      adapters = {
-        opts = {
-          show_defaults = false,
-          show_model_choices = true,
-        },
-        copilot = 'copilot',
-        openai = function()
+    init = function()
+      vim.cmd[[cab cc CodeCompanion]]
+    end,
+    opts = function()
+      local function make_openai_adapter(model)
+        return function()
           return require("codecompanion.adapters").extend("openai", {
             schema = {
               model = {
-                default = "gpt-4.1-mini",
-                -- HACK: replace the table, not merge
-                choices = function() return {
-                  ["gpt-4.1"] = { opts = { has_vision = true } },
-                  ["gpt-4.1-mini"] = { opts = { has_vision = true } },
-                  ["gpt-4.1-nano"] = { opts = { has_vision = true } },
-                  ["o3"] = { opts = { has_vision = true, can_reason = true } },
-                  ["o4-mini"] = { opts = { has_vision = true, can_reason = true } },
-                  ["o1"] = { opts = { has_vision = true, can_reason = true } },
-                } end,
+                default = model,
+                choices = { model },
               },
               reasoning_effort = {
-                -- fix condition
                 condition = function(self)
-                  local model = self.schema.model.default
-                  return model:sub(1, 1) == "o"
+                  return self.schema.model.default:sub(1, 1) == "o"
                 end,
               },
             },
             env = { api_key = "cmd:secret-tool lookup service openai" },
           })
-        end,
-      },
-    },
+        end
+      end
+      return {
+        strategies = {
+          chat = {
+            adapter = "gpt-4.1-mini",
+            keymaps = {
+              clear = { modes = { n = {} } }, -- undef
+            },
+          },
+          inline = { adapter = "gpt-4.1-mini" },
+        },
+        display = {
+          action_palette = { provider = "telescope" },
+          chat = {
+            auto_scroll = false,
+
+            show_header_separator = true,
+            -- show_settings = true, -- NOTE: enabling this blocks adapter/model selection ui
+          },
+        },
+        adapters = {
+          opts = {
+            show_defaults = false,
+            show_model_choices = true,
+          },
+          copilot = 'copilot',
+          -- openai = {},
+
+          ["gpt-4.1"] = make_openai_adapter("gpt-4.1"),
+          ["gpt-4.1-mini"] = make_openai_adapter("gpt-4.1-mini"),
+          ["gpt-4.1-nano"] = make_openai_adapter("gpt-4.1-nano"),
+          ["o3"] = make_openai_adapter("o3"),
+          ["o4-mini"] = make_openai_adapter("o4-mini"),
+        },
+      }
+    end,
     config = function(_, opts)
       require("settings.codecompanion.spinner"):init()
       require("codecompanion").setup(opts)
