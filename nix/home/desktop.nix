@@ -33,11 +33,13 @@ in {
       pamixer
       pulseaudio
       pulseaudio-ctl
+      qrencode
       swayidle
       swaylock-effects
       wayvnc
       wl-clipboard
       yubikey-manager
+      zbar
 
       # apps
       aider-chat
