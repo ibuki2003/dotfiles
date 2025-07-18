@@ -38,6 +38,7 @@ in {
       swaylock-effects
       wayvnc
       wl-clipboard
+      yt-dlp
       yubikey-manager
       zbar
 
@@ -151,6 +152,9 @@ in {
     copyq = {
       enable = true;
       forceXWayland = false;
+    };
+    mpris-proxy = {
+      enable = true;
     };
   };
 

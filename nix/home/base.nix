@@ -67,6 +67,7 @@ in {
       libqalculate
       linuxPackages.cpupower
       lm_sensors
+      mbuffer
       minicom
       mold
       moreutils
@@ -79,6 +80,7 @@ in {
       opam
       openssl
       p7zip
+      patchelf
       pciutils
       pdftk
       picotool
@@ -132,6 +134,7 @@ in {
         scipy
         python-lsp-server
       ]))
+      uv
 
     ];
   };
