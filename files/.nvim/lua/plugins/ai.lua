@@ -55,6 +55,9 @@ return {
         end
       end
       return {
+        opts = {
+          language= "user's", -- NOTE: Hacky way to set the language to user's
+        },
         strategies = {
           chat = {
             adapter = "gpt-4.1-mini",
