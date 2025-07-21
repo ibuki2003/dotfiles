@@ -1,5 +1,3 @@
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 

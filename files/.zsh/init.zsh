@@ -6,50 +6,17 @@ SAVEHIST=1000000
 
 autoload -Uz colors && colors
 
-setopt print_eight_bit
-setopt no_beep
-setopt no_flow_control
-setopt ignore_eof
-setopt interactive_comments
-setopt auto_cd
-setopt auto_pushd
-setopt pushd_ignore_dups
-setopt hist_ignore_all_dups
-setopt hist_ignore_space
-setopt hist_reduce_blanks
-setopt extended_glob
-setopt correct
-setopt appendhistory
-setopt globdots
-
-bindkey -e
-
 typeset -U path PATH
 
-path=(
-  ~/.local/bin
-  ~/.cargo/bin
-  $path
-)
-export PATH
+# update pre-built joined option file
+(( $+commands[make] )) && make -C$ZSHHOME --silent
 
-alias dsource='zsh-defer source'
+source $ZSHHOME/opts.cat.zsh
 
-export SHELDON_CONFIG_DIR=$ZSHHOME/sheldon
-if (( $+commands[sheldon] )); then
-  eval "$(sheldon source)"
+autoload -Uz compinit && compinit -C
+
+if (( $+functions[zsh-defer] )); then
+  zsh-defer source $ZSHHOME/lazy.cat.zsh
 else
-  echo "sheldon not found" >&2
-  alias dsource=source
+  source $ZSHHOME/lazy.cat.zsh
 fi
-
-# load files
-for i in $ZSHHOME/opts/*.zsh(.r); do
-  source $i
-done
-
-for i in $ZSHHOME/lazy/*.zsh(.r); do
-  dsource $i
-done
-
-autoload -Uz compinit && zsh-defer compinit -C

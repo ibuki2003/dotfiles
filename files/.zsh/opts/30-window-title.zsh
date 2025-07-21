@@ -1,28 +1,28 @@
 function set_title() {
   local t
   case "$TERM_PROGRAM" in
-    alacritty)
-      t='Alacritty'
-      ;;
-    kitty)
-      t='Kitty'
-      ;;
-    *)
-      # return
-      ;;
+    alacritty) t='Alacritty' ;;
+    kitty) t='Kitty' ;;
+    *) return ;;
   esac
-  echo -ne "\e]0;$t: $@\a"
+  local s=${PWD/$HOME/'~'}
+  [[ -n $1 ]] && s="$s : $1"
+  printf "\e]0;%s\a" "$t: $s"
 }
 
-function urxvt_window_preexec () {
-  local WD="$(pwd | sed "s/^\/home\/$USER/~/")"
-  COMMAND="$(echo $1 | tr -d '\n' | head -c 256)"
-  set_title "$WD : $COMMAND"
+function window_title_preexec () {
+  local cmd=$1
+  # remove newlines
+  cmd=${1//$'\n'/ }
+  # truncate to 256 characters
+  cmd=${cmd:0:256}
+
+  set_title "$cmd"
 }
 
-function urxvt_window_postexec () {
-  set_title "$(pwd | sed "s/^\/home\/$USER/~/")"
+function window_title_postexec () {
+  set_title
 }
 
-add-zsh-hook preexec urxvt_window_preexec
-add-zsh-hook precmd urxvt_window_postexec
+add-zsh-hook preexec window_title_preexec
+add-zsh-hook precmd window_title_postexec

@@ -1,6 +1,6 @@
 if (( ${+commands[$1]} || ${+aliases[$1]} )); then
   # just print the result of `where`
-  where "$1"
+  where -s "$1"
 elif (( ${+functions[$1]} )); then
   if [[ ${functions[$1]} == "builtin autoload "* ]]; then
     # show the source of the function
@@ -9,7 +9,7 @@ elif (( ${+functions[$1]} )); then
     done
   else
     # just print the result of `where`
-    where "$1"
+    where -s "$1"
   fi
 else
   echo "No such command, function or alias: $1" >&2

@@ -1,1 +1,5 @@
 *local.zsh
+
+*.zwc
+*.cat.zsh
+sheldon/.compiled.zsh

@@ -1,5 +1,3 @@
-typeset -U path PATH
-
 # skip if already added
 if [[ -z ${_PATH_ADDED:-} ]]; then
   path=(
@@ -13,8 +11,11 @@ if [[ -z ${_PATH_ADDED:-} ]]; then
     ~/.nix-profile/bin
     $path
   )
-  export PATH
   export _PATH_ADDED=1
 fi
 
-fpath=(~/.zsh/functions ~/.zsh/functions/*(N-/) $fpath)
+fpath=(
+  ~/.zsh/functions
+  ~/.zsh/functions/*(N-/)
+  $fpath
+)
