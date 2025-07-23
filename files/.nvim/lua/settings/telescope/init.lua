@@ -52,7 +52,7 @@ local fd = function(opts)
 end
 
 vim.keymap.set('n', '<leader>ff', fd{}, {})
-vim.keymap.set('n', '<C-p>',      fd{}, {})
+vim.keymap.set('n', '<C-p>',      function() telescope.extensions.smart_open.smart_open() end, {})
 vim.keymap.set('n', '<leader>fF', fd{ no_ignore = true }, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})

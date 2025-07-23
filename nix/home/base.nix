@@ -34,6 +34,9 @@ in {
       man-pages
       man-pages-posix
 
+      # libs
+      (lib.getLib sqlite)
+
       # tools
       android-tools
       atop
