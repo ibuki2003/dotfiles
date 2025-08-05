@@ -63,8 +63,10 @@ in {
       gnumake
       gnupg
       gnuplot_qt
+      go
       htop
       httpie
+      hyperfine
       imagemagick
       jq
       libqalculate
