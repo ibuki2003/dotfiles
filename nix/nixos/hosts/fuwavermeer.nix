@@ -23,33 +23,20 @@
         title   Arch Linux (GRUB)
         efi    /EFI/archlinux/grubx64.efi
         '';
-      "arch.conf" = ''
-        title   Arch Linux
-        linux   /vmlinuz-linux
-        initrd  /amd-ucode.img
-        initrd  /initramfs-linux.img
-        options "root=/dev/disk/by-uuid/5acb5921-b991-4127-86a1-bc569995651c rw"
-        '';
     };
   };
 
   fileSystems = {
 
     "/" = {
-      device = "/dev/disk/by-uuid/fc84e8bb-6a86-4ac9-b125-bc6d8430c473";
-      fsType = "ext4";
-      options = [ "defaults" "discard" ];
+      device = "/dev/pool/nixos-root";
+      fsType = "btrfs";
+      options = [ "defaults" "discard" "subvol=@" ];
     };
 
     "/boot" = {
       device = "/dev/disk/by-uuid/A32E-EB63";
       fsType = "vfat";
-      options = [ "defaults" ];
-    };
-
-    "/mnt/arch" = {
-      device = "/dev/disk/by-uuid/5acb5921-b991-4127-86a1-bc569995651c";
-      fsType = "ext4";
       options = [ "defaults" ];
     };
 
