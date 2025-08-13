@@ -80,4 +80,10 @@ return {
       { ft='markdown', '<CR>', '<Plug>Markdown_NewLineBelow', mode='i' },
     },
   },
+  {
+    'chomosuke/typst-preview.nvim',
+    ft = { 'typst' },
+    version = '1.*',
+    opts = {}, -- lazy.nvim will implicitly calls `setup {}`
+  }
 }

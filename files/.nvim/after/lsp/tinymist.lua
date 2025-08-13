@@ -1,7 +1,11 @@
 return {
   single_file_support = true,
   settings = {
-    exportPdf = "onSave",
+    exportPdf = "onType",
     outputPath = "/tmp/$name",
+    preview = {
+      background = { enabled = true },
+    },
+    ["preview.background.enabled"] = true,
   },
 }
