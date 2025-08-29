@@ -64,7 +64,7 @@ in {
       libreoffice-fresh
       mpv
       networkmanagerapplet
-      nwg-displays
+      # nwg-displays
       obs-studio
       pavucontrol
       prismlauncher

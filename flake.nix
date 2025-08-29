@@ -18,11 +18,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-
-    waveforms = {
-      url = "github:liff/waveforms-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     lan-mouse = { url = "github:feschber/lan-mouse"; inputs.nixpkgs.follows = "nixpkgs"; };
 
   };
@@ -37,6 +32,18 @@
       overlays = [
         inputs.neovim-nightly-overlay.overlays.default
         inputs.nil.overlays.nil
+        (self: super: {
+          cargo-binutils = super.rustPlatform.buildRustPackage (
+            let old = super.cargo-binutils; in rec {
+              inherit (old) pname meta;
+              version = "0.4.0";
+              src = super.fetchCrate {
+                inherit pname version;
+                hash = "sha256-AF1MRBH8ULnHNHT2FS/LxMH+b06QMTIZMIR8mmkn17c=";
+              };
+              cargoHash = "sha256-pK6pFgOxQdEc4hYFj6mLEiIuPhoutpM2h3OLZgYrf6Q=";
+            });
+        })
       ];
       pkgs = import nixpkgs {
         inherit system overlays;
