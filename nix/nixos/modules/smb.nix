@@ -13,7 +13,7 @@ in {
     };
     host = mkOption {
       type = types.str;
-      default = "fuwadesk0"; # via Tailscale
+      default = "fuwapve-gw"; # via Tailscale
       description = "Hostname of the NAS";
     };
     target = mkOption {
