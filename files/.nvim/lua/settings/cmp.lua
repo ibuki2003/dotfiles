@@ -60,7 +60,19 @@ opts.mapping = {
   ['<C-e>'] = cmp.mapping.abort(),
   ['<C-y>'] = cmp.mapping(function(_fallback)
     if cmp.visible() and cmp.get_selected_entry() then
-      cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+      cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
+    else
+      cmp.complete()
+    end
+  end, {"i", "s"}),
+  ['<C-z>'] = cmp.mapping(function(_fallback)
+    -- special: if copilot, restore the original text
+    local entry = cmp.get_selected_entry()
+    if cmp.visible() and entry then
+      if entry.source.name == "copilot" and entry._copilot_old_text ~= nil then
+        entry.completion_item.textEdit.newText = entry._copilot_old_text
+      end
+      cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
     else
       cmp.complete()
     end
@@ -90,6 +102,30 @@ opts.sources = cmp.config.sources({
   {
     name = 'copilot',
     options = { fix_pairs = false, },
+    entry_filter = function(entry, _)
+      -- modify label to be first line of textEdit
+      -- original text can be restored with <C-z>
+      if entry.completion_item.textEdit ~= nil and entry._copilot_old_text == nil then
+        local text = entry.completion_item.textEdit.newText
+        entry._copilot_old_text = text
+
+        -- get first line only
+        local pos = text:find("\n")
+        if pos ~= nil then
+          text = text:sub(1, pos - 1)
+        end
+        -- trim leading whitespace
+        local label = text:gsub("^%s+", "")
+
+        entry.word = label
+        entry.filter_text = label
+        -- entry.completion_item.documentation.value = doc
+        entry.completion_item.label = label
+        entry.completion_item.textEdit.newText = text
+      end
+
+      return true
+    end,
   },
   { name = 'nvim_lsp' },
   { name = 'buffer', option = {

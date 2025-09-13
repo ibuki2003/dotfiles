@@ -32,31 +32,22 @@ return {
           default_lazy = true,
           default_fallback = "cindent",
         },
-        matchup = {
-          enable = true,
-        },
         auto_install = false,
       }
     end
   },
   {
     'andymass/vim-matchup',
+    lazy = false,
     init = function()
       vim.g.matchup_matchparen_offscreen = {
         method = "popup",
       }
-      -- TODO: use appropriate event
-      vim.api.nvim_create_autocmd('FileType', {
-        callback = function()
-          -- workaround: disable if not supported
-          if not vim.b.match_words then
-            vim.b.matchup_matchparen_enabled = 0
-          else
-            vim.b.matchup_matchparen_enabled = 1
-          end
-        end,
-      })
+      vim.g.matchup_matchparen_enabled = 1
     end,
+    opts = {
+      treesitter = { stopline = 500, },
+    },
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
@@ -72,13 +63,6 @@ return {
         mode = 'topline',
         zindex = 20,
       }
-    end,
-  },
-  {
-    'mattn/emmet-vim',
-    keys = { { '<C-z>', mode = 'i' } },
-    init = function()
-      vim.g.user_emmet_leader_key = '<C-z>'
     end,
   },
   {

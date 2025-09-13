@@ -56,7 +56,17 @@ return {
       end
       return {
         opts = {
-          language= "user's", -- NOTE: Hacky way to set the language to user's
+          -- language= "user's", -- NOTE: Hacky way to set the language to user's
+          system_prompt = function()
+            local p = [[
+              You are a helpful AI assistant.
+              You can answer questions, provide explanations, and assist with coding tasks.
+              Answer in language the user is using.
+            ]]
+            -- trim indentation
+            p = p:gsub("\n%s+", "\n"):gsub("^%s+", ""):gsub("%s+$", "")
+            return p
+          end,
         },
         strategies = {
           chat = {
@@ -87,6 +97,9 @@ return {
           ["gpt-4.1"] = make_openai_adapter("gpt-4.1"),
           ["gpt-4.1-mini"] = make_openai_adapter("gpt-4.1-mini"),
           ["gpt-4.1-nano"] = make_openai_adapter("gpt-4.1-nano"),
+          ["gpt-5"] = make_openai_adapter("gpt-5"),
+          ["gpt-5-mini"] = make_openai_adapter("gpt-5-mini"),
+          ["gpt-5-nano"] = make_openai_adapter("gpt-5-nano"),
           ["o3"] = make_openai_adapter("o3"),
           ["o4-mini"] = make_openai_adapter("o4-mini"),
         },

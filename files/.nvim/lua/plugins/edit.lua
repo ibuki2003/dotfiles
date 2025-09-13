@@ -58,14 +58,6 @@ return {
     'dhruvasagar/vim-table-mode',
     config = function()
       vim.g.table_mode_corner = "|"
-      vim.api.nvim_create_autocmd('Filetype', {
-        pattern = { 'markdown', 'markdown_tablemode', 'mdx' },
-        callback = function()
-          if vim.bo.modifiable then -- only enable if modifiable
-            vim.cmd('TableModeEnable')
-          end
-        end,
-      })
     end
   },
   {
