@@ -31,7 +31,7 @@
     "/" = {
       device = "/dev/pool/nixos-root";
       fsType = "btrfs";
-      options = [ "defaults" "discard" "subvol=@" ];
+      options = [ "defaults" "discard=async" "subvol=@" ];
     };
 
     "/boot" = {
@@ -49,7 +49,7 @@
     "/data" = {
       device = "/dev/disk/by-uuid/9b548a2f-89db-42a8-b5c4-cecd7db12b2a";
       fsType = "btrfs";
-      options = [ "defaults" "compress=zstd" "subvol=@data" ];
+      options = [ "defaults" "discard=async" "compress=zstd" "subvol=@data" ];
     };
 
   };
@@ -57,7 +57,7 @@
   services.btrfs.autoScrub = {
     enable = true;
     interval = "monthly";
-    fileSystems = [ "/data" ];
+    fileSystems = [ "/" "/data" ];
   };
 
   services.fuwanas = {
