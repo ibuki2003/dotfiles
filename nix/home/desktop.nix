@@ -29,6 +29,7 @@ in {
       qt6.qtbase
 
       # tools
+      appimage-run
       libsecret
       pamixer
       pulseaudio
@@ -48,6 +49,7 @@ in {
       albert
       audacity
       chromium
+      codex
       (cutter.withPlugins (ps: with ps; [
         rz-ghidra
         jsdec

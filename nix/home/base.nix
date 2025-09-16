@@ -57,6 +57,7 @@ in {
       fd
       ffmpeg
       file
+      fq
       fzf
       gdb
       gh
@@ -74,6 +75,7 @@ in {
       libqalculate
       linuxPackages.cpupower
       lm_sensors
+      lsof
       mbuffer
       minicom
       mold
@@ -143,12 +145,13 @@ in {
       vscode-langservers-extracted
 
       # python
-      (python312.withPackages (ps: with ps; [
+      (python3.withPackages (ps: with ps; [
         pip
         numpy
         (matplotlib.override { enableQt = true; })
         scipy
         python-lsp-server
+        pillow
       ]))
       uv
 
