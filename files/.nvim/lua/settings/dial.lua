@@ -24,12 +24,11 @@ vim.list_extend(augends.group.visual, {
   augend.constant.alias.Alpha,
 })
 
-local manip = require("dial.map").manipulate
-vim.keymap.set('n',  '<C-a>', function() manip("increment", "normal") end)
-vim.keymap.set('n',  '<C-x>', function() manip("decrement", "normal") end)
-vim.keymap.set('x',  '<C-a>', function() manip("increment", "visual", "visual"); vim.fn.feedkeys('gv', 'n') end)
-vim.keymap.set('x',  '<C-x>', function() manip("decrement", "visual", "visual"); vim.fn.feedkeys('gv', 'n') end)
-vim.keymap.set('n', 'g<C-a>', function() manip("increment", "gnormal") end)
-vim.keymap.set('n', 'g<C-x>', function() manip("decrement", "gnormal") end)
-vim.keymap.set('x', 'g<C-a>', function() manip("increment", "gvisual", "visual") end)
-vim.keymap.set('x', 'g<C-x>', function() manip("decrement", "gvisual", "visual") end)
+vim.keymap.set('n',  '<C-a>', "<Plug>(dial-increment)", { remap = true })
+vim.keymap.set('n',  '<C-x>', "<Plug>(dial-decrement)", { remap = true })
+vim.keymap.set('x',  '<C-a>', "<Plug>(dial-increment)", { remap = true })
+vim.keymap.set('x',  '<C-x>', "<Plug>(dial-decrement)", { remap = true })
+vim.keymap.set('n', 'g<C-a>', "<Plug>(dial-g-increment)", { remap = true })
+vim.keymap.set('n', 'g<C-x>', "<Plug>(dial-g-decrement)", { remap = true })
+vim.keymap.set('x', 'g<C-a>', "<Plug>(dial-g-increment)", { remap = true })
+vim.keymap.set('x', 'g<C-x>', "<Plug>(dial-g-decrement)", { remap = true })
