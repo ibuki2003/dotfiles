@@ -51,7 +51,8 @@
     # somewhy sddm.extraPackages doesn't work
     (pkgs.catppuccin-sddm.override {
       flavor = "macchiato";
-      background = "/etc/nixos/sddm-bg.png";
+      # background = "/etc/nixos/sddm-bg.png";
+      background = "/etc/nixos/sddm-bg.png" + "\"'; true '"; # HACK: shell injection. waiting for NixOS/nixpkgs#442829
     })
   ];
 
