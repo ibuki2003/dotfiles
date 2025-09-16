@@ -13,6 +13,108 @@
     };
     date = "2022-03-26";
   };
+  cargo-asm = {
+    pname = "cargo-asm";
+    version = "577f890ebd4a09c8265710261e976fe7bfce8668";
+    src = fetchFromGitHub {
+      owner = "gnzlbg";
+      repo = "cargo-asm";
+      rev = "577f890ebd4a09c8265710261e976fe7bfce8668";
+      fetchSubmodules = false;
+      sha256 = "sha256-KwOeX+BtS8xFUYqNSz8VM83qe7XWp18wTbq216v+07g=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./cargo-asm-577f890ebd4a09c8265710261e976fe7bfce8668/Cargo.lock;
+      outputHashes = {
+        
+      };
+    };
+    date = "2019-12-24";
+  };
+  cargo-call-stack = {
+    pname = "cargo-call-stack";
+    version = "49080d56b827573f1e19ff127401e312d08f138c";
+    src = fetchFromGitHub {
+      owner = "japaric";
+      repo = "cargo-call-stack";
+      rev = "49080d56b827573f1e19ff127401e312d08f138c";
+      fetchSubmodules = false;
+      sha256 = "sha256-UVKu9e2MYAjnKAAanj5xRUI1kQ7dd/+xMLosB21nQeM=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./cargo-call-stack-49080d56b827573f1e19ff127401e312d08f138c/Cargo.lock;
+      outputHashes = {
+        
+      };
+    };
+    date = "2024-10-28";
+  };
+  cargo-disasm = {
+    pname = "cargo-disasm";
+    version = "86548e27c95200d860789824c6404f5382fc393b";
+    src = fetchFromGitHub {
+      owner = "ExPixel";
+      repo = "cargo-disasm";
+      rev = "86548e27c95200d860789824c6404f5382fc393b";
+      fetchSubmodules = true;
+      sha256 = "sha256-HbsglAQEoxjDKF/dNvKpB8UfbNsYFJ9briLn65Nf3bA=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./cargo-disasm-86548e27c95200d860789824c6404f5382fc393b/Cargo.lock;
+      outputHashes = {
+        
+      };
+    };
+    date = "2023-06-19";
+  };
+  ccsum = {
+    pname = "ccsum";
+    version = "d23b076cda5bdf59e1137d9a6bcd3df58064b561";
+    src = fetchFromGitHub {
+      owner = "sevenc-nanashi";
+      repo = "ccsum";
+      rev = "d23b076cda5bdf59e1137d9a6bcd3df58064b561";
+      fetchSubmodules = false;
+      sha256 = "sha256-jTQUycDfpsx34G7/uv1Fvqik4AXZ1Zc5Nz2s1GbKT0k=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./ccsum-d23b076cda5bdf59e1137d9a6bcd3df58064b561/Cargo.lock;
+      outputHashes = {
+        
+      };
+    };
+    date = "2025-07-07";
+  };
+  defmt-print = {
+    pname = "defmt-print";
+    version = "350356ece12edff74ca74d39dfb1eb73922ae022";
+    src = fetchFromGitHub {
+      owner = "knurling-rs";
+      repo = "defmt";
+      rev = "350356ece12edff74ca74d39dfb1eb73922ae022";
+      fetchSubmodules = false;
+      sha256 = "sha256-Dq53NpGU0T5eoNQIVES0n4/YtK179fJoEdt9caDfxTE=";
+    };
+    date = "2025-09-12";
+  };
+  memvis = {
+    pname = "memvis";
+    version = "4fdb38d33278bd7739c5b24349b39a72ad768a1b";
+    src = fetchFromGitHub {
+      owner = "ibuki2003";
+      repo = "memvis";
+      rev = "4fdb38d33278bd7739c5b24349b39a72ad768a1b";
+      fetchSubmodules = false;
+      sha256 = "sha256-FFigFsgHYuZo+OusNsf5sPQp/7BWf6sclHWHx/bN58k=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./memvis-4fdb38d33278bd7739c5b24349b39a72ad768a1b/Cargo.lock;
+      outputHashes = {
+        
+      };
+    };
+    date = "2025-07-15";
+  };
   skkemoji = {
     pname = "skkemoji";
     version = "18ff911d0dc445dbc8fbc4c5122874d08e56781b";
@@ -24,5 +126,23 @@
       sha256 = "sha256-y/AuoOCoCDkhhCwBm9dSUajeL3Q/N47GE1RBXNhj5F0=";
     };
     date = "2025-01-02";
+  };
+  slice = {
+    pname = "slice";
+    version = "abe7e73f15aa0614edfb045f863874157908635d";
+    src = fetchFromGitHub {
+      owner = "ibuki2003";
+      repo = "slice";
+      rev = "abe7e73f15aa0614edfb045f863874157908635d";
+      fetchSubmodules = false;
+      sha256 = "sha256-YKiPL4MbZPZmMkGxyK9fq8pIgeGNpNWhxQbbk3B4rRk=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./slice-abe7e73f15aa0614edfb045f863874157908635d/Cargo.lock;
+      outputHashes = {
+        
+      };
+    };
+    date = "2025-09-14";
   };
 }

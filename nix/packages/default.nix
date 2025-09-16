@@ -5,6 +5,6 @@
 }:
 {
   discord = pkgs.callPackage ./discord_raw.nix {};
-  nil = pkgs.callPackage ./nil.nix { inherit sources; };
   sparks = pkgs.callPackage ./sparks.nix {};
+  cargo_pkgs = pkgs.callPackage ./cargo_pkgs.nix { inherit sources; };
 }

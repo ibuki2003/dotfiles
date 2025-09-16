@@ -92,7 +92,6 @@ in {
       rounded-mgenplus
       material-design-icons
       migu
-
     ];
 
     pointerCursor = {

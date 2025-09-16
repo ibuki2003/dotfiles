@@ -20,6 +20,157 @@
         },
         "version": "19204c7fd227cd298f30b923f9b969d5d31f3e54"
     },
+    "cargo-asm": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./cargo-asm-577f890ebd4a09c8265710261e976fe7bfce8668/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2019-12-24",
+        "extract": null,
+        "name": "cargo-asm",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "gnzlbg",
+            "repo": "cargo-asm",
+            "rev": "577f890ebd4a09c8265710261e976fe7bfce8668",
+            "sha256": "sha256-KwOeX+BtS8xFUYqNSz8VM83qe7XWp18wTbq216v+07g=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "577f890ebd4a09c8265710261e976fe7bfce8668"
+    },
+    "cargo-call-stack": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./cargo-call-stack-49080d56b827573f1e19ff127401e312d08f138c/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2024-10-28",
+        "extract": null,
+        "name": "cargo-call-stack",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "japaric",
+            "repo": "cargo-call-stack",
+            "rev": "49080d56b827573f1e19ff127401e312d08f138c",
+            "sha256": "sha256-UVKu9e2MYAjnKAAanj5xRUI1kQ7dd/+xMLosB21nQeM=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "49080d56b827573f1e19ff127401e312d08f138c"
+    },
+    "cargo-disasm": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./cargo-disasm-86548e27c95200d860789824c6404f5382fc393b/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2023-06-19",
+        "extract": null,
+        "name": "cargo-disasm",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": true,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "ExPixel",
+            "repo": "cargo-disasm",
+            "rev": "86548e27c95200d860789824c6404f5382fc393b",
+            "sha256": "sha256-HbsglAQEoxjDKF/dNvKpB8UfbNsYFJ9briLn65Nf3bA=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "86548e27c95200d860789824c6404f5382fc393b"
+    },
+    "ccsum": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./ccsum-d23b076cda5bdf59e1137d9a6bcd3df58064b561/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2025-07-07",
+        "extract": null,
+        "name": "ccsum",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "sevenc-nanashi",
+            "repo": "ccsum",
+            "rev": "d23b076cda5bdf59e1137d9a6bcd3df58064b561",
+            "sha256": "sha256-jTQUycDfpsx34G7/uv1Fvqik4AXZ1Zc5Nz2s1GbKT0k=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "d23b076cda5bdf59e1137d9a6bcd3df58064b561"
+    },
+    "defmt-print": {
+        "cargoLocks": null,
+        "date": "2025-09-12",
+        "extract": null,
+        "name": "defmt-print",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "knurling-rs",
+            "repo": "defmt",
+            "rev": "350356ece12edff74ca74d39dfb1eb73922ae022",
+            "sha256": "sha256-Dq53NpGU0T5eoNQIVES0n4/YtK179fJoEdt9caDfxTE=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "350356ece12edff74ca74d39dfb1eb73922ae022"
+    },
+    "memvis": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./memvis-4fdb38d33278bd7739c5b24349b39a72ad768a1b/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2025-07-15",
+        "extract": null,
+        "name": "memvis",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "ibuki2003",
+            "repo": "memvis",
+            "rev": "4fdb38d33278bd7739c5b24349b39a72ad768a1b",
+            "sha256": "sha256-FFigFsgHYuZo+OusNsf5sPQp/7BWf6sclHWHx/bN58k=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "4fdb38d33278bd7739c5b24349b39a72ad768a1b"
+    },
     "skkemoji": {
         "cargoLocks": null,
         "date": "2025-01-02",
@@ -40,5 +191,31 @@
             "type": "github"
         },
         "version": "18ff911d0dc445dbc8fbc4c5122874d08e56781b"
+    },
+    "slice": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./slice-abe7e73f15aa0614edfb045f863874157908635d/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2025-09-14",
+        "extract": null,
+        "name": "slice",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "ibuki2003",
+            "repo": "slice",
+            "rev": "abe7e73f15aa0614edfb045f863874157908635d",
+            "sha256": "sha256-YKiPL4MbZPZmMkGxyK9fq8pIgeGNpNWhxQbbk3B4rRk=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "abe7e73f15aa0614edfb045f863874157908635d"
     }
 }

@@ -7,3 +7,40 @@ fetch.github = "graysky2/anything-sync-daemon"
 src.git = "https://github.com/uasi/skk-emoji-jisyo"
 src.branch = "master"
 fetch.github = "uasi/skk-emoji-jisyo"
+
+[memvis]
+src.git = "https://github.com/ibuki2003/memvis"
+src.branch = "master"
+fetch.github = "ibuki2003/memvis"
+cargo_locks = ["Cargo.lock"]
+
+[slice]
+src.git = "https://github.com/ibuki2003/slice"
+src.branch = "master"
+fetch.github = "ibuki2003/slice"
+cargo_locks = ["Cargo.lock"]
+
+[cargo-asm]
+src.git = "https://github.com/gnzlbg/cargo-asm"
+fetch.github = "gnzlbg/cargo-asm"
+cargo_locks = ["Cargo.lock"]
+
+[cargo-call-stack]
+src.git = "https://github.com/japaric/cargo-call-stack"
+fetch.github = "japaric/cargo-call-stack"
+cargo_locks = ["Cargo.lock"]
+
+[cargo-disasm]
+src.git = "https://github.com/ExPixel/cargo-disasm"
+fetch.github = "ExPixel/cargo-disasm"
+cargo_locks = ["Cargo.lock"]
+git.fetchSubmodules = true
+
+[defmt-print]
+src.git = "https://github.com/knurling-rs/defmt"
+fetch.github = "knurling-rs/defmt"
+
+[ccsum]
+src.git = "https://github.com/sevenc-nanashi/ccsum"
+fetch.github = "sevenc-nanashi/ccsum"
+cargo_locks = ["Cargo.lock"]

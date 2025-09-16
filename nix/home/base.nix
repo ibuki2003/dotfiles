@@ -1,8 +1,10 @@
 {
   pkgs,
+  sources,
   ...
 }: let
   username = "fuwa";
+  mypkgs = pkgs.callPackage ../packages { inherit sources; };
 in {
   imports = [
     ./modules
@@ -112,7 +114,16 @@ in {
       cargo-bloat
       cargo-edit
       cargo-expand
+      cargo-generate
       probe-rs-tools
+
+      mypkgs.cargo_pkgs.memvis
+      mypkgs.cargo_pkgs.slice
+      mypkgs.cargo_pkgs.cargo-asm
+      mypkgs.cargo_pkgs.cargo-call-stack
+      mypkgs.cargo_pkgs.cargo-disasm
+      # mypkgs.cargo_pkgs.defmt-print  # disabled: upstream repo lacks top-level Cargo.lock
+      mypkgs.cargo_pkgs.ccsum
 
       # lsp servers
       astro-language-server
