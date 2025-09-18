@@ -129,20 +129,20 @@
   };
   slice = {
     pname = "slice";
-    version = "abe7e73f15aa0614edfb045f863874157908635d";
+    version = "f73dec5b51fb7a33c99b5e6080f4083ef68507b4";
     src = fetchFromGitHub {
       owner = "ibuki2003";
       repo = "slice";
-      rev = "abe7e73f15aa0614edfb045f863874157908635d";
+      rev = "f73dec5b51fb7a33c99b5e6080f4083ef68507b4";
       fetchSubmodules = false;
-      sha256 = "sha256-YKiPL4MbZPZmMkGxyK9fq8pIgeGNpNWhxQbbk3B4rRk=";
+      sha256 = "sha256-3pK13yaziuJ4GFl2uKYBwSIGpEehun17vYmGWbVO4lE=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./slice-abe7e73f15aa0614edfb045f863874157908635d/Cargo.lock;
+      lockFile = ./slice-f73dec5b51fb7a33c99b5e6080f4083ef68507b4/Cargo.lock;
       outputHashes = {
         
       };
     };
-    date = "2025-09-14";
+    date = "2025-09-18";
   };
 }
