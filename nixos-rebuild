@@ -1,4 +1,4 @@
-#!env bash
+#!/usr/bin/env bash
 hostname=$(hostname)
 hostname=${hostname%-nix}
 sudo nixos-rebuild --flake ".#${hostname}" "$@"

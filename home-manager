@@ -1,4 +1,4 @@
-#!env bash
+#!/usr/bin/env bash
 
 if ! command -v home-manager &> /dev/null; then
   exec nix-shell -p home-manager --run "$0" "$@"
