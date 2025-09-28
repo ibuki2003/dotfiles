@@ -5,7 +5,7 @@
         "extract": null,
         "name": "asd",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -31,7 +31,7 @@
         "extract": null,
         "name": "cargo-asm",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -57,7 +57,7 @@
         "extract": null,
         "name": "cargo-call-stack",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -83,7 +83,7 @@
         "extract": null,
         "name": "cargo-disasm",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "deepClone": false,
             "fetchSubmodules": true,
@@ -109,7 +109,7 @@
         "extract": null,
         "name": "ccsum",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -130,7 +130,7 @@
         "extract": null,
         "name": "defmt-print",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -156,7 +156,7 @@
         "extract": null,
         "name": "memvis",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -171,13 +171,38 @@
         },
         "version": "4fdb38d33278bd7739c5b24349b39a72ad768a1b"
     },
+    "nu-plugin-bexpand": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./nu-plugin-bexpand-c14f8d926fa34e7c1a1f5c7913e703858a7988ba/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2025-07-24",
+        "extract": null,
+        "name": "nu-plugin-bexpand",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "rev": "c14f8d926fa34e7c1a1f5c7913e703858a7988ba",
+            "sha256": "sha256-cpImnQGEU8sUXsjmwd8/0l9QB+7HZaKX+JA/Fkq3/10=",
+            "sparseCheckout": [],
+            "type": "git",
+            "url": "https://forge.axfive.net/Taylor/nu-plugin-bexpand.git"
+        },
+        "version": "c14f8d926fa34e7c1a1f5c7913e703858a7988ba"
+    },
     "skkemoji": {
         "cargoLocks": null,
         "date": "2025-01-02",
         "extract": null,
         "name": "skkemoji",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -203,7 +228,7 @@
         "extract": null,
         "name": "slice",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,

@@ -175,6 +175,7 @@ in {
       configFile.text = "source ~/.config/nushell/conf.d/init.nu";
       plugins = [
         pkgs.nushellPlugins.gstat
+        mypkgs.cargo_pkgs.nu-plugin-bexpand
       ];
     };
     carapace = {

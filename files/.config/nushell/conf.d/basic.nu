@@ -14,17 +14,7 @@ $env.config = $env.config | merge deep {
   },
   history: {
     max_size: 1_000_000_000,
-    sync_on_enter: true,
-  },
-  shell_integration: {
-    osc2: false, # I will set my own window title
-  },
-
-  highlight_resolved_externals: true,
-  color_config: {
-    shape_internalcall: "cyan_bold",
-    shape_external: "red",
-    shape_external_resolved: "cyan",
+    sync_on_enter: false,
   },
 }
 
@@ -60,3 +50,20 @@ alias vim = nvim
 alias rm = rm -i
 alias cp = cp -i
 alias mv = mv -i
+
+
+export def clip [file?: string] {
+  if ($file != null) {
+    # copying file
+    open $file | wl-copy -t (file --mime --brief $file)
+  } else {
+    let inp = $in
+    if ($inp | is-not-empty) {
+      # copying stdin
+      $inp | wl-copy
+    } else {
+      # pasting
+      wl-paste
+    }
+  }
+}

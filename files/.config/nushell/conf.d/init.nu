@@ -9,3 +9,4 @@ source $file
 
 use std/dirs
 
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense'

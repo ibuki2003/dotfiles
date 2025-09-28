@@ -29,7 +29,7 @@ let
         pname = name;
         inherit (srcDef) version src;
         inherit cargoHash buildInputs nativeBuildInputs doCheck;
-        meta = meta;
+        meta = { mainProgram = name; } // meta;
       }
       // cargoLockArg
       // extraArgs)
@@ -48,4 +48,6 @@ in
     };
   };
   ccsum = mkRust "ccsum" sources.ccsum { };
+
+  nu-plugin-bexpand = mkRust "nu-plugin-bexpand" sources.nu-plugin-bexpand { meta = { mainProgram = "nu_plugin_bexpand"; }; };
 }

@@ -39,6 +39,9 @@ $env.PROMPT_COMMAND = {||
       )
       (if ($s.wt_untracked > 0) { $"(ansi white_dimmed)?($s.wt_untracked)(ansi reset)" } else { "" })
       (if ($s.conflicts > 0) { $"(ansi red)!($s.conflicts)(ansi reset)" } else { "" })
+
+      (if ($s.ahead > 0) { $"(ansi blue)↑($s.ahead)(ansi reset)" } else { "" })
+      (if ($s.behind > 0) { $"(ansi blue)↓($s.behind)(ansi reset)" } else { "" })
     ]
     let color = if ($segs | any { |x| $x != "" }) { ansi green_bold } else { ansi green }
     $" ($color)\(($segs | str join '')($color)\)(ansi reset)"

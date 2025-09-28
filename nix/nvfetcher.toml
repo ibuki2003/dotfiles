@@ -44,3 +44,8 @@ fetch.github = "knurling-rs/defmt"
 src.git = "https://github.com/sevenc-nanashi/ccsum"
 fetch.github = "sevenc-nanashi/ccsum"
 cargo_locks = ["Cargo.lock"]
+
+[nu-plugin-bexpand]
+src.git = "https://forge.axfive.net/Taylor/nu-plugin-bexpand"
+fetch.git = "https://forge.axfive.net/Taylor/nu-plugin-bexpand.git"
+cargo_locks = ["Cargo.lock"]

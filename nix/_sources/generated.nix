@@ -115,6 +115,26 @@
     };
     date = "2025-07-15";
   };
+  nu-plugin-bexpand = {
+    pname = "nu-plugin-bexpand";
+    version = "c14f8d926fa34e7c1a1f5c7913e703858a7988ba";
+    src = fetchgit {
+      url = "https://forge.axfive.net/Taylor/nu-plugin-bexpand.git";
+      rev = "c14f8d926fa34e7c1a1f5c7913e703858a7988ba";
+      fetchSubmodules = false;
+      deepClone = false;
+      leaveDotGit = false;
+      sparseCheckout = [ ];
+      sha256 = "sha256-cpImnQGEU8sUXsjmwd8/0l9QB+7HZaKX+JA/Fkq3/10=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./nu-plugin-bexpand-c14f8d926fa34e7c1a1f5c7913e703858a7988ba/Cargo.lock;
+      outputHashes = {
+        
+      };
+    };
+    date = "2025-07-24";
+  };
   skkemoji = {
     pname = "skkemoji";
     version = "18ff911d0dc445dbc8fbc4c5122874d08e56781b";
