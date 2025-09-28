@@ -69,7 +69,7 @@
         wayland.enable = true;
         package = pkgs.qt6Packages.sddm; # default to qt5. why?
         extraPackages = [ ];
-        theme = "catppuccin-macchiato";
+        theme = "catppuccin-macchiato-mauve";
       };
       defaultSession = "sway";
     };
