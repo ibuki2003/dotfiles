@@ -170,7 +170,17 @@ in {
       nix-direnv.enable = true;
     };
 
-
+    nushell = {
+      enable = true;
+      configFile.text = "source ~/.config/nushell/conf.d/init.nu";
+      plugins = [
+        pkgs.nushellPlugins.gstat
+      ];
+    };
+    carapace = {
+      enable = true;
+      enableNushellIntegration = true;
+    };
   };
 
   services = {

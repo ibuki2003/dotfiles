@@ -1,0 +1,7 @@
+# these files are managed by nix
+config.nu
+env.nu
+plugin.msgpackz
+conf.d/local.nu
+
+history.txt
