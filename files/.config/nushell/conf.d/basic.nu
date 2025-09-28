@@ -67,3 +67,17 @@ export def clip [file?: string] {
     }
   }
 }
+
+# was `open` but that shadows the built-in command
+export def op [...files: glob] {
+  let inp = $in | default []
+  $inp ++ ($files | each {|g| glob $g} | flatten) | each {|f|
+    # xdg-open $f;
+    # disowning bg job is not supported: https://github.com/nushell/nushell/issues/15201
+    # HACK: use sh
+    let escaped = ^printf "%q" $f
+    ^sh -c $"nohup xdg-open ($escaped) >/dev/null 2>&1 & disown"
+    sleep 0.1sec # delay to keep order
+  }
+  ()
+}
