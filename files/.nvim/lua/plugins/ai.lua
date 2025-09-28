@@ -87,21 +87,23 @@ return {
           },
         },
         adapters = {
-          opts = {
-            show_defaults = false,
-            show_model_choices = true,
-          },
-          copilot = 'copilot',
-          -- openai = {},
+          http = {
+            opts = {
+              show_defaults = false,
+              show_model_choices = true,
+            },
+            copilot = 'copilot',
+            -- openai = {},
 
-          ["gpt-4.1"] = make_openai_adapter("gpt-4.1"),
-          ["gpt-4.1-mini"] = make_openai_adapter("gpt-4.1-mini"),
-          ["gpt-4.1-nano"] = make_openai_adapter("gpt-4.1-nano"),
-          ["gpt-5"] = make_openai_adapter("gpt-5"),
-          ["gpt-5-mini"] = make_openai_adapter("gpt-5-mini"),
-          ["gpt-5-nano"] = make_openai_adapter("gpt-5-nano"),
-          ["o3"] = make_openai_adapter("o3"),
-          ["o4-mini"] = make_openai_adapter("o4-mini"),
+            ["gpt-4.1"] = make_openai_adapter("gpt-4.1"),
+            ["gpt-4.1-mini"] = make_openai_adapter("gpt-4.1-mini"),
+            ["gpt-4.1-nano"] = make_openai_adapter("gpt-4.1-nano"),
+            ["gpt-5"] = make_openai_adapter("gpt-5"),
+            ["gpt-5-mini"] = make_openai_adapter("gpt-5-mini"),
+            ["gpt-5-nano"] = make_openai_adapter("gpt-5-nano"),
+            ["o3"] = make_openai_adapter("o3"),
+            ["o4-mini"] = make_openai_adapter("o4-mini"),
+          },
         },
       }
     end,
