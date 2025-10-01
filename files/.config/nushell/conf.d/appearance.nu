@@ -11,20 +11,35 @@ $env.config = $env.config | merge deep {
   },
 }
 
-let hostname = hostname
-$env.PROMPT_COMMAND = {||
-  let user_host = $"(if (is-admin) { ansi red_bold } else { ansi green_bold })[($env.USER)@($hostname)](ansi reset)"
+def with-timeout [tag: int, timeout: duration, block: closure] {
+  # pop all
+  let last = do { mut r = (); loop {
+    try { $r = job recv --tag $tag --timeout 0sec; } catch { break; }
+  }; $r }
 
-  let status = if ($env.LAST_EXIT_CODE == 0) { "" } else { $"(ansi red)\(($env.LAST_EXIT_CODE)\)(ansi reset) " }
-
-  let dir = match (do -i { $env.PWD | path relative-to $nu.home-path }) {
-    null => $env.PWD
-    '' => '~'
-    $relative_pwd => ([~ $relative_pwd] | path join)
+  # spawn a job
+  let id = job spawn {
+    # do $block | job send --tag $tag 0;
+    let r = do $block;
+    $r | job send --tag $tag 0;
   }
 
-  let s = (gstat)
-  let gs = if ($s.idx_added_staged < 0) {
+  # try to recv with timeout
+  do {
+    for $i in 1..($timeout // 1ms) {
+      try { return (job recv --tag $tag --timeout 1ms) } catch { }
+    }
+  } | default $last
+}
+
+# Lazy git status for prompt
+$env.PROMPT_GSTAT = ""
+$env.config.hooks.pre_prompt ++= [{
+  # let s = (gstat)
+  let s = with-timeout 42 100ms { gstat }
+  $env.PROMPT_GSTAT = if ($s == null) {
+    $env.PROMPT_GSTAT # keep previous value
+  } else if ($s == null or $s.idx_added_staged < 0) {
     ""
   } else {
     let segs = [
@@ -48,8 +63,21 @@ $env.PROMPT_COMMAND = {||
     let color = if ($segs | any { |x| $x != "" }) { ansi green_bold } else { ansi green }
     $" ($color)\(($segs | str join '')($color)\)(ansi reset)"
   }
+}]
 
-  $"($user_host)($status) ($dir)($gs)\n"
+let hostname = hostname
+$env.PROMPT_COMMAND = {||
+  let user_host = $"(if (is-admin) { ansi red_bold } else { ansi green_bold })[($env.USER)@($hostname)](ansi reset)"
+
+  let status = if ($env.LAST_EXIT_CODE == 0) { "" } else { $"(ansi red)\(($env.LAST_EXIT_CODE)\)(ansi reset) " }
+
+  let dir = match (do -i { $env.PWD | path relative-to $nu.home-path }) {
+    null => $env.PWD
+    '' => '~'
+    $relative_pwd => ([~ $relative_pwd] | path join)
+  }
+
+  $"($user_host)($status) ($dir)($env.PROMPT_GSTAT)\n"
 }
 $env.PROMPT_COMMAND_RIGHT = {|| "" }
 $env.PROMPT_INDICATOR = "% "
