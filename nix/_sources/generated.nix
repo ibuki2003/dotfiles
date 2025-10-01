@@ -87,15 +87,15 @@
   };
   defmt-print = {
     pname = "defmt-print";
-    version = "350356ece12edff74ca74d39dfb1eb73922ae022";
+    version = "42f40127a4fadb9d68f918f140f8fd7aff020787";
     src = fetchFromGitHub {
       owner = "knurling-rs";
       repo = "defmt";
-      rev = "350356ece12edff74ca74d39dfb1eb73922ae022";
+      rev = "42f40127a4fadb9d68f918f140f8fd7aff020787";
       fetchSubmodules = false;
-      sha256 = "sha256-Dq53NpGU0T5eoNQIVES0n4/YtK179fJoEdt9caDfxTE=";
+      sha256 = "sha256-vutQ12BiA+HY6Z/u8Ro0AUZoDGtNzg3qb2HMzQaLWC8=";
     };
-    date = "2025-09-12";
+    date = "2025-09-19";
   };
   memvis = {
     pname = "memvis";

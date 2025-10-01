@@ -5,7 +5,7 @@
         "extract": null,
         "name": "asd",
         "passthru": null,
-        "pinned": true,
+        "pinned": false,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -31,7 +31,7 @@
         "extract": null,
         "name": "cargo-asm",
         "passthru": null,
-        "pinned": true,
+        "pinned": false,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -57,7 +57,7 @@
         "extract": null,
         "name": "cargo-call-stack",
         "passthru": null,
-        "pinned": true,
+        "pinned": false,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -83,7 +83,7 @@
         "extract": null,
         "name": "cargo-disasm",
         "passthru": null,
-        "pinned": true,
+        "pinned": false,
         "src": {
             "deepClone": false,
             "fetchSubmodules": true,
@@ -109,7 +109,7 @@
         "extract": null,
         "name": "ccsum",
         "passthru": null,
-        "pinned": true,
+        "pinned": false,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -126,11 +126,11 @@
     },
     "defmt-print": {
         "cargoLocks": null,
-        "date": "2025-09-12",
+        "date": "2025-09-19",
         "extract": null,
         "name": "defmt-print",
         "passthru": null,
-        "pinned": true,
+        "pinned": false,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -138,12 +138,12 @@
             "name": null,
             "owner": "knurling-rs",
             "repo": "defmt",
-            "rev": "350356ece12edff74ca74d39dfb1eb73922ae022",
-            "sha256": "sha256-Dq53NpGU0T5eoNQIVES0n4/YtK179fJoEdt9caDfxTE=",
+            "rev": "42f40127a4fadb9d68f918f140f8fd7aff020787",
+            "sha256": "sha256-vutQ12BiA+HY6Z/u8Ro0AUZoDGtNzg3qb2HMzQaLWC8=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "350356ece12edff74ca74d39dfb1eb73922ae022"
+        "version": "42f40127a4fadb9d68f918f140f8fd7aff020787"
     },
     "memvis": {
         "cargoLocks": {
@@ -156,7 +156,7 @@
         "extract": null,
         "name": "memvis",
         "passthru": null,
-        "pinned": true,
+        "pinned": false,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -202,7 +202,7 @@
         "extract": null,
         "name": "skkemoji",
         "passthru": null,
-        "pinned": true,
+        "pinned": false,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
@@ -228,7 +228,7 @@
         "extract": null,
         "name": "slice",
         "passthru": null,
-        "pinned": true,
+        "pinned": false,
         "src": {
             "deepClone": false,
             "fetchSubmodules": false,
