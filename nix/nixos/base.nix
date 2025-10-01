@@ -106,7 +106,7 @@
       "uucp"
       "video"
     ];
-    shell = pkgs.nushell;
+    shell = pkgs.zsh;
   };
 
   # Allow unfree packages
