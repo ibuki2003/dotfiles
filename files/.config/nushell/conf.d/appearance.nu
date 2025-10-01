@@ -15,6 +15,8 @@ let hostname = hostname
 $env.PROMPT_COMMAND = {||
   let user_host = $"(if (is-admin) { ansi red_bold } else { ansi green_bold })[($env.USER)@($hostname)](ansi reset)"
 
+  let status = if ($env.LAST_EXIT_CODE == 0) { "" } else { $"(ansi red)\(($env.LAST_EXIT_CODE)\)(ansi reset) " }
+
   let dir = match (do -i { $env.PWD | path relative-to $nu.home-path }) {
     null => $env.PWD
     '' => '~'
@@ -47,7 +49,7 @@ $env.PROMPT_COMMAND = {||
     $" ($color)\(($segs | str join '')($color)\)(ansi reset)"
   }
 
-  $"($user_host) ($dir)($gs)\n"
+  $"($user_host)($status) ($dir)($gs)\n"
 }
 $env.PROMPT_COMMAND_RIGHT = {|| "" }
 $env.PROMPT_INDICATOR = "% "
