@@ -42,7 +42,6 @@ in {
       # tools
       android-tools
       atop
-      bat
       bottom
       clang-tools
       cmake
@@ -175,12 +174,22 @@ in {
       configFile.text = "source ~/.config/nushell/conf.d/init.nu";
       plugins = [
         pkgs.nushellPlugins.gstat
-        mypkgs.cargo_pkgs.nu-plugin-bexpand
+        # mypkgs.cargo_pkgs.nu-plugin-bexpand
       ];
     };
     carapace = {
       enable = true;
       enableNushellIntegration = true;
+    };
+
+    bat = {
+      enable = true;
+      syntaxes = {
+        # nushell = {
+        #   src = sources.sublime-text-nushell.src;
+        #   file = "nushell.sublime-syntax";
+        # };
+      };
     };
   };
 

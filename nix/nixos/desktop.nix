@@ -100,6 +100,13 @@
         '';
         destination = "/etc/udev/rules.d/90-picoprobe.rules";
       })
+      (pkgs.writeTextFile {
+        name = "sipeed-udev-rules";
+        text = ''
+        ATTRS{idVendor}=="359f", ATTRS{idProduct}=="3101", ENV{ID_MM_DEVICE_IGNORE}="1"
+        '';
+        destination = "/etc/udev/rules.d/49-sipeed.rules";
+      })
 
       (pkgs.writeTextFile {
         name = "xilinx-drivers";
