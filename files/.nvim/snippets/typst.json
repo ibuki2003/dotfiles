@@ -2,34 +2,14 @@
   "report_template": {
     "prefix": ["template"],
     "body": [
-      "#import \"@preview/physica:0.9.3\" as physica",
-      "#import \"@preview/codelst:2.0.0\": sourcefile",
+      "#import \"@preview/physica:0.9.3\": TT",
+      "#import \"@preview/codelst:2.0.2\": sourcecode, sourcefile",
+      "#import \"@fuwa/report:1.0.0\": template",
       "",
-      "#set page(paper: \"a4\")",
-      "#set text(",
-      "  lang: \"ja\",",
-      "  font: \"Hiragino Mincho ProN\",",
-      "  weight: \"regular\",",
-      "  size: 11pt,",
-      ")",
-      "",
-      "#set par(",
-      "  leading: 0.9em,",
-      "  first-line-indent: (amount: 1.0em, all: true),",
-      "  justify: true,",
-      ")",
-      "",
-      "#let heading_font(body) = {",
-      "  set text(",
-      "    font: \"Hiragino Kaku Gothic ProN\",",
-      "    weight: \"bold\",",
-      "  )",
-      "  set block(above: 1.4em, below: 1em)",
-      "  body",
-      "}",
-      "#show heading: heading_font",
-      "",
-      "#show math.equation.where(block: true) : set align(left)"
+      "#show: template.with(",
+      "  title: \"\",",
+      "  author: \"\",",
+      ")"
     ]
   }
 }
