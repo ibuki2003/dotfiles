@@ -30,6 +30,7 @@ vim.lsp.enable({
   'svlangserver',
   'denols', 'ts_ls',
   'ocamllsp',
+  'pest_ls',
 })
 
 local float_opts = {

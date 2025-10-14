@@ -70,12 +70,12 @@ return {
         },
         strategies = {
           chat = {
-            adapter = "gpt-4.1-mini",
+            adapter = "gpt-5-mini",
             keymaps = {
               clear = { modes = { n = {} } }, -- undef
             },
           },
-          inline = { adapter = "gpt-4.1-mini" },
+          inline = { adapter = "gpt-5-mini" },
         },
         display = {
           action_palette = { provider = "telescope" },

@@ -86,5 +86,9 @@ return {
     ft = { 'typst' },
     version = '1.*',
     opts = {}, -- lazy.nvim will implicitly calls `setup {}`
-  }
+  },
+  {
+    'pest-parser/pest.vim',
+    -- opts = {}, -- nvim-lspconfig supports pest-ls
+  },
 }
