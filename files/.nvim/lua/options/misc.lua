@@ -20,6 +20,17 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
   end,
 })
 
+-- format on save for specific filetypes
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
+  pattern = "*",
+  group = "fuwa",
+  callback = function()
+    if vim.bo.filetype == 'rust' then
+      vim.lsp.buf.format({ async = false })
+    end
+  end,
+})
+
 vim.api.nvim_create_autocmd({"QuickFixCmdPost"}, {
   pattern = "*grep*",
   group = "fuwa",
