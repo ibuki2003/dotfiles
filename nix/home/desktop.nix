@@ -63,6 +63,7 @@ in {
       imv
       inkscape
       kicad
+      kitty
       libreoffice-fresh
       mpv
       networkmanagerapplet

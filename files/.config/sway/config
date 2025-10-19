@@ -61,7 +61,7 @@ set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 
 floating_modifier $mod normal
-bindsym $mod+Return exec deno run --allow-run --allow-env ~/.config/sway/scripts/launch-term.ts alacritty
+bindsym $mod+Return exec deno run --allow-run --allow-env ~/.config/sway/scripts/launch-term.ts kitty
 
 bindsym $mod+Shift+q kill
 

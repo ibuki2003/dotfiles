@@ -28,3 +28,11 @@ export PNPM_HOME="/home/fuwa/.local/share/pnpm"
 export COREPACK_ENABLE_AUTO_PIN=0
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+
+# Kitty shell integration
+if test -n "$KITTY_INSTALLATION_DIR"; then
+  export KITTY_SHELL_INTEGRATION="enabled no-title" # title will be set by our zsh config
+  autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+  kitty-integration
+  unfunction kitty-integration
+fi

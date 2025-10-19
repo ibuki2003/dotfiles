@@ -49,7 +49,7 @@ async function get_focused_pwd(): Promise<string | null> {
   const app_id = node.app_id;
   if (!app_id) return null;
 
-  if (["Alacritty"].indexOf(app_id) != -1) {
+  if (["Alacritty", "kitty"].indexOf(app_id) != -1) {
     const match = node.name.match(/^\w+: (.+?)( : .+)?$/);
     if (!match) return null;
     return match[1];
@@ -58,8 +58,13 @@ async function get_focused_pwd(): Promise<string | null> {
 }
 
 async function main() {
+  if (Deno.args.length < 1) {
+    console.log("Usage: launch-term.ts [terminal-emulator]");
+    Deno.exit(1);
+  }
+
   const args: string[] = [];
-  args.push(Deno.args.length >= 1 ? Deno.args[0] : 'alacritty');
+  args.push(Deno.args[0]);
 
   const pwd = await get_focused_pwd();
   if (pwd) {
