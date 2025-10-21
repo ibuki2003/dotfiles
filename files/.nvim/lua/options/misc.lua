@@ -1,9 +1,9 @@
-vim.api.nvim_create_augroup("fuwa", {})
+local group = vim.api.nvim_create_augroup("fuwa", {})
 
 -- highlight ideographic space
 vim.api.nvim_create_autocmd({"BufNew", "BufRead"}, {
   pattern = "*",
-  group = "fuwa",
+  group = group,
   callback = function()
     vim.cmd[[
       syntax match InvisibleJISX0208Space "　" display containedin=ALL
@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd({"BufNew", "BufRead"}, {
 
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
   pattern = "*",
-  group = "fuwa",
+  group = group,
   callback = function()
     vim.fn.mkdir(vim.fn.expand("<afile>:p:h"), "p")
   end,
@@ -23,7 +23,7 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
 -- format on save for specific filetypes
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
   pattern = "*",
-  group = "fuwa",
+  group = group,
   callback = function()
     if vim.bo.filetype == 'rust' then
       vim.lsp.buf.format({ async = false })
@@ -33,7 +33,7 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
 
 vim.api.nvim_create_autocmd({"QuickFixCmdPost"}, {
   pattern = "*grep*",
-  group = "fuwa",
+  group = group,
   callback = function()
     vim.cmd("cwindow")
   end,
@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd({"QuickFixCmdPost"}, {
 
 vim.api.nvim_create_autocmd({"BufReadPost"}, {
   pattern = "*",
-  group = "fuwa",
+  group = group,
   callback = function()
     if vim.bo.filetype == "gitcommit" then return end
 
