@@ -79,7 +79,10 @@ in {
       skktools
       slack
       spotify
+      tdf
+      timg
       thunderbird-latest
+      viu
       vlc libaacs
       wdisplays
       zathura
