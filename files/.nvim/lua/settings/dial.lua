@@ -7,6 +7,7 @@ augends.group.default = {
   augend.integer.alias.decimal,
   augend.integer.alias.binary,
   augend.integer.alias.hex,
+  augend.misc.alias.markdown_header,
   augend.date.alias['%Y-%m-%d'],
   augend.date.alias['%Y/%m/%d'],
   augend.hexcolor.new{ case = "lower", }, -- TODO: preserve case
