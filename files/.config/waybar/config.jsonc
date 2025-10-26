@@ -147,11 +147,15 @@
         "format": "󰒮",
         "tooltip": false,
         "on-click": "playerctl -p playerctld previous",
+        "on-scroll-up": "playerctld shift",
+        "on-scroll-down": "playerctld unshift",
     },
     "custom/playerctl_next": {
         "format": "󰒭",
         "tooltip": false,
         "on-click": "playerctl -p playerctld next",
+        "on-scroll-up": "playerctld shift",
+        "on-scroll-down": "playerctld unshift",
     },
     "custom/mako": {
         "format": "{0}",
