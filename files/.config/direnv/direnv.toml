@@ -1,0 +1,3 @@
+[global]
+# show only "loading ~~" and "unloading" messages
+log_filter="loading"
