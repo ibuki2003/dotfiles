@@ -74,7 +74,7 @@ in {
       ranger
       remmina
       ripdrag
-      sdrpp
+      # sdrpp
       seahorse
       skktools
       slack
