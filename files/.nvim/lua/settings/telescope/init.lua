@@ -6,6 +6,10 @@ telescope.setup {
         ['<C-h>'] = 'which_key',
         ['<Esc>'] = 'close',
         ['<C-u>'] = false,
+        ['<Home>'] = function() vim.fn.cursor(0, 3) end, -- 3 to account for prompt
+        ['<End>'] = function() vim.fn.cursor(0, 1e6) end,
+        ['<C-a>'] = function() vim.fn.cursor(0, 3) end,
+        ['<C-e>'] = function() vim.fn.cursor(0, 1e6) end,
       },
     },
     path_display = {
