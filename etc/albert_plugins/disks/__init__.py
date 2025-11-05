@@ -8,9 +8,9 @@ from albert import *
 import time
 import json
 import subprocess
-import traceback
+# import traceback
 
-md_iid = "3.0"
+md_iid = "4.0"
 md_version = "1.6"
 md_name = "disks"
 md_description = "udisksctl mounting"
@@ -26,8 +26,8 @@ class Plugin(PluginInstance, GlobalQueryHandler):
     def __init__(self):
         PluginInstance.__init__(self)
         GlobalQueryHandler.__init__(self)
-        self.icon_mount = [f"file:{Path(__file__).parent}/usb.svg"]
-        self.icon_eject = [f"file:{Path(__file__).parent}/eject.svg"]
+        self.icon_mount = f"{Path(__file__).parent}/usb.svg"
+        self.icon_eject = f"{Path(__file__).parent}/eject.svg"
         self.client = None
 
         self.cache = []
@@ -126,7 +126,8 @@ class Plugin(PluginInstance, GlobalQueryHandler):
                         id=did,
                         text=f"{action_name} {d['label'] or ''} ({d['name']})",
                         subtext=f"{sizetext} {d['fstype'] or ''} {d['fsver'] or ''} {d['id']}",
-                        iconUrls=self.icon_mount if action_name == "Mount" else self.icon_eject,
+                        icon_factory=lambda: makeImageIcon(self.icon_mount if action_name == "Mount" else self.icon_eject),
+
                         actions=actions
                     ),
                     score=len(query.string)/len(did)

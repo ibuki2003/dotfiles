@@ -10,7 +10,7 @@ import subprocess
 import traceback
 import clipboard
 
-md_iid = "3.0"
+md_iid = "4.0"
 md_version = "1.6"
 md_name = "Yubikey"
 md_description = "Yubikey TOTP source"
@@ -27,7 +27,7 @@ class Plugin(PluginInstance, GlobalQueryHandler):
     def __init__(self):
         PluginInstance.__init__(self)
         GlobalQueryHandler.__init__(self)
-        self.icon = [f"file:{Path(__file__).parent}/yubikey.svg"]
+        self.icon = f"{Path(__file__).parent}/yubikey.svg"
 
         self.cache = []
         self.cache_at = 0
@@ -129,7 +129,7 @@ class Plugin(PluginInstance, GlobalQueryHandler):
                         id=name,
                         text=name,
                         subtext=f"Yubikey TOTP",
-                        iconUrls=self.icon,
+                        icon_factory=lambda: makeImageIcon(self.icon),
                         actions=actions
                     ),
                     score=score,
