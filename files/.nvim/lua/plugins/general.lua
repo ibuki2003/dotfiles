@@ -208,6 +208,7 @@ return {
   {
     '3rd/image.nvim',
     build = false,
+    event = { 'CursorMoved' },
     opts = {
       backend = "kitty",
       max_height_window_percentage = 30,

@@ -8,6 +8,7 @@ return {
       filetypes = {
         [""] = false,
         markdown = false,
+        typst = false,
       },
     },
   },

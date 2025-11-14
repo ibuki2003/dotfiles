@@ -44,6 +44,11 @@ return {
         method = "popup",
       }
       vim.g.matchup_matchparen_enabled = 1
+
+      -- Disable in markdown files due to performance issues
+      -- And... markdown files usually don't need such feature
+      -- https://github.com/andymass/vim-matchup/issues/416
+      vim.g.matchup_treesitter_disabled = { "markdown" }
     end,
     opts = {
       treesitter = { stopline = 500, },
