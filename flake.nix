@@ -76,6 +76,15 @@
           ./nix/home/desktop.nix
         ];
       };
+      headless = inputs.home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {
+          inherit inputs sources;
+        };
+        modules = [
+          ./nix/home/base.nix
+        ];
+      };
     };
 
     apps.${system} = {
