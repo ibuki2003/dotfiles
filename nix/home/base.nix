@@ -28,6 +28,11 @@ in {
     enableNixpkgsReleaseCheck = false;
 
     packages = with pkgs; [
+      # same as nixos; install them even in non-nixos system
+      vim
+      wget
+      gcc
+      cachix
 
       # nix tools
       nixfmt-rfc-style
@@ -93,7 +98,7 @@ in {
       pdftk
       picotool
       pnpm
-      poppler_utils
+      poppler-utils
       procs
       pv
       ripgrep
@@ -146,6 +151,7 @@ in {
       # python
       (python3.withPackages (ps: with ps; [
         pip
+        pipx
         numpy
         (matplotlib.override { enableQt = true; })
         scipy

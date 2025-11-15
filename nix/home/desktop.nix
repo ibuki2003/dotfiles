@@ -59,7 +59,7 @@ in {
       font-manager
       gimp-with-plugins
       httpie-desktop
-      imhex
+      # imhex
       imv
       inkscape
       kicad
