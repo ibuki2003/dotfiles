@@ -16,6 +16,12 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.kernelParams = [
+    # power save
+    "i915.enable_dc=4"
+    "i915.enable_fbc=1"
+    "i915.enable_guc=1"
+  ];
 
   boot.loader.systemd-boot = {
     enable = true;
@@ -88,6 +94,7 @@
     firewall.enable = false; # this machine is behind a router
     networkmanager = {
       dhcp = "dhcpcd";
+      wifi.powersave = true;
     };
   };
 

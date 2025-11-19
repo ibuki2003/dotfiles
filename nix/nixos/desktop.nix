@@ -18,6 +18,9 @@
   networking = {
     networkmanager.enable = true;
     networkmanager.dhcp = "dhcpcd";
+    networkmanager.plugins = with pkgs; [
+      networkmanager-openvpn
+    ];
     dhcpcd = {
       persistent = true;
     };
@@ -135,6 +138,7 @@
     pcscd.enable = true;
     playerctld.enable = true;
     udisks2.enable = true;
+    fwupd.enable = true;
   };
   systemd.services.tailscaled.serviceConfig.LogLevelMax = lib.mkForce 5;
 
