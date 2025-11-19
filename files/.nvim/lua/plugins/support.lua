@@ -18,6 +18,7 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter',
+    build = ":TSUpdate",
     config = function()
       require'nvim-treesitter.configs'.setup {
         highlight = {
@@ -38,6 +39,7 @@ return {
   },
   {
     'andymass/vim-matchup',
+    enabled = true,
     lazy = false,
     init = function()
       vim.g.matchup_matchparen_offscreen = {
@@ -50,6 +52,7 @@ return {
       -- https://github.com/andymass/vim-matchup/issues/416
       vim.g.matchup_treesitter_disabled = { "markdown" }
     end,
+    --@type matchup.Config
     opts = {
       treesitter = { stopline = 500, },
     },

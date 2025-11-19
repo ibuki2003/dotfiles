@@ -1,5 +1,10 @@
 -- servers
 
+if vim.fn.isdirectory('/tmp') then
+  -- store logs in /tmp (only if available)
+  vim.lsp.log._set_filename('/tmp/lsp.log')
+end
+
 vim.lsp.config('*', {
   capabilities = require('cmp_nvim_lsp').default_capabilities(),
 })

@@ -4,7 +4,6 @@ local M = {}
 
 M.get_node_root = lspconfig.util.root_pattern({
   "package.json",
-  "node_modules",
 })
 M.get_deno_root = function(fname)
   if M.get_node_root(fname) ~= nil then return end

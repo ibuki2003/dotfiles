@@ -22,7 +22,10 @@ return {
     lazy = false, -- use default
     priority = 10000,
     config = function()
-      require('palenight').setup({ italic = true })
+      require('palenight').setup({
+        italic = true,
+        cterm_palette = 256, -- NOTE: without this, auto detection takes long time
+      })
       vim.cmd[[colorscheme palenight]]
     end,
   },
