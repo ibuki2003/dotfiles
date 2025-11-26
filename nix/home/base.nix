@@ -81,6 +81,8 @@ in {
       lm_sensors
       lsof
       mbuffer
+      lua
+      luarocks
       minicom
       mold
       moreutils
@@ -197,6 +199,18 @@ in {
         # };
       };
     };
+
+    nh = {
+      enable = true;
+      flake = "/home/fuwa/dotfiles";
+      clean = {
+        enable = true;
+        dates = "weekly";
+        extraArgs = "--keep 3 --no-gcroots"; # keep 3 generations and ignore gcroots (to keep direnv caches)
+      };
+    };
+
+    nix-index-database.comma.enable = true;
   };
 
   services = {

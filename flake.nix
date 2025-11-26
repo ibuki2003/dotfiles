@@ -20,6 +20,9 @@
 
     lan-mouse = { url = "github:feschber/lan-mouse"; inputs.nixpkgs.follows = "nixpkgs"; };
 
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs = {
@@ -62,17 +65,18 @@
         inherit inputs sources;
       };
     })) {
-      fuwavermeer = { modules = [ ./nix/nixos/hosts/fuwavermeer.nix ]; };
-      fuwathink10 = { modules = [ ./nix/nixos/hosts/fuwathink10.nix ]; };
+      fuwavermeer-nix = { modules = [ ./nix/nixos/hosts/fuwavermeer.nix ]; };
+      fuwathink10-nix = { modules = [ ./nix/nixos/hosts/fuwathink10.nix ]; };
     };
 
     homeConfigurations = {
-      myHome = inputs.home-manager.lib.homeManagerConfiguration {
+      fuwa = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
           inherit inputs sources;
         };
         modules = [
+          inputs.nix-index-database.homeModules.nix-index
           ./nix/home/desktop.nix
         ];
       };
@@ -82,9 +86,12 @@
           inherit inputs sources;
         };
         modules = [
+          inputs.nix-index-database.homeModules.nix-index
           ./nix/home/base.nix
         ];
       };
+
+      # fuwa@host = headless; # aliases here like this
     };
 
     apps.${system} = {

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-if ! command -v home-manager &> /dev/null; then
-  exec nix-shell -p home-manager --run "$0" "$@"
-  exit 0
-fi
-
-home-manager --flake ".#myHome" "$@"
