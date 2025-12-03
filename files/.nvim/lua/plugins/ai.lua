@@ -50,10 +50,12 @@ return {
       { "<Space>cC", ":CodeCompanionChat<CR>", mode = { "n", "x" }, }, -- Start new chat
       { "<Space>ca", ":CodeCompanion<CR>", mode = { "n", "x" }, },
       { "<Space>cA", ":CodeCompanionActions<CR>", mode = { "n", "x" }, },
+      { "<Space>ch", ":CodeCompanionHistory<CR>", mode = { "n" }, },
     },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
+      "ravitemer/codecompanion-history.nvim",
     },
     init = function()
       vim.cmd[[cab cc CodeCompanion]]
@@ -126,6 +128,14 @@ return {
             ["gpt-5-nano"] = make_openai_adapter("gpt-5-nano"),
             ["o3"] = make_openai_adapter("o3"),
             ["o4-mini"] = make_openai_adapter("o4-mini"),
+          },
+        },
+        extensions = {
+          history = {
+            enabled = true,
+            opts = {
+              auto_generate_title = false,
+            },
           },
         },
       }

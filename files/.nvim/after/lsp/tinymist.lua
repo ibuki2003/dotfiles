@@ -8,4 +8,5 @@ return {
     },
     ["preview.background.enabled"] = true,
   },
+  capabilities = { offsetEncoding = { 'utf-16' } },
 }

@@ -64,22 +64,14 @@ return {
           })
         end
       },
+      {
+        "WilliamHsieh/overlook.nvim",
+        opts = {},
+      },
     },
     config = function()
       require('settings/lsp/config')
     end,
-  },
-  {
-    "folke/lazydev.nvim",
-    ft = "lua", -- only load on lua files
-    opts = {
-      library = {
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      },
-    },
-  },
-  {
-    'creativenull/efmls-configs-nvim',
   },
   {
     'hrsh7th/vim-vsnip',

@@ -57,6 +57,17 @@ vim.diagnostic.config({
 -- enable inlay hints by default
 vim.lsp.inlay_hint.enable(true, nil)
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+    -- tinymist semantic tokens seem broken, disable
+    if client and client.name == 'tinymist' then
+      client.server_capabilities.semanticTokensProvider = nil
+    end
+  end,
+})
+
 -- keybinds
 
 local function format_diagnostics_hover(diag)
@@ -67,7 +78,8 @@ local function format_diagnostics_hover(diag)
 end
 
 local maps = {
-  ['<leader>ld'] = function() vim.lsp.buf.definition() end,
+  ['<leader>lD'] = function() vim.lsp.buf.definition() end,
+  ['<leader>ld'] = function() require("overlook.api").peek_definition() end,
   ['<leader>lt'] = function() vim.lsp.buf.type_definition() end,
   ['<leader>lc'] = function() vim.lsp.buf.declaration() end,
   ['<leader>li'] = function() vim.lsp.buf.implementation() end,
