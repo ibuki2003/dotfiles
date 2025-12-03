@@ -120,7 +120,7 @@ class Plugin(PluginInstance, GlobalQueryHandler):
 
             for (name, score) in a:
                 actions = [
-                    Action("mount", "Mount",
+                    Action("copy_totp", "Copy TOTP to clipboard",
                            lambda c=name: self._copy_totp(c))
                 ]
 
