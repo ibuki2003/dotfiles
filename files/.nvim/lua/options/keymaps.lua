@@ -94,3 +94,73 @@ vim.keymap.set('n', '<Plug>(H)H', '<C-u>H<Plug>(H)')
 vim.keymap.set('n', '<Plug>(L)L', '<C-d>Lzb<Plug>(L)')
 vim.keymap.set('n', '<Plug>(H)', '<Nop>')
 vim.keymap.set('n', '<Plug>(L)', '<Nop>')
+
+
+-- inspired by magic.vim
+
+local cmdline_search_regex = vim.regex([[\%\(g\%[lobal]!?\|v\%[global]\|sort\? *[a-z]*\|s\%[ubstitute]\) *\/\zs\%\([^\\/]\|\\.\)\+\ze\%\(\/\|$\)]])
+--- @param replacer fun(old: string): string?
+local function search_transform(replacer)
+  -- `/` `?` `:`
+  local ty = vim.fn.getcmdtype()
+  if ty == ':' then
+    local cmdline = vim.fn.getcmdline()
+    -- print(vim.inspect(cmdline))
+    local s, e = cmdline_search_regex:match_str(cmdline)
+    print(vim.inspect({s, e}))
+    if s then
+      local old = cmdline:sub(s + 1, e)
+      local new = replacer(old)
+      if new then
+        local new_cmdline = cmdline:sub(1, s) .. new .. cmdline:sub(e + 1)
+        vim.fn.setcmdline(new_cmdline)
+      end
+    end
+  elseif ty == '/' or ty == '?' then
+    local old = vim.fn.getcmdline()
+    local new = replacer(old)
+    if new then
+      vim.fn.setcmdline(new)
+    end
+  end
+end
+
+--- @param prefixes string[]
+local function rotate_mode_fun(prefixes)
+  --- @param old string
+  return function(old)
+    for i, p in ipairs(prefixes) do
+      local pos = old:find(p, 1, true)
+      if pos then
+        local next_p = (i < #prefixes) and prefixes[i + 1] or ''
+        return old:sub(1, pos - 1) .. next_p .. old:sub(pos + #p)
+      end
+    end
+    -- not found, add first
+    return prefixes[1] .. old
+  end
+end
+
+-- magic
+vim.keymap.set('c', '<C-v>', function()
+  search_transform(rotate_mode_fun({'\\v', '\\V'}))
+end)
+
+-- case
+vim.keymap.set('c', '<C-c>', function()
+  search_transform(rotate_mode_fun({'\\c', '\\C'}))
+end)
+
+-- whole word
+vim.keymap.set('c', '<C-w>', function()
+  search_transform(function (old)
+    -- toggle \< \>
+    -- if old contains \< or \>
+    if old:find('\\<', 1, true) or old:find('\\>', 1, true) then
+      local new = old:gsub('\\<', ''):gsub('\\>', '')
+      return new
+    else
+      return '\\<' .. old .. '\\>'
+    end
+  end)
+end)
