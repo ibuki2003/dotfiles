@@ -2,7 +2,7 @@
   pkgs,
   sources,
   lib,
-  inputs,
+  # inputs,
   ...
 }: let
   username = "fuwa";
@@ -10,7 +10,6 @@
 in {
   imports = [
     ./base.nix
-    inputs.lan-mouse.homeManagerModules.default
   ];
 
   nixpkgs = {
@@ -64,6 +63,7 @@ in {
       inkscape
       kicad
       kitty
+      lan-mouse
       libreoffice-fresh
       mpv
       networkmanagerapplet
@@ -165,11 +165,6 @@ in {
 
   services.kdeconnect.enable = true;
   systemd.user.services.kdeconnect.Service.Restart = lib.mkForce "always";
-
-  programs.lan-mouse = {
-    enable = true;
-  };
-  systemd.user.services.lan-mouse.Service.Environment = "LAN_MOUSE_LOG_LEVEL=warn";
 
   i18n.inputMethod = {
     enable = true;
