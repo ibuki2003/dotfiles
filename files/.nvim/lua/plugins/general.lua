@@ -205,23 +205,4 @@ return {
     'thinca/vim-qfreplace',
     ft = { 'qf' },
   },
-  {
-    '3rd/image.nvim',
-    build = false,
-    event = { 'CursorMoved' },
-    opts = {
-      backend = "kitty",
-      max_height_window_percentage = 30,
-      integrations = {
-        markdown = {
-          only_render_image_at_cursor = true,
-          only_render_image_at_cursor_mode = "popup",
-        },
-        typst = {
-          only_render_image_at_cursor = true,
-          only_render_image_at_cursor_mode = "popup",
-        },
-      },
-    },
-  },
 }
