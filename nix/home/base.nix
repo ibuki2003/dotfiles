@@ -54,7 +54,7 @@ in {
       deno
       dex
       dig
-      dogdns
+      doggo
       edir
       exiftool
       eza
