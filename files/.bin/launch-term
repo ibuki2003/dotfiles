@@ -1,0 +1,131 @@
+#!/usr/bin/env -S deno run --allow-run --allow-env
+/* vim: set ft=typescript : */
+import shell_escape from "https://deno.land/x/shell_escape@1.0.0/index.ts";
+
+type WindowInfo = { title: string; app_id: string | undefined };
+
+function get_pwd_from_window({ title, app_id }: WindowInfo): string | null {
+  if (app_id && ["Alacritty", "kitty"].indexOf(app_id) != -1) {
+    const match = title.match(/^\w+: (.+?)( : .+)?$/);
+    if (!match) return null;
+    return match[1];
+  }
+  return null;
+}
+
+async function sway_get_focused(): Promise<WindowInfo | null> {
+  type SwayNode = {
+    id: number;
+    type: string;
+    name: string;
+    focused: boolean;
+
+    app_id?: string;
+
+    nodes: SwayNode[];
+    floating_nodes: SwayNode[];
+  };
+
+  function* get_child_nodes(node: SwayNode): Generator<SwayNode> {
+    yield node;
+    for (const child of node.nodes) { yield* get_child_nodes(child); }
+    for (const child of node.floating_nodes) { yield* get_child_nodes(child); }
+  }
+
+  async function* get_nodes(): AsyncGenerator<SwayNode> {
+    const tree_p = new Deno.Command("swaymsg", {
+      args: ["-t", "get_tree"],
+      stdout: "piped",
+    });
+
+    const j = JSON.parse(await (tree_p.output().then(s => new TextDecoder().decode(s.stdout))));
+    yield* get_child_nodes(j);
+  }
+
+  async function get_focused_node() {
+    for await (const node of get_nodes()) {
+      if (node.focused) {
+        return node;
+      }
+    }
+  }
+
+
+  const node = await get_focused_node();
+
+  if (!node) return null;
+
+  return { title: node.name, app_id: node.app_id };
+}
+
+async function sway_run_cmd(args: string[]) {
+  await (new Deno.Command("swaymsg", {
+    args: ["exec", shell_escape(args)],
+  })).spawn().status;
+}
+
+async function niri_get_focused_title(): Promise<WindowInfo | null> {
+  const niri_p = new Deno.Command("niri", {
+    args: ["msg", "-j", "focused-window"],
+    stdout: "piped",
+  });
+  const j = JSON.parse(await (niri_p.output().then(s => new TextDecoder().decode(s.stdout))));
+  return j ? { title: j.title, app_id: j.app_id } : null;
+}
+
+async function niri_run_cmd(args: string[]) {
+  await (new Deno.Command("niri", {
+    args: ["msg", "action", "spawn", "--"].concat(args),
+  })).spawn().status;
+}
+
+
+async function main() {
+  if (Deno.args.length < 1) {
+    console.log("Usage: launch-term [terminal-emulator]");
+    Deno.exit(1);
+  }
+
+  const wm = Deno.env.get("XDG_CURRENT_DESKTOP") ?? "";
+
+  let window;
+  switch (wm) {
+    case "sway": {
+      window = await sway_get_focused();
+      break;
+    }
+    case "niri": {
+      window = await niri_get_focused_title();
+      break;
+    }
+    default: {
+      window = null;
+    }
+  }
+
+  const args: string[] = [];
+  args.push(Deno.args[0]);
+
+  const pwd = window ? get_pwd_from_window(window) : null;
+  if (pwd) {
+    args.push("--working-directory", pwd.replace(/^~/, Deno.env.get("HOME") || ''));
+  }
+
+  console.log("exec " + shell_escape(args));
+
+  switch (wm) {
+    case "sway": {
+      await sway_run_cmd(args);
+      break;
+    }
+    case "niri": {
+      await niri_run_cmd(args);
+      break;
+    }
+    default: {
+      console.error("Unsupported WM: " + wm);
+    }
+  }
+}
+
+main();
