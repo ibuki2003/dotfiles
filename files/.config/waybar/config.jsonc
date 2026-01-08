@@ -6,10 +6,12 @@
     // Choose the order of the modules
     "modules-left": [
         "sway/workspaces",
+        "niri/workspaces",
         "sway/mode",
     ],
     "modules-center": [
         "sway/window",
+        "niri/window",
     ],
     "modules-right": [
         "custom/playerctl_prev",
@@ -31,6 +33,9 @@
         "disable-scroll": true,
         "all-outputs": false,
     },
+    "niri/workspaces": {
+      "format": "{index}{name}",
+    },
 
     "sway/window": {
         "format": "({app_id}/{shell}) {title}",
@@ -40,8 +45,14 @@
         "all-outputs": true,
     },
     "sway/mode": {
-        "format": "{}"
+        "format": "{}",
     },
+    "niri/window": {
+      "format": "{}",
+        "icon": true,
+        "icon-size": 16,
+    },
+
     "tray": {
         "icon-size": 16,
         "spacing": 5,

@@ -58,12 +58,20 @@
       # background = "/etc/nixos/sddm-bg.png";
       background = "/etc/nixos/sddm-bg.png" + "\"'; true '"; # HACK: shell injection. waiting for NixOS/nixpkgs#442829
     })
+
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-gnome
+    xwayland-satellite
+
   ];
 
   services = {
 
     xserver = {
       enable = true;
+
+      # https://wiki.nixos.org/wiki/Fcitx5#Fcitx5_Doesn't_Start_When_Using_WM
+      desktopManager.runXdgAutostartIfNone = true;
     };
 
     displayManager = {
@@ -74,7 +82,7 @@
         extraPackages = [ ];
         theme = "catppuccin-macchiato-mauve";
       };
-      defaultSession = "sway";
+      defaultSession = "niri";
     };
 
     # Enable CUPS to print documents.
@@ -164,6 +172,7 @@
     xwayland = {
       enable = true;
     };
+    niri.enable = true;
 
     obs-studio = {
       enable = true;
