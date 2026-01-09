@@ -173,6 +173,21 @@
       enable = true;
     };
     niri.enable = true;
+    niri.package = pkgs.niri.overrideAttrs (finalAttrs: prevAttrs: {
+      # patch to enable blur effect
+      # #1634 https://github.com/visualglitch91/niri/tree/feat/blur
+      src = pkgs.fetchFromGitHub {
+        owner = "visualglitch91";
+        repo = "niri";
+        rev = "d89bfc6c94aee3af14c35508e7c110c0ea8f1682";
+        hash = "sha256-2EggcED68efzYJAG5VqGshh+hfQbQq5sRvrtT1NNPo8=";
+      };
+      cargoHash = "sha256-CXRI9LBmP2YXd2Kao9Z2jpON+98n2h7m0zQVVTuwqYQ=";
+      cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+        inherit (finalAttrs) pname src version;
+        hash = finalAttrs.cargoHash;
+      };
+    });
 
     obs-studio = {
       enable = true;
