@@ -27,6 +27,18 @@ in {
       qt5.qtbase
       qt6.qtbase
 
+      # desktop tools
+      brightnessctl
+      dmenu-wayland
+      grim
+      mako
+      rofi
+      waybar
+      wob
+      sway-contrib.grimshot
+      swaybg
+      nirius
+
       # tools
       appimage-run
       libsecret

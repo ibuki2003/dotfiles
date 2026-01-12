@@ -155,17 +155,6 @@
       enable = true;
       package = pkgs.swayfx;
 
-      extraPackages = with pkgs; [
-        brightnessctl
-        dmenu-wayland
-        grim
-        mako
-        rofi
-        waybar
-        wob
-        sway-contrib.grimshot
-        swaybg
-      ];
       extraSessionCommands = "export XMODIFIERS=@im=fcitx";
       xwayland.enable = true;
     };
