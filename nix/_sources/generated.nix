@@ -69,33 +69,33 @@
   };
   ccsum = {
     pname = "ccsum";
-    version = "d23b076cda5bdf59e1137d9a6bcd3df58064b561";
+    version = "d7ec759c37ffa5164a4395e74e4c7338ebe25fc4";
     src = fetchFromGitHub {
       owner = "sevenc-nanashi";
       repo = "ccsum";
-      rev = "d23b076cda5bdf59e1137d9a6bcd3df58064b561";
+      rev = "d7ec759c37ffa5164a4395e74e4c7338ebe25fc4";
       fetchSubmodules = false;
-      sha256 = "sha256-jTQUycDfpsx34G7/uv1Fvqik4AXZ1Zc5Nz2s1GbKT0k=";
+      sha256 = "sha256-iaxxwa+yLmQXPMW+FLhT9RjEv2KwXMvRGp08Lsw4UMk=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./ccsum-d23b076cda5bdf59e1137d9a6bcd3df58064b561/Cargo.lock;
+      lockFile = ./ccsum-d7ec759c37ffa5164a4395e74e4c7338ebe25fc4/Cargo.lock;
       outputHashes = {
         
       };
     };
-    date = "2025-07-07";
+    date = "2026-01-16";
   };
   defmt-print = {
     pname = "defmt-print";
-    version = "42f40127a4fadb9d68f918f140f8fd7aff020787";
+    version = "023449c35f68b9dfc2e00437e47353755d5189ef";
     src = fetchFromGitHub {
       owner = "knurling-rs";
       repo = "defmt";
-      rev = "42f40127a4fadb9d68f918f140f8fd7aff020787";
+      rev = "023449c35f68b9dfc2e00437e47353755d5189ef";
       fetchSubmodules = false;
-      sha256 = "sha256-vutQ12BiA+HY6Z/u8Ro0AUZoDGtNzg3qb2HMzQaLWC8=";
+      sha256 = "sha256-kmnU7PCTtSJ6b/wNrR+38t29yf+KjWLRmGUZXW2/DsI=";
     };
-    date = "2025-09-19";
+    date = "2025-12-12";
   };
   memvis = {
     pname = "memvis";
@@ -117,23 +117,23 @@
   };
   nu-plugin-bexpand = {
     pname = "nu-plugin-bexpand";
-    version = "c14f8d926fa34e7c1a1f5c7913e703858a7988ba";
+    version = "07111c423a1a5e013eb108253068ee36dfcbbfbb";
     src = fetchgit {
       url = "https://forge.axfive.net/Taylor/nu-plugin-bexpand.git";
-      rev = "c14f8d926fa34e7c1a1f5c7913e703858a7988ba";
+      rev = "07111c423a1a5e013eb108253068ee36dfcbbfbb";
       fetchSubmodules = false;
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-cpImnQGEU8sUXsjmwd8/0l9QB+7HZaKX+JA/Fkq3/10=";
+      sha256 = "sha256-PWwE+blEc4/LppIyyF4V6t4GmwJgpyWHgnPXVzwfAm0=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./nu-plugin-bexpand-c14f8d926fa34e7c1a1f5c7913e703858a7988ba/Cargo.lock;
+      lockFile = ./nu-plugin-bexpand-07111c423a1a5e013eb108253068ee36dfcbbfbb/Cargo.lock;
       outputHashes = {
         
       };
     };
-    date = "2025-07-24";
+    date = "2025-11-29";
   };
   skkemoji = {
     pname = "skkemoji";

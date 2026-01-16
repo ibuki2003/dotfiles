@@ -101,11 +101,11 @@
     "ccsum": {
         "cargoLocks": {
             "Cargo.lock": [
-                "./ccsum-d23b076cda5bdf59e1137d9a6bcd3df58064b561/Cargo.lock",
+                "./ccsum-d7ec759c37ffa5164a4395e74e4c7338ebe25fc4/Cargo.lock",
                 {}
             ]
         },
-        "date": "2025-07-07",
+        "date": "2026-01-16",
         "extract": null,
         "name": "ccsum",
         "passthru": null,
@@ -117,16 +117,16 @@
             "name": null,
             "owner": "sevenc-nanashi",
             "repo": "ccsum",
-            "rev": "d23b076cda5bdf59e1137d9a6bcd3df58064b561",
-            "sha256": "sha256-jTQUycDfpsx34G7/uv1Fvqik4AXZ1Zc5Nz2s1GbKT0k=",
+            "rev": "d7ec759c37ffa5164a4395e74e4c7338ebe25fc4",
+            "sha256": "sha256-iaxxwa+yLmQXPMW+FLhT9RjEv2KwXMvRGp08Lsw4UMk=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "d23b076cda5bdf59e1137d9a6bcd3df58064b561"
+        "version": "d7ec759c37ffa5164a4395e74e4c7338ebe25fc4"
     },
     "defmt-print": {
         "cargoLocks": null,
-        "date": "2025-09-19",
+        "date": "2025-12-12",
         "extract": null,
         "name": "defmt-print",
         "passthru": null,
@@ -138,12 +138,12 @@
             "name": null,
             "owner": "knurling-rs",
             "repo": "defmt",
-            "rev": "42f40127a4fadb9d68f918f140f8fd7aff020787",
-            "sha256": "sha256-vutQ12BiA+HY6Z/u8Ro0AUZoDGtNzg3qb2HMzQaLWC8=",
+            "rev": "023449c35f68b9dfc2e00437e47353755d5189ef",
+            "sha256": "sha256-kmnU7PCTtSJ6b/wNrR+38t29yf+KjWLRmGUZXW2/DsI=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "42f40127a4fadb9d68f918f140f8fd7aff020787"
+        "version": "023449c35f68b9dfc2e00437e47353755d5189ef"
     },
     "memvis": {
         "cargoLocks": {
@@ -174,11 +174,11 @@
     "nu-plugin-bexpand": {
         "cargoLocks": {
             "Cargo.lock": [
-                "./nu-plugin-bexpand-c14f8d926fa34e7c1a1f5c7913e703858a7988ba/Cargo.lock",
+                "./nu-plugin-bexpand-07111c423a1a5e013eb108253068ee36dfcbbfbb/Cargo.lock",
                 {}
             ]
         },
-        "date": "2025-07-24",
+        "date": "2025-11-29",
         "extract": null,
         "name": "nu-plugin-bexpand",
         "passthru": null,
@@ -188,13 +188,13 @@
             "fetchSubmodules": false,
             "leaveDotGit": false,
             "name": null,
-            "rev": "c14f8d926fa34e7c1a1f5c7913e703858a7988ba",
-            "sha256": "sha256-cpImnQGEU8sUXsjmwd8/0l9QB+7HZaKX+JA/Fkq3/10=",
+            "rev": "07111c423a1a5e013eb108253068ee36dfcbbfbb",
+            "sha256": "sha256-PWwE+blEc4/LppIyyF4V6t4GmwJgpyWHgnPXVzwfAm0=",
             "sparseCheckout": [],
             "type": "git",
             "url": "https://forge.axfive.net/Taylor/nu-plugin-bexpand.git"
         },
-        "version": "c14f8d926fa34e7c1a1f5c7913e703858a7988ba"
+        "version": "07111c423a1a5e013eb108253068ee36dfcbbfbb"
     },
     "skkemoji": {
         "cargoLocks": null,
