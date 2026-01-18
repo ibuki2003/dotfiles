@@ -83,6 +83,10 @@ in {
       obs-studio
       pavucontrol
       prismlauncher
+      (quickshell.overrideAttrs (oldAttrs: {
+        src = sources.quickshell.src;
+        buildInputs = oldAttrs.buildInputs ++ [ pkgs.polkit ];
+      }))
       ranger
       remmina
       ripdrag

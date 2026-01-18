@@ -49,3 +49,7 @@ cargo_locks = ["Cargo.lock"]
 src.git = "https://forge.axfive.net/Taylor/nu-plugin-bexpand"
 fetch.git = "https://forge.axfive.net/Taylor/nu-plugin-bexpand.git"
 cargo_locks = ["Cargo.lock"]
+
+[quickshell]
+src.git = "https://git.outfoxxed.me/quickshell/quickshell.git"
+fetch.git = "https://git.outfoxxed.me/quickshell/quickshell.git"

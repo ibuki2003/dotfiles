@@ -36,6 +36,7 @@ vim.lsp.enable({
   'denols', 'ts_ls',
   'ocamllsp',
   'pest_ls',
+  'qmlls',
 })
 
 local float_opts = {

@@ -135,6 +135,20 @@
     };
     date = "2025-11-29";
   };
+  quickshell = {
+    pname = "quickshell";
+    version = "d03c59768c680f052dff6e7a7918bbf990b0f743";
+    src = fetchgit {
+      url = "https://git.outfoxxed.me/quickshell/quickshell.git";
+      rev = "d03c59768c680f052dff6e7a7918bbf990b0f743";
+      fetchSubmodules = false;
+      deepClone = false;
+      leaveDotGit = false;
+      sparseCheckout = [ ];
+      sha256 = "sha256-DxN7v8g8DO8gGJmgBJMo3fsSR3HEs+DFCXeKeHq61zA=";
+    };
+    date = "2026-01-15";
+  };
   skkemoji = {
     pname = "skkemoji";
     version = "18ff911d0dc445dbc8fbc4c5122874d08e56781b";

@@ -318,7 +318,7 @@ window-rule {
 
 
 spawn-at-startup "niriusd"
-spawn-at-startup "waybar"
+spawn-at-startup "quickshell"
 spawn-at-startup "nm-applet"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "copyq"
