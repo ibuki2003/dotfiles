@@ -147,6 +147,7 @@
     playerctld.enable = true;
     udisks2.enable = true;
     fwupd.enable = true;
+    upower.enable = true;
   };
   systemd.services.tailscaled.serviceConfig.LogLevelMax = lib.mkForce 5;
 

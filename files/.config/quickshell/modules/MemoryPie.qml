@@ -10,7 +10,7 @@ WrapperMouseArea {
   hoverEnabled: true
   margin: 0
   CircularChart {
-    size: 30
+    size: parent.height
     icon: ''
     percentage: SystemLoad.memoryUsage / SystemLoad.memoryTotal
   }

@@ -61,6 +61,8 @@ PanelWindow {
 
         MemoryPie { }
 
+        Battery { }
+
         RunCat { }
 
       }
