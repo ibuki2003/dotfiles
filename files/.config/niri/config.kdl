@@ -150,8 +150,6 @@ binds {
     Mod+End  { focus-column-last; }
     Mod+Shift+Home { move-column-to-first; }
     Mod+Shift+End  { move-column-to-last; }
-    Mod+Ctrl+Shift+Home { move-column-to-monitor-next; }
-    Mod+Ctrl+Shift+End  { move-column-to-monitor-previous; }
 
     Mod+Ctrl+Left  { focus-monitor-left; }
     Mod+Ctrl+Down  { focus-monitor-down; }
@@ -162,14 +160,14 @@ binds {
     Mod+Ctrl+K     { focus-monitor-up; }
     Mod+Ctrl+L     { focus-monitor-right; }
 
-    Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
-    Mod+Shift+Ctrl+Down  { move-workspace-to-monitor-down; }
-    Mod+Shift+Ctrl+Up    { move-workspace-to-monitor-up; }
-    Mod+Shift+Ctrl+Right { move-workspace-to-monitor-right; }
-    Mod+Shift+Ctrl+H     { move-workspace-to-monitor-left; }
-    Mod+Shift+Ctrl+J     { move-workspace-to-monitor-down; }
-    Mod+Shift+Ctrl+K     { move-workspace-to-monitor-up; }
-    Mod+Shift+Ctrl+L     { move-workspace-to-monitor-right; }
+    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
 
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
@@ -184,6 +182,9 @@ binds {
     Mod+Ctrl+Page_Up   { move-workspace-up; }
     Mod+Ctrl+U         { move-workspace-down; }
     Mod+Ctrl+I         { move-workspace-up; }
+
+    Mod+Shift+Ctrl+Page_Down { move-workspace-to-monitor-next; }
+    Mod+Shift+Ctrl+Page_Up   { move-workspace-to-monitor-previous; }
 
     Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
     Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
