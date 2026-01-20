@@ -8,6 +8,7 @@ import Quickshell.Widgets
 import qs
 import qs.modules
 import qs.modules.niri
+import qs.modules.network
 
 PanelWindow {
   id: root
@@ -53,7 +54,7 @@ PanelWindow {
         height: root.panelHeight
 
         radius: height / 2
-        width: leftItems.width + 16
+        width: leftItems.width + 32
 
         RowLayout {
           id: leftItems
@@ -71,6 +72,8 @@ PanelWindow {
           Battery { }
 
           RunCat { }
+
+          NwIndicator { }
 
         }
       }

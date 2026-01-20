@@ -3,6 +3,7 @@ import Quickshell.Widgets
 import QtQuick
 import qs.components
 import qs.modules.niri
+import Quickshell.Networking
 
 WrapperMouseArea {
   id: root
