@@ -27,12 +27,13 @@ WrapperMouseArea {
   hoverEnabled: true
   cursorShape: Qt.PointingHandCursor
 
+  function isIgnoredPlayer(player) {
+    if (player.dbusName.endsWith(".playerctld")) return true
+    if (player.dbusName.includes("firefox.instance")) return true
+    return false
+  }
+
   onWheel: (wheel) => {
-    function isIgnoredPlayer(player) {
-      if (player.dbusName.endsWith(".playerctld")) return true
-      if (player.dbusName.includes("firefox.instance")) return true
-      return false
-    }
     function scroll(delta) {
       if (root.playerCount === 0) return;
       let limit = root.playerCount;
@@ -64,7 +65,7 @@ WrapperMouseArea {
 
   Item {
     id: inner
-    anchors.left: parent.left
+    anchors.left: root.left
 
     readonly property real gap: 4
 
@@ -210,4 +211,59 @@ WrapperMouseArea {
     }
   }
 
+  // watch for player changes
+  // focus on changes in isPlaying and trackTitle
+
+  property var _prevStates: ({})
+
+  function selectPlayerIfChanged(idx) {
+    const p = Mpris.players.values[idx]
+    if (!p) return
+    if (isIgnoredPlayer(p)) return;
+
+    if (root._prevStates[idx] === undefined) {
+      root.playerIndex = idx
+    } else {
+      const prev = root._prevStates[idx]
+      if (prev.isPlaying !== p.isPlaying || prev.trackTitle !== p.trackTitle) {
+        root.playerIndex = idx
+      }
+    }
+    root._prevStates[idx] = { isPlaying: p.isPlaying, trackTitle: p.trackTitle }
+  }
+
+  Connections {
+    target: Mpris.players
+    function onObjectInsertedPost(_, idx) {
+      selectPlayerIfChanged(idx)
+    }
+    function onObjectRemovedPre(_, idx) {
+      if (root.playerIndex === idx) {
+        root.playerIndex = 0
+      }
+    }
+  }
+
+  Instantiator {
+    id: playerWatcher
+    model: Array.from({length: Mpris.players.values.length}).map((_, i) => ({index: i, player: Mpris.players.values[i]}))
+
+    delegate: QtObject {
+      id: watcheritem
+      // visible: false
+      required property var modelData
+
+      property bool isPlaying: modelData?.player?.isPlaying
+      onIsPlayingChanged: {
+        selectPlayerIfChanged(modelData.index)
+      }
+
+      property var conn: Connections {
+        target: modelData.player
+        function onTrackChanged() {
+          selectPlayerIfChanged(modelData.index)
+        }
+      }
+    }
+  }
 }
