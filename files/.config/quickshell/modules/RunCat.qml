@@ -16,11 +16,20 @@ WrapperMouseArea {
   readonly property int frameCount: 5
   property int currentFrame: 0
   Timer {
-    interval: 200 / (1.0 + SystemLoad.cpuUsage / 100.0 * 0.3)
+    interval: 200
     running: true
     repeat: true
     onTriggered: {
       root.currentFrame = (root.currentFrame + 1) % root.frameCount
+      interval = 1000 / framerate
+    }
+
+    property real framerate: (1.0 + SystemLoad.cpuUsage / 100.0 * 0.2) * 2.5
+    Behavior on framerate {
+      NumberAnimation {
+        duration: 500
+        easing.type: Easing.OutQuad
+      }
     }
   }
 
