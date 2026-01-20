@@ -47,6 +47,7 @@ in {
       pulseaudio-ctl
       qrencode
       swayidle
+      hyprlock
       swaylock-effects
       wayvnc
       wl-clipboard

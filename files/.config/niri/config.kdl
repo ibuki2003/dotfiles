@@ -279,7 +279,7 @@ binds {
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
 
-    Mod+Escape { spawn "swaylock"; }
+    Mod+Escape { spawn "hyprlock"; }
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+Escape { power-off-monitors; }
@@ -325,5 +325,6 @@ spawn-at-startup "blueman-applet"
 spawn-at-startup "copyq"
 spawn-at-startup "albert"
 spawn-at-startup "kdeconnect-indicator"
+spawn-sh-at-startup "swayidle -w before-sleep hyprlock"
 
 include optional=true "local-config.kdl"
