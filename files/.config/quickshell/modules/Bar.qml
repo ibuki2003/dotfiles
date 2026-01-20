@@ -12,9 +12,6 @@ import qs.modules.niri
 PanelWindow {
   id: root
 
-  required property var modelData
-  screen: modelData
-
   // niri overview feature renders windows on "overlay" layer with no scaling
   WlrLayershell.layer: WlrLayershell.Bottom
 
@@ -37,34 +34,66 @@ PanelWindow {
     anchors.fill: parent
     clip: true
 
-    Rectangle {
+    Item {
       id: leftContainer
-      color: Style.themeBackground
+
+      implicitWidth: leftCapsule1.width + leftCapsule2.width + root.capsuleGap + root.capsuleGap
+      height: parent.height
+
       anchors.left: parent.left
       anchors.verticalCenter: parent.verticalCenter
       anchors.leftMargin: root.capsuleGap
-      height: root.panelHeight
 
-      radius: height / 2
-      width: leftItems.width + 16
-
-      RowLayout {
-        id: leftItems
-        height: parent.height
-
-        anchors.horizontalCenter: parent.horizontalCenter
+      Rectangle {
+        id: leftCapsule1
         anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
 
-        ClockWidget { }
+        color: Style.themeBackground
+        height: root.panelHeight
 
-        Volume { }
+        radius: height / 2
+        width: leftItems.width + 16
 
-        MemoryPie { }
+        RowLayout {
+          id: leftItems
+          height: parent.height
 
-        Battery { }
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.verticalCenter: parent.verticalCenter
 
-        RunCat { }
+          ClockWidget { }
 
+          Volume { }
+
+          MemoryPie { }
+
+          Battery { }
+
+          RunCat { }
+
+        }
+      }
+
+      // second capsule for workspaces
+      WrapperRectangle {
+        id: leftCapsule2
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: leftCapsule1.right
+        anchors.leftMargin: root.capsuleGap
+
+        leftMargin: 12
+        rightMargin: 12
+        topMargin: 0
+        bottomMargin: 0
+
+        color: Style.themeBackground
+        height: root.panelHeight
+        radius: height / 2
+
+        NiriWorkspaces {
+          outputId: root.screen.name
+        }
       }
     }
 
@@ -75,7 +104,10 @@ PanelWindow {
       anchors.verticalCenter: parent.verticalCenter
       height: root.panelHeight
       radius: height / 2
-      width: centerItem.width + 16
+      width: Math.min(
+        centerItem.width + 16,
+        parent.width - leftContainer.width - rightItem.width - root.capsuleGap * 4
+      )
 
       x: Math.min(
         Math.max(
@@ -85,19 +117,19 @@ PanelWindow {
         rightItem.x - width - root.capsuleGap
       )
 
+      clip: true
+
 
       RowLayout {
         id: centerItem
         height: parent.height
         anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
+        // anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: parent.radius / 2
 
-        WrapperItem {
-          implicitHeight: parent.height
-          margin: 2
-          NiriFocused {
-            id: niriFocused
-          }
+        NiriFocused {
+          id: niriFocused
         }
       }
     }

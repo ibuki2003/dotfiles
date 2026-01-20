@@ -16,6 +16,26 @@ Singleton {
     return root.focusedWindow.app_id || ""
   }
 
+  property var workspaces: ({})
+  property var activeWorkspaces: ({}) // output -> workspace id
+
+  readonly property var workspacesByOutput: {
+    let result = {}
+    for (const wsId in root.workspaces) {
+      const ws = root.workspaces[wsId]
+      if (!result[ws.output]) {
+        result[ws.output] = []
+      }
+      result[ws.output].push(ws.id)
+    }
+    for (const output in result) {
+      result[output].sort((a, b) => {
+        return root.workspaces[a].idx - root.workspaces[b].idx
+      })
+    }
+    return result
+  }
+
   property var windows: ({})
 
   Process {
@@ -32,20 +52,82 @@ Singleton {
         }
         try {
           let msg = JSON.parse(data)
-          // console.log(Object.keys(msg))
-          if (msg.hasOwnProperty("WindowsChanged")) {
-            const windows_list = msg.WindowsChanged.windows
-            for (let i = 0; i < windows_list.length; i++) {
-              registerWindow(windows_list[i])
+
+          for (const key in msg) {
+            const value = msg[key];
+
+            switch (key) {
+              // windows
+              case "WindowsChanged": {
+                for (const win of value.windows) {
+                  registerWindow(win)
+                }
+                break;
+              }
+              case "WindowFocusChanged": {
+                root.focusedWindow = (value.id && root.windows[value.id]) ?? {}
+                break;
+              }
+              case "WindowOpenedOrChanged": {
+                registerWindow(value.window)
+                break;
+              }
+              case "WindowClosed": {
+                delete root.windows[value.id]
+                break;
+              }
+
+              // workspaces
+              case "WorkspacesChanged": {
+                const workspaces = {}
+                const actives = {}
+                for (const ws of value.workspaces) {
+                  delete ws["active_window_id"] // skip managing this for now
+                  workspaces[ws.id] = ws
+                  if (ws.is_active) {
+                    actives[ws.output] = ws.id
+                  }
+                }
+                root.workspaces = workspaces
+                root.activeWorkspaces = actives
+
+                break;
+              }
+              case "WorkspaceActivated": {
+                if (!value.id) break;
+                const output = root.workspaces[value.id]?.output
+                const oldActive = root.activeWorkspaces[output]
+
+                if (oldActive) root.workspaces[oldActive].is_active = false
+                root.workspaces[value.id].is_active = true
+
+                root.activeWorkspaces[output] = value.id
+
+                // force notify activeWorkspaces change
+                root.activeWorkspaces = Object.assign({}, root.activeWorkspaces)
+
+                break;
+              }
+              case "WorkspaceUrgencyChanged": {
+                if (!value.id) break;
+                if (root.workspaces[value.id]) {
+                  root.workspaces[value.id].is_urgent = value.urgent
+                }
+                break;
+              }
+
+              case "WorkspaceActiveWindowChanged":
+              case "WindowFocusTimestampChanged":
+              case "WindowUrgencyChanged":
+              {
+                // nothing to do
+                break;
+              }
+
+              default: {
+                // console.log("NiriIpc.qml: Unknown message:", key)
+              }
             }
-          } else if (msg.hasOwnProperty("WindowFocusChanged")) {
-            const id = msg.WindowFocusChanged.id
-            root.focusedWindow = (id && root.windows[id]) ?? {}
-          } else if (msg.hasOwnProperty("WindowOpenedOrChanged")) {
-            registerWindow(msg.WindowOpenedOrChanged.window)
-          } else if (msg.hasOwnProperty("WindowClosed")) {
-            const id = msg.WindowClosed.id
-            delete root.windows[id]
           }
         } catch (e) {
           console.log("NiriIpc.qml: Failed to parse JSON:", e)

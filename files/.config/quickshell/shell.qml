@@ -11,7 +11,10 @@ Scope {
 
   Variants {
     model: Quickshell.screens;
-    delegate: Bar {}
+    delegate: Bar {
+      required property ShellScreen modelData
+      screen: modelData
+    }
   }
 
   VolumeOsd {}
