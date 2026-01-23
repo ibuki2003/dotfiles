@@ -59,10 +59,6 @@
       background = "/etc/nixos/sddm-bg.png" + "\"'; true '"; # HACK: shell injection. waiting for NixOS/nixpkgs#442829
     })
 
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-gnome
-    xwayland-satellite
-
   ];
 
   services = {

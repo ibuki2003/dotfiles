@@ -43,6 +43,7 @@ in {
 
       # libs
       (lib.getLib sqlite)
+      pkg-config
 
       # tools
       android-tools
@@ -55,6 +56,7 @@ in {
       dex
       dig
       doggo
+      dotslash
       edir
       exiftool
       eza
@@ -75,6 +77,7 @@ in {
       httpie
       hyperfine
       imagemagick
+      jless
       jq
       libqalculate
       linuxPackages.cpupower
@@ -149,6 +152,8 @@ in {
       ocamlPackages.ocaml-lsp
       intelephense
       vscode-langservers-extracted
+      gopls
+      kdePackages.qtdeclarative
 
       # python
       (python3.withPackages (ps: with ps; [

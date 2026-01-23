@@ -115,6 +115,15 @@ in {
       rounded-mgenplus
       material-design-icons
       migu
+
+
+      # niri deps
+      xdg-desktop-portal
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-gnome
+      xwayland-satellite
+
+
     ];
 
     pointerCursor = {
