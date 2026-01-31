@@ -112,6 +112,7 @@ Singleton {
                 if (!value.id) break;
                 if (root.workspaces[value.id]) {
                   root.workspaces[value.id].is_urgent = value.urgent
+                  root.workspaces = Object.assign({}, root.workspaces)
                 }
                 break;
               }

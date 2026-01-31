@@ -27,12 +27,15 @@ Item {
         required property int modelData
 
         readonly property bool isActive: NiriIpc.activeWorkspaces[root.outputId] === modelData
+        readonly property bool isUrgent: NiriIpc.workspaces[modelData]?.is_urgent
         implicitHeight: root.height / 4
         implicitWidth: isActive ? implicitHeight * 2 : implicitHeight
         anchors.verticalCenter: parent.verticalCenter
         radius: height / 2
 
-        color: isActive ? Style.themeForeground : Style.themeComment
+        color: isUrgent ? Style.themeRed
+            : isActive ? Style.themeForeground
+            : Style.themeComment
       }
     }
   }

@@ -24,7 +24,9 @@ WrapperMouseArea {
       interval = 1000 / framerate
     }
 
-    property real framerate: (1.0 + SystemLoad.cpuUsage / 100.0 * 0.2) * 2.5
+    property real framerate: SystemLoad.cpuUsage < 200.0
+      ? (5.0 + 5.0 * SystemLoad.cpuUsage / 200.0)
+      : (10.0 + 20.0 * (SystemLoad.cpuUsage / 100.0 - 2.0) / Math.max(1.0, SystemLoad.cpuCores - 2.0))
     Behavior on framerate {
       NumberAnimation {
         duration: 500

@@ -55,7 +55,7 @@ Singleton {
 
     onLoaded: {
       const lines = statFile.text().split("\n");
-      const numCores = lines.filter(line => line.startsWith("cpu")).length;
+      const numCores = lines.filter(line => line.startsWith("cpu")).length - 1; // exclude the aggregate "cpu" line
       for (const line of lines) {
         if (line.startsWith("cpu ")) {
           const parts = line.split(/\s+/);

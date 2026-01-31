@@ -65,7 +65,8 @@ RowLayout {
       required property SystemTrayItem modelData
       IconImage {
         source: trayItem.modelData.icon.replace("xdg:", "")
-        implicitSize: parent.height * 0.8
+        // implicitSize: Math.floor(parent.height * 0.8)
+        implicitSize: Math.floor(parent.height / 8) * 8
         anchors.centerIn: parent
       }
 

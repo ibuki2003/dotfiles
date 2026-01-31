@@ -51,8 +51,8 @@ WrapperMouseArea {
       font.family: 'JetBrains Mono'
 
       text: (
-        `↑${NwMonitor.formatSpeed(NwMonitor.primaryDevice.speed.rxSpeed).padStart(5)} \n` +
-        `↓${NwMonitor.formatSpeed(NwMonitor.primaryDevice.speed.txSpeed).padStart(5)}`
+        `↑${NwMonitor.formatSpeed(NwMonitor.primaryDevice.speed.txSpeed).padStart(5)} \n` +
+        `↓${NwMonitor.formatSpeed(NwMonitor.primaryDevice.speed.rxSpeed).padStart(5)}`
       )
     }
   }
@@ -122,8 +122,8 @@ WrapperMouseArea {
                 }
 
                 lines.push(
-                  `${NwMonitor.formatSpeed(NwMonitor.speeds[deviceItem.modelData]?.rxSpeed || 0)} / ` +
-                  `${NwMonitor.formatSpeed(NwMonitor.speeds[deviceItem.modelData]?.txSpeed || 0)}`
+                  `${NwMonitor.formatSpeed(NwMonitor.speeds[deviceItem.modelData]?.txSpeed || 0)} / ` +
+                  `${NwMonitor.formatSpeed(NwMonitor.speeds[deviceItem.modelData]?.rxSpeed || 0)}`
                 );
 
                 return lines.join("\n");
