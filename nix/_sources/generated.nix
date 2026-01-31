@@ -87,15 +87,15 @@
   };
   defmt-print = {
     pname = "defmt-print";
-    version = "023449c35f68b9dfc2e00437e47353755d5189ef";
+    version = "15b53a652eab7ed6c8b828de62d0a734ce7500bd";
     src = fetchFromGitHub {
       owner = "knurling-rs";
       repo = "defmt";
-      rev = "023449c35f68b9dfc2e00437e47353755d5189ef";
+      rev = "15b53a652eab7ed6c8b828de62d0a734ce7500bd";
       fetchSubmodules = false;
-      sha256 = "sha256-kmnU7PCTtSJ6b/wNrR+38t29yf+KjWLRmGUZXW2/DsI=";
+      sha256 = "sha256-15+1BwEFI+uWbqoJrrVSi6VsM3cHZyxEEcJ4oZ3uxXw=";
     };
-    date = "2025-12-12";
+    date = "2026-01-29";
   };
   memvis = {
     pname = "memvis";
@@ -117,37 +117,37 @@
   };
   nu-plugin-bexpand = {
     pname = "nu-plugin-bexpand";
-    version = "07111c423a1a5e013eb108253068ee36dfcbbfbb";
+    version = "9e7c615d84d5da8f8cd01887a59266c48434e516";
     src = fetchgit {
       url = "https://forge.axfive.net/Taylor/nu-plugin-bexpand.git";
-      rev = "07111c423a1a5e013eb108253068ee36dfcbbfbb";
+      rev = "9e7c615d84d5da8f8cd01887a59266c48434e516";
       fetchSubmodules = false;
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-PWwE+blEc4/LppIyyF4V6t4GmwJgpyWHgnPXVzwfAm0=";
+      sha256 = "sha256-1NO4onzK3MIX98CnsecRvWtilTW1LjXv3mi11Aqbrjg=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./nu-plugin-bexpand-07111c423a1a5e013eb108253068ee36dfcbbfbb/Cargo.lock;
+      lockFile = ./nu-plugin-bexpand-9e7c615d84d5da8f8cd01887a59266c48434e516/Cargo.lock;
       outputHashes = {
         
       };
     };
-    date = "2025-11-29";
+    date = "2026-01-19";
   };
   quickshell = {
     pname = "quickshell";
-    version = "d03c59768c680f052dff6e7a7918bbf990b0f743";
+    version = "1e4d804e7f3fa7465811030e8da2bf10d544426a";
     src = fetchgit {
       url = "https://git.outfoxxed.me/quickshell/quickshell.git";
-      rev = "d03c59768c680f052dff6e7a7918bbf990b0f743";
+      rev = "1e4d804e7f3fa7465811030e8da2bf10d544426a";
       fetchSubmodules = false;
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-DxN7v8g8DO8gGJmgBJMo3fsSR3HEs+DFCXeKeHq61zA=";
+      sha256 = "sha256-WW00FaBiUmQyxvSbefvgxIjwf/WmRrEGBbwMHvW/7uQ=";
     };
-    date = "2026-01-15";
+    date = "2026-01-28";
   };
   skkemoji = {
     pname = "skkemoji";

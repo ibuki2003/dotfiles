@@ -134,13 +134,13 @@
   };
   services.blueman.enable = true;
 
-  services.printing = {
-    drivers = lib.mkDefault [
-      (pkgs.cnijfilter2.overrideAttrs (oldAttrs: {
-        env.NIX_CFLAGS_COMPILE = (oldAttrs.env.NIX_CFLAGS_COMPILE or "") + " -std=gnu17";
-      }))
-    ];
-  };
+  # services.printing = {
+  #   drivers = lib.mkDefault [
+  #     (pkgs.cnijfilter2.overrideAttrs (oldAttrs: {
+  #       env.NIX_CFLAGS_COMPILE = (oldAttrs.env.NIX_CFLAGS_COMPILE or "") + " -std=gnu17";
+  #     }))
+  #   ];
+  # };
   hardware.sane = {
     enable = true;
     drivers.scanSnap.enable = true;
