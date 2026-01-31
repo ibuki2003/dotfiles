@@ -47,9 +47,36 @@ vim.keymap.set('n', 'X', '"_X')
 
 vim.keymap.set({'o', 'x'}, 'i<space>', 'iW')
 
--- https://blog.atusy.net/2024/09/06/linewise-zf/
-vim.keymap.set('n', 'zf', 'zfV')
-vim.keymap.set('x', 'zf', function() return vim.fn.mode() == 'V' and 'zf' or 'Vzf' end, { expr = true })
+-- line-wise fold command
+
+-- グローバルにして operatorfunc から参照できるようにする
+function _G.FoldLinewise(type)
+  local s, e
+  local visual = false
+  if type == 'v' or type == 'V' or type == '\022' then  -- '\022' = <C-v>
+    visual = true
+    s = vim.fn.getpos(".")[2]
+    e = vim.fn.getpos("v")[2]
+  else
+    s = vim.fn.getpos("'[")[2]
+    e = vim.fn.getpos("']")[2]
+  end
+  if s > e then s, e = e, s end
+  vim.cmd(string.format('%d,%dfold', s, e))
+
+  if visual then
+    -- quit visual mode
+    vim.api.nvim_feedkeys('\27', 'n', true)
+  end
+end
+vim.keymap.set('n', 'zf', function()
+  vim.o.operatorfunc = 'v:lua.FoldLinewise'
+  return 'g@'
+end, { expr = true, silent = true })
+vim.keymap.set('x', 'zf', function()
+  _G.FoldLinewise(vim.fn.mode())
+end, { silent = true })
+
 
 vim.keymap.set('n', 'i', function() if vim.fn.getline('.') == '' then return '"_cc' else return 'i' end end, { expr = true })
 vim.keymap.set('n', 'A', function() if vim.fn.getline('.') == '' then return '"_cc' else return 'A' end end, { expr = true })

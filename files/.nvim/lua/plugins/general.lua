@@ -205,4 +205,7 @@ return {
     'thinca/vim-qfreplace',
     ft = { 'qf' },
   },
+  {
+    "vim-scripts/MultipleSearch",
+  }
 }
