@@ -81,6 +81,8 @@
     amdgpu.opencl.enable = true;
   };
   environment.variables.HSA_OVERRIDE_GFX_VERSION = "10.3.0";
+  environment.variables.UV_TORCH_BACKEND = "rocm6.4";
+  environment.variables.UV_AMD_GPU_ARCHITECTURE = "gfx1030";
 
   environment.systemPackages = with pkgs; [
     vulkan-validation-layers

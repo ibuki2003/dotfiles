@@ -136,6 +136,25 @@
         '';
         destination = "/etc/udev/rules.d/52-xilinx.rules";
       })
+
+      (pkgs.writeTextFile {
+        name = "uiap-ch32.rules";
+        text = ''
+        # UIAPduino Pro Micro CH32V003 bootloader
+        KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="plugdev", MODE="0660"
+        #KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="dialout", MODE="0660"
+        #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="plugdev", MODE="0660"
+        #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="dialout", MODE="0660"
+
+        # UIAPduino Pro Micro CH32V006 bootloader
+        KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="plugdev", MODE="0660"
+        #KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="dialout", MODE="0660"
+        #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="plugdev", MODE="0660"
+        #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="dialout", MODE="0660"
+        '';
+        destination = "/etc/udev/rules.d/90-uiap-ch32.rules";
+      })
+
     ];
 
 
