@@ -180,18 +180,21 @@
     niri.enable = true;
     niri.package = pkgs.niri.overrideAttrs (finalAttrs: prevAttrs: {
       # patch to enable blur effect
-      # #1634 https://github.com/visualglitch91/niri/tree/feat/blur
+      # #3483
       src = pkgs.fetchFromGitHub {
-        owner = "visualglitch91";
+        owner = "niri-wm";
         repo = "niri";
-        rev = "d89bfc6c94aee3af14c35508e7c110c0ea8f1682";
-        hash = "sha256-2EggcED68efzYJAG5VqGshh+hfQbQq5sRvrtT1NNPo8=";
+        rev = "734d86ec061d15d1980c5b940b2f4dc9aee80cf5";
+        hash = "sha256-ZJCM1XOHIdud6Jfpl4jYQOzbOJId9wmXT+hNJ1IPBIY=";
       };
-      cargoHash = "sha256-CXRI9LBmP2YXd2Kao9Z2jpON+98n2h7m0zQVVTuwqYQ=";
+      cargoHash = "sha256-uo4AWT4nGV56iiSLhXK30goI7HCPc7AUZjRLgUvLfUE=";
       cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
         inherit (finalAttrs) pname src version;
         hash = finalAttrs.cargoHash;
       };
+      postPatch = ''
+      patchShebangs resources/niri-session
+      '';
     });
 
     obs-studio = {

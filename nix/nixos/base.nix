@@ -64,8 +64,10 @@
   services.resolved = {
     enable = true;
     # dnssec = "allow-downgrade";
-    fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
-    dnsovertls = "opportunistic";
+    settings.Resolve = {
+      FallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+      DNSOverTLS = "opportunistic";
+    };
   };
 
   # Set your time zone.
@@ -117,9 +119,9 @@
     wget
     gcc
     clang
-    python312
-    python312Packages.pip
-    python312Packages.pipx
+    python3
+    python3Packages.pip
+    python3Packages.pipx
     cachix
     udisks
     cifs-utils

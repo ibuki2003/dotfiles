@@ -17,6 +17,19 @@ in {
       permittedInsecurePackages = [
       ];
     };
+    overlays = [
+      # https://github.com/NixOS/nixpkgs/issues/493679#issuecomment-3959962976
+      # failure of jetbrains-mono
+      (final: prev: {
+        pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+          (python-final: python-prev: {
+            picosvg = python-prev.picosvg.overridePythonAttrs (oldAttrs: {
+              doCheck = false;
+            });
+          })
+        ];
+      })
+    ];
   };
 
   home = {
