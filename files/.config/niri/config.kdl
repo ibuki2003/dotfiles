@@ -63,13 +63,18 @@ layout {
         // place-within-column
     }
 
-    blur {
-      on
-      passes 2
-      radius 3.0
-      noise 0.0
-    }
+}
 
+blur {
+  on
+  passes 2
+  offset 1.0
+}
+window-rule {
+  background-effect {
+    blur true
+    xray false
+  }
 }
 
 // Indicate screencasted windows with red colors.
@@ -307,8 +312,9 @@ window-rule {
   focus-ring {
     off
   }
-  blur {
-    off
+  background-effect {
+    blur false
+    xray false
   }
 }
 
