@@ -194,6 +194,8 @@
       };
       postPatch = ''
       patchShebangs resources/niri-session
+      substituteInPlace resources/niri.service \
+        --replace-fail 'ExecStart=niri' "ExecStart=$out/bin/niri"
       '';
     });
 
