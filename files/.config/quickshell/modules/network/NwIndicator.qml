@@ -51,8 +51,8 @@ WrapperMouseArea {
       font.family: 'JetBrains Mono'
 
       text: (
-        `↑${NwMonitor.formatSpeed(NwMonitor.primaryDevice.speed.txSpeed).padStart(5)} \n` +
-        `↓${NwMonitor.formatSpeed(NwMonitor.primaryDevice.speed.rxSpeed).padStart(5)}`
+        `↑${NwMonitor.formatSpeed(NwMonitor.primaryDeviceSpeed.txSpeed).padStart(5)} \n` +
+        `↓${NwMonitor.formatSpeed(NwMonitor.primaryDeviceSpeed.rxSpeed).padStart(5)}`
       )
     }
   }
@@ -68,7 +68,7 @@ WrapperMouseArea {
     ColumnLayout {
       id: deviceList
 
-      anchors.fill: parent
+      implicitWidth: parent.implicitWidth
 
       Repeater {
         model: {

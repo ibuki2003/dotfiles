@@ -15,9 +15,12 @@ Singleton {
 
   readonly property var primaryDevice: ({
     device: root.devices[root.primaryInterface] || null,
-    speed: root.speeds[root.primaryInterface] || { rxSpeed: 0, txSpeed: 0 },
     wireless: root.wirelessInfo[root.primaryInterface] || null
   })
+  readonly property var primaryDeviceSpeed: (
+    root.speeds[root.primaryInterface]
+    || { rxSpeed: 0, txSpeed: 0 }
+  );
 
   function iconForDevice(name) {
     if (!root.devices[name]) {

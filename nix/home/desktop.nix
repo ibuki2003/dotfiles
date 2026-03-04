@@ -63,6 +63,7 @@ in {
       hyprlock
       swaylock-effects
       wayvnc
+      wirelesstools
       wl-clipboard
       yt-dlp
       yubikey-manager
