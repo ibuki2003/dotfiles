@@ -141,10 +141,10 @@ binds {
     Mod+J     { focus-window-or-workspace-down; }
     Mod+K     { focus-window-or-workspace-up; }
 
-    Mod+Shift+Left  { move-column-left-or-to-monitor-left; }
-    Mod+Shift+Right { move-column-right-or-to-monitor-right; }
-    Mod+Shift+H     { move-column-left-or-to-monitor-left; }
-    Mod+Shift+L     { move-column-right-or-to-monitor-right; }
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+H     { move-column-left; }
+    Mod+Shift+L     { move-column-right; }
 
     Mod+Shift+Down  { move-window-down; }
     Mod+Shift+Up    { move-window-up; }
@@ -325,7 +325,7 @@ window-rule {
 
 
 spawn-at-startup "niriusd"
-spawn-at-startup "quickshell"
+spawn-sh-at-startup "sleep 3; quickshell"
 spawn-at-startup "nm-applet"
 spawn-at-startup "blueman-applet"
 spawn-at-startup "copyq"
