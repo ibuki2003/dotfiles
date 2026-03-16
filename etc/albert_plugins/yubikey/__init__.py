@@ -10,13 +10,13 @@ import subprocess
 import traceback
 import clipboard
 
-md_iid = "4.0"
-md_version = "1.6"
+md_iid = "5.0"
+md_version = "1.7"
 md_name = "Yubikey"
 md_description = "Yubikey TOTP source"
 md_license = "MIT"
 md_url = "https://fuwa.dev"
-md_authors = "fuwa"
+md_authors = [ "fuwa" ]
 md_lib_dependencies = ["clipboard"]
 
 def notify_send(title, text):
@@ -107,38 +107,43 @@ class Plugin(PluginInstance, GlobalQueryHandler):
         clipboard.copy(code)
         notify_send(name, f"copied {code}")
 
-
-    def handleGlobalQuery(self, query):
-        items = []
+    def collect_items_with_scores(self, query: str) -> list[tuple[Item, float]]:
         try:
 
             a = self._get_accounts()
-            if len(query.string) >= 1:
-                a = ((i, len(query.string) / len(i)) for i in a if query.string.lower() in i.lower())
+            if len(query) >= 1:
+                a = ((i, len(query) / len(i)) for i in a if query.lower() in i.lower())
             else:
                 a = ((i, 1) for i in a)
 
+            ret = []
             for (name, score) in a:
                 actions = [
                     Action("copy_totp", "Copy TOTP to clipboard",
                            lambda c=name: self._copy_totp(c))
                 ]
 
-                items.append(RankItem(
+                ret.append((
                     StandardItem(
                         id=name,
                         text=name,
                         subtext=f"Yubikey TOTP",
-                        icon_factory=lambda: makeImageIcon(self.icon),
+                        icon_factory=lambda: Icon.image(self.icon),
                         actions=actions
                     ),
-                    score=score,
+                    score,
                 ))
-
+            return ret
 
         except Exception as e:
             warning(traceback.format_exc())
             warning(e)
             self.client = None
+            return []
 
-        return items
+
+    def items(self, context):
+        yield [a[0] for a in self.collect_items_with_scores(context.query)]
+
+    def rankItems(self, context):
+        return [RankItem(item=item, score=score) for item, score in self.collect_items_with_scores(context.query)]

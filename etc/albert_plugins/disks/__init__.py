@@ -10,13 +10,13 @@ import json
 import subprocess
 # import traceback
 
-md_iid = "4.0"
+md_iid = "5.0"
 md_version = "1.6"
 md_name = "disks"
 md_description = "udisksctl mounting"
 md_license = "MIT"
 md_url = "https://fuwa.dev"
-md_authors = "fuwa"
+md_authors = [ "fuwa" ]
 
 def notify_send(title, text):
     subprocess.Popen(["notify-send", title, text])
@@ -90,11 +90,11 @@ class Plugin(PluginInstance, GlobalQueryHandler):
         notify_send("unmount", p.stdout.decode("utf-8"))
 
 
-    def handleGlobalQuery(self, query):
+    def collect_items_with_scores(self, query: str):
         rank_items = []
         try:
 
-            q = query.string.lower()
+            q = query.lower()
             disks = self._get_disks(refresh=(q == ""))
             for d in disks:
                 if not (
@@ -126,11 +126,11 @@ class Plugin(PluginInstance, GlobalQueryHandler):
                         id=did,
                         text=f"{action_name} {d['label'] or ''} ({d['name']})",
                         subtext=f"{sizetext} {d['fstype'] or ''} {d['fsver'] or ''} {d['id']}",
-                        icon_factory=lambda: makeImageIcon(self.icon_mount if action_name == "Mount" else self.icon_eject),
+                        icon_factory=lambda: Icon.image(self.icon_mount if action_name == "Mount" else self.icon_eject),
 
                         actions=actions
                     ),
-                    score=len(query.string)/len(did)
+                    score=len(query)/len(did)
                 ))
 
         except Exception as e:
@@ -138,3 +138,9 @@ class Plugin(PluginInstance, GlobalQueryHandler):
             self.client = None
 
         return rank_items
+
+    def items(self, context):
+        yield self.collect_items_with_scores(context.query)
+
+    def rankItems(self, context):
+        return [RankItem(item=item, score=score) for item, score in self.collect_items_with_scores(context.query)]
