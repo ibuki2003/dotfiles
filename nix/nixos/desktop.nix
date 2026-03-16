@@ -179,19 +179,8 @@
     };
     niri.enable = true;
     niri.package = pkgs.niri.overrideAttrs (finalAttrs: prevAttrs: {
-      # patch to enable blur effect
-      # #3483
-      src = pkgs.fetchFromGitHub {
-        owner = "niri-wm";
-        repo = "niri";
-        rev = "734d86ec061d15d1980c5b940b2f4dc9aee80cf5";
-        hash = "sha256-ZJCM1XOHIdud6Jfpl4jYQOzbOJId9wmXT+hNJ1IPBIY=";
-      };
-      cargoHash = "sha256-uo4AWT4nGV56iiSLhXK30goI7HCPc7AUZjRLgUvLfUE=";
-      cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
-        inherit (finalAttrs) pname src version;
-        hash = finalAttrs.cargoHash;
-      };
+      src = sources.niri-blur-3483.src;
+      cargoDeps = pkgs.rustPlatform.importCargoLock sources.niri-blur-3483.cargoLock."Cargo.lock";
       postPatch = ''
       patchShebangs resources/niri-session
       substituteInPlace resources/niri.service \

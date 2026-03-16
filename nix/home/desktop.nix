@@ -99,7 +99,15 @@ in {
       prismlauncher
       (quickshell.overrideAttrs (oldAttrs: {
         src = sources.quickshell.src;
-        buildInputs = oldAttrs.buildInputs ++ [ pkgs.polkit ];
+        buildInputs = oldAttrs.buildInputs ++ [
+          pkgs.polkit
+          (pkgs.cpptrace.overrideAttrs (old: {
+            cmakeFlags = old.cmakeFlags ++ [
+              (lib.cmakeBool "CPPTRACE_UNWIND_WITH_LIBUNWIND" true)
+            ];
+            buildInputs = old.buildInputs ++ [ pkgs.libunwind ];
+          }))
+        ];
       }))
       ranger
       remmina

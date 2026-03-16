@@ -48,6 +48,4 @@ in
     };
   };
   ccsum = mkRust "ccsum" sources.ccsum { };
-
-  nu-plugin-bexpand = mkRust "nu-plugin-bexpand" sources.nu-plugin-bexpand { meta = { mainProgram = "nu_plugin_bexpand"; }; };
 }
