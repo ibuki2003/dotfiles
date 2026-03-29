@@ -154,6 +154,7 @@ in {
       vscode-langservers-extracted
       gopls
       kdePackages.qtdeclarative
+      openscad-lsp
 
       # python
       (python3.withPackages (ps: with ps; [

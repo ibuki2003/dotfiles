@@ -27,8 +27,6 @@ vim.lsp.enable({
   'emmet_ls',
   'kotlin_language_server',
   'tinymist',
-  'denols',
-  'ts_ls',
   'ocamllsp',
   'nil_ls',
   'nixd',
@@ -37,6 +35,7 @@ vim.lsp.enable({
   'ocamllsp',
   'pest_ls',
   'qmlls',
+  'openscad_lsp',
 })
 
 local float_opts = {
