@@ -121,7 +121,7 @@ class Plugin(PluginInstance, GlobalQueryHandler):
                 sizetext = (f"{d['fsused']} / {d['size']} ({d['fsuse%']})" if d['size']
                     else f"{d['size']}")
 
-                rank_items.append(RankItem(
+                rank_items.append((
                     StandardItem(
                         id=did,
                         text=f"{action_name} {d['label'] or ''} ({d['name']})",
@@ -130,7 +130,7 @@ class Plugin(PluginInstance, GlobalQueryHandler):
 
                         actions=actions
                     ),
-                    score=len(query)/len(did)
+                    len(query)/len(did)
                 ))
 
         except Exception as e:
@@ -140,7 +140,7 @@ class Plugin(PluginInstance, GlobalQueryHandler):
         return rank_items
 
     def items(self, context):
-        yield self.collect_items_with_scores(context.query)
+        yield [a[0] for a in self.collect_items_with_scores(context.query)]
 
     def rankItems(self, context):
         return [RankItem(item=item, score=score) for item, score in self.collect_items_with_scores(context.query)]
