@@ -178,15 +178,6 @@
       enable = true;
     };
     niri.enable = true;
-    niri.package = pkgs.niri.overrideAttrs (finalAttrs: prevAttrs: {
-      src = sources.niri-blur-3483.src;
-      cargoDeps = pkgs.rustPlatform.importCargoLock sources.niri-blur-3483.cargoLock."Cargo.lock";
-      postPatch = ''
-      patchShebangs resources/niri-session
-      substituteInPlace resources/niri.service \
-        --replace-fail 'ExecStart=niri' "ExecStart=$out/bin/niri"
-      '';
-    });
 
     obs-studio = {
       enable = true;
@@ -243,6 +234,8 @@
 
   # blacklist some kernel modules
   hardware.rtl-sdr.enable = true;
+
+  hardware.keyboard.qmk.enable = true;
 
   xdg.portal = {
     enable = true;

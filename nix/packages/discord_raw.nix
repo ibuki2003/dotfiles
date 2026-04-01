@@ -26,10 +26,10 @@ in
         alsa-lib
         libdrm
         libxkbcommon
-        xorg.libXdamage
-        xorg.libX11
-        xorg.libxcb
-        xorg.libxshmfence
+        libxdamage
+        libx11
+        libxcb
+        libxshmfence
         mesa
         nss
       ]);

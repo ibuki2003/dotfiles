@@ -18,17 +18,6 @@ in {
       ];
     };
     overlays = [
-      # https://github.com/NixOS/nixpkgs/issues/493679#issuecomment-3959962976
-      # failure of jetbrains-mono
-      (final: prev: {
-        pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
-          (python-final: python-prev: {
-            picosvg = python-prev.picosvg.overridePythonAttrs (oldAttrs: {
-              doCheck = false;
-            });
-          })
-        ];
-      })
     ];
   };
 
@@ -98,18 +87,7 @@ in {
       obs-studio
       pavucontrol
       prismlauncher
-      (quickshell.overrideAttrs (oldAttrs: {
-        src = sources.quickshell.src;
-        buildInputs = oldAttrs.buildInputs ++ [
-          pkgs.polkit
-          (pkgs.cpptrace.overrideAttrs (old: {
-            cmakeFlags = old.cmakeFlags ++ [
-              (lib.cmakeBool "CPPTRACE_UNWIND_WITH_LIBUNWIND" true)
-            ];
-            buildInputs = old.buildInputs ++ [ pkgs.libunwind ];
-          }))
-        ];
-      }))
+      quickshell
       ranger
       remmina
       ripdrag
