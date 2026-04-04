@@ -11,30 +11,22 @@ return {
     end,
   },
   {
-    'yioneko/nvim-yati',
-    lazy = true,
-    event = { 'CursorMoved', 'CursorMovedI' },
-    config = function() vim.cmd[[TSEnable yati]] end,
-  },
-  {
     'nvim-treesitter/nvim-treesitter',
+    branch = "main",
     build = ":TSUpdate",
     config = function()
-      require'nvim-treesitter.configs'.setup {
-        highlight = {
-          enable = true,
-        },
-        indent = {
-          enable = false,
-        },
-        yati = {
-          -- HACK: disable at startup and enable later to speed up
-          enable = false,
-          default_lazy = true,
-          default_fallback = "cindent",
-        },
-        auto_install = false,
-      }
+      require'nvim-treesitter'.setup {}
+
+      -- https://blog.atusy.net/2025/08/10/nvim-treesitter-main-branch/
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("vim-treesitter-start", {}),
+        callback = function(_)
+          -- 必要に応じて`ctx.match`に入っているファイルタイプの値に応じて挙動を制御
+          -- `pcall`でエラーを無視することでパーサーやクエリがあるか気にしなくてすむ
+          pcall(vim.treesitter.start)
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
     end
   },
   {
@@ -51,6 +43,10 @@ return {
       -- And... markdown files usually don't need such feature
       -- https://github.com/andymass/vim-matchup/issues/416
       vim.g.matchup_treesitter_disabled = { "markdown" }
+
+      -- vim.g.matchup_treesitter_enable_quotes = true
+      -- vim.g.matchup_treesitter_disable_virtual_text = true
+      -- vim.g.matchup_treesitter_include_match_words = true
     end,
     --@type matchup.Config
     opts = {
