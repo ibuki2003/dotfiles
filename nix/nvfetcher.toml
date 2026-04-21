@@ -49,8 +49,7 @@ cargo_lock = ["Cargo.lock"]
 src.git = "https://git.outfoxxed.me/quickshell/quickshell.git"
 fetch.git = "https://git.outfoxxed.me/quickshell/quickshell.git"
 
-[niri-blur-3483]
+[niri]
 src.git = "https://github.com/niri-wm/niri"
-src.branch = "wip/branch"
 fetch.github = "niri-wm/niri"
 cargo_lock = ["Cargo.lock"]

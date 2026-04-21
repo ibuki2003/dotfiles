@@ -120,23 +120,23 @@
     };
     date = "2025-07-15";
   };
-  niri-blur-3483 = {
-    pname = "niri-blur-3483";
-    version = "d06dd4b9e60fa07120c217aa095f3ed8caac99f2";
+  niri = {
+    pname = "niri";
+    version = "e9c182a13c1d12762351ec01ce0ec711d41b0337";
     src = fetchFromGitHub {
       owner = "niri-wm";
       repo = "niri";
-      rev = "d06dd4b9e60fa07120c217aa095f3ed8caac99f2";
+      rev = "e9c182a13c1d12762351ec01ce0ec711d41b0337";
       fetchSubmodules = false;
-      sha256 = "sha256-L/Ldq9G41Mj8WjWTuC+rePvWIx1A/tHdFpLbQmtrMSA=";
+      sha256 = "sha256-nnv27JD0FOOqs1Hh67kydXFzZoEu8e0QyMf0R9AXaIw=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./. + "/sha256-L_Ldq9G41Mj8WjWTuC+rePvWIx1A_tHdFpLbQmtrMSA=/Cargo.lock";
+      lockFile = ./. + "/sha256-nnv27JD0FOOqs1Hh67kydXFzZoEu8e0QyMf0R9AXaIw=/Cargo.lock";
       outputHashes = {
-        "smithay-0.7.0" = "sha256-9/AuxfLhkHjbjeLv0vCIBqxzecH7vlXrWS6pbSMRgsg=";
+        "smithay-0.7.0" = "sha256-ZzanoYYCQGJiAOtJYCW9cKpX5M/nC46A/viI9mR04Zw=";
       };
     };
-    date = "2026-03-22";
+    date = "2026-04-20";
   };
   quickshell = {
     pname = "quickshell";

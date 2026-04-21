@@ -17,12 +17,14 @@ in {
   };
   nix.package = pkgs.nix;
 
+  xdg.enable = true;
+
   home = {
     username = username;
     homeDirectory = "/home/${username}";
 
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-    stateVersion = "24.05";
+    stateVersion = "26.05";
 
     # avoid warning
     enableNixpkgsReleaseCheck = false;
@@ -35,7 +37,7 @@ in {
       cachix
 
       # nix tools
-      nixfmt-rfc-style
+      nixfmt
 
       # man pages
       man-pages

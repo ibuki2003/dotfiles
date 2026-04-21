@@ -57,8 +57,8 @@
             ];
           });
           niri = super.niri.overrideAttrs (finalAttrs: prevAttrs: {
-            src = sources.niri-blur-3483.src;
-            cargoDeps = super.rustPlatform.importCargoLock sources.niri-blur-3483.cargoLock."Cargo.lock";
+            src = sources.niri.src;
+            cargoDeps = super.rustPlatform.importCargoLock sources.niri.cargoLock."Cargo.lock";
             postPatch = ''
             patchShebangs resources/niri-session
             substituteInPlace resources/niri.service \
