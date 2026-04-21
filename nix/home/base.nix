@@ -178,6 +178,7 @@ in {
       package = pkgs.neovim;
       enable = true;
       defaultEditor = true;
+      sideloadInitLua = true;
     };
 
     direnv = {
