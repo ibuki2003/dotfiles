@@ -158,6 +158,8 @@ in {
       kdePackages.qtdeclarative
       openscad-lsp
 
+      tree-sitter # for neovim-treesitter
+
       # python
       (python3.withPackages (ps: with ps; [
         pip
