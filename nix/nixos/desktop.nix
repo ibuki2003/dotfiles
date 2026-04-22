@@ -16,15 +16,39 @@
 
   # Enable networking
   networking = {
-    networkmanager.enable = true;
-    networkmanager.dhcp = "dhcpcd";
-    networkmanager.plugins = with pkgs; [
-      networkmanager-openvpn
-    ];
+    networkmanager = {
+      enable = true;
+      dhcp = "dhcpcd";
+      plugins = with pkgs; [
+        networkmanager-openvpn
+        networkmanager-l2tp
+      ];
+      dispatcherScripts = [
+        {
+          # workaround for ppp recursion problem
+          source = pkgs.writeShellScript "99-l2tp-fix" ''
+            #!/bin/bash
+            IFACE="$1"
+            ACTION="$2"
+
+            [[ "$IFACE" != ppp* || "$ACTION" != *up ]] && exit 0
+
+            # ppp0のピアアドレスを取得
+            PEER=$(ip route show dev "$IFACE" proto kernel \
+                | cut -d' ' -f1 | grep -v '/' | head -n1)
+            if [[ -n "$PEER" ]]; then
+              ip route del "$PEER" dev "$IFACE" proto kernel
+            fi
+          '';
+        }
+      ];
+    };
     dhcpcd = {
       persistent = true;
     };
   };
+  # services.strongswan-swanctl.enable = true;
+  environment.etc."strongswan.conf".text = ""; # workaround NixOS/nixpkgs#375352
 
   services.avahi.enable = true;
   services.avahi.openFirewall = true;
