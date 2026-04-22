@@ -9,6 +9,7 @@ import qs
 import qs.modules
 import qs.modules.niri
 import qs.modules.network
+import qs.modules.dnd
 
 PanelWindow {
   id: root
@@ -74,6 +75,8 @@ PanelWindow {
           RunCat { }
 
           NwIndicator { }
+
+          DndButton { }
 
         }
       }
