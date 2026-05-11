@@ -119,9 +119,6 @@ in {
 
 
       # niri deps
-      xdg-desktop-portal
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-gnome
       xwayland-satellite
 
 
@@ -248,6 +245,16 @@ in {
     Install.WantedBy = [ "default.target" ];
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-wlr
+    ];
+    config = {
+      common.default = [ "gtk" ]; # default is gnome, which I don't like...
+    };
+  };
+
 
   xdg.mimeApps = {
     enable = true;
@@ -256,7 +263,7 @@ in {
         pkgs.lib.attrsets.mapAttrsToList
           (
             k:
-            builtins.map (v: {
+            map (v: {
               name = v;
               value = k;
             })

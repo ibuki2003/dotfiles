@@ -263,6 +263,7 @@
 
   hardware.keyboard.qmk.enable = true;
 
+  # these are required by niri, but real config is done in home-manager
   xdg.portal = {
     enable = true;
     wlr.enable = true;
