@@ -235,6 +235,8 @@
         monospace = ["Noto Sans Mono CJK JP" "Noto Color Emoji"];
         emoji = ["Noto Color Emoji"];
       };
+      # allowBitmaps = false;
+      useEmbeddedBitmaps = false;
     };
   };
 

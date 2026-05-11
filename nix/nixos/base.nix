@@ -146,6 +146,9 @@
     };
 
     nix-ld.enable = true;
+    nix-ld.libraries = with pkgs; [
+      libgcc.lib
+    ];
 
     # Some programs need SUID wrappers, can be configured further or are
     # started in user sessions.

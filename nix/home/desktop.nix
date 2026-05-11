@@ -2,6 +2,7 @@
   pkgs,
   sources,
   lib,
+  config,
   # inputs,
   ...
 }: let
@@ -146,7 +147,8 @@ in {
       ];
       profiles.dev-edition-default = {
         isDefault = true;
-        userChrome = builtins.readFile ../../etc/firefox/userChrome.css;
+        # NOTE: needs to be absolute path
+        userChrome = config.lib.file.mkOutOfStoreSymlink "/home/fuwa/dotfiles/etc/firefox/userChrome.css";
         settings = {
           "browser.aboutConfig.showWarning" = false;
           "browser.fullscreen.autohide" = false;

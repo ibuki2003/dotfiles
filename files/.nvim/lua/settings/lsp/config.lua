@@ -15,8 +15,8 @@ vim.lsp.enable({
   'vimls',
   'intelephense',
   'clangd',
-  'pylsp',
-  'pyright',
+  -- 'pylsp',
+  -- 'pyright',
   'eslint',
   'texlab',
   'gopls',
@@ -36,6 +36,7 @@ vim.lsp.enable({
   'pest_ls',
   'qmlls',
   'openscad_lsp',
+  'ty',
 })
 
 local float_opts = {

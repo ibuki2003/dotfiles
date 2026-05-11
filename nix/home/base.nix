@@ -109,6 +109,7 @@ in {
       procs
       pv
       ripgrep
+      rtk
       rustup
       sheldon
       socat
@@ -149,6 +150,7 @@ in {
       pyright
       tinymist
       typescript-language-server
+      ty
       verible
       intelephense
       ocamlPackages.ocaml-lsp
