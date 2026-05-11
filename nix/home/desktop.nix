@@ -66,10 +66,10 @@ in {
       audacity
       chromium
       codex
-      (cutter.withPlugins (ps: with ps; [
-        rz-ghidra
-        jsdec
-      ]))
+      # (cutter.withPlugins (ps: with ps; [
+      #   rz-ghidra
+      #   jsdec
+      # ]))
       mypkgs.discord
       drawio
       font-manager
