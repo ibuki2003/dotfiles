@@ -133,3 +133,8 @@ semantic_escape_chars = ",│`|:\"' ()[]{}<>\t-"
 dynamic_title = true
 opacity = 0.9
 title = "Alacritty"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"
