@@ -121,7 +121,7 @@
     clang
     python3
     python3Packages.pip
-    python3Packages.pipx
+    # python3Packages.pipx
     cachix
     udisks
     cifs-utils

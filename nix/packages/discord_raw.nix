@@ -2,40 +2,18 @@
 # NOTE: using hacky solution; requires nix-ld to work
 
 { lib, pkgs, ... }:
-let
-  # remove specific commands in the build script
-  banCommand = cmd: script: lib.strings.concatLines
-      (builtins.foldl' (s: l:
-        let
-          m = s.cont || (lib.strings.hasPrefix (cmd + " ") l);
-          c = lib.strings.hasSuffix "\\" l;
-        in
-          {
-            cont = m && c;
-            lines = s.lines ++ (if m then [] else [l]);
-          })
-        { cont = false; lines = []; }
-        (lib.splitString "\n" script)
-      ).lines;
-in
-  pkgs.discord.overrideAttrs (prev: rec {
-      nativeBuildInputs = [ pkgs.makeShellWrapper ];
+  pkgs.discord.overrideAttrs (prev: {
+    nativeBuildInputs = [
+      pkgs.makeShellWrapper
+      pkgs.brotli  # needed at build time: installPhase runs `brotli -d` to extract distro tarball
+    ];
 
-      # add missing dependencies
-      libPath = prev.libPath + lib.makeLibraryPath (with pkgs; [
-        alsa-lib
-        libdrm
-        libxkbcommon
-        libxdamage
-        libx11
-        libxcb
-        libxshmfence
-        mesa
-        nss
-      ]);
+    # finalAttrs pattern means overriding libPath here automatically propagates to installPhase
+    libPath = prev.libPath + ":" + lib.makeLibraryPath (with pkgs; [
+      libxshmfence  # used by Chromium/X11, not in upstream libPath (was patched via autoPatchelfHook)
+      mesa          # GPU driver libs (libGL etc.) for hardware acceleration
+    ]);
 
-      installPhase = builtins.replaceStrings [prev.libPath] [libPath]
-        (banCommand "patchelf" prev.installPhase);
-      dontPatchELF = true;
-      dontStrip = true;
-    })
+    dontPatchELF = true;
+    dontStrip = true;
+  })

@@ -165,7 +165,7 @@ in {
       # python
       (python3.withPackages (ps: with ps; [
         pip
-        pipx
+        # pipx
         numpy
         (matplotlib.override { enableQt = true; })
         scipy
