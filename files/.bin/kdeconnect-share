@@ -8,7 +8,7 @@ fi
 
 device=$(
   kdeconnect-cli -a 2>/dev/null \
-    | sed -E 's/ \(.+$//' \
+    | sed -E 's/ (on|\() .+$//' \
     | fzf --prompt="Select device: " --height=10 \
     | sed -E 's/^.+: //'
   )
