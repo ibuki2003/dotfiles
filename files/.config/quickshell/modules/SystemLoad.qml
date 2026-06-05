@@ -52,10 +52,14 @@ Singleton {
 
     property int lastTotalTime: 0
     property int lastIdleTime: 0
+    property var lastCoreStats: [] // [{total, idle}, ...]
 
     onLoaded: {
       const lines = statFile.text().split("\n");
       const numCores = lines.filter(line => line.startsWith("cpu")).length - 1; // exclude the aggregate "cpu" line
+      const newCoreStats = [];
+      const perCoreUsage = [];
+
       for (const line of lines) {
         if (line.startsWith("cpu ")) {
           const parts = line.split(/\s+/);
@@ -65,16 +69,31 @@ Singleton {
 
           const totalDiff = total - statFile.lastTotalTime;
           const idleDiff = totalIdle - statFile.lastIdleTime;
-          // const usage = (totalDiff - idleDiff) / totalDiff * 100.0 * numCores;
 
           root.cpuUsage = (totalDiff - idleDiff) / totalDiff * 100.0 * numCores;
           root.cpuCores = numCores;
 
           statFile.lastTotalTime = total
           statFile.lastIdleTime = totalIdle
-          break
+        } else if (/^cpu\d/.test(line)) {
+          const parts = line.split(/\s+/);
+          const [user, nice, system, idle, iowait, irq, softirq, steal] = parts.slice(1, 9).map(s => parseInt(s));
+          const totalIdle = idle + iowait;
+          const total = user + nice + system + idle + iowait + irq + softirq + steal;
+          const idx = newCoreStats.length;
+          newCoreStats.push({total, idle: totalIdle});
+
+          if (statFile.lastCoreStats.length > idx) {
+            const prev = statFile.lastCoreStats[idx];
+            const totalDiff = total - prev.total;
+            const idleDiff = totalIdle - prev.idle;
+            perCoreUsage.push(totalDiff > 0 ? (totalDiff - idleDiff) / totalDiff * 100.0 : 0.0);
+          }
         }
       }
+
+      statFile.lastCoreStats = newCoreStats;
+      if (perCoreUsage.length > 0) root.cpuUsagePerCore = perCoreUsage;
     }
   }
   Timer {

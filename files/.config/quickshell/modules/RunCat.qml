@@ -64,30 +64,62 @@ WrapperMouseArea {
       visible: root.containsMouse
       anchor.item: root
 
-      implicitWidth: grid.implicitWidth + 20
-      implicitHeight: grid.implicitHeight + 20
+      implicitWidth: grid.implicitWidth + 12
+      implicitHeight: grid.implicitHeight + 12
 
-      GridLayout {
+      ColumnLayout {
         anchors.centerIn: parent
         id: grid
-        columns: 2
+        spacing: 2
 
-        MyText {
-          text: "󰔏"
-          font.family: "Material Design Icons"
-        }
-        MyText {
-          text: Math.round(SystemLoad.cpuTemperature) + " ℃"
+        // per-core bar chart
+        // target total bar area ~160px at 32 cores
+        Row {
+          readonly property int barSpacing: 1
+          readonly property int barWidth: SystemLoad.cpuCores > 0
+            ? Math.max(1, Math.floor((160 - (SystemLoad.cpuCores - 1) * barSpacing) / SystemLoad.cpuCores))
+            : 4
+          spacing: barSpacing
+          Layout.alignment: Qt.AlignHCenter
+
+          Repeater {
+            model: SystemLoad.cpuUsagePerCore
+            delegate: Rectangle {
+              required property real modelData
+              width: parent.barWidth
+              height: 40
+              color: "transparent"
+
+              Rectangle {
+                width: parent.width
+                height: Math.round(parent.height * modelData / 100.0)
+                anchors.bottom: parent.bottom
+                color: Qt.rgba(1.0, 1.0 - Math.min(Math.max((modelData - 50.0) / 50.0, 0.0), 1.0), 0.2, 1.0)
+              }
+            }
+          }
         }
 
-        MyText {
-          text: "󰍛"
-          font.family: "Material Design Icons"
-        }
-        MyText {
-          text: Math.round(SystemLoad.cpuUsage) + " %"
-        }
+        RowLayout {
+          spacing: 6
+          Layout.alignment: Qt.AlignHCenter
 
+          MyText {
+            text: "󰔏"
+            font.family: "Material Design Icons"
+          }
+          MyText {
+            text: Math.round(SystemLoad.cpuTemperature) + " ℃"
+          }
+
+          MyText {
+            text: "󰍛"
+            font.family: "Material Design Icons"
+          }
+          MyText {
+            text: Math.round(SystemLoad.cpuUsage) + " %"
+          }
+        }
       }
 
     }
