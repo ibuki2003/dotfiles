@@ -23,20 +23,21 @@ pkgs.discord.overrideAttrs (prev:
         dest="$modules_dir/$name"
 
         case "$name" in
-          discord_krisp)
+          *)
             if [ ! -d "$s" ]; then
               # if not a directory, something is wrong; fallback
               echo "Warning: expected $s to be a directory, skipping relink" >&2
               ln -sfn "$s" "$dest"
               continue
             fi
+            [ -L "$dest" ] && rm "$dest"
             # 実ファイルにしないと動かない
             ${pkgs.rsync}/bin/rsync -a "$s/" "$dest/"
             ;;
-          *)
-            # 丸ごと symlink で十分
-            ln -sfn "$s" "$dest"
-            ;;
+          # *)
+          #   # 丸ごと symlink で十分
+          #   ln -sfn "$s" "$dest"
+          #   ;;
         esac
       done
     '';
