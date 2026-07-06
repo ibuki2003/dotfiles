@@ -69,6 +69,7 @@ return {
                 default = model,
                 choices = { model },
               },
+              top_p = { enabled = function() return false end },
               ["reasoning.effort"] = {
                 default = (opts and opts.effort) or "medium",
                 enabled = function() return model:sub(1, 1) == "o" or model:sub(1, 5) == "gpt-5" end,
@@ -81,7 +82,7 @@ return {
       return {
         interactions = {
           chat = {
-            adapter = "gpt5mini",
+            adapter = "gpt54mini",
             keymaps = {
               clear = { modes = { n = {} } }, -- undef
             },
@@ -100,7 +101,7 @@ return {
             },
           },
           inline = {
-            adapter = "gpt5mini",
+            adapter = "gpt54mini",
           },
         },
         display = {
@@ -123,9 +124,10 @@ return {
 
             -- NOTE: must consist with alphanumeric and underscore only
             ["gpt4_1mini"] = make_openai_adapter("gpt-4.1-mini"),
-            ["gpt5mini"] = make_openai_adapter("gpt-5-mini"),
-            ["gpt5_1"] = make_openai_adapter("gpt-5.1"),
-            ["gpt5_1_low"] = make_openai_adapter("gpt-5.1", { effort = "low" }),
+            ["gpt54nano"] = make_openai_adapter("gpt-5.4-nano"),
+            ["gpt54mini"] = make_openai_adapter("gpt-5.4-mini"),
+            ["gpt54"] = make_openai_adapter("gpt-5.4"),
+            ["gpt54_low"] = make_openai_adapter("gpt-5.4", { effort = "low" }),
             ["o3"] = make_openai_adapter("o3"),
 
           },

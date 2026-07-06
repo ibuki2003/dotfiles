@@ -298,7 +298,7 @@ binds {
     Mod+Shift+B { spawn "~/.config/sway/scripts/qr.sh"; }
 
     Mod+D { spawn "albert" "toggle"; }
-    Mod+semicolon { spawn "copyq" "toggle"; }
+    Mod+semicolon { spawn "copyq" "menu"; }
 }
 
 window-rule {
@@ -331,6 +331,6 @@ spawn-at-startup "blueman-applet"
 spawn-at-startup "copyq"
 spawn-at-startup "albert"
 spawn-at-startup "kdeconnect-indicator"
-spawn-sh-at-startup "swayidle -w before-sleep hyprlock"
+// spawn-sh-at-startup "swayidle -w before-sleep hyprlock"
 
 include optional=true "local-config.kdl"

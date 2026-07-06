@@ -3,7 +3,6 @@ description: 知見をノートに記録する
 argument-hint: 記録するトピックの説明
 
 disable-model-invocation: true
-context: fork
 ---
 
 今回の調査・作業で得られた知見を、将来活用できるように、ノートに記録してください。

@@ -54,7 +54,7 @@ return {
               -- NOTE: some clients do not support lsp_signature.nvim
               if
                 client == nil
-                or vim.tbl_contains({ 'null-ls' }, client.name) -- blacklist lsp
+                or vim.tbl_contains({ 'null-ls', 'copilot' }, client.name) -- blacklist lsp
                 or vim.tbl_contains({ 'ocaml' }, vim.bo[bufnr].filetype) -- blacklist filetypes
               then
                 return

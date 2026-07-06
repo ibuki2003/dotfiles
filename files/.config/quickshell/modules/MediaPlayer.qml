@@ -18,6 +18,9 @@ WrapperMouseArea {
   implicitWidth: inner.implicitWidth
   implicitHeight: parent.height
 
+  visible: !!player
+  opacity: player ? 1.0 : 0.0
+
   property int playerIndex: 0
   readonly property int playerCount: Mpris.players.values.length
 

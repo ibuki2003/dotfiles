@@ -116,6 +116,7 @@ in {
       rounded-mgenplus
       material-design-icons
       migu
+      mplus-outline-fonts.githubRelease
 
 
       # niri deps
@@ -155,6 +156,7 @@ in {
           "findbar.highlightAll" = true;
           "security.mixed_content.block_active_content" = false;
           "network.security.ports.banned.override" = "1-65535";
+          "widget.use-xdg-desktop-portal.file-picker" = 1; # force use XDG portal
           # "browser.uiCustomization.state" = ""; # TODO
         };
       };

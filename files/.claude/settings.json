@@ -1,7 +1,20 @@
 {
+  "env": {
+    "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-sonnet-4-6"
+  },
   "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(rtk ls *)",
+      "Bash(rtk read *)",
+      "Bash(rtk uv *)",
+      "Bash(uv run *)",
+      "Bash(rtk curl *)"
+    ],
     "defaultMode": "default"
   },
+  "model": "claude-opus-4-6",
   "hooks": {
     "PreToolUse": [
       {
@@ -21,12 +34,14 @@
   },
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
   "showClearContextOnPlanAccept": true,
+  "verbose": true,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true

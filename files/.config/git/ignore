@@ -2,3 +2,6 @@
 .aider*
 .ageage.*
 .direnv
+.nvim
+
+**/.claude/settings.local.json

@@ -200,9 +200,14 @@ for_window [app_id=" zoom"] floating enable
 for_window [app_id="zoom"] floating enable
 for_window [app_id="com.github.hluk.copyq"] floating enable
 no_focus [class="jetbrains-studio" title="splash"]
-no_focus [class="zoom"]
+for_window [class=".zoom" title=""] floating enable
+no_focus [class=".zoom" title=""]
 for_window [title="Picture-in-Picture"] floating enable
 for_window [app_id="albert"] blur disable
+for_window [app_id="" title="Albert"] blur disable
+for_window [class="albert"] blur disable
+for_window [class="albert"] floating enable
+for_window [app_id="albert"] floating enable
 
 
 bindsym Control+Semicolon exec copyq menu
