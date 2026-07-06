@@ -101,11 +101,11 @@
     "ccsum": {
         "cargoLock": {
             "Cargo.lock": [
-                "sha256-BVQDpy6znjjS0KmWezhJNIWbURiOwCB4PHASPxO4SE4=/Cargo.lock",
+                "sha256-IH4JCnbIalunlcwSwZS_zlA1YT33hjzg3Hl3AH7Z4ag=/Cargo.lock",
                 {}
             ]
         },
-        "date": "2026-03-12",
+        "date": "2026-06-24",
         "extract": null,
         "name": "ccsum",
         "passthru": null,
@@ -117,16 +117,16 @@
             "name": null,
             "owner": "sevenc-nanashi",
             "repo": "ccsum",
-            "rev": "3c683b0518c72a868019df3d0301f11b141cd13b",
-            "sha256": "sha256-BVQDpy6znjjS0KmWezhJNIWbURiOwCB4PHASPxO4SE4=",
+            "rev": "0f7732d259b72e55bb0e12b10ee5a723fb91214d",
+            "sha256": "sha256-IH4JCnbIalunlcwSwZS/zlA1YT33hjzg3Hl3AH7Z4ag=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "3c683b0518c72a868019df3d0301f11b141cd13b"
+        "version": "0f7732d259b72e55bb0e12b10ee5a723fb91214d"
     },
     "defmt-print": {
         "cargoLock": null,
-        "date": "2026-06-01",
+        "date": "2026-06-29",
         "extract": null,
         "name": "defmt-print",
         "passthru": null,
@@ -138,12 +138,12 @@
             "name": null,
             "owner": "knurling-rs",
             "repo": "defmt",
-            "rev": "a87ee8e98b0eb22c802991924e31b4da84342e17",
-            "sha256": "sha256-SvIVtpArzLfu9GD6AsnsIUBKIZwejEwFIeTk94d6K/A=",
+            "rev": "9087a689a32aaae57c7ec2058d15d9c98c12bc81",
+            "sha256": "sha256-hTn1mpKKnNPVGKFo71C4t6Ewv8rikQXWciSV0t8Ti78=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "a87ee8e98b0eb22c802991924e31b4da84342e17"
+        "version": "9087a689a32aaae57c7ec2058d15d9c98c12bc81"
     },
     "memvis": {
         "cargoLock": {
@@ -174,13 +174,13 @@
     "niri": {
         "cargoLock": {
             "Cargo.lock": [
-                "sha256-FeKyLRxLZu2EUnhifijZPDZRl0sVnPVHMtizAINNiN4=/Cargo.lock",
+                "sha256-citgYJbvR1iUKXpiWlFq3NO+fw6hXGL3Qk1ampU7lhA=/Cargo.lock",
                 {
                     "smithay-0.7.0": "sha256-TV/GTfSvgfVwIFUGoASU7xm38opIBLjLMf1HeNTW07U="
                 }
             ]
         },
-        "date": "2026-06-05",
+        "date": "2026-07-05",
         "extract": null,
         "name": "niri",
         "passthru": null,
@@ -192,16 +192,16 @@
             "name": null,
             "owner": "niri-wm",
             "repo": "niri",
-            "rev": "f717ae030fe56fc52522ebef69f17f3f09064ac4",
-            "sha256": "sha256-FeKyLRxLZu2EUnhifijZPDZRl0sVnPVHMtizAINNiN4=",
+            "rev": "a30ca7983b2f1fc3ddeb209b3fe18fa78e0dbd25",
+            "sha256": "sha256-citgYJbvR1iUKXpiWlFq3NO+fw6hXGL3Qk1ampU7lhA=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "f717ae030fe56fc52522ebef69f17f3f09064ac4"
+        "version": "a30ca7983b2f1fc3ddeb209b3fe18fa78e0dbd25"
     },
     "quickshell": {
         "cargoLock": null,
-        "date": "2026-06-01",
+        "date": "2026-07-04",
         "extract": null,
         "name": "quickshell",
         "passthru": null,
@@ -211,13 +211,13 @@
             "fetchSubmodules": false,
             "leaveDotGit": false,
             "name": null,
-            "rev": "b66495fcc5022681b56b61f928c7acbe910e722c",
-            "sha256": "sha256-7HgdJBG4BgAPDyHKKxWtxj7nziqsQo6zQCXtwy+L9fs=",
+            "rev": "4f2c62486b0c939f7fc1f7cea68037173813dbfe",
+            "sha256": "sha256-tknenPoA90o+Z7woiHchSAHiQzI8s0qYWlB87lIVPEc=",
             "sparseCheckout": [],
             "type": "git",
             "url": "https://git.outfoxxed.me/quickshell/quickshell.git"
         },
-        "version": "b66495fcc5022681b56b61f928c7acbe910e722c"
+        "version": "4f2c62486b0c939f7fc1f7cea68037173813dbfe"
     },
     "skkemoji": {
         "cargoLock": null,

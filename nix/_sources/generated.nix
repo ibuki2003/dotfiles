@@ -74,33 +74,33 @@
   };
   ccsum = {
     pname = "ccsum";
-    version = "3c683b0518c72a868019df3d0301f11b141cd13b";
+    version = "0f7732d259b72e55bb0e12b10ee5a723fb91214d";
     src = fetchFromGitHub {
       owner = "sevenc-nanashi";
       repo = "ccsum";
-      rev = "3c683b0518c72a868019df3d0301f11b141cd13b";
+      rev = "0f7732d259b72e55bb0e12b10ee5a723fb91214d";
       fetchSubmodules = false;
-      sha256 = "sha256-BVQDpy6znjjS0KmWezhJNIWbURiOwCB4PHASPxO4SE4=";
+      sha256 = "sha256-IH4JCnbIalunlcwSwZS/zlA1YT33hjzg3Hl3AH7Z4ag=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./. + "/sha256-BVQDpy6znjjS0KmWezhJNIWbURiOwCB4PHASPxO4SE4=/Cargo.lock";
+      lockFile = ./. + "/sha256-IH4JCnbIalunlcwSwZS_zlA1YT33hjzg3Hl3AH7Z4ag=/Cargo.lock";
       outputHashes = {
         
       };
     };
-    date = "2026-03-12";
+    date = "2026-06-24";
   };
   defmt-print = {
     pname = "defmt-print";
-    version = "a87ee8e98b0eb22c802991924e31b4da84342e17";
+    version = "9087a689a32aaae57c7ec2058d15d9c98c12bc81";
     src = fetchFromGitHub {
       owner = "knurling-rs";
       repo = "defmt";
-      rev = "a87ee8e98b0eb22c802991924e31b4da84342e17";
+      rev = "9087a689a32aaae57c7ec2058d15d9c98c12bc81";
       fetchSubmodules = false;
-      sha256 = "sha256-SvIVtpArzLfu9GD6AsnsIUBKIZwejEwFIeTk94d6K/A=";
+      sha256 = "sha256-hTn1mpKKnNPVGKFo71C4t6Ewv8rikQXWciSV0t8Ti78=";
     };
-    date = "2026-06-01";
+    date = "2026-06-29";
   };
   memvis = {
     pname = "memvis";
@@ -122,35 +122,35 @@
   };
   niri = {
     pname = "niri";
-    version = "f717ae030fe56fc52522ebef69f17f3f09064ac4";
+    version = "a30ca7983b2f1fc3ddeb209b3fe18fa78e0dbd25";
     src = fetchFromGitHub {
       owner = "niri-wm";
       repo = "niri";
-      rev = "f717ae030fe56fc52522ebef69f17f3f09064ac4";
+      rev = "a30ca7983b2f1fc3ddeb209b3fe18fa78e0dbd25";
       fetchSubmodules = false;
-      sha256 = "sha256-FeKyLRxLZu2EUnhifijZPDZRl0sVnPVHMtizAINNiN4=";
+      sha256 = "sha256-citgYJbvR1iUKXpiWlFq3NO+fw6hXGL3Qk1ampU7lhA=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./. + "/sha256-FeKyLRxLZu2EUnhifijZPDZRl0sVnPVHMtizAINNiN4=/Cargo.lock";
+      lockFile = ./. + "/sha256-citgYJbvR1iUKXpiWlFq3NO+fw6hXGL3Qk1ampU7lhA=/Cargo.lock";
       outputHashes = {
         "smithay-0.7.0" = "sha256-TV/GTfSvgfVwIFUGoASU7xm38opIBLjLMf1HeNTW07U=";
       };
     };
-    date = "2026-06-05";
+    date = "2026-07-05";
   };
   quickshell = {
     pname = "quickshell";
-    version = "b66495fcc5022681b56b61f928c7acbe910e722c";
+    version = "4f2c62486b0c939f7fc1f7cea68037173813dbfe";
     src = fetchgit {
       url = "https://git.outfoxxed.me/quickshell/quickshell.git";
-      rev = "b66495fcc5022681b56b61f928c7acbe910e722c";
+      rev = "4f2c62486b0c939f7fc1f7cea68037173813dbfe";
       fetchSubmodules = false;
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-7HgdJBG4BgAPDyHKKxWtxj7nziqsQo6zQCXtwy+L9fs=";
+      sha256 = "sha256-tknenPoA90o+Z7woiHchSAHiQzI8s0qYWlB87lIVPEc=";
     };
-    date = "2026-06-01";
+    date = "2026-07-04";
   };
   skkemoji = {
     pname = "skkemoji";
