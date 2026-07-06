@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   sources,
   ...
@@ -18,6 +19,8 @@ in {
   nix.package = pkgs.nix;
 
   xdg.enable = true;
+  xdg.stateFile."nvim/lsp.log".source =
+    config.lib.file.mkOutOfStoreSymlink "/tmp/nvim-lsp.log";
 
   home = {
     username = username;
