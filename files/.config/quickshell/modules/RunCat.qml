@@ -75,6 +75,7 @@ WrapperMouseArea {
         // per-core bar chart
         // target total bar area ~160px at 32 cores
         Row {
+          id: barRow
           readonly property int barSpacing: 1
           readonly property int barWidth: SystemLoad.cpuCores > 0
             ? Math.max(1, Math.floor((160 - (SystemLoad.cpuCores - 1) * barSpacing) / SystemLoad.cpuCores))
@@ -85,16 +86,19 @@ WrapperMouseArea {
           Repeater {
             model: SystemLoad.cpuUsagePerCore
             delegate: Rectangle {
+              id: bar
               required property real modelData
-              width: parent.barWidth
+              width: barRow.barWidth
               height: 40
               color: "transparent"
 
               Rectangle {
                 width: parent.width
-                height: Math.round(parent.height * modelData / 100.0)
+                height: Math.round(parent.height * bar.modelData / 100.0)
                 anchors.bottom: parent.bottom
-                color: Qt.rgba(1.0, 1.0 - Math.min(Math.max((modelData - 50.0) / 50.0, 0.0), 1.0), 0.2, 1.0)
+
+                readonly property real colorFactor : Math.min(Math.max((bar.modelData - 50.0) / 50.0, 0.0), 1.0)
+                color: Qt.hsva(0.333 * (1.0 - colorFactor), 1.0, 1.0, 1.0)
               }
             }
           }
