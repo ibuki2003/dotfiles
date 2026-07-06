@@ -32,6 +32,9 @@ function ln_files() {
       .config | .claude)
         ln_files $filename
         ;;
+      .codex)
+        # do nothing here; handled below
+        ;;
       *)
         ln_checked "$root/files/$fn" ~/"$fn"
         ;;
@@ -43,3 +46,6 @@ ln_files .
 
 mkdir -p ~/.local/share/albert/python
 ln_checked $root/etc/albert_plugins ~/.local/share/albert/python/plugins
+
+mkdir -p ~/.codex
+ln_checked $root/files/.codex/AGENTS.md ~/.codex/AGENTS.md
