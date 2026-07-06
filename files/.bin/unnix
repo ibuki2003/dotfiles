@@ -33,6 +33,15 @@ while [[ $# -gt 0 ]]; do
       in_place=1
       shift
       ;;
+    --interpreter)
+      shift
+      if [[ -z $1 ]]; then
+        echo "Error: --interpreter requires an argument." >&2
+        usage
+      fi
+      INTERP="$1"
+      shift
+      ;;
     -*)
       usage
       ;;

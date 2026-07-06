@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+device=/dev/dri/renderD128
+if [[ -e "$device" ]]; then
+  ffmpeg \
+    -hwaccel vaapi \
+    -hwaccel_output_format vaapi \
+    "$@"
+else
+  ffmpeg "$@"
+fi
