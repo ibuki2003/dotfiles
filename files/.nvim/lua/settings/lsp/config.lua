@@ -23,7 +23,7 @@ vim.lsp.enable({
   'kotlin_language_server',
   'tinymist',
   'ocamllsp',
-  'nil_ls',
+  -- 'nil_ls',
   'nixd',
   'svlangserver',
   'denols', 'ts_ls',

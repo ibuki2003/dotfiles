@@ -148,7 +148,6 @@ in {
       emmet-ls
       intelephense
       lua-language-server
-      nil # nix lsp
       nixd
       pyright
       tinymist
