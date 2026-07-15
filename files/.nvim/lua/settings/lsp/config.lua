@@ -32,6 +32,7 @@ vim.lsp.enable({
   'qmlls',
   'openscad_lsp',
   'ty',
+  'tombi',
 })
 
 local float_opts = {

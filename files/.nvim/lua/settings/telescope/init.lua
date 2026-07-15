@@ -10,6 +10,12 @@ telescope.setup {
         ['<End>'] = function() vim.fn.cursor(0, 1e6) end,
         ['<C-a>'] = function() vim.fn.cursor(0, 3) end,
         ['<C-e>'] = function() vim.fn.cursor(0, 1e6) end,
+
+        -- https://github.com/nvim-telescope/telescope.nvim/issues/814#issuecomment-1238510694
+        ["<C-o>"] = function(prompt_bufnr)
+          require("telescope.actions").select_default(prompt_bufnr)
+          require("telescope.builtin").resume()
+        end,
       },
     },
     path_display = {

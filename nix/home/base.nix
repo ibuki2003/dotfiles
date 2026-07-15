@@ -161,6 +161,7 @@ in {
       gopls
       kdePackages.qtdeclarative
       openscad-lsp
+      tombi
 
       tree-sitter # for neovim-treesitter
 
