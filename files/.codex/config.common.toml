@@ -1,22 +1,26 @@
-model = "gpt-5.5"
+#:schema https://developers.openai.com/codex/config-schema.json
+model = "gpt-5.6-sol"
 model_reasoning_effort = "medium"
 approval_policy = "on-request"
 sandbox_mode    = "danger-full-access"
 personality = "pragmatic"
-
 web_search = "cached"
 
 [tui]
 terminal_title = []
+status_line = ["model-with-reasoning", "current-dir", "run-state", "permissions", "context-used", "five-hour-limit", "weekly-limit", "used-tokens"]
+status_line_use_colors = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+"gpt-5.6-sol" = 1
 
 [profiles.general]
 model = "gpt-5-mini"
 
 [notice.model_migrations]
-"gpt-5.1" = "gpt-5.1-codex-max"
-"gpt-5.1-codex" = "gpt-5.1-codex-max"
-"gpt-5.1-codex-mini" = "gpt-5.4"
-"gpt-5.1-codex-max" = "gpt-5.4"
+"gpt-5.1-codex-mini" = "gpt-5.3-codex"
 
-[tui.model_availability_nux]
-"gpt-5.5" = 4
+[features]
+remote_control = true
+
