@@ -59,9 +59,11 @@ Singleton {
             switch (key) {
               // windows
               case "WindowsChanged": {
+                root.windows = {}
                 for (const win of value.windows) {
                   registerWindow(win)
                 }
+                root.windows = Object.assign({}, root.windows)
                 break;
               }
               case "WindowFocusChanged": {
@@ -70,10 +72,12 @@ Singleton {
               }
               case "WindowOpenedOrChanged": {
                 registerWindow(value.window)
+                root.windows = Object.assign({}, root.windows)
                 break;
               }
               case "WindowClosed": {
                 delete root.windows[value.id]
+                root.windows = Object.assign({}, root.windows)
                 break;
               }
 
@@ -82,7 +86,6 @@ Singleton {
                 const workspaces = {}
                 const actives = {}
                 for (const ws of value.workspaces) {
-                  delete ws["active_window_id"] // skip managing this for now
                   workspaces[ws.id] = ws
                   if (ws.is_active) {
                     actives[ws.output] = ws.id
@@ -117,10 +120,28 @@ Singleton {
                 break;
               }
 
-              case "WorkspaceActiveWindowChanged":
-              case "WindowFocusTimestampChanged":
-              case "WindowUrgencyChanged":
-              {
+              case "WorkspaceActiveWindowChanged": {
+                if (root.workspaces[value.workspace_id]) {
+                  root.workspaces[value.workspace_id].active_window_id = value.active_window_id
+                  root.workspaces = Object.assign({}, root.workspaces)
+                }
+                break;
+              }
+              case "WindowUrgencyChanged": {
+                if (root.windows[value.id]) {
+                  root.windows[value.id].is_urgent = value.urgent
+                  root.windows = Object.assign({}, root.windows)
+                }
+                break;
+              }
+              case "WindowLayoutsChanged": {
+                for (const change of value.changes) {
+                  if (root.windows[change[0]]) root.windows[change[0]].layout = change[1]
+                }
+                root.windows = Object.assign({}, root.windows)
+                break;
+              }
+              case "WindowFocusTimestampChanged": {
                 // nothing to do
                 break;
               }
