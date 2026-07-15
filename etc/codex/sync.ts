@@ -176,10 +176,11 @@ async function mergeWithGit(
     const merged = new TextDecoder().decode(output.stdout);
     const stderr = new TextDecoder().decode(output.stderr).trim();
 
+    // NOTE: return code never be negative in Unix
     if (output.code === 0) {
       return { ok: true, merged };
     }
-    if (output.code === 1) {
+    if (output.code <= 127) {
       return { ok: false, conflicted: merged };
     }
 
