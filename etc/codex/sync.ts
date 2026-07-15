@@ -149,7 +149,6 @@ async function mergeWithGit(
   content: { current: string; base: string; other: string },
 ): Promise<MergeResult> {
   const tempDir = await Deno.makeTempDir({
-    dir: dirname(paths.actualConfig),
     prefix: ".config-sync-",
   });
 
