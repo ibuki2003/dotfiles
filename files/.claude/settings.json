@@ -44,5 +44,6 @@
   "verbose": true,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "cleanupPeriodDays": 9999,
 }
