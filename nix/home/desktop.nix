@@ -78,6 +78,7 @@ in {
       # imhex
       imv
       inkscape
+      kanshi
       kicad
       kitty
       lan-mouse

@@ -161,5 +161,10 @@
     RESTORE_THRESHOLDS_ON_BAT = "1";
   };
 
+  services.udev.extraRules = lib.concatStringsSep "\n"
+    [
+      ''
+        KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0666", TAG+="uaccess", TAG+="udev-acl"
+    '' ];
 
 }
