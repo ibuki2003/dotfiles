@@ -2,13 +2,13 @@
 # NOTE: using hacky solution; requires nix-ld to work
 
 { lib, pkgs, ... }:
-let
-  anchor = ''discord-stage-modules $out/opt/Discord/modules"'';
-in
-assert lib.assertMsg (lib.strings.hasInfix anchor pkgs.discord.installPhase)
-  "discord overlay: stageModules patch failed";
 pkgs.discord.overrideAttrs (prev:
   let
+    prepareScript = pkgs.writeShellScript "discord-prepare-modules" ''
+      modules_dir="''${XDG_CONFIG_HOME:-$HOME/.config}/discord/${prev.version}/modules"
+      [ ! -d "$modules_dir" ] || chmod -R u+w "$modules_dir"
+    '';
+
     relinkScript = pkgs.writeShellScript "discord-relink-modules" ''
       # $1 = 今ビルドの store 側 modules ディレクトリ（wrapper から $out/opt/Discord/modules を渡す）。
       # krisp だけ実体ディレクトリ化、他は丸ごと symlink を現行 store へ貼り替え。毎起動で $out 変更/GC に追従。
@@ -31,8 +31,9 @@ pkgs.discord.overrideAttrs (prev:
               continue
             fi
             [ -L "$dest" ] && rm "$dest"
-            # 実ファイルにしないと動かない
-            ${pkgs.rsync}/bin/rsync -a "$s/" "$dest/"
+            # 実ファイルにしないと動かない。Krisp が KMS を作れるよう、
+            # Nix store 由来の読み取り専用ディレクトリモードは引き継がない。
+            ${pkgs.rsync}/bin/rsync -a --chmod=Du+w "$s/" "$dest/"
             ;;
           # *)
           #   # 丸ごと symlink で十分
@@ -42,14 +43,18 @@ pkgs.discord.overrideAttrs (prev:
       done
     '';
 
-    # stageModules の --run のすぐ後ろに relink の --run を足す。
+    stageAnchor = ''--run "${prev.stageModules} $out/opt/Discord/modules"'';
+
+    # stageModules の前に旧ツリーを削除可能にし、すぐ後ろに relink の --run を足す。
     # wrapProgramShell の出力ではなく公開フラグ --run に介入するので lib 仕様変更に強い。
     patched =
+      assert lib.assertMsg (lib.strings.hasInfix (builtins.unsafeDiscardStringContext stageAnchor) prev.installPhase)
+        "discord overlay: stageModules patch failed";
       # skip patch if relinkScript is already inserted
       if lib.strings.hasInfix "discord-relink-modules" prev.installPhase then prev.installPhase else
         builtins.replaceStrings
-        [ anchor ]
-        [ (anchor + " --run \"${relinkScript} $out/opt/Discord/modules\"") ]
+        [ stageAnchor ]
+        [ (''--run "${prepareScript}" '' + stageAnchor + " --run \"${relinkScript} $out/opt/Discord/modules\"") ]
         prev.installPhase;
   in
   {
