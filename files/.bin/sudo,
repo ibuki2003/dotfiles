@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+prog="$(, -x $1)"
+if [ -z "$prog" ]; then
+  echo "program not selected"
+  exit 1
+fi
+shift
+sudo -- "$prog" "$@"
