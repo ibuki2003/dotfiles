@@ -261,4 +261,7 @@ in {
   };
 
   programs.home-manager.enable = true;
+
+  # Hacky workaround for Rustup and nix GC issue.
+  home.sessionVariables.CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER = "${pkgs.clang}/bin/clang";
 }

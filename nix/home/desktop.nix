@@ -44,6 +44,7 @@ in {
 
       # tools
       appimage-run
+      glib
       libsecret
       pamixer
       pulseaudio
@@ -57,6 +58,7 @@ in {
       wl-clipboard
       yt-dlp
       yubikey-manager
+      ydotool
       zbar
 
       # apps
@@ -253,11 +255,25 @@ in {
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
+      xdg-desktop-portal-gnome
       xdg-desktop-portal-wlr
     ];
     config.common = {
-      default = [ "gtk" ]; # default is gnome, which I don't like...
+      default = [ "gnome" "gtk" ];
+
+      # I prefer gtk dialogs over gnome ones
       "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      "org.freedesktop.impl.portal.AppChooser" = [ "gtk" ];
+      "org.freedesktop.impl.portal.Print" = [ "gtk" ];
+      "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+      "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+
+      # 2画面でGNOME Screenshotが失敗するため
+      "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+
+      # Niri公式経路
+      "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+
     };
   };
 
@@ -321,6 +337,13 @@ in {
       exec = "remmina -i";
     })
   ];
+
+  dconf = {
+    enable = true;
+    settings."org/gnome/desktop/interface" = {
+      toolkit-accessibility = true;
+    };
+  };
 
   programs.home-manager.enable = true;
 }
