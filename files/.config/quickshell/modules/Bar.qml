@@ -98,7 +98,10 @@ PanelWindow {
         radius: height / 2
 
         NiriWorkspaces {
+          id: niriWorkspaces
+
           outputId: root.screen.name
+          columnWidthScale: niriWorkspaces.columnHeight * 0.75 / root.screen.height
         }
       }
     }

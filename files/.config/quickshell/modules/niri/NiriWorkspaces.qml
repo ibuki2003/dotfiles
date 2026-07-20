@@ -7,9 +7,9 @@ Item {
   id: root
 
   required property string outputId
+  required property real columnWidthScale
 
   readonly property real columnHeight: 14
-  readonly property real columnWidthScale: 0.75
   readonly property bool shouldShow: NiriIpc.focusedWindowTitle !== ""
   readonly property var workspaceIds: NiriIpc.workspacesByOutput[root.outputId] || []
   readonly property int activeWorkspaceId: NiriIpc.activeWorkspaces[root.outputId] ?? -1
@@ -38,7 +38,6 @@ Item {
         position: position[1],
         isUrgent: win.is_urgent,
         tileWidth: win.layout.tile_size?.[0] ?? win.layout.window_size?.[0] ?? 0,
-        tileHeight: win.layout.tile_size?.[1] ?? win.layout.window_size?.[1] ?? 0,
       })
     }
 
@@ -47,15 +46,13 @@ Item {
           position: Number(position),
           windows: byPosition[position].sort((a, b) => a.position - b.position),
           tileWidth: Math.max(...byPosition[position].map(win => win.tileWidth)),
-          tileHeight: byPosition[position].reduce((sum, win) => sum + win.tileHeight, 0),
         }))
         .sort((a, b) => a.position - b.position)
   }
 
   function columnWidth(column) {
-    if (column.tileHeight <= 0) return 7
-    return Math.max(3,
-        root.columnHeight * column.tileWidth / column.tileHeight * root.columnWidthScale)
+    if (column.tileWidth <= 0) return 7
+    return Math.max(3, column.tileWidth * root.columnWidthScale)
   }
 
   implicitHeight: parent.height
