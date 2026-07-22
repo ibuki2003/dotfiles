@@ -11,28 +11,41 @@ let
   # Usage example (GitHub repo):
   #   other = mkRust "other" sources.other { };
   # Provide cargoHash when you’ve computed it; defaults to lib.fakeHash to allow prefetch.
-  mkRust = name: srcDef: {
-    cargoHash ? lib.fakeHash,
-    buildInputs ? [ ],
-    nativeBuildInputs ? [ ],
-    doCheck ? false,
-    meta ? { },
-    # Extra args passthrough if needed
-    extraArgs ? { },
-  }:
+  mkRust =
+    name: srcDef:
+    {
+      cargoHash ? lib.fakeHash,
+      buildInputs ? [ ],
+      nativeBuildInputs ? [ ],
+      doCheck ? false,
+      meta ? { },
+      # Extra args passthrough if needed
+      extraArgs ? { },
+    }:
     let
       cargoLockArg = lib.optionalAttrs (srcDef ? cargoLock && srcDef.cargoLock ? "Cargo.lock") {
         cargoLock = srcDef.cargoLock."Cargo.lock";
       };
-    in pkgs.rustPlatform.buildRustPackage (
-      ({
-        pname = name;
-        inherit (srcDef) version src;
-        inherit cargoHash buildInputs nativeBuildInputs doCheck;
-        meta = { mainProgram = name; } // meta;
-      }
-      // cargoLockArg
-      // extraArgs)
+    in
+    pkgs.rustPlatform.buildRustPackage (
+      (
+        {
+          pname = name;
+          inherit (srcDef) version src;
+          inherit
+            cargoHash
+            buildInputs
+            nativeBuildInputs
+            doCheck
+            ;
+          meta = {
+            mainProgram = name;
+          }
+          // meta;
+        }
+        // cargoLockArg
+        // extraArgs
+      )
     );
 in
 {
@@ -44,7 +57,10 @@ in
   cargo-generate = mkRust "cargo-generate" sources.cargo-generate { };
   defmt-print = mkRust "defmt-print" sources.defmt-print {
     extraArgs = {
-      cargoBuildFlags = [ "-p" "defmt-print" ];
+      cargoBuildFlags = [
+        "-p"
+        "defmt-print"
+      ];
     };
   };
   ccsum = mkRust "ccsum" sources.ccsum { };

@@ -1,18 +1,30 @@
-{ config, lib, pkgs, modulesPath, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [
-      ../desktop.nix
-      (modulesPath + "/installer/scan/not-detected.nix")
-      inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
-    ];
+  imports = [
+    ../desktop.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
+  ];
 
   networking.hostName = "fuwathink10-nix"; # Define your hostname.
 
   hardware.cpu.intel.updateMicrocode = true;
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "thunderbolt"
+    "nvme"
+    "usb_storage"
+    "sd_mod"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -31,26 +43,29 @@
       "grub.conf" = ''
         title   Arch Linux
         efi    /EFI/archlinux/grubx64.efi
-        '';
+      '';
     };
   };
 
   fileSystems = {
-    "/" =
-      { device = "/dev/disk/by-uuid/b5fe4aa7-3d1e-421b-b468-05b07bc4abdc";
-        fsType = "ext4";
-      };
+    "/" = {
+      device = "/dev/disk/by-uuid/b5fe4aa7-3d1e-421b-b468-05b07bc4abdc";
+      fsType = "ext4";
+    };
 
-    "/boot" =
-      { device = "/dev/disk/by-uuid/D09B-2897";
-        fsType = "vfat";
-        #options = [ "fmask=0077" "dmask=0077" ];
-      };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/D09B-2897";
+      fsType = "vfat";
+      #options = [ "fmask=0077" "dmask=0077" ];
+    };
 
     "/tmp" = {
       device = "none";
       fsType = "tmpfs";
-      options = [ "size=32G" "mode=1777" ];
+      options = [
+        "size=32G"
+        "mode=1777"
+      ];
     };
 
     "/windows" = {
@@ -68,13 +83,14 @@
     ];
   };
 
-
-  swapDevices = [ {
-    device = "/swapfile";
-    size = 8 * 1024; # [MiB] = 8 GiB
-    priority = 10;
-    discardPolicy = "both";
-  } ];
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 8 * 1024; # [MiB] = 8 GiB
+      priority = 10;
+      discardPolicy = "both";
+    }
+  ];
 
   zramSwap = {
     enable = true;
@@ -82,13 +98,14 @@
   };
   boot.kernel.sysctl."vm.swappiness" = 30;
 
-
   hardware.graphics = {
     extraPackages = with pkgs; [
       intel-media-driver
     ];
   };
-  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+  };
 
   networking = {
     firewall.enable = false; # this machine is behind a router
@@ -161,10 +178,10 @@
     RESTORE_THRESHOLDS_ON_BAT = "1";
   };
 
-  services.udev.extraRules = lib.concatStringsSep "\n"
-    [
-      ''
-        KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0666", TAG+="uaccess", TAG+="udev-acl"
-    '' ];
+  services.udev.extraRules = lib.concatStringsSep "\n" [
+    ''
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0666", TAG+="uaccess", TAG+="udev-acl"
+    ''
+  ];
 
 }

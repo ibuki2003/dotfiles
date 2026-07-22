@@ -23,120 +23,109 @@
 
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    ...
-  } @ inputs: let
-      system = "x86_64-linux";
-      overlays = [
-        inputs.neovim-nightly-overlay.overlays.default
-        inputs.nil.overlays.nil
-        (self: super: {
-          cargo-binutils = super.rustPlatform.buildRustPackage (
-            let old = super.cargo-binutils; in rec {
-              inherit (old) pname meta;
-              version = "0.4.0";
-              src = super.fetchCrate {
-                inherit pname version;
-                hash = "sha256-AF1MRBH8ULnHNHT2FS/LxMH+b06QMTIZMIR8mmkn17c=";
-              };
-              cargoHash = "sha256-pK6pFgOxQdEc4hYFj6mLEiIuPhoutpM2h3OLZgYrf6Q=";
-            });
-          quickshell = super.quickshell.overrideAttrs (oldAttrs: {
-            src = sources.quickshell.src;
-            buildInputs = oldAttrs.buildInputs ++ [
-              super.polkit
-              (super.cpptrace.overrideAttrs (old: {
-                cmakeFlags = old.cmakeFlags ++ [
-                  (super.lib.cmakeBool "CPPTRACE_UNWIND_WITH_LIBUNWIND" true)
-                ];
-                buildInputs = old.buildInputs ++ [ super.libunwind ];
-              }))
-            ];
-          });
-          niri = super.niri.overrideAttrs (finalAttrs: prevAttrs: {
-            src = sources.niri.src;
-            cargoDeps = super.rustPlatform.importCargoLock sources.niri.cargoLock."Cargo.lock";
-            postPatch = ''
-            patchShebangs resources/niri-session
-            substituteInPlace resources/niri.service \
-              --replace-fail 'ExecStart=niri' "ExecStart=$out/bin/niri"
-            '';
-            patches = [ (super.writeText "loglevel.patch" ''
-              diff --git a/src/utils/spawning.rs b/src/utils/spawning.rs
-              index 2c7ae454..4ee422d5 100644
-              --- a/src/utils/spawning.rs
-              +++ b/src/utils/spawning.rs
-              @@ -445,6 +445,7 @@ mod systemd {
-                       let properties: &[_] = &[
-                           ("PIDs", Value::new(pids)),
-                           ("CollectMode", Value::new("inactive-or-failed")),
-              +            ("LogLevelMax", Value::new(5i32)), // notice
-                       ];
-                       let aux: &[(&str, &[(&str, Value)])] = &[];
-              '') ];
+  outputs =
+    {
+      nixpkgs,
+      ...
+    }@inputs:
+    let
+      defaultSystem = "x86_64-linux";
 
-          });
-        })
-      ];
-      pkgs = import nixpkgs {
-        inherit system overlays;
-        allowUnfree = true;
-      };
-      sources = pkgs.callPackage ./nix/_sources/generated.nix {};
+      sources = pkgs.callPackage ./nix/_sources/generated.nix { };
+      mkPkgs =
+        {
+          system ? defaultSystem,
+          rocmSupport ? false,
+        }:
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            inherit rocmSupport;
+          };
+          overlays = [
+            inputs.neovim-nightly-overlay.overlays.default
+            (import ./nix/overlay.nix { inherit sources; })
+          ];
+        };
+      pkgs = mkPkgs { }; # deafult pkgs
     in
-  {
+    {
 
-    nixosConfigurations = pkgs.lib.attrsets.mapAttrs (k: v: inputs.nixpkgs.lib.nixosSystem ({
-      system = "x86_64-linux";
-      modules = [
-        (_: { nixpkgs.overlays = overlays; })
-      ] ++ v.modules;
-      specialArgs = {
-        inherit inputs sources;
-      };
-    })) {
-      fuwavermeer-nix = { modules = [ ./nix/nixos/hosts/fuwavermeer.nix ]; };
-      fuwathink10-nix = { modules = [ ./nix/nixos/hosts/fuwathink10.nix ]; };
-    };
-
-    homeConfigurations = {
-      fuwa = inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {
-          inherit inputs sources;
+      nixosConfigurations =
+        let
+          makeNixOSConfig =
+            {
+              system ? defaultSystem,
+              rocmSupport ? false,
+              modules ? [ ],
+            }:
+            let
+              pkgs = mkPkgs { inherit system rocmSupport; };
+            in
+            inputs.nixpkgs.lib.nixosSystem {
+              inherit system;
+              modules = [
+                (_: { nixpkgs.package = pkgs; })
+              ]
+              ++ modules;
+              specialArgs = {
+                inherit inputs sources;
+              };
+            };
+        in
+        {
+          fuwavermeer-nix = makeNixOSConfig {
+            modules = [ ./nix/nixos/hosts/fuwavermeer.nix ];
+            rocmSupport = true;
+          };
+          fuwathink10-nix = makeNixOSConfig { modules = [ ./nix/nixos/hosts/fuwathink10.nix ]; };
         };
-        modules = [
-          inputs.nix-index-database.homeModules.nix-index
-          ./nix/home/desktop.nix
-        ];
-      };
-      headless = inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {
-          inherit inputs sources;
+
+      homeConfigurations =
+        let
+          makeHomeConfig =
+            {
+              system ? defaultSystem,
+              rocmSupport ? false,
+              modules ? [ ],
+            }:
+            let
+              pkgs = mkPkgs { inherit system rocmSupport; };
+            in
+            inputs.home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              extraSpecialArgs = {
+                inherit inputs sources;
+              };
+              modules = [
+                inputs.nix-index-database.homeModules.nix-index
+                ./nix/home/base.nix
+              ]
+              ++ modules;
+            };
+        in
+        {
+          fuwa = makeHomeConfig { modules = [ ./nix/home/desktop.nix ]; };
+          "fuwa@fuwavermeer-nix" = makeHomeConfig {
+            modules = [ ./nix/home/desktop.nix ];
+            rocmSupport = true;
+          };
+          headless = makeHomeConfig { };
         };
-        modules = [
-          inputs.nix-index-database.homeModules.nix-index
-          ./nix/home/base.nix
-        ];
-      };
 
-      # fuwa@host = headless; # aliases here like this
-    };
-
-    apps.${system} = {
-      nvfetcher = {
-        type = "app";
-        program = toString (pkgs.writeShellScript "nvfetcher" ''
-          ${pkgs.nvfetcher}/bin/nvfetcher \
-            -c ./nix/nvfetcher.toml \
-            -o ./nix/_sources \
-            "$@"
-        '');
+      apps.${defaultSystem} = {
+        nvfetcher = {
+          type = "app";
+          program = toString (
+            pkgs.writeShellScript "nvfetcher" ''
+              ${pkgs.nvfetcher}/bin/nvfetcher \
+                -c ./nix/nvfetcher.toml \
+                -o ./nix/_sources \
+                "$@"
+            ''
+          );
+        };
       };
     };
-  };
 }

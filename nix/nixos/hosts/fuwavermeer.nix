@@ -1,16 +1,28 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 {
-  imports =
-    [
-      ../desktop.nix
-      (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [
+    ../desktop.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
 
   networking.hostName = "fuwavermeer-nix"; # Define your hostname.
 
   hardware.cpu.amd.updateMicrocode = true;
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "xhci_pci"
+    "ahci"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+  ];
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
@@ -22,7 +34,7 @@
       "grub.conf" = ''
         title   Arch Linux (GRUB)
         efi    /EFI/archlinux/grubx64.efi
-        '';
+      '';
     };
   };
 
@@ -31,7 +43,11 @@
     "/" = {
       device = "/dev/pool/nixos-root";
       fsType = "btrfs";
-      options = [ "defaults" "discard=async" "subvol=@" ];
+      options = [
+        "defaults"
+        "discard=async"
+        "subvol=@"
+      ];
     };
 
     "/boot" = {
@@ -49,7 +65,12 @@
     "/data" = {
       device = "/dev/disk/by-uuid/9b548a2f-89db-42a8-b5c4-cecd7db12b2a";
       fsType = "btrfs";
-      options = [ "defaults" "discard=async" "compress=zstd" "subvol=@data" ];
+      options = [
+        "defaults"
+        "discard=async"
+        "compress=zstd"
+        "subvol=@data"
+      ];
     };
 
   };
@@ -57,7 +78,10 @@
   services.btrfs.autoScrub = {
     enable = true;
     interval = "monthly";
-    fileSystems = [ "/" "/data" ];
+    fileSystems = [
+      "/"
+      "/data"
+    ];
   };
 
   services.fuwanas = {
@@ -145,13 +169,13 @@
     ];
   };
 
-  services.udev.extraRules = lib.concatStringsSep "\n"
-    [
-      # c270 usb reset workaround
-      ''
-        ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0825", TEST=="power/control", ATTR{power/control}="on"
-        ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0825", TEST=="power/autosuspend", ATTR{power/autosuspend}="123"
-    '' ];
+  services.udev.extraRules = lib.concatStringsSep "\n" [
+    # c270 usb reset workaround
+    ''
+      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0825", TEST=="power/control", ATTR{power/control}="on"
+      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0825", TEST=="power/autosuspend", ATTR{power/autosuspend}="123"
+    ''
+  ];
 
   fonts = {
     fontconfig.localConf = ''

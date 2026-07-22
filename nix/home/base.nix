@@ -3,24 +3,20 @@
   pkgs,
   sources,
   ...
-}: let
+}:
+let
   username = "fuwa";
   mypkgs = pkgs.callPackage ../packages { inherit sources; };
-in {
+in
+{
   imports = [
     ./modules
   ];
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
   nix.package = pkgs.nix;
 
   xdg.enable = true;
-  xdg.stateFile."nvim/lsp.log".source =
-    config.lib.file.mkOutOfStoreSymlink "/tmp/nvim-lsp.log";
+  xdg.stateFile."nvim/lsp.log".source = config.lib.file.mkOutOfStoreSymlink "/tmp/nvim-lsp.log";
 
   home = {
     username = username;
@@ -73,7 +69,8 @@ in {
       gdb
       gh
       ghq
-      git git-lfs
+      git
+      git-lfs
       gnumake
       gnupg
       gnuplot_qt
@@ -166,15 +163,17 @@ in {
       tree-sitter # for neovim-treesitter
 
       # python
-      (python3.withPackages (ps: with ps; [
-        pip
-        # pipx
-        numpy
-        (matplotlib.override { enableQt = true; })
-        scipy
-        python-lsp-server
-        pillow
-      ]))
+      (python3.withPackages (
+        ps: with ps; [
+          pip
+          # pipx
+          numpy
+          (matplotlib.override { enableQt = true; })
+          scipy
+          python-lsp-server
+          pillow
+        ]
+      ))
       uv
 
     ];
@@ -245,9 +244,8 @@ in {
 
   home.file.".profile".text = ''
     . ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-    '';
+  '';
   home.file.".xprofile".text = ". ~/.profile";
-
 
   systemd.user.services.tmptmp = {
     Unit.Description = "mkdir /tmp/tmp/";

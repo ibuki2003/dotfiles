@@ -1,10 +1,15 @@
-{ pkgs, lib, config, sources, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  sources,
+  ...
+}:
 
 {
-  imports =
-    [
-      ./base.nix
-    ];
+  imports = [
+    ./base.nix
+  ];
 
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
@@ -123,18 +128,18 @@
       (pkgs.writeTextFile {
         name = "yapicoprobe-udev-rules";
         text = ''
-        # create COM port for target CDC
-        ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-UART",    SYMLINK+="ttyPicoTarget"
-        ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-DEBUG",   SYMLINK+="ttyPicoProbe"
-        ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-SIGROK",  SYMLINK+="ttyPicoSigRok"
-        ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-SysView", SYMLINK+="ttyPicoSysView"
+          # create COM port for target CDC
+          ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-UART",    SYMLINK+="ttyPicoTarget"
+          ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-DEBUG",   SYMLINK+="ttyPicoProbe"
+          ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-SIGROK",  SYMLINK+="ttyPicoSigRok"
+          ACTION=="add", SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{interface}=="YAPicoprobe CDC-SysView", SYMLINK+="ttyPicoSysView"
         '';
         destination = "/etc/udev/rules.d/90-picoprobe.rules";
       })
       (pkgs.writeTextFile {
         name = "sipeed-udev-rules";
         text = ''
-        ATTRS{idVendor}=="359f", ATTRS{idProduct}=="3101", ENV{ID_MM_DEVICE_IGNORE}="1"
+          ATTRS{idVendor}=="359f", ATTRS{idProduct}=="3101", ENV{ID_MM_DEVICE_IGNORE}="1"
         '';
         destination = "/etc/udev/rules.d/49-sipeed.rules";
       })
@@ -142,21 +147,21 @@
       (pkgs.writeTextFile {
         name = "xilinx-drivers";
         text = ''
-        # 52-xilinx-digilent-usb.rules
-        ATTRS{idVendor}=="1443", MODE:="666"
-        ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{manufacturer}=="Digilent", MODE:="666"
+          # 52-xilinx-digilent-usb.rules
+          ATTRS{idVendor}=="1443", MODE:="666"
+          ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{manufacturer}=="Digilent", MODE:="666"
 
-        # 52-xilinx-ftdi-usb.rules
-        ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{manufacturer}=="Xilinx", MODE:="666"
+          # 52-xilinx-ftdi-usb.rules
+          ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{manufacturer}=="Xilinx", MODE:="666"
 
-        # 52-xilinx-pcusb.rules
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0008", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0007", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0009", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="000d", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="000f", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0013", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0015", MODE="666"
+          # 52-xilinx-pcusb.rules
+          ATTR{idVendor}=="03fd", ATTR{idProduct}=="0008", MODE="666"
+          ATTR{idVendor}=="03fd", ATTR{idProduct}=="0007", MODE="666"
+          ATTR{idVendor}=="03fd", ATTR{idProduct}=="0009", MODE="666"
+          ATTR{idVendor}=="03fd", ATTR{idProduct}=="000d", MODE="666"
+          ATTR{idVendor}=="03fd", ATTR{idProduct}=="000f", MODE="666"
+          ATTR{idVendor}=="03fd", ATTR{idProduct}=="0013", MODE="666"
+          ATTR{idVendor}=="03fd", ATTR{idProduct}=="0015", MODE="666"
         '';
         destination = "/etc/udev/rules.d/52-xilinx.rules";
       })
@@ -164,23 +169,22 @@
       (pkgs.writeTextFile {
         name = "uiap-ch32.rules";
         text = ''
-        # UIAPduino Pro Micro CH32V003 bootloader
-        KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="plugdev", MODE="0660"
-        #KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="dialout", MODE="0660"
-        #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="plugdev", MODE="0660"
-        #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="dialout", MODE="0660"
+          # UIAPduino Pro Micro CH32V003 bootloader
+          KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="plugdev", MODE="0660"
+          #KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="dialout", MODE="0660"
+          #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="plugdev", MODE="0660"
+          #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b803", GROUP="dialout", MODE="0660"
 
-        # UIAPduino Pro Micro CH32V006 bootloader
-        KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="plugdev", MODE="0660"
-        #KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="dialout", MODE="0660"
-        #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="plugdev", MODE="0660"
-        #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="dialout", MODE="0660"
+          # UIAPduino Pro Micro CH32V006 bootloader
+          KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="plugdev", MODE="0660"
+          #KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="dialout", MODE="0660"
+          #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="plugdev", MODE="0660"
+          #KERNEL=="hiddev*", SUBSYSTEM=="usbmisc", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b806", GROUP="dialout", MODE="0660"
         '';
         destination = "/etc/udev/rules.d/90-uiap-ch32.rules";
       })
 
     ];
-
 
     pcscd.enable = true;
     playerctld.enable = true;
@@ -221,7 +225,7 @@
     };
 
     nix-ld.libraries = with pkgs; [
-      nss  # Discord needs nss but must not leak to Firefox via LD_LIBRARY_PATH
+      nss # Discord needs nss but must not leak to Firefox via LD_LIBRARY_PATH
     ];
   };
 
@@ -234,10 +238,19 @@
     fontDir.enable = false;
     fontconfig = {
       defaultFonts = {
-        serif = ["Noto Serif CJK JP" "Noto Color Emoji"];
-        sansSerif = ["Noto Sans CJK JP" "Noto Color Emoji"];
-        monospace = ["Noto Sans Mono CJK JP" "Noto Color Emoji"];
-        emoji = ["Noto Color Emoji"];
+        serif = [
+          "Noto Serif CJK JP"
+          "Noto Color Emoji"
+        ];
+        sansSerif = [
+          "Noto Sans CJK JP"
+          "Noto Color Emoji"
+        ];
+        monospace = [
+          "Noto Sans Mono CJK JP"
+          "Noto Color Emoji"
+        ];
+        emoji = [ "Noto Color Emoji" ];
       };
       # allowBitmaps = false;
       useEmbeddedBitmaps = false;
@@ -249,7 +262,7 @@
   systemd.user.targets."my-graphical-session" = {
     enable = true;
     description = "Hack to hook graphical-session.target manually";
-    bindsTo = ["graphical-session.target"];
+    bindsTo = [ "graphical-session.target" ];
     wants = [ "graphical-session-pre.target" ];
     after = [ "graphical-session-pre.target" ];
   };

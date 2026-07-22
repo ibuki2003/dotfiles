@@ -5,22 +5,13 @@
   config,
   # inputs,
   ...
-}: let
+}:
+let
   username = "fuwa";
   mypkgs = pkgs.callPackage ../packages { inherit sources; };
-in {
-  imports = [
-    ./base.nix
-  ];
-
-  nixpkgs = {
-    config = {
-      permittedInsecurePackages = [
-      ];
-    };
-    overlays = [
-    ];
-  };
+in
+{
+  imports = [ ];
 
   home = {
     packages = with pkgs; [
@@ -104,7 +95,8 @@ in {
       timg
       thunderbird-latest
       viu
-      vlc libaacs
+      vlc
+      libaacs
       wdisplays
       zathura
       zoom-us
@@ -121,10 +113,8 @@ in {
       migu
       mplus-outline-fonts.githubRelease
 
-
       # niri deps
       xwayland-satellite
-
 
     ];
 
@@ -168,8 +158,16 @@ in {
 
     fcitx5skk = {
       dictionaries = (
-        with pkgs.skkDictionaries; [ l geo station jis2 jis3_4 assoc ] ++
+        with pkgs.skkDictionaries;
         [
+          l
+          geo
+          station
+          jis2
+          jis3_4
+          assoc
+        ]
+        ++ [
           (pkgs.fetchurl {
             url = "https://fuwa.dev/Downloads/wikipedia_with_descripts_sorted.utf8.txt";
             hash = "sha256-P2kfibj4AOZrmsU04qwSsXR/zTXooovlyL5P7ODOrtM=";
@@ -219,26 +217,26 @@ in {
     <fontconfig>
       <dir>/home/${username}/.fonts</dir>
     </fontconfig>
-    '';
+  '';
 
   xdg.configFile."fontconfig/conf.d/90-steam.conf".text = ''
-     <?xml version="1.0"?>
-     <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-     <fontconfig>
-       <description>Change default fonts for Steam client</description>
-       <match>
-         <test name="prgname">
-           <string>steamwebhelper</string>
-         </test>
-         <test name="family" qual="any">
-           <string>sans-serif</string>
-         </test>
-         <edit mode="prepend" name="family">
-           <string>Migu 1P</string>
-         </edit>
-       </match>
-     </fontconfig>
-    '';
+    <?xml version="1.0"?>
+    <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+    <fontconfig>
+      <description>Change default fonts for Steam client</description>
+      <match>
+        <test name="prgname">
+          <string>steamwebhelper</string>
+        </test>
+        <test name="family" qual="any">
+          <string>sans-serif</string>
+        </test>
+        <edit mode="prepend" name="family">
+          <string>Migu 1P</string>
+        </edit>
+      </match>
+    </fontconfig>
+  '';
 
   systemd.user.services.tmptmp = {
     Unit.Description = "mkdir /tmp/tmp/";
@@ -259,7 +257,10 @@ in {
       xdg-desktop-portal-wlr
     ];
     config.common = {
-      default = [ "gnome" "gtk" ];
+      default = [
+        "gnome"
+        "gtk"
+      ];
 
       # I prefer gtk dialogs over gnome ones
       "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
@@ -276,7 +277,6 @@ in {
 
     };
   };
-
 
   xdg.mimeApps = {
     enable = true;
@@ -317,7 +317,8 @@ in {
               "x-scheme-handler/mailto"
             ];
           }
-        ));
+      )
+    );
   };
 
   xdg.autostart.files = [

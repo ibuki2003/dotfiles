@@ -1,6 +1,12 @@
 # Anything sync daemon
 # https://github.com/graysky2/anything-sync-daemon
-{ config, lib, pkgs, sources, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  sources,
+  ...
+}:
 let
   inherit (lib) mkOption types;
   cfg = config.services.asd;
@@ -27,7 +33,8 @@ let
     gnutar
     zstd
   ];
-in {
+in
+{
   options.services.asd = {
     enable = mkOption {
       type = types.bool;
@@ -37,7 +44,7 @@ in {
 
     synclist = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "List of directories to sync";
     };
 
@@ -88,22 +95,22 @@ in {
       };
 
     };
-    environment.etc."asd.conf" = let
-      synclist = lib.concatStringsSep " " (map (s: "\"${s}\"") cfg.synclist);
-    in {
-      text = ''
-        #
-        # /etc/asd.conf
-        #
-        WHATTOSYNC=(${synclist})
-        #VOLATILE="/tmp"
-        ENABLE_HARDLINK_SAFETY_CHECK=1
-        USE_OVERLAYFS="yes"
-        #USE_BACKUPS="yes"
-        #BACKUP_LIMIT=5
-      '';
-    };
+    environment.etc."asd.conf" =
+      let
+        synclist = lib.concatStringsSep " " (map (s: "\"${s}\"") cfg.synclist);
+      in
+      {
+        text = ''
+          #
+          # /etc/asd.conf
+          #
+          WHATTOSYNC=(${synclist})
+          #VOLATILE="/tmp"
+          ENABLE_HARDLINK_SAFETY_CHECK=1
+          USE_OVERLAYFS="yes"
+          #USE_BACKUPS="yes"
+          #BACKUP_LIMIT=5
+        '';
+      };
   };
 }
-
-

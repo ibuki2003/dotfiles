@@ -1,4 +1,10 @@
-{ pkgs, lib, config, sources, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  sources,
+  ...
+}:
 
 {
   # This value determines the NixOS release from which the default
@@ -12,17 +18,20 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = true;
 
-  imports =
-    [
-      ./modules
-      ../modules
-      ../cachix.nix
-    ];
+  imports = [
+    ./modules
+    ../modules
+    ../cachix.nix
+  ];
 
   nix = {
     settings = {
-      experimental-features = ["nix-command" "flakes" "pipe-operators"];
-      trusted-users = ["fuwa"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+        "pipe-operators"
+      ];
+      trusted-users = [ "fuwa" ];
       auto-optimise-store = true;
       keep-outputs = true;
       keep-derivations = true;
@@ -45,13 +54,19 @@
         22
       ];
       allowedTCPPortRanges = [
-        { from = 1714; to = 1764; } # KDE Connect
+        {
+          from = 1714;
+          to = 1764;
+        } # KDE Connect
       ];
       allowedUDPPorts = [
         41641 # tailscale
       ];
       allowedUDPPortRanges = [
-        { from = 1714; to = 1764; } # KDE Connect
+        {
+          from = 1714;
+          to = 1764;
+        } # KDE Connect
       ];
 
       logRefusedConnections = false;
@@ -60,12 +75,18 @@
     };
   };
 
-  networking.nameservers = lib.mkDefault [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+  networking.nameservers = lib.mkDefault [
+    "1.1.1.1#one.one.one.one"
+    "1.0.0.1#one.one.one.one"
+  ];
   services.resolved = {
     enable = true;
     # dnssec = "allow-downgrade";
     settings.Resolve = {
-      FallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+      FallbackDns = [
+        "1.1.1.1#one.one.one.one"
+        "1.0.0.1#one.one.one.one"
+      ];
       DNSOverTLS = "opportunistic";
     };
   };
@@ -111,9 +132,6 @@
     shell = pkgs.zsh;
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   environment.systemPackages = with pkgs; [
     vim
     wget
@@ -142,7 +160,7 @@
       # just for `users.users.fuwa.shell`
       enable = true;
       # I will configure zsh with my .zshrc
-      setOptions = [];
+      setOptions = [ ];
     };
 
     nix-ld.enable = true;
@@ -164,12 +182,12 @@
     enable = true;
   };
 
-
   # List services that you want to enable:
 
   # per-user setting doesn't work for now?
-  environment.sessionVariables.NIX_PROFILES =
-        builtins.concatStringsSep " " (lib.lists.reverseList config.environment.profiles);
+  environment.sessionVariables.NIX_PROFILES = builtins.concatStringsSep " " (
+    lib.lists.reverseList config.environment.profiles
+  );
 
   documentation.dev.enable = true;
 

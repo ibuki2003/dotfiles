@@ -2,7 +2,8 @@
 # NOTE: using hacky solution; requires nix-ld to work
 
 { lib, pkgs, ... }:
-pkgs.discord.overrideAttrs (prev:
+pkgs.discord.overrideAttrs (
+  prev:
   let
     prepareScript = pkgs.writeShellScript "discord-prepare-modules" ''
       modules_dir="''${XDG_CONFIG_HOME:-$HOME/.config}/discord/${prev.version}/modules"
@@ -48,30 +49,44 @@ pkgs.discord.overrideAttrs (prev:
     # stageModules の前に旧ツリーを削除可能にし、すぐ後ろに relink の --run を足す。
     # wrapProgramShell の出力ではなく公開フラグ --run に介入するので lib 仕様変更に強い。
     patched =
-      assert lib.assertMsg (lib.strings.hasInfix (builtins.unsafeDiscardStringContext stageAnchor) prev.installPhase)
+      assert lib.assertMsg
+        (lib.strings.hasInfix (builtins.unsafeDiscardStringContext stageAnchor) prev.installPhase)
         "discord overlay: stageModules patch failed";
       # skip patch if relinkScript is already inserted
-      if lib.strings.hasInfix "discord-relink-modules" prev.installPhase then prev.installPhase else
+      if lib.strings.hasInfix "discord-relink-modules" prev.installPhase then
+        prev.installPhase
+      else
         builtins.replaceStrings
-        [ stageAnchor ]
-        [ (''--run "${prepareScript}" '' + stageAnchor + " --run \"${relinkScript} $out/opt/Discord/modules\"") ]
-        prev.installPhase;
+          [ stageAnchor ]
+          [
+            (
+              ''--run "${prepareScript}" '' + stageAnchor + " --run \"${relinkScript} $out/opt/Discord/modules\""
+            )
+          ]
+          prev.installPhase;
   in
   {
     nativeBuildInputs = [
       pkgs.makeShellWrapper
-      pkgs.brotli  # needed at build time: installPhase runs `brotli -d` to extract distro tarball
+      pkgs.brotli # needed at build time: installPhase runs `brotli -d` to extract distro tarball
     ];
 
     # ~~finalAttrs pattern means overriding libPath here automatically propagates to installPhase~~
     # ^ no longer true, but we can still override libPath here to avoid patching installPhase
-    libPath = prev.libPath + ":" + lib.makeLibraryPath (with pkgs; [
-      libxshmfence  # used by Chromium/X11, not in upstream libPath (was patched via autoPatchelfHook)
-      mesa          # GPU driver libs (libGL etc.) for hardware acceleration
-    ]);
+    libPath =
+      prev.libPath
+      + ":"
+      + lib.makeLibraryPath (
+        with pkgs;
+        [
+          libxshmfence # used by Chromium/X11, not in upstream libPath (was patched via autoPatchelfHook)
+          mesa # GPU driver libs (libGL etc.) for hardware acceleration
+        ]
+      );
 
     dontPatchELF = true;
     dontStrip = true;
 
     installPhase = patched;
-  })
+  }
+)

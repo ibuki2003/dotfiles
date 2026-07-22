@@ -4,7 +4,8 @@ let
   inherit (lib) mkIf mkOption types;
   inherit (types) listOf;
   cfg = config.services.fuwanas;
-in {
+in
+{
   options.services.fuwanas = {
     enable = mkOption {
       type = types.bool;
@@ -28,37 +29,46 @@ in {
     };
     shares = mkOption {
       type = listOf types.str;
-      default = [ "fuwa" "fuwa2" "home" ];
+      default = [
+        "fuwa"
+        "fuwa2"
+        "home"
+      ];
       description = "List of shares to mount";
     };
     extraMountOptions = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "Extra mount options";
     };
   };
 
   config = mkIf cfg.enable {
-    fileSystems = lib.attrsets.mapAttrs' (name: value: {
-      name = "${cfg.target}/${name}";
-      inherit value;
-    }) (lib.attrsets.genAttrs cfg.shares (share: {
-      device = "//${cfg.host}/${share}";
-      fsType = "cifs";
-      options = [
-        "x-systemd.automount"
-        "noauto"
-        "x-systemd.idle-timeout=1min"
-        "x-systemd.device-timeout=5s"
-        "x-systemd.mount-timeout=10s"
-        "credentials=${cfg.credentialFile}"
-        "uid=${toString config.users.users.fuwa.uid}"
-        "gid=100"
-        "file_mode=0644"
-        "dir_mode=0775"
-      ] ++ cfg.extraMountOptions;
-    }));
+    fileSystems =
+      lib.attrsets.mapAttrs'
+        (name: value: {
+          name = "${cfg.target}/${name}";
+          inherit value;
+        })
+        (
+          lib.attrsets.genAttrs cfg.shares (share: {
+            device = "//${cfg.host}/${share}";
+            fsType = "cifs";
+            options = [
+              "x-systemd.automount"
+              "noauto"
+              "x-systemd.idle-timeout=1min"
+              "x-systemd.device-timeout=5s"
+              "x-systemd.mount-timeout=10s"
+              "credentials=${cfg.credentialFile}"
+              "uid=${toString config.users.users.fuwa.uid}"
+              "gid=100"
+              "file_mode=0644"
+              "dir_mode=0775"
+            ]
+            ++ cfg.extraMountOptions;
+          })
+        );
 
   };
 }
-
