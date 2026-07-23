@@ -17,8 +17,10 @@
     colorMoved = dimmed-zebra
 [difftool]
     prompt = false
+[mergetool "neovimdiff"]
+  cmd = nvim -d $LOCAL $MERGED $REMOTE -c 'wincmd l' -c 'wincmd J'
 [merge]
-    tool = vimdiff
+  tool = neovimdiff
     conflictstyle = zdiff3
 [mergetool]
     prompt = false
