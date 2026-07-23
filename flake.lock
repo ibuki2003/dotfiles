@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "deferred-apps": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1777023912,
+        "narHash": "sha256-H0qkX5qQJPZVlUjnbaHJSBhMcwBMr0pLWZg5T3Cb4j0=",
+        "owner": "WitteShadovv",
+        "repo": "deferred-apps",
+        "rev": "54bfba939ff5814857c19948b4374f601458a884",
+        "type": "github"
+      },
+      "original": {
+        "owner": "WitteShadovv",
+        "repo": "deferred-apps",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -79,26 +99,6 @@
         "type": "github"
       }
     },
-    "nil": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1765326831,
-        "narHash": "sha256-18j8X2Nbe0Wg1+7YrWRlYzmjZ5Wq0NCVwJHJlBIw/dc=",
-        "owner": "oxalica",
-        "repo": "nil",
-        "rev": "504599f7e555a249d6754698473124018b80d121",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oxalica",
-        "repo": "nil",
-        "type": "github"
-      }
-    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -169,9 +169,9 @@
     },
     "root": {
       "inputs": {
+        "deferred-apps": "deferred-apps",
         "home-manager": "home-manager",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
-        "nil": "nil",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2"

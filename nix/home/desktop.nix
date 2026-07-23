@@ -58,35 +58,25 @@ in
       albert
       audacity
       chromium
-      codex
-      # (cutter.withPlugins (ps: with ps; [
-      #   rz-ghidra
-      #   jsdec
-      # ]))
       mypkgs.discord
       drawio
       font-manager
       gimp-with-plugins
       httpie-desktop
-      # imhex
       imv
       inkscape
       kanshi
       kicad
       kitty
-      lan-mouse
       libreoffice-fresh
       mpv
       networkmanagerapplet
-      # nwg-displays
       obs-studio
       pavucontrol
-      prismlauncher
       quickshell
       ranger
       remmina
       ripdrag
-      # sdrpp
       seahorse
       skktools
       slack
@@ -128,6 +118,37 @@ in
         defaultCursor = "Adwaita";
       };
     };
+  };
+
+  programs.deferredApps = {
+    packages = with pkgs; [
+      (cutter.withPlugins (
+        ps: with ps; [
+          rz-ghidra
+          jsdec
+        ]
+      ))
+      (
+        (darktable.override {
+          withAi = true;
+          onnxruntime = pkgs.pkgsRocm.onnxruntime;
+        }).overrideAttrs
+        (old: {
+          # G'MIC pulls OpenCV DNN into darktable.  Its TensorFlow protobuf
+          # descriptors conflict with the MIGraphX TensorFlow parser, although
+          # darktable only asks MIGraphX to parse ONNX models.
+          # NOTE that this disables G'MIC support (support of compressed LUTs, etc.).
+          buildInputs = pkgs.lib.remove pkgs.gmic old.buildInputs;
+          cmakeFlags = old.cmakeFlags ++ [ "-DUSE_GMIC=OFF" ];
+        })
+      )
+      imhex
+      lan-mouse
+      nwg-displays
+      prismlauncher
+      sdrpp
+    ];
+    cliPackages = [ ];
   };
 
   programs = {

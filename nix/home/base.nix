@@ -94,10 +94,6 @@ in
       ncdu
       nkf
       nodejs
-      ocaml
-      ocamlPackages.ocamlformat
-      ocamlPackages.utop
-      opam
       openssl
       p7zip
       patchelf
@@ -123,14 +119,6 @@ in
       xxd
       zip
 
-      # cargo tools
-      cargo-binutils
-      cargo-bloat
-      cargo-edit
-      cargo-expand
-      cargo-generate
-      probe-rs-tools
-
       mypkgs.cargo_pkgs.memvis
       mypkgs.cargo_pkgs.slice
       mypkgs.cargo_pkgs.cargo-asm
@@ -140,25 +128,12 @@ in
       mypkgs.cargo_pkgs.ccsum
 
       # lsp servers
-      astro-language-server
-      efm-langserver
-      emmet-ls
-      intelephense
-      lua-language-server
       nixd
       pyright
       tinymist
       typescript-language-server
       ty
       verible
-      intelephense
-      ocamlPackages.ocaml-lsp
-      intelephense
-      vscode-langservers-extracted
-      gopls
-      kdePackages.qtdeclarative
-      openscad-lsp
-      tombi
 
       tree-sitter # for neovim-treesitter
 
@@ -176,6 +151,41 @@ in
       ))
       uv
 
+    ];
+  };
+
+  # defer instantiation rarely used apps
+  programs.deferredApps = {
+    enable = true;
+    gcRoot = true;
+    packages = [];
+    cliPackages = with pkgs; [
+
+      ocaml
+      ocamlPackages.ocamlformat
+      ocamlPackages.utop
+      opam
+
+      # cargo tools
+      cargo-binutils
+      cargo-bloat
+      cargo-edit
+      cargo-expand
+      cargo-generate
+      probe-rs-tools
+
+      # lsp servers
+      astro-language-server
+      efm-langserver
+      emmet-ls
+      gopls
+      intelephense
+      kdePackages.qtdeclarative
+      lua-language-server
+      ocamlPackages.ocaml-lsp
+      openscad-lsp
+      tombi
+      vscode-langservers-extracted
     ];
   };
 

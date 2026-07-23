@@ -13,10 +13,8 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nil = {
-      url = "github:oxalica/nil";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    deferred-apps.url = "github:WitteShadovv/deferred-apps";
+    deferred-apps.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -66,7 +64,7 @@
             inputs.nixpkgs.lib.nixosSystem {
               inherit system;
               modules = [
-                (_: { nixpkgs.package = pkgs; })
+                (_: { nixpkgs.pkgs = pkgs; })
               ]
               ++ modules;
               specialArgs = {
@@ -100,6 +98,7 @@
               };
               modules = [
                 inputs.nix-index-database.homeModules.nix-index
+                inputs.deferred-apps.homeManagerModules.default
                 ./nix/home/base.nix
               ]
               ++ modules;
