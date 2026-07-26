@@ -53,3 +53,7 @@ fetch.git = "https://git.outfoxxed.me/quickshell/quickshell.git"
 src.git = "https://github.com/niri-wm/niri"
 fetch.github = "niri-wm/niri"
 cargo_lock = ["Cargo.lock"]
+
+[skk-zenz]
+src.git = "https://github.com/ibuki2003/skk_zenz"
+fetch.github = "ibuki2003/skk_zenz"

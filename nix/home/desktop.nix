@@ -222,7 +222,9 @@ in
     fcitx5 = {
       waylandFrontend = true;
       addons = [
-        pkgs.fcitx5-skk
+        # pkgs.fcitx5-skk
+        # TODO: use crane to speed up build
+        (pkgs.callPackage sources.skk-zenz.src { useVulkan = true; })
       ];
     };
   };

@@ -219,6 +219,27 @@
         },
         "version": "4df562dfb2475a9057f0f33a8db75808efad8670"
     },
+    "skk-zenz": {
+        "cargoLock": null,
+        "date": "2026-07-26",
+        "extract": null,
+        "name": "skk-zenz",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "ibuki2003",
+            "repo": "skk_zenz",
+            "rev": "8ff58315605311cf6b1827409c78edb739af2c11",
+            "sha256": "sha256-sjx9r0HN/KD6Aa1jGYVIkAB73KuAa31d6cxDvP/+ylQ=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "8ff58315605311cf6b1827409c78edb739af2c11"
+    },
     "skkemoji": {
         "cargoLock": null,
         "date": "2025-01-02",
