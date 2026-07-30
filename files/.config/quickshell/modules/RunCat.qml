@@ -24,15 +24,25 @@ WrapperMouseArea {
       interval = 1000 / framerate
     }
 
-    property real framerate: SystemLoad.cpuUsage < 200.0
-      ? (5.0 + 5.0 * SystemLoad.cpuUsage / 200.0)
-      : (10.0 + 20.0 * (SystemLoad.cpuUsage / 100.0 - 2.0) / Math.max(1.0, SystemLoad.cpuCores - 2.0))
-    Behavior on framerate {
-      NumberAnimation {
-        duration: 500
-        easing.type: Easing.OutQuad
+    property real framerate: {
+      const minFps = 2.5
+      const midFps = 10.0
+      const midUsage = 200.0
+      const maxFps = 30.0
+      const maxUsage = SystemLoad.cpuCores * 100.0
+
+      const usage = Math.max(0.0, SystemLoad.cpuUsage)
+      const lerp = (a, b, t) => a + (b - a) * t
+
+      if (SystemLoad.cpuUsage <= midUsage) {
+        const t = Math.min(SystemLoad.cpuUsage / midUsage, 1.0)
+        return lerp(minFps, midFps, t)
+      } else {
+        const t = (SystemLoad.cpuUsage - midUsage) / (maxUsage - midUsage)
+        return lerp(midFps, maxFps, t)
       }
     }
+
   }
 
   FontLoader {
