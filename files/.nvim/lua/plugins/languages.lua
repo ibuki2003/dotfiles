@@ -94,6 +94,9 @@ return {
     },
   },
   {
+    "jannis-baum/vivify.vim",
+  },
+  {
     'chomosuke/typst-preview.nvim',
     ft = { 'typst' },
     version = '1.*',

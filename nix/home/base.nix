@@ -158,7 +158,7 @@ in
   programs.deferredApps = {
     enable = true;
     gcRoot = true;
-    packages = [];
+    packages = [ ];
     cliPackages = with pkgs; [
 
       ocaml

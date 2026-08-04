@@ -35,6 +35,7 @@ in
 
       # tools
       appimage-run
+      firefoxpwa
       glib
       libsecret
       pamixer
@@ -87,6 +88,7 @@ in
       viu
       vlc
       libaacs
+      vivify
       wdisplays
       zathura
       zoom-us
@@ -157,6 +159,7 @@ in
       package = pkgs.firefox-devedition;
       nativeMessagingHosts = [
         pkgs.kdePackages.plasma-browser-integration
+        pkgs.firefoxpwa
       ];
       profiles.dev-edition-default = {
         isDefault = true;
