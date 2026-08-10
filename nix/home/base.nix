@@ -50,6 +50,7 @@ in
       android-tools
       atop
       bottom
+      bubblewrap
       clang-tools
       cmake
       delta

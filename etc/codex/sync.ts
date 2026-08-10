@@ -132,7 +132,7 @@ function splitCodexConfig(config: string): { common: string; local: string } {
   for (const line of splitLines(config)) {
     const line_trimmed = line.trim();
     if (line_trimmed.startsWith("[")) {
-      const is_local_header = line_trimmed.startsWith("[projects.");
+      const is_local_header = line_trimmed.startsWith("[projects.") || line_trimmed == "[notice.model_migrations]";
       current = is_local_header ? local : common;
     }
 

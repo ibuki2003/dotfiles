@@ -1,10 +1,38 @@
 #:schema https://developers.openai.com/codex/config-schema.json
+#:tombi schema.strict = false
+
 model = "gpt-5.6-sol"
-model_reasoning_effort = "medium"
-approval_policy = "on-request"
-sandbox_mode    = "danger-full-access"
+model_reasoning_effort = "low"
 personality = "pragmatic"
 web_search = "cached"
+
+# ==== Permissions ====
+
+approval_policy = "on-request"
+approvals_reviewer = "auto_review"
+# sandbox_mode = "workspace-write" # old style
+
+# "default" is not a special name, just a custom rule name
+default_permissions = "default"
+
+[permissions.default]
+extends = ":workspace"
+description = "Customized rule"
+
+[permissions.default.network]
+enabled = true
+
+[permissions.default.network.unix_sockets]
+"/nix/var/nix/daemon-socket/socket" = "allow"
+
+[permissions.nix-workspace.filesystem]
+"~/.cache/nix" = "write"
+"~/.local/state/comma" = "write"
+
+[features]
+memories = true
+remote_control = true
+
 
 [tui]
 terminal_title = []
@@ -15,19 +43,6 @@ status_line_use_colors = true
 "gpt-5.5" = 4
 "gpt-5.6-sol" = 4
 
-[profiles.general]
-model = "gpt-5-mini"
-
 [notice]
 hide_rate_limit_model_nudge = true
-
-[notice.model_migrations]
-"gpt-5.1" = "gpt-5.1-codex-max"
-"gpt-5.1-codex" = "gpt-5.1-codex-max"
-"gpt-5.1-codex-mini" = "gpt-5.4"
-"gpt-5.1-codex-max" = "gpt-5.4"
-
-
-[features]
-remote_control = true
 
