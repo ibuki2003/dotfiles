@@ -3,7 +3,7 @@
   sources,
   lib,
   config,
-  # inputs,
+  inputs,
   ...
 }:
 let
@@ -226,8 +226,7 @@ in
       waylandFrontend = true;
       addons = [
         # pkgs.fcitx5-skk
-        # TODO: use crane to speed up build
-        (pkgs.callPackage sources.skk-zenz.src { useVulkan = true; })
+        inputs.skk-zenz.packages.${pkgs.system}.skkzenz-fcitx5-vulkan
       ];
     };
   };

@@ -1,5 +1,20 @@
 {
   "nodes": {
+    "crane": {
+      "locked": {
+        "lastModified": 1785782307,
+        "narHash": "sha256-MPaRdVkf6zZP5fCPxYCi8Dr4pZzgmXzg8T9nVEbp3Mw=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "2c71e194474d13de031d729b729c968ddbe3507f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
     "deferred-apps": {
       "inputs": {
         "nixpkgs": [
@@ -174,7 +189,29 @@
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_2",
+        "skk-zenz": "skk-zenz"
+      }
+    },
+    "skk-zenz": {
+      "inputs": {
+        "crane": "crane",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785841501,
+        "narHash": "sha256-Jriti96hy66CIJGj6tbrraehzTswBBbumpgierpLgEo=",
+        "owner": "ibuki2003",
+        "repo": "skk_zenz",
+        "rev": "efc00325272a8f35e2f9c711120391416e57b6da",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ibuki2003",
+        "repo": "skk_zenz",
+        "type": "github"
       }
     }
   },

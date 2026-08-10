@@ -19,6 +19,9 @@
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
+    skk-zenz.url = "github:ibuki2003/skk_zenz";
+    skk-zenz.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs =
@@ -43,7 +46,7 @@
           };
           overlays = [
             inputs.neovim-nightly-overlay.overlays.default
-            (import ./nix/overlay.nix { inherit sources; })
+            (import ./nix/overlay.nix { inherit inputs sources; })
           ];
         };
       pkgs = mkPkgs { }; # deafult pkgs
@@ -98,7 +101,6 @@
               };
               modules = [
                 inputs.nix-index-database.homeModules.nix-index
-                inputs.deferred-apps.homeManagerModules.default
                 ./nix/home/base.nix
               ]
               ++ modules;
