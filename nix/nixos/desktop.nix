@@ -99,6 +99,11 @@
       desktopManager.runXdgAutostartIfNone = true;
     };
 
+    logind = {
+      lidSwitch = "suspend";
+      lidSwitchDocked = "suspend";
+    };
+
     displayManager = {
       sddm = {
         enable = true;

@@ -1,6 +1,5 @@
 {
   sources,
-  inputs,
   ...
 }:
 (self: super: {
