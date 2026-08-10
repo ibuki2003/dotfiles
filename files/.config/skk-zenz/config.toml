@@ -1,0 +1,10 @@
+huggingface = "Miwa-Keita/zenz-v3.2-small-gguf/ggml-model-Q5_K_M.gguf"
+
+rom_kana_rule = "azik_mod"
+
+context_size = 1024
+threads = 8
+gpu_layers = 999
+
+[candidate_order]
+abbrev = "recency"
