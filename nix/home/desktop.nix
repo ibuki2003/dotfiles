@@ -226,7 +226,7 @@ in
       waylandFrontend = true;
       addons = [
         # pkgs.fcitx5-skk
-        inputs.skk-zenz.packages.${pkgs.system}.skkzenz-fcitx5-vulkan
+        inputs.skk-zenz.packages.${pkgs.stdenv.hostPlatform.system}.skkzenz-fcitx5-vulkan
       ];
     };
   };

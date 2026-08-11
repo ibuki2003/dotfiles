@@ -152,18 +152,6 @@
     };
     date = "2026-07-10";
   };
-  skk-zenz = {
-    pname = "skk-zenz";
-    version = "8ff58315605311cf6b1827409c78edb739af2c11";
-    src = fetchFromGitHub {
-      owner = "ibuki2003";
-      repo = "skk_zenz";
-      rev = "8ff58315605311cf6b1827409c78edb739af2c11";
-      fetchSubmodules = false;
-      sha256 = "sha256-sjx9r0HN/KD6Aa1jGYVIkAB73KuAa31d6cxDvP/+ylQ=";
-    };
-    date = "2026-07-26";
-  };
   skkemoji = {
     pname = "skkemoji";
     version = "18ff911d0dc445dbc8fbc4c5122874d08e56781b";
