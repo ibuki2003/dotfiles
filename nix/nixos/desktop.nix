@@ -99,9 +99,9 @@
       desktopManager.runXdgAutostartIfNone = true;
     };
 
-    logind = {
-      lidSwitch = "suspend";
-      lidSwitchDocked = "suspend";
+    logind. settings.Login = {
+      HandleLidSwitch = "suspend";
+      HandleLidSwitchDocked = "suspend";
     };
 
     displayManager = {

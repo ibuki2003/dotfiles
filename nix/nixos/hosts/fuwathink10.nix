@@ -92,9 +92,9 @@
     }
   ];
 
-  zramSwap = {
+  boot.zswap = {
     enable = true;
-    priority = 100;
+    shrinkerEnabled = true;
   };
   boot.kernel.sysctl."vm.swappiness" = 30;
 
