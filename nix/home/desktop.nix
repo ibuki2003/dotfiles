@@ -35,7 +35,6 @@ in
 
       # tools
       appimage-run
-      firefoxpwa
       glib
       libsecret
       pamixer
@@ -159,7 +158,6 @@ in
       package = pkgs.firefox-devedition;
       nativeMessagingHosts = [
         pkgs.kdePackages.plasma-browser-integration
-        pkgs.firefoxpwa
       ];
       profiles.dev-edition-default = {
         isDefault = true;
@@ -176,7 +174,23 @@ in
           "network.security.ports.banned.override" = "1-65535";
           "widget.use-xdg-desktop-portal.file-picker" = 1; # force use XDG portal
           # "browser.uiCustomization.state" = ""; # TODO
+
+          # allow unsigned extensions; Keep in mind that this is a security risk,
+          # and you should only install extensions from trusted sources.
+          "xpinstall.signatures.required" = false;
         };
+        extensions = {
+          packages = [ mypkgs.poppup ];
+          exhaustivePermissions = true;
+          exactPermissions = true;
+          settings."poppup@ibuki2003".permissions = [ "storage" ];
+        };
+      };
+    };
+    poppup = {
+      entries = {
+        chatgpt = { name = "ChatGPT"; url = "https://chatgpt.com"; };
+        claude = { name = "Claude"; url = "https://claude.ai"; };
       };
     };
 
