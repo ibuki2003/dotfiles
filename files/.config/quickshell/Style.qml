@@ -11,6 +11,10 @@ Singleton {
     family: "Noto Sans CJK JP",
     pixelSize: 14,
   })
+  property font monospaceFont: ({
+    family: "HackGen Console NF",
+    pixelSize: 14,
+  })
   property string iconFontFamily: "HackGen Console NF" // Nerd Font
 
   readonly property color barBackground: "#cc44475A"

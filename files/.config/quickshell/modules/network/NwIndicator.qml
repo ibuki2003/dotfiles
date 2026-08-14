@@ -16,7 +16,7 @@ WrapperMouseArea {
   // CircularChart {
   //   size: parent.height
   //   icon: ''
-  //   percentage: SystemLoad.memoryUsage / SystemLoad.memoryTotal
+  //   percentage: SystemLoad.memory.used / SystemLoad.memory.total
   // }
 
   Item {

@@ -8,8 +8,17 @@ Singleton {
 
   id: root
 
-  property real memoryUsage: 0.0
-  property real memoryTotal: 0.0
+  property var memory: ({
+    total: 0.0,
+    used: 0.0,
+    free: 0.0,
+    available: 0.0,
+    shared: 0.0,
+    cache: 0.0,
+    swapTotal: 0.0,
+    swapUsed: 0.0,
+    swapFree: 0.0,
+  })
 
   property real cpuUsage: 0.0
   property int cpuCores: 1
@@ -23,23 +32,50 @@ Singleton {
     preload: true
     onLoaded: {
       let memTotalKB = 0
+      let memFreeKB = 0
       let memAvailableKB = 0
+      let memSharedKB = 0
+      let buffersKB = 0
+      let cachedKB = 0
+      let reclaimableKB = 0
+      let swapTotalKB = 0
+      let swapFreeKB = 0
       const lines = meminfoFile.text().split("\n")
       for (const line of lines) {
-        if (line.startsWith("MemTotal:")) {
-          memTotalKB = parseInt(line.split(/\s+/)[1])
-        } else if (line.startsWith("MemAvailable:")) {
-          memAvailableKB = parseInt(line.split(/\s+/)[1])
+        const fields = line.split(/\s+/)
+        if (fields.length < 2)
+          continue
+
+        const valueKB = parseInt(fields[1])
+        switch (fields[0]) {
+          case "MemTotal:":     memTotalKB     = valueKB; break
+          case "MemFree:":      memFreeKB      = valueKB; break
+          case "MemAvailable:": memAvailableKB = valueKB; break
+          case "Shmem:":        memSharedKB    = valueKB; break
+          case "Buffers:":      buffersKB      = valueKB; break
+          case "Cached:":       cachedKB       = valueKB; break
+          case "SReclaimable:": reclaimableKB  = valueKB; break
+          case "SwapTotal:":    swapTotalKB    = valueKB; break
+          case "SwapFree:":     swapFreeKB     = valueKB; break
         }
       }
       if (memTotalKB > 0) {
-        root.memoryTotal = memTotalKB / 1024.0
-        root.memoryUsage = (memTotalKB - memAvailableKB) / 1024.0
+        root.memory = {
+          total: memTotalKB / 1024.0,
+          used: (memTotalKB - memAvailableKB) / 1024.0,
+          free: memFreeKB / 1024.0,
+          available: memAvailableKB / 1024.0,
+          shared: memSharedKB / 1024.0,
+          cache: (buffersKB + cachedKB + reclaimableKB) / 1024.0,
+          swapTotal: swapTotalKB / 1024.0,
+          swapUsed: (swapTotalKB - swapFreeKB) / 1024.0,
+          swapFree: swapFreeKB / 1024.0,
+        }
       }
     }
   }
   Timer {
-    interval: 1000
+    interval: 5000
     running: true
     repeat: true
     onTriggered: meminfoFile.reload()
