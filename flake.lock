@@ -201,11 +201,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786446631,
-        "narHash": "sha256-9LsZCZJLYIa2bRzrIpgRevu7lFqM2aczi1L44sxAdjk=",
+        "lastModified": 1786687448,
+        "narHash": "sha256-hHfAUS3YPX2N5sj46MSpYEV+bYkl+prBEpMVimZFdok=",
         "owner": "ibuki2003",
         "repo": "skk_zenz",
-        "rev": "c0c3d42bd97aa5d740b6378f5ffd50c8c1cd3163",
+        "rev": "996fa7407b759d603ef75cc9bb11ac51ec615b12",
         "type": "github"
       },
       "original": {
