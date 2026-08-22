@@ -97,6 +97,7 @@ in
       nodejs
       openssl
       p7zip
+      parallel # GNU parallel. moreutils also has `parallel`, but has lower priority :)
       patchelf
       pciutils
       pdftk
