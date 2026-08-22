@@ -11,6 +11,15 @@ local function progress() -- builtin source shows 'Top'/'Bot', that is annoying
   return string.format('%2d%%%%', math.floor(cur / total * 100))
 end
 
+-- idea from https://mikoto2000.blogspot.com/2026/05/vim.html
+local function char_code_label()
+  local char = vim.fn.matchstr(vim.fn.getline('.'), '\\%' .. vim.fn.col('.') .. 'c.')
+  if char == '' then
+    return '------'
+  end
+  return string.format('U+%04X', vim.fn.char2nr(char))
+end
+
 local function lsp_names()
   local clients = {}
   for _, client in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
@@ -54,7 +63,7 @@ require('lualine').setup {
     },
 
 
-    lualine_x = { im_state, 'fileformat', 'encoding', 'filetype', lsp_names },
+    lualine_x = { im_state, char_code_label, 'fileformat', 'encoding', 'filetype', lsp_names },
     lualine_y = { progress },
     lualine_z = { '%3l:%-2v%<' },
   },
