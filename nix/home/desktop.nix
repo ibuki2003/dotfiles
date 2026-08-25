@@ -58,7 +58,7 @@ in
       albert
       audacity
       chromium
-      mypkgs.discord
+      discord
       drawio
       font-manager
       gimp-with-plugins
@@ -68,7 +68,7 @@ in
       kanshi
       kicad
       kitty
-      libreoffice-fresh
+      libreoffice-stable
       mpv
       networkmanagerapplet
       obs-studio
