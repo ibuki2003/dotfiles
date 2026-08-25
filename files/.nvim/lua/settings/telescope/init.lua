@@ -47,7 +47,10 @@ local builtin = require('telescope.builtin')
 local fd = function(opts)
   if not opts.no_ignore and is_git_repo() then
     return function()
-      builtin.git_files({ show_untracked = true, use_git_root = true })
+      builtin.git_files({
+        show_untracked = true,
+        use_git_root = opts.use_git_root or false,
+      })
     end
   end
 
@@ -61,7 +64,7 @@ local fd = function(opts)
   end
 end
 
-vim.keymap.set('n', '<leader>ff', fd{}, {})
+vim.keymap.set('n', '<leader>ff', fd{ use_git_root = true }, {})
 vim.keymap.set('n', '<C-p>',      fd{}, {})
 vim.keymap.set('n', '<leader>fF', fd{ no_ignore = true }, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
