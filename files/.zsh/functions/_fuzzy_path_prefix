@@ -1,0 +1,65 @@
+[[ $PREFIX == */* && $PREFIX != '~'* ]] || return 1
+
+local dirpart=${PREFIX%/*}
+local leaf=${PREFIX##*/}
+local base= remaining=$dirpart component rest suffix
+local prefix_pattern fuzzy_pattern char dir
+local -a dirs prefix_matches fuzzy_matches matches expl
+
+if [[ $remaining == /* ]]; then
+  base=/
+  remaining=${remaining#/}
+fi
+
+while [[ -n $remaining ]]; do
+  if [[ $remaining == */* ]]; then
+    component=${remaining%%/*}
+    rest=${remaining#*/}
+  else
+    component=$remaining
+    rest=
+  fi
+
+  if [[ -d $base$component ]]; then
+    base+="$component/"
+    remaining=$rest
+    continue
+  fi
+
+  if [[ $component == .* ]]; then
+    dirs=("$base"*(ND-/))
+  else
+    dirs=("$base"*(N-/))
+  fi
+  (( $#dirs )) || return 1
+
+  prefix_pattern="(#i)${(b)component}*"
+  fuzzy_pattern='(#i)'
+  for char in ${(s::)component}; do
+    fuzzy_pattern+="*${(b)char}"
+  done
+  fuzzy_pattern+='*'
+
+  for dir in $dirs; do
+    if [[ ${dir:t} == ${~prefix_pattern} ]]; then
+      prefix_matches+=($dir)
+    elif [[ ${dir:t} == ${~fuzzy_pattern} ]]; then
+      fuzzy_matches+=($dir)
+    fi
+  done
+  if (( $#prefix_matches )); then
+    matches=($prefix_matches)
+  else
+    matches=($fuzzy_matches)
+  fi
+  (( $#matches )) || return 1
+
+  suffix="/${leaf}"
+  [[ -n $rest ]] && suffix="/${rest}${suffix}"
+
+  _description files expl filename
+  compadd -Uf "$expl[@]" -s "$suffix" -W '' -a matches
+  return
+done
+
+return 1

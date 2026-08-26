@@ -161,6 +161,8 @@
       enable = true;
       # I will configure zsh with my .zshrc
       setOptions = [ ];
+      # STOP CREATING .zcompdump PLEASE!!!
+      enableGlobalCompInit = false;
     };
 
     nix-ld.enable = true;

@@ -13,8 +13,6 @@ typeset -U path PATH
 
 source $ZSHHOME/opts.cat.zsh
 
-autoload -Uz compinit && compinit -C
-
 if (( $+functions[zsh-defer] )); then
   zsh-defer source $ZSHHOME/lazy.cat.zsh
 else
