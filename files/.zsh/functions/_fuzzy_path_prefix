@@ -58,7 +58,8 @@ while [[ -n $remaining ]]; do
   [[ -n $rest ]] && suffix="/${rest}${suffix}"
 
   _description files expl filename
-  compadd -Uf "$expl[@]" -s "$suffix" -W '' -a matches
+  # Keep glob characters in the unresolved suffix usable after completion.
+  compadd -QUf "$expl[@]" -s "$suffix" -W '' -a matches
   return
 done
 

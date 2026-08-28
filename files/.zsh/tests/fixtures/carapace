@@ -1,0 +1,43 @@
+#!/usr/bin/env zsh
+
+if [[ $1 == _carapace ]]; then
+  cat <<'INIT'
+function _carapace_completer {
+  local command="$(basename $words[1])"
+  local compline=${words[@]:0:$CURRENT}
+  local IFS=$'\n'
+  local lines
+
+  lines="$(echo "${compline}''" | xargs carapace "${command}" zsh 2>/dev/null)"
+
+  local zstyle message noprefix data
+  IFS=$'\001' read -r -d '' zstyle message noprefix data <<<"${lines}"
+  zstyle ":completion:${curcontext}:*" list-colors "${zstyle}"
+  zstyle ":completion:${curcontext}:*" group-name ''
+  [ -z "$message" ] || _message -r "${message}"
+  [[ "${noprefix}" = "true" ]] && compstate[insert]=menu
+
+  local block tag displays values displaysArr valuesArr
+  while IFS=$'\002' read -r -d $'\002' block; do
+    IFS=$'\003' read -r -d '' tag displays values <<<"${block}"
+    IFS=$'\n' read -r -d $'\004' -A displaysArr <<<"${displays}"$'\004'
+    IFS=$'\n' read -r -d $'\004' -A valuesArr <<<"${values}"$'\004'
+
+    [[ ${#valuesArr[@]} -gt 1 ]] && _describe -t "${tag}" "${tag}" displaysArr valuesArr -Q -S ''
+  done <<<"${data}"
+}
+
+compdef _carapace_completer mockcmd
+INIT
+  exit
+fi
+
+compline="${(j: :)${@:3}}"
+case $compline in
+  (mockcmd\ --*)
+    print -rn -- $'\001\001false\001flags\003--alpha  -a  first flag\n--beta   -b  second flag\003--alpha \n--beta \002\001'
+    ;;
+  (mockcmd*)
+    print -rn -- $'\001\001false\001files\003boo/\nfoo/\003boo/\nfoo/\002\001'
+    ;;
+esac

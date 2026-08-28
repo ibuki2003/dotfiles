@@ -7,6 +7,8 @@ zmodload zsh/zpty
 typeset -gr root=${0:A:h:h}
 typeset -gr tmpdir=$(mktemp -d)
 typeset -gr fixture=$tmpdir/fixture
+typeset -gr mockbin=$tmpdir/bin
+typeset -gr completion_init=$tmpdir/completion-init.zsh
 typeset -gr setup=$tmpdir/setup.zsh
 typeset -gr result=$tmpdir/result
 typeset -gr pty=completion-test
@@ -17,10 +19,13 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p $fixture
+mkdir -p $fixture $mockbin $tmpdir/zdot
+cp $root/tests/fixtures/carapace $mockbin/carapace
+chmod +x $mockbin/carapace
 
-cat >$setup <<'EOF'
+cat >$completion_init <<'EOF'
 fpath=($COMPLETION_TEST_ROOT/functions $fpath)
+path=($COMPLETION_TEST_MOCKBIN $path)
 ZDOTDIR=$COMPLETION_TEST_TMP/zdot
 XDG_CACHE_HOME=$COMPLETION_TEST_TMP/cache
 LS_COLORS='di=01;34:fi=0'
@@ -28,6 +33,10 @@ mkdir -p $ZDOTDIR $XDG_CACHE_HOME
 
 source $COMPLETION_TEST_ROOT/functions/_mycompleter
 source $COMPLETION_TEST_ROOT/opts/50-completion.zsh
+EOF
+
+cat >$setup <<'EOF'
+source $COMPLETION_TEST_INIT
 zstyle ':completion:*' format '__MENU__'
 
 setopt AUTO_LIST AUTO_MENU ALWAYS_LAST_PROMPT
@@ -51,10 +60,19 @@ bindkey '^]' _completion_test_dump
 cd $COMPLETION_TEST_FIXTURE
 EOF
 
+cat >$tmpdir/zdot/.zshrc <<EOF
+source ${(q)completion_init}
+EOF
+
 export COMPLETION_TEST_ROOT=$root
 export COMPLETION_TEST_TMP=$tmpdir
 export COMPLETION_TEST_FIXTURE=$fixture
 export COMPLETION_TEST_RESULT=$result
+export COMPLETION_TEST_MOCKBIN=$mockbin
+export COMPLETION_TEST_INIT=$completion_init
+
+typeset startup_output
+startup_output=$(env TERM=xterm-256color ZDOTDIR=$tmpdir/zdot zsh -i -c exit 2>&1)
 
 zpty $pty env TERM=xterm-256color zsh -df
 zpty -w $pty "source ${(q)setup}"
@@ -64,6 +82,15 @@ zpty -r -m $pty output '*__READY__*'
 
 typeset -gi passed=0 failed=0 case_index=0
 typeset -g interaction_buffer interaction_output
+
+if [[ -n $startup_output ]]; then
+  print -u2 -r -- 'NG - completion setup:'
+  print -u2 -r -- "     interactive shell produced ${(qqq)startup_output}"
+  (( ++failed ))
+else
+  print -r -- 'OK - completion setup'
+  (( ++passed ))
+fi
 
 run_interaction() {
   local input=$1 tabs=$2
@@ -109,11 +136,20 @@ menu_case() {
     shift 2
   done
 
-  local i first_output normalized menu_text tail
+  local i j first_output normalized menu_text tail menu_line without count
+  local overlapping
   local case_failed=0
+
+  run_interaction $input 1
+  first_output=$interaction_output
+  if [[ $interaction_buffer != $input ]]; then
+    print -u2 -r -- "NG - $name initial:"
+    print -u2 -r -- "     expected ${(qqq)input}, got ${(qqq)interaction_buffer}"
+    case_failed=1
+  fi
+
   for (( i = 1; i <= $#buffers; ++i )); do
-    run_interaction $input $i
-    (( i == 1 )) && first_output=$interaction_output
+    run_interaction $input $(( i + 1 ))
     if [[ $interaction_buffer != $buffers[i] ]]; then
       print -u2 -r -- "NG - $name item $i:"
       print -u2 -r -- "     expected ${(qqq)buffers[i]}, got ${(qqq)interaction_buffer}"
@@ -121,7 +157,7 @@ menu_case() {
     fi
   done
 
-  run_interaction $input $(( $#buffers + 1 ))
+  run_interaction $input $(( $#buffers + 2 ))
   if [[ $interaction_buffer != $buffers[1] ]]; then
     print -u2 -r -- "NG - $name wrap:"
     print -u2 -r -- "     expected ${(qqq)buffers[1]}, got ${(qqq)interaction_buffer}"
@@ -135,7 +171,8 @@ menu_case() {
     case_failed=1
   else
     menu_text=${normalized#*__MENU__}
-    tail=${${(f)menu_text}[1]}
+    tail=$menu_text
+    menu_line=${${(f)menu_text}[1]}
     for (( i = 1; i <= $#displays; ++i )); do
       if [[ $tail != *$displays[i]* ]]; then
         print -u2 -r -- "NG - $name menu item $i:"
@@ -143,6 +180,23 @@ menu_case() {
         case_failed=1
         break
       fi
+
+      without=${menu_line//${(b)displays[i]}/}
+      count=$(( (${#menu_line} - ${#without}) / ${#displays[i]} ))
+      overlapping=0
+      for (( j = 1; j <= $#displays; ++j )); do
+        if (( i != j )) && [[ $displays[j] == *$displays[i]* ]]; then
+          overlapping=1
+          break
+        fi
+      done
+      if (( ! overlapping )) && [[ $menu_line == *$displays[i]* ]] && (( count != 1 )); then
+        print -u2 -r -- "NG - $name menu item $i:"
+        print -u2 -r -- "     ${(qqq)displays[i]} was displayed $count times"
+        case_failed=1
+        break
+      fi
+
       tail=${tail#*$displays[i]}
     done
   fi
@@ -218,10 +272,24 @@ menu_case 'fuzzy parent' 'ls o/b' \
   'boo/' 'ls boo/b' \
   'foo/' 'ls foo/b'
 
+menu_case 'multiple fuzzy leaves defer insertion' 'ls test123/a' \
+  'bar'       'ls test123/bar ' \
+  'foobarbaz' 'ls test123/foobarbaz '
+
+menu_case 'carapace and zsh candidates are not duplicated' 'mockcmd ' \
+  'boo/' 'mockcmd boo/' \
+  'foo/' 'mockcmd foo/'
+
+menu_case 'carapace flag layout' 'mockcmd --' \
+  '--alpha  -a  first flag' 'mockcmd --alpha ' \
+  '--beta   -b  second flag' 'mockcmd --beta '
+
 # The match is expected to be unique, so no menu should be displayed, and the buffer should be updated to the expected value
 
 unique_case 'single fuzzy directory expands' \
   'ls 3/b' 'ls test123/b'
+unique_case 'glob suffix remains unquoted' \
+  'ls f/*' 'ls foo/*'
 unique_case 'fuzzy leaf completes in exact directory' \
   'ls test1/br' 'ls test1/bar '
 unique_case 'multi-component path completes' \

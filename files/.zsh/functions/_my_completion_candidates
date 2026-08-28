@@ -1,0 +1,25 @@
+_my_completion_candidates() {
+  local original_context=$curcontext
+  local completer
+
+  # Normal completion sources are tried once, in the same order as standard
+  # completers. Keeping them here makes the caller's menu policy universal.
+  for completer in expand prefix complete; do
+    curcontext=${original_context//mycompleter/$completer}
+    if _$completer; then
+      return 0
+    fi
+  done
+
+  # Fuzzy fallback is path-only: do not run command completion (and carapace)
+  # a second time.
+  curcontext=${original_context//mycompleter/fuzzy}
+  if _fuzzy_path_prefix; then
+    return 0
+  fi
+
+  local -a fuzzy_matchers
+  zstyle -a ":completion:${curcontext}:" matcher-list fuzzy_matchers
+  (( $#fuzzy_matchers )) || return 1
+  _path_files -M "$fuzzy_matchers[1]"
+}

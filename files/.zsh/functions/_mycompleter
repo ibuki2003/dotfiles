@@ -1,25 +1,20 @@
 _mycompleter() {
-  local cctx=$curcontext
+  if ! _my_completion_candidates; then
+    return 1
+  fi
 
-  curcontext=${cctx//mycompleter/complete}
-  if ! _complete; then return 1; fi
+  local pre="$HISTNO$LBUFFER"
+  local suf=$RBUFFER
 
-  local pre suf
+  # On the first completion, show multiple matches without inserting one.
+  if [[ $pre != "${_mycompleter_prefix-}" || $suf != "${_mycompleter_suffix-}" ]]; then
+    _mycompleter_prefix=$pre
+    _mycompleter_suffix=$suf
 
-  pre="$HISTNO$LBUFFER"
-  suf="$RBUFFER"
-
-  # only if first completion
-  if [[ "$pre" != "$_hoge_prefix" || "$suf" != "$_hoge_suffix" ]]; then
-    _hoge_prefix="$pre"
-    _hoge_suffix="$suf"
-
-    if [[ $compstate[nmatches] -ne 1 ]]; then
-      # show list not menu
+    if (( compstate[nmatches] != 1 )); then
       compstate[insert]=''
       compstate[list]='list force'
     else
-      # insert the only match
       compstate[insert]='unambiguous'
     fi
   else

@@ -15,15 +15,14 @@ zstyle ':completion:*:fuzzy:*:*:paths' expand prefix suffix
 zstyle ':completion:*:fuzzy:*:*:paths' list-suffixes true
 zstyle ':completion:*:paths' accept-exact-dirs true
 
-# try these completers in order, stop at the first one that produces matches
-autoload -Uz _fuzzy_path_prefix
-zstyle ':completion:*' completer _expand _prefix _complete _fuzzy_path_prefix _mycompleter:fuzzy
+# Route every candidate source through one interaction policy. The candidate
+# router tries normal completion once, then falls back to fuzzy path matching.
+autoload -Uz _my_completion_candidates _fuzzy_path_prefix
+zstyle ':completion:*' completer _mycompleter
 
-# expand: emit candidates by expanding the current word (e.g. brace expansion)
-# prefix: emit candidates with the leftside of the cursor
-# complete: normal completion
-# fuzzy: special completer for path-like words (matching with suffix-removed string)
-# mycompleter: insert the only candidate, or show a menu and then insert on following tab keypresses
+# _my_completion_candidates: candidate generation and fallback order
+# _mycompleter: insert a unique match; for multiple matches, show the menu on
+#               the first tab and start selection on the following tab
 
 zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
@@ -44,21 +43,39 @@ export CARAPACE_UNFILTERED=1
 
 carapace_init=$(carapace _carapace)
 
+# Do not append `_path_files` because current carapace already supplies filesystem candidates.
 carapace_patched=$(
   print -r -- "$carapace_init" |
     awk '
+      # Initialize an explicit match flag before carapace processes candidate blocks.
+      $0 == "  local block tag displays values displaysArr valuesArr" {
+        print
+        print "  local carapace_matches=0"
+        declarations++
+        next
+      }
+
+      # Mark successful descriptions because the generated while status is ambiguous.
+      index($0, "&& _describe -t") && index($0, "displaysArr valuesArr") {
+        print $0 " && carapace_matches=1"
+        descriptions++
+        next
+      }
+
+      # Return success only when carapace added candidates.
       $0 == "  done <<<\"${data}\"" {
         print
         print ""
-        print "  _path_files"
-        patched++
+        print "  (( carapace_matches ))"
+        returns++
         next
       }
 
       { print }
 
       END {
-        if (patched != 1)
+        # Fail closed when the generated code no longer has every expected insertion point.
+        if (declarations != 1 || descriptions != 1 || returns != 1)
           exit 42
       }
     '
@@ -68,7 +85,7 @@ if (( $? == 0 )); then
   source /dev/stdin <<< "$carapace_patched"
 else
   print -u2 -- \
-    'warning: output of carapace init script was not patched, falling back to original output' \
+    'warning: output of carapace init script was not patched, falling back to original output'
   source /dev/stdin <<< "$carapace_init"
 fi
 
