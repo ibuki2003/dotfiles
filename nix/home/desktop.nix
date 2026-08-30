@@ -61,7 +61,27 @@ in
       discord
       drawio
       font-manager
-      gimp-with-plugins
+      (gimp-with-plugins.overrideAttrs (old: {
+        # set DARKTABLE_EXECUTABLE to invalid path to disable darktable plugin
+        # darktable is deferred app and will be installed on use, it will take a long time :(
+        # use existing wrapProgram
+        buildCommand =
+          let oldcontent = old.buildCommand or ""; in
+          if pkgs.lib.strings.hasInfix "wrapProgram" oldcontent
+          then
+            let
+              # NOTE: last-match, not first-match, because of `.*` greedy match
+              match = builtins.match "(.*)--set(.*)" oldcontent;
+              replaced = "${builtins.elemAt match 0}--set DARKTABLE_EXECUTABLE /nonexistent/darktable --set${builtins.elemAt match 1}";
+            in
+                builtins.appendContext replaced (builtins.getContext oldcontent)
+
+          else
+            oldcontent + ''
+              find result/bin/ -type f -executable -not -name '.*' \
+                -exec wrapProgram {} --set DARKTABLE_EXECUTABLE /nonexistent/darktable \;
+            '';
+      }))
       httpie-desktop
       imv
       inkscape
