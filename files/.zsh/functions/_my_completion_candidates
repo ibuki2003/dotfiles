@@ -1,6 +1,17 @@
 _my_completion_candidates() {
   local original_context=$curcontext
-  local completer
+  local completer path_status
+
+  # Resolve abbreviated path components as one unit.  Status 2 means that the
+  # selected path policy deliberately rejected the input; do not let a later
+  # standard completer turn it back into a partial expansion.
+  if [[ $PREFIX == */* && $PREFIX != '~'* ]]; then
+    curcontext=${original_context//mycompleter/fuzzy}
+    path_status=0
+    _fuzzy_path_prefix || path_status=$?
+    (( path_status == 0 )) && return 0
+    (( path_status == 2 )) && return 1
+  fi
 
   # Normal completion sources are tried once, in the same order as standard
   # completers. Keeping them here makes the caller's menu policy universal.
@@ -13,13 +24,10 @@ _my_completion_candidates() {
 
   # Fuzzy fallback is path-only: do not run command completion (and carapace)
   # a second time.
-  curcontext=${original_context//mycompleter/fuzzy}
-  if _fuzzy_path_prefix; then
-    return 0
-  fi
-
   local -a fuzzy_matchers
   zstyle -a ":completion:${curcontext}:" matcher-list fuzzy_matchers
   (( $#fuzzy_matchers )) || return 1
   _path_files -M "$fuzzy_matchers[1]"
 }
+
+# vi:ft=zsh

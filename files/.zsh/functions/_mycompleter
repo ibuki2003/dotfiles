@@ -23,3 +23,5 @@ _mycompleter() {
 
   return 0
 }
+
+# vi:ft=zsh

@@ -1,66 +1,132 @@
 [[ $PREFIX == */* && $PREFIX != '~'* ]] || return 1
 
-local dirpart=${PREFIX%/*}
-local leaf=${PREFIX##*/}
-local base= remaining=$dirpart component rest suffix
-local prefix_pattern fuzzy_pattern char dir
-local -a dirs prefix_matches fuzzy_matches matches expl
+local input_path=$PREFIX
+local component pattern char candidate base search_base unresolved
+local fuzzy_pattern
+local -a components bases next matches entries step_matches filtered_steps
+local -a deep_expl step_expl
+local -A deep_seen
+local -a exact_matches prefix_matches fuzzy_matches
+local -i index last transformed=0
 
-if [[ $remaining == /* ]]; then
-  base=/
-  remaining=${remaining#/}
+if [[ $input_path == /* ]]; then
+  input_path=${input_path#/}
+  bases=(/)
+else
+  bases=('')
 fi
+components=("${(@s:/:)input_path}")
+last=$#components
 
-while [[ -n $remaining ]]; do
-  if [[ $remaining == */* ]]; then
-    component=${remaining%%/*}
-    rest=${remaining#*/}
-  else
-    component=$remaining
-    rest=
-  fi
+for (( index = 1; index <= last; ++index )); do
+  component=$components[index]
+  next=()
+  exact_matches=()
+  prefix_matches=()
+  fuzzy_matches=()
 
-  if [[ -d $base$component ]]; then
-    base+="$component/"
-    remaining=$rest
-    continue
-  fi
-
-  if [[ $component == .* ]]; then
-    dirs=("$base"*(ND-/))
-  else
-    dirs=("$base"*(N-/))
-  fi
-  (( $#dirs )) || return 1
-
-  prefix_pattern="(#i)${(b)component}*"
+  pattern="(#i)${(b)component}*"
   fuzzy_pattern='(#i)'
   for char in ${(s::)component}; do
     fuzzy_pattern+="*${(b)char}"
   done
   fuzzy_pattern+='*'
 
-  for dir in $dirs; do
-    if [[ ${dir:t} == ${~prefix_pattern} ]]; then
-      prefix_matches+=($dir)
-    elif [[ ${dir:t} == ${~fuzzy_pattern} ]]; then
-      fuzzy_matches+=($dir)
+  for base in "${bases[@]}"; do
+    search_base=$base
+    [[ -z $search_base || $search_base == / ]] || search_base+=/
+
+    if [[ -e $search_base$component ]]; then
+      if (( index == last )) || [[ -d $search_base$component ]]; then
+        exact_matches+=($search_base$component)
+      fi
+      continue
     fi
+
+    if [[ $component == .* ]]; then
+      entries=("$search_base"*(ND))
+    else
+      entries=("$search_base"*(N))
+    fi
+
+    for candidate in "${entries[@]}"; do
+      (( index == last )) || [[ -d $candidate ]] || continue
+      if [[ ${candidate:t} == ${~pattern} ]]; then
+        prefix_matches+=($candidate)
+      elif [[ ${candidate:t} == ${~fuzzy_pattern} ]]; then
+        fuzzy_matches+=($candidate)
+      fi
+    done
   done
-  if (( $#prefix_matches )); then
-    matches=($prefix_matches)
-  else
-    matches=($fuzzy_matches)
+
+  if (( $#exact_matches )); then
+    next=("${exact_matches[@]}")
+  elif (( $#prefix_matches )); then
+    next=("${prefix_matches[@]}")
+    if (( transformed == 0 && index < last )); then
+      unresolved=${(j:/:)components[index + 1,-1]}
+      for candidate in "${next[@]}"; do
+        step_matches+=("${candidate%/}/$unresolved")
+      done
+    fi
+    transformed=1
+  elif (( $#fuzzy_matches )); then
+    next=("${fuzzy_matches[@]}")
+    if (( transformed == 0 && index < last )); then
+      unresolved=${(j:/:)components[index + 1,-1]}
+      for candidate in "${next[@]}"; do
+        step_matches+=("${candidate%/}/$unresolved")
+      done
+    fi
+    transformed=1
   fi
-  (( $#matches )) || return 1
 
-  suffix="/${leaf}"
-  [[ -n $rest ]] && suffix="/${rest}${suffix}"
+  if (( $#next == 0 )); then
+    if (( transformed == 0 )); then
+      # Tell the candidate router that this path was rejected by the selected
+      # policy, so a later completer cannot reintroduce a partial expansion.
+      return 2
+    fi
+    unresolved=${(j:/:)components[index,-1]}
+    matches=()
+    for base in "${bases[@]}"; do
+      matches+=("${base%/}/$unresolved")
+    done
+    deep_seen=()
+    filtered_steps=()
+    for candidate in "${matches[@]}"; do
+      deep_seen[$candidate]=1
+    done
+    for candidate in "${step_matches[@]}"; do
+      [[ -n ${deep_seen[$candidate]-} ]] || filtered_steps+=($candidate)
+    done
+    _description -V deep-paths deep_expl filename
+    compadd -QUf "$deep_expl[@]" -W '' -a matches
+    if (( $#filtered_steps )); then
+      _description -V step-paths step_expl filename
+      compadd -QUf "$step_expl[@]" -W '' -a filtered_steps
+    fi
+    return
+  fi
 
-  _description files expl filename
-  # Keep glob characters in the unresolved suffix usable after completion.
-  compadd -QUf "$expl[@]" -s "$suffix" -W '' -a matches
-  return
+  bases=("${next[@]}")
 done
 
-return 1
+(( transformed )) || return 1
+deep_seen=()
+filtered_steps=()
+for candidate in "${bases[@]}"; do
+  deep_seen[$candidate]=1
+done
+for candidate in "${step_matches[@]}"; do
+  [[ -n ${deep_seen[$candidate]-} ]] || filtered_steps+=($candidate)
+done
+_description -V deep-paths deep_expl filename
+compadd -QUf "$deep_expl[@]" -W '' -a bases
+if (( $#filtered_steps )); then
+  _description -V step-paths step_expl filename
+  compadd -QUf "$step_expl[@]" -W '' -a filtered_steps
+fi
+return
+
+# vi:ft=zsh

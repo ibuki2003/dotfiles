@@ -20,6 +20,11 @@ zstyle ':completion:*:paths' accept-exact-dirs true
 autoload -Uz _my_completion_candidates _fuzzy_path_prefix
 zstyle ':completion:*' completer _mycompleter
 
+# Show fully resolved paths before one-component expansions.
+zstyle ':completion:*:fuzzy:*:deep-paths' group-name fuzzy-path-deep
+zstyle ':completion:*:fuzzy:*:step-paths' group-name fuzzy-path-step
+zstyle ':completion:*:fuzzy:*' group-order fuzzy-path-deep fuzzy-path-step
+
 # _my_completion_candidates: candidate generation and fallback order
 # _mycompleter: insert a unique match; for multiple matches, show the menu on
 #               the first tab and start selection on the following tab
