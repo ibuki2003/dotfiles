@@ -3,7 +3,8 @@
 local input_path=$PREFIX
 local component pattern char candidate base search_base unresolved
 local fuzzy_pattern
-local -a components bases next matches entries step_matches filtered_steps
+local -a components bases next matches
+local -a step_matches filtered_steps
 local -a deep_expl step_expl
 local -A deep_seen
 local -a exact_matches prefix_matches fuzzy_matches
@@ -43,21 +44,35 @@ for (( index = 1; index <= last; ++index )); do
       continue
     fi
 
-    if [[ $component == .* ]]; then
-      entries=("$search_base"*(ND))
+    # Let globbing discard non-prefix entries before they reach a Zsh array.
+    if (( index == last )); then
+      prefix_matches+=("$search_base"${~pattern}(N))
     else
-      entries=("$search_base"*(N))
+      prefix_matches+=("$search_base"${~pattern}(N-/))
     fi
+  done
 
-    for candidate in "${entries[@]}"; do
-      (( index == last )) || [[ -d $candidate ]] || continue
-      if [[ ${candidate:t} == ${~pattern} ]]; then
-        prefix_matches+=($candidate)
-      elif [[ ${candidate:t} == ${~fuzzy_pattern} ]]; then
-        fuzzy_matches+=($candidate)
+  # A second full listing is intentionally limited to the fuzzy fallback.
+  if (( $#exact_matches == 0 && $#prefix_matches == 0 )); then
+    for base in "${bases[@]}"; do
+      search_base=$base
+      [[ -z $search_base || $search_base == / ]] || search_base+=/
+
+      if (( index == last )); then
+        if [[ $component == .* ]]; then
+          fuzzy_matches+=("$search_base"${~fuzzy_pattern}(ND))
+        else
+          fuzzy_matches+=("$search_base"${~fuzzy_pattern}(N))
+        fi
+      else
+        if [[ $component == .* ]]; then
+          fuzzy_matches+=("$search_base"${~fuzzy_pattern}(ND-/))
+        else
+          fuzzy_matches+=("$search_base"${~fuzzy_pattern}(N-/))
+        fi
       fi
     done
-  done
+  fi
 
   if (( $#exact_matches )); then
     next=("${exact_matches[@]}")
