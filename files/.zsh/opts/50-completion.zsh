@@ -43,6 +43,7 @@ autoload -Uz compinit && compinit -C # `-C`: skip the check for new functions
 local carapace_init carapace_patched
 
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+export CARAPACE_EXCLUDES=nix
 export CARAPACE_HIDDEN=2
 export CARAPACE_UNFILTERED=1
 

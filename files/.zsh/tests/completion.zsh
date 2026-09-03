@@ -57,6 +57,7 @@ typeset -gi _completion_test_index=0
 zle -N _completion_test_dump
 bindkey '^]' _completion_test_dump
 
+HOME=$COMPLETION_TEST_FIXTURE
 cd $COMPLETION_TEST_FIXTURE
 EOF
 
@@ -308,6 +309,13 @@ menu_case 'deep absolute path expands at once' "ls $fixture/r/m/f" \
 menu_case 'deep fuzzy path expands at once' 'ls rn/ei/fw' \
   'fuwa/' 'ls run/media/fuwa/' \
   'run/' 'ls run/ei/fw'
+
+# paths start with tilde
+unique_case 'home-relative fuzzy directory' \
+  'ls ~/rn' 'ls ~/run/'
+menu_case 'home-relative fuzzy path' 'ls ~/rn/ei/fw' \
+  'fuwa/' 'ls ~/run/media/fuwa/' \
+  'run/' 'ls ~/run/ei/fw'
 
 # --- Unmatched-suffix preservation ---
 # Keep unresolved components on the surviving branches without restoring discarded fuzzy branches.

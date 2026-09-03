@@ -1,4 +1,5 @@
-[[ $PREFIX == */* && $PREFIX != '~'* ]] || return 1
+[[ $PREFIX == */* ]] || return 1
+[[ $PREFIX != '~'* || $PREFIX == '~/'* ]] || return 1
 
 local input_path=$PREFIX
 local component pattern char candidate base search_base unresolved
@@ -6,11 +7,17 @@ local fuzzy_pattern
 local -a components bases next matches
 local -a step_matches filtered_steps
 local -a deep_expl step_expl
+local -a compadd_prefix
 local -A deep_seen
 local -a exact_matches prefix_matches fuzzy_matches
-local -i index last transformed=0
+local -i index last transformed=0 home_relative=0
 
-if [[ $input_path == /* ]]; then
+if [[ $input_path == '~/'* ]]; then
+  input_path=${input_path#\~/}
+  bases=($HOME)
+  compadd_prefix=(-p '~/')
+  home_relative=1
+elif [[ $input_path == /* ]]; then
   input_path=${input_path#/}
   bases=(/)
 else
@@ -115,11 +122,15 @@ for (( index = 1; index <= last; ++index )); do
     for candidate in "${step_matches[@]}"; do
       [[ -n ${deep_seen[$candidate]-} ]] || filtered_steps+=($candidate)
     done
+    if (( home_relative )); then
+      matches=("${(@)matches#$HOME/}")
+      filtered_steps=("${(@)filtered_steps#$HOME/}")
+    fi
     _description -V deep-paths deep_expl filename
-    compadd -QUf "$deep_expl[@]" -W '' -a matches
+    compadd -QUf "$deep_expl[@]" -W '' "$compadd_prefix[@]" -a matches
     if (( $#filtered_steps )); then
       _description -V step-paths step_expl filename
-      compadd -QUf "$step_expl[@]" -W '' -a filtered_steps
+      compadd -QUf "$step_expl[@]" -W '' "$compadd_prefix[@]" -a filtered_steps
     fi
     return
   fi
@@ -136,11 +147,15 @@ done
 for candidate in "${step_matches[@]}"; do
   [[ -n ${deep_seen[$candidate]-} ]] || filtered_steps+=($candidate)
 done
+if (( home_relative )); then
+  bases=("${(@)bases#$HOME/}")
+  filtered_steps=("${(@)filtered_steps#$HOME/}")
+fi
 _description -V deep-paths deep_expl filename
-compadd -QUf "$deep_expl[@]" -W '' -a bases
+compadd -QUf "$deep_expl[@]" -W '' "$compadd_prefix[@]" -a bases
 if (( $#filtered_steps )); then
   _description -V step-paths step_expl filename
-  compadd -QUf "$step_expl[@]" -W '' -a filtered_steps
+  compadd -QUf "$step_expl[@]" -W '' "$compadd_prefix[@]" -a filtered_steps
 fi
 return
 

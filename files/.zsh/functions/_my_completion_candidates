@@ -5,7 +5,7 @@ _my_completion_candidates() {
   # Resolve abbreviated path components as one unit.  Status 2 means that the
   # selected path policy deliberately rejected the input; do not let a later
   # standard completer turn it back into a partial expansion.
-  if [[ $PREFIX == */* && $PREFIX != '~'* ]]; then
+  if [[ $PREFIX == */* && ( $PREFIX != '~'* || $PREFIX == '~/'* ) ]]; then
     curcontext=${original_context//mycompleter/fuzzy}
     path_status=0
     _fuzzy_path_prefix || path_status=$?
