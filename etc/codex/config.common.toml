@@ -52,10 +52,17 @@ default_mode_request_user_input = true
 terminal_title = []
 status_line = ["model-with-reasoning", "current-dir", "run-state", "permissions", "context-used", "five-hour-limit", "weekly-limit", "used-tokens"]
 status_line_use_colors = true
+session_picker_view = "comfortable"
+auto_recap = false
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
 "gpt-5.6-sol" = 4
+gpt-6-astra = 4
+
+[agents]
+max_concurrent_threads_per_session = 6
+
 
 [notice]
 hide_rate_limit_model_nudge = true
