@@ -43,6 +43,3 @@ ln_files .
 
 mkdir -p ~/.local/share/albert/python
 ln_checked $root/etc/albert_plugins ~/.local/share/albert/python/plugins
-
-mkdir -p ~/.codex
-ln_checked $root/etc/codex/AGENTS.md ~/.codex/AGENTS.md

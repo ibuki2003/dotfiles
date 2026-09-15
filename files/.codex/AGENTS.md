@@ -121,3 +121,5 @@
 - React.ts
 - SCSS
 - uv
+
+@/home/fuwa/.codex/RTK.md

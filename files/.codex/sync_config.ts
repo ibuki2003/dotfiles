@@ -200,12 +200,13 @@ async function resolvePaths() {
     throw new Error("HOME is not set.");
   }
 
-  const scriptPath = await Deno.realPath(fromFileUrl(import.meta.url));
-  const repoCodexDir = dirname(scriptPath);
+  // const scriptPath = await Deno.realPath(fromFileUrl(import.meta.url));
+  // const repoCodexDir = dirname(scriptPath);
   const actualCodexDir = join(home, ".codex");
+  const repoCodexDir = actualCodexDir; // Use the actual .codex directory in the home directory
 
   return {
-    repoCommon: join(repoCodexDir, "config.common.toml"),
+    repoCommon: join(repoCodexDir, ".config.common.toml"),
     actualConfig: join(actualCodexDir, "config.toml"),
     baseCommon: join(actualCodexDir, ".config.common.base.toml"),
   };

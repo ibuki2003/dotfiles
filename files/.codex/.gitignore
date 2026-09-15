@@ -1,0 +1,10 @@
+/*
+!.gitignore
+!AGENTS.md
+!RTK.md
+!.config.common.toml
+!sync_config.ts
+!hooks.json
+!skills
+skills/.system/*
+!prompts
