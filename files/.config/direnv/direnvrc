@@ -1,0 +1,15 @@
+# place .direnv/ to custom place
+# https://github.com/direnv/direnv/wiki/Customizing-cache-location
+: "${XDG_CACHE_HOME:="${HOME}/.cache"}"
+declare -A direnv_layout_dirs
+direnv_layout_dir() {
+  local hash path
+  echo "${direnv_layout_dirs[$PWD]:=$(
+    p=${PWD#/}
+    p=${p//-/--}
+    p=${p//\//-}
+    echo "${XDG_CACHE_HOME}/direnv/layouts/${p}"
+  )}"
+}
+
+# vim: set ft=sh:
