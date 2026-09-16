@@ -24,8 +24,8 @@ key[Ctrl-Right]="${terminfo[kRIT5]}"
 [[ -n "${key[Down]}"      ]] && bindkey -- "${key[Down]}"     down-line-or-history
 [[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"     backward-char
 [[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"    forward-char
-bindkey -- "${key[Ctrl-Left]}"  backward-word
-bindkey -- "${key[Ctrl-Right]}" forward-word
+[[ -n "${key[Ctrl-Left]}" ]] && bindkey -- "${key[Ctrl-Left]}"  backward-word
+[[ -n "${key[Ctrl-Right]}" ]] && bindkey -- "${key[Ctrl-Right]}" forward-word
 
 [[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"   history-beginning-search-backward
 [[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}" history-beginning-search-forward
