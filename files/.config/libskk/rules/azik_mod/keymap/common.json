@@ -4,7 +4,8 @@
             ":": "upper-;",
             "X": null,
             "<": "purge-candidate",
-            "\\": null
+            "\\": null,
+            "S-Tab": "previous"
         }
     }
 }

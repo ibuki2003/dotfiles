@@ -7,4 +7,5 @@ threads = 8
 gpu_layers = 999
 
 [candidate_order]
+mixture_lambda = 0.1
 abbrev = "recency"
