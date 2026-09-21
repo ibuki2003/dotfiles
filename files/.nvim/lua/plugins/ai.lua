@@ -9,6 +9,7 @@ return {
         [""] = false,
         markdown = false,
         typst = false,
+        text = false,
       },
     },
   },

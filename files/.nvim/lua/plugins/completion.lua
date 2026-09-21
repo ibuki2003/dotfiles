@@ -68,6 +68,9 @@ return {
         "WilliamHsieh/overlook.nvim",
         opts = {},
       },
+      {
+        'mrjones2014/codesettings.nvim',
+      }
     },
     config = function()
       require('settings/lsp/config')
