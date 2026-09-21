@@ -6,13 +6,29 @@ _mycompleter() {
   local pre="$HISTNO$LBUFFER"
   local suf=$RBUFFER
 
-  # On the first completion, show multiple matches without inserting one.
+  # A consecutive tab enters the menu after a prefix-only completion inserted
+  # its unambiguous part on the first tab.
+  if [[ ${_mycompleter_prefix_pending-} == 1 &&
+        $LASTWIDGET == expand-or-complete ]]; then
+    _mycompleter_prefix_pending=0
+    compstate[insert]='automenu'
+    return 0
+  fi
+  _mycompleter_prefix_pending=0
+
+  # Only literal prefix matches may insert their common prefix. Fuzzy matches
+  # retain the user's input because their literal common part is meaningless.
   if [[ $pre != "${_mycompleter_prefix-}" || $suf != "${_mycompleter_suffix-}" ]]; then
     _mycompleter_prefix=$pre
     _mycompleter_suffix=$suf
 
     if (( compstate[nmatches] != 1 )); then
-      compstate[insert]=''
+      if [[ ${_fuzzy_path_prefix_match-} == prefix ]]; then
+        compstate[insert]='unambiguous'
+        _mycompleter_prefix_pending=1
+      else
+        compstate[insert]=''
+      fi
       compstate[list]='list force'
     else
       compstate[insert]='unambiguous'

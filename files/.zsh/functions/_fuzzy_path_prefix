@@ -1,4 +1,3 @@
-[[ $PREFIX == */* ]] || return 1
 [[ $PREFIX != '~'* || $PREFIX == '~/'* ]] || return 1
 
 local input_path=$PREFIX
@@ -10,7 +9,7 @@ local -a deep_expl step_expl
 local -a compadd_prefix
 local -A deep_seen
 local -a exact_matches prefix_matches fuzzy_matches
-local -i index last transformed=0 home_relative=0
+local -i index last transformed=0 home_relative=0 exact_found used_fuzzy=0
 
 if [[ $input_path == '~/'* ]]; then
   input_path=${input_path#\~/}
@@ -32,9 +31,15 @@ for (( index = 1; index <= last; ++index )); do
   exact_matches=()
   prefix_matches=()
   fuzzy_matches=()
+  exact_found=0
 
-  pattern="(#i)${(b)component}*"
-  fuzzy_pattern='(#i)'
+  if [[ $component == *[[:upper:]]* ]]; then
+    pattern="${(b)component}*"
+    fuzzy_pattern=
+  else
+    pattern="(#i)${(b)component}*"
+    fuzzy_pattern='(#i)'
+  fi
   for char in ${(s::)component}; do
     fuzzy_pattern+="*${(b)char}"
   done
@@ -44,11 +49,10 @@ for (( index = 1; index <= last; ++index )); do
     search_base=$base
     [[ -z $search_base || $search_base == / ]] || search_base+=/
 
-    if [[ -e $search_base$component ]]; then
-      if (( index == last )) || [[ -d $search_base$component ]]; then
-        exact_matches+=($search_base$component)
-      fi
-      continue
+    if [[ -e $search_base$component ]] && \
+        { (( index == last )) || [[ -d $search_base$component ]] }; then
+      exact_found=1
+      exact_matches+=($search_base$component)
     fi
 
     # Let globbing discard non-prefix entries before they reach a Zsh array.
@@ -60,7 +64,7 @@ for (( index = 1; index <= last; ++index )); do
   done
 
   # A second full listing is intentionally limited to the fuzzy fallback.
-  if (( $#exact_matches == 0 && $#prefix_matches == 0 )); then
+  if (( $#prefix_matches == 0 )); then
     for base in "${bases[@]}"; do
       search_base=$base
       [[ -z $search_base || $search_base == / ]] || search_base+=/
@@ -81,19 +85,22 @@ for (( index = 1; index <= last; ++index )); do
     done
   fi
 
-  if (( $#exact_matches )); then
-    next=("${exact_matches[@]}")
-  elif (( $#prefix_matches )); then
-    next=("${prefix_matches[@]}")
-    if (( transformed == 0 && index < last )); then
+  if (( $#prefix_matches )); then
+    if (( exact_found && index < last )); then
+      next=("${exact_matches[@]}")
+    else
+      next=("${prefix_matches[@]}")
+    fi
+    if (( ! exact_found && transformed == 0 && index < last )); then
       unresolved=${(j:/:)components[index + 1,-1]}
       for candidate in "${next[@]}"; do
         step_matches+=("${candidate%/}/$unresolved")
       done
     fi
-    transformed=1
+    (( exact_found )) || transformed=1
   elif (( $#fuzzy_matches )); then
     next=("${fuzzy_matches[@]}")
+    used_fuzzy=1
     if (( transformed == 0 && index < last )); then
       unresolved=${(j:/:)components[index + 1,-1]}
       for candidate in "${next[@]}"; do
@@ -126,6 +133,11 @@ for (( index = 1; index <= last; ++index )); do
       matches=("${(@)matches#$HOME/}")
       filtered_steps=("${(@)filtered_steps#$HOME/}")
     fi
+    if (( used_fuzzy || last != 1 )); then
+      typeset -g _fuzzy_path_prefix_match=fuzzy
+    else
+      typeset -g _fuzzy_path_prefix_match=prefix
+    fi
     _description -V deep-paths deep_expl filename
     compadd -QUf "$deep_expl[@]" -W '' "$compadd_prefix[@]" -a matches
     if (( $#filtered_steps )); then
@@ -150,6 +162,11 @@ done
 if (( home_relative )); then
   bases=("${(@)bases#$HOME/}")
   filtered_steps=("${(@)filtered_steps#$HOME/}")
+fi
+if (( used_fuzzy || last != 1 )); then
+  typeset -g _fuzzy_path_prefix_match=fuzzy
+else
+  typeset -g _fuzzy_path_prefix_match=prefix
 fi
 _description -V deep-paths deep_expl filename
 compadd -QUf "$deep_expl[@]" -W '' "$compadd_prefix[@]" -a bases

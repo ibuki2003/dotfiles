@@ -218,6 +218,42 @@ unique_case() {
   fi
 }
 
+insertion_case() {
+  local name=$1 input=$2 expected=$3
+
+  run_interaction $input 1
+  if [[ $interaction_buffer != $expected ]]; then
+    print -u2 -r -- "NG - $name:"
+    print -u2 -r -- "     expected ${(qqq)expected}, got ${(qqq)interaction_buffer}"
+    (( ++failed ))
+  else
+    print -r -- "OK - $name"
+    (( ++passed ))
+  fi
+}
+
+prefix_then_menu_case() {
+  local name=$1 input=$2 prefix=$3 selected=$4
+  local case_failed=0 actual_prefix actual_selected
+
+  run_interaction $input 1
+  actual_prefix=$interaction_buffer
+  [[ $actual_prefix == $prefix ]] || case_failed=1
+  run_interaction $input 2
+  actual_selected=$interaction_buffer
+  [[ $actual_selected == $selected ]] || case_failed=1
+
+  if (( case_failed )); then
+    print -u2 -r -- "NG - $name:"
+    print -u2 -r -- "     expected prefix ${(qqq)prefix} then ${(qqq)selected}"
+    print -u2 -r -- "     got ${(qqq)actual_prefix} then ${(qqq)actual_selected}"
+    (( ++failed ))
+  else
+    print -r -- "OK - $name"
+    (( ++passed ))
+  fi
+}
+
 # === Testcase definition ===
 
 # fixture files and directories
@@ -231,14 +267,32 @@ mkdir -p \
   $fixture/run/motd.d \
   $fixture/at
 touch \
+  $fixture/Cargo.toml \
+  $fixture/toolchain.toml \
+  $fixture/flake.lock \
+  $fixture/flake.nix \
   $fixture/test1/bar \
   $fixture/test123/bar \
   $fixture/test123/foobarbaz \
   $fixture/foo/bar/baz \
+  $fixture/foo/bar.rs \
   $fixture/run/motd.d/86-fwupd
 
 # --- Basic matching and candidate selection ---
 # Verify exact/prefix/fuzzy priority within each component and leaf completion.
+
+unique_case 'fuzzy path without a slash' \
+  'ls Ctoml' 'ls Cargo.toml '
+prefix_then_menu_case 'common prefix precedes menu selection' \
+  'ls fl' 'ls flake.' 'ls flake.lock '
+unique_case 'completion continues after common prefix' \
+  'ls flake.n' 'ls flake.nix '
+insertion_case 'fuzzy matches do not insert a common prefix' \
+  'ls ctoml' 'ls ctoml'
+
+menu_case 'exact and prefix leaf matches are both kept' 'ls f/bar' \
+  'bar/'   'ls foo/bar/' \
+  'bar.rs' 'ls foo/bar.rs '
 
 menu_case 'normal path' 'ls t/f' \
   'foo/'       'ls test1/foo/' \
@@ -265,6 +319,7 @@ menu_case 'fuzzy leaf filters deep paths' 'ls t/z' \
 menu_case 'fuzzy parent' 'ls o/b' \
   'bar/' 'ls boo/bar/' \
   'bar/' 'ls foo/bar/' \
+  'bar.rs' 'ls foo/bar.rs ' \
   'boo/' 'ls boo/b' \
   'foo/' 'ls foo/b'
 

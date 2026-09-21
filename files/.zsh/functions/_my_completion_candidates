@@ -1,6 +1,7 @@
 _my_completion_candidates() {
   local original_context=$curcontext
   local completer path_status
+  typeset -g _fuzzy_path_prefix_match=
 
   # Resolve abbreviated path components as one unit.  Status 2 means that the
   # selected path policy deliberately rejected the input; do not let a later
@@ -11,6 +12,16 @@ _my_completion_candidates() {
     _fuzzy_path_prefix || path_status=$?
     (( path_status == 0 )) && return 0
     (( path_status == 2 )) && return 1
+  fi
+
+  # A non-empty argument without a slash may still be an abbreviated path.
+  # Keep command-name completion and empty argument completion on their normal
+  # candidate sources.
+  if (( CURRENT > 1 )) && [[ -n $PREFIX && $PREFIX != */* && $PREFIX != '~'* ]]; then
+    curcontext=${original_context//mycompleter/fuzzy}
+    if _fuzzy_path_prefix; then
+      return 0
+    fi
   fi
 
   # Normal completion sources are tried once, in the same order as standard

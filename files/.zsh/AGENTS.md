@@ -36,6 +36,7 @@
   - `zpty` 上に隔離した Zsh を起動し、`functions/_mycompleter`、`functions/_fuzzy_path_prefix`、`opts/50-completion.zsh` にまたがるパス補完の挙動を検証する。
   - `tests/fixtures/carapace` を一時的な `PATH` の先頭へ配置し、carapace の初期化コードと候補プロトコルを外部バージョンに依存せず再現する。
   - `Makefile` の `test` ターゲットから実行される。
+- パス補完の仕様は `docs/completion.md` を参照する。
 
 ## 新しいファイルを追加する場所
 
