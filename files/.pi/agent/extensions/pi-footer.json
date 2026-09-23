@@ -176,7 +176,9 @@
     "colorLevel": "ansi256"
   },
   "extensionStatusRow": {
-    "hiddenKeys": [],
+    "hiddenKeys": [
+      "codex-limits"
+    ],
     "knownKeys": [
       "codex-limits"
     ]
