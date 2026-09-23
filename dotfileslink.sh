@@ -6,7 +6,7 @@ function ln_checked() {
   # check if already linked
   if [[ -L "$2" ]]; then
     if [[ $(readlink "$2") = "$1" ]]; then
-      echo "Already linked: ~/$fn"
+      echo "Already linked: $2"
       return
     else
       echo "Skipping $2, already linked to $(readlink $2)"
