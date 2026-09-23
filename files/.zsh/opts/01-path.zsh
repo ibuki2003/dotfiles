@@ -8,6 +8,7 @@ if [[ -z ${_PATH_ADDED:-} ]]; then
     ~/.local/share/aquaproj-aqua/bin
     ~/.config/yarn/global/node_modules/.bin
     ~/.local/share/pnpm
+    ~/.local/share/pnpm/bin
     ~/.nix-profile/bin
     $path
   )
