@@ -231,6 +231,8 @@
 
     nix-ld.libraries = with pkgs; [
       nss # Discord needs nss but must not leak to Firefox via LD_LIBRARY_PATH
+      stdenv.cc.cc.lib
+      zlib
     ];
   };
 
