@@ -136,6 +136,7 @@ in
       typescript-language-server
       ty
       verible
+      vscode-langservers-extracted
 
       tree-sitter # for neovim-treesitter
 
@@ -187,7 +188,6 @@ in
       ocamlPackages.ocaml-lsp
       openscad-lsp
       tombi
-      vscode-langservers-extracted
     ];
   };
 
