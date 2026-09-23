@@ -1,0 +1,184 @@
+{
+  "version": 1,
+  "enabled": true,
+  "preset": "default",
+  "lines": [
+    [
+      {
+        "id": "model-muecfhc0-kwmwpv",
+        "type": "model",
+        "enabled": true,
+        "options": {
+          "raw": true,
+          "icon": "",
+          "fg": "cyan",
+          "bg": "default",
+          "bold": false,
+          "showProvider": false
+        }
+      },
+      {
+        "id": "thinking-level-muece21t-4sz421",
+        "type": "thinking-level",
+        "enabled": true,
+        "options": {
+          "raw": true,
+          "hideWhenEmpty": false,
+          "icon": "",
+          "text": "",
+          "fg": "magenta",
+          "bg": "default",
+          "bold": false
+        }
+      },
+      {
+        "id": "separator-mueduwqo-izfplj",
+        "type": "separator",
+        "enabled": true,
+        "options": {
+          "fg": "default",
+          "bg": "default",
+          "bold": false,
+          "hideWhenEmpty": true,
+          "separator": "dot",
+          "text": "|"
+        }
+      },
+      {
+        "id": "context-bar-muecgreq-mik194",
+        "type": "context-bar",
+        "enabled": true,
+        "options": {
+          "raw": true,
+          "hideWhenEmpty": false,
+          "icon": "",
+          "text": "",
+          "fg": "blue",
+          "bg": "default",
+          "bold": false,
+          "tokenFormatStyle": "default",
+          "contextBarMode": "short",
+          "contextConditionalColors": false,
+          "contextWarningPercent": 70,
+          "contextDangerPercent": 90,
+          "warningFg": "yellow",
+          "warningBg": "default",
+          "dangerFg": "red",
+          "dangerBg": "default"
+        }
+      },
+      {
+        "id": "cost-muecgvwu-sxzh6w",
+        "type": "cost",
+        "enabled": true,
+        "options": {
+          "raw": true,
+          "icon": "",
+          "fg": "green",
+          "bg": "default",
+          "bold": false,
+          "costFormatStyle": "compact",
+          "showSubscription": false
+        }
+      },
+      {
+        "id": "flex-separator-muecjon2-7r7ap3",
+        "type": "flex-separator",
+        "enabled": true,
+        "options": {
+          "fg": "default",
+          "bg": "default",
+          "bold": false,
+          "hideWhenEmpty": true
+        }
+      },
+      {
+        "id": "external-status-mueducv5-l6xvg9",
+        "type": "external-status",
+        "enabled": true,
+        "options": {
+          "raw": false,
+          "hideWhenEmpty": true,
+          "icon": "",
+          "text": "-",
+          "fg": "default",
+          "bg": "default",
+          "bold": false,
+          "externalStatusKey": "codex-limits",
+          "trimValue": 0,
+          "preserveTrimStyles": true
+        }
+      },
+      {
+        "id": "separator-muecjhua-f9e0dq",
+        "type": "separator",
+        "enabled": true,
+        "options": {
+          "fg": "default",
+          "bg": "default",
+          "bold": false,
+          "hideWhenEmpty": true,
+          "separator": "dot",
+          "text": "|"
+        }
+      },
+      {
+        "id": "tokens-muecgxv2-nhz699",
+        "type": "tokens",
+        "enabled": true,
+        "options": {
+          "raw": true,
+          "icon": "",
+          "fg": "cyan",
+          "bg": "default",
+          "bold": false,
+          "tokenFormatStyle": "default"
+        }
+      },
+      {
+        "id": "cache-hit-rate-muecgxak-a7lv7m",
+        "type": "cache-hit-rate",
+        "enabled": true,
+        "options": {
+          "raw": true,
+          "hideWhenZero": false,
+          "icon": "",
+          "fg": "cyan",
+          "bg": "default",
+          "bold": false,
+          "cacheHitSource": "session",
+          "style": "default"
+        }
+      },
+      {
+        "id": "output-speed-muech50l-qxbr0x",
+        "type": "output-speed",
+        "enabled": true,
+        "options": {
+          "raw": true,
+          "hideWhenZero": false,
+          "icon": "",
+          "fg": "brightCyan",
+          "bg": "default",
+          "bold": false,
+          "tokenFormatStyle": "default"
+        }
+      }
+    ]
+  ],
+  "separator": "space",
+  "separatorFg": "default",
+  "separatorBg": "default",
+  "iconMode": "nerd",
+  "minimalist": false,
+  "terminal": {
+    "widthMode": "full",
+    "colorLevel": "ansi256"
+  },
+  "extensionStatusRow": {
+    "hiddenKeys": [],
+    "knownKeys": [
+      "codex-limits"
+    ]
+  }
+}

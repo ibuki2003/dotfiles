@@ -1,0 +1,47 @@
+{
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-6-sol",
+  "showCacheMissNotices": true,
+  "hideThinkingBlock": false,
+  "steeringMode": "all",
+  "followUpMode": "all",
+  "doubleEscapeAction": "tree",
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 65536
+  },
+  "theme": "dark",
+  "quietStartup": true,
+  "tuiMode": "fullscreen",
+  "fullscreenExitOutput": "resume-hint",
+  "fullscreenScrollbar": "always",
+  "fullscreenCopyOnSelect": false,
+  "editorPaddingX": 1,
+  "showHardwareCursor": true,
+  "modelThinkingLevels": {
+    "openai-codex/gpt-5.6-sol": "low",
+    "openai-codex/gpt-5.6-luna": "high",
+    "openai-codex/gpt-6-sol": "low",
+    "openai-codex/gpt-6-luna": "high",
+    "openai-codex/gpt-6-astra": "low"
+  },
+  "enabledModels": [
+    "openai-codex/gpt-6-sol",
+    "openai-codex/gpt-6-luna",
+    "openai-codex/gpt-6-astra",
+    "openai-codex/gpt-5.6-sol",
+    "openai-codex/gpt-5.6-luna",
+    "openrouter/deepseek/deepseek-v4.1-flash",
+    "openrouter/z-ai/glm-5.3-flash",
+    "openrouter/xiaomi/mimo-v2.6-pro"
+  ],
+  "packages": [
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-subagents",
+    "npm:pi-web-access",
+    "npm:pi-codex-compaction",
+    "npm:pi-codex-tools",
+    "npm:pi-footer"
+  ],
+  "lastChangelogVersion": "0.87.1"
+}
