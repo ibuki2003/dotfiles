@@ -119,6 +119,13 @@ action = "DecreaseFontSize"
 key = "NumpadSubtract"
 mods = "Control"
 
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+# chars = "\u001B\r"
+# CSI-u form; pi-agent accepts only this form
+chars = "\u001b[13;2u"
+
 [mouse]
 hide_when_typing = true
 
@@ -134,7 +141,3 @@ dynamic_title = true
 opacity = 0.9
 title = "Alacritty"
 
-[[keyboard.bindings]]
-key = "Return"
-mods = "Shift"
-chars = "\u001B\r"
