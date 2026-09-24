@@ -1,11 +1,11 @@
 {
-  "tui.altScreen.top": null,
-  "tui.altScreen.bottom": null,
+  "tui.altScreen.top": [],
+  "tui.altScreen.bottom": [],
   "tui.editor.cursorLineStart": ["home", "ctrl+a"],
   "tui.editor.cursorLineEnd": ["end", "ctrl+e"],
-  "app.clear": null,
-  "app.session.rename": null,
-  "app.session.delete": null,
-  "app.model.cycleForward": null,
-  "app.model.cycleBackward": null
+  "app.clear": [],
+  "app.session.rename": [],
+  "app.session.delete": [],
+  "app.model.cycleForward": [],
+  "app.model.cycleBackward": []
 }
