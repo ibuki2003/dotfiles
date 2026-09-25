@@ -23,6 +23,8 @@
 
 - スラッシュを含まない入力が複数の prefix match を持つ場合、最初の Tab では common prefix
   だけを挿入する。候補の list は表示してよいが、この時点では menu 選択を開始しない。
+- 大文字小文字が異なる候補も、小文字入力では大文字小文字を無視した common prefix を小文字で
+  挿入する。挿入の前後で候補集合が変わらないことを優先する。
 - common prefix を挿入した直後にもう一度 Tab を押したとき、menu 選択を開始する。
 - fuzzy match が複数ある場合は common prefix を挿入しない。fuzzy 候補同士の文字列上の
   common prefix は入力の情報量を減らしたり、入力を空にしたりする可能性があるためである。

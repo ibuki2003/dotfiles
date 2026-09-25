@@ -278,11 +278,33 @@ touch \
   $fixture/foo/bar.rs \
   $fixture/run/motd.d/86-fwupd
 
+touch \
+  "$fixture/space name" \
+  "$fixture/quote'file" \
+  "$fixture/dollar\$file" \
+  "$fixture/bracket(file"
+
 # --- Basic matching and candidate selection ---
 # Verify exact/prefix/fuzzy priority within each component and leaf completion.
 
 unique_case 'fuzzy path without a slash' \
   'ls Ctoml' 'ls Cargo.toml '
+unique_case 'space in filename' \
+  'ls space' 'ls space\ name '
+unique_case 'single quote in filename' \
+  'ls quote' "ls quote\\'file "
+unique_case 'dollar sign in filename' \
+  'ls dollar' 'ls dollar\$file '
+unique_case 'parenthesis in filename' \
+  'ls bracket' 'ls bracket\(file '
+unique_case 'home-relative space in filename' \
+  'ls ~/space' 'ls ~/space\ name '
+unique_case 'home-relative quote in filename' \
+  'ls ~/quote' "ls ~/quote\\'file "
+unique_case 'home-relative dollar sign in filename' \
+  'ls ~/dollar' 'ls ~/dollar\$file '
+unique_case 'home-relative parenthesis in filename' \
+  'ls ~/bracket' 'ls ~/bracket\(file '
 prefix_then_menu_case 'common prefix precedes menu selection' \
   'ls fl' 'ls flake.' 'ls flake.lock '
 unique_case 'completion continues after common prefix' \
@@ -331,6 +353,8 @@ unique_case 'glob suffix remains unquoted' \
   'ls f/*' 'ls foo/*'
 unique_case 'fuzzy leaf completes in exact directory' \
   'ls test1/br' 'ls test1/bar '
+unique_case 'parent-relative path completes' \
+  'ls ../fixture/test1/br' 'ls ../fixture/test1/bar '
 
 # --- Candidate-source integration ---
 # Ensure carapace and native Zsh candidates share the same menu without duplication.

@@ -7,21 +7,26 @@ local -a components bases next matches
 local -a step_matches filtered_steps
 local -a deep_expl step_expl
 local -a compadd_prefix
+local -a compadd_flags
 local -A deep_seen
 local -a exact_matches prefix_matches fuzzy_matches
 local -i index last transformed=0 home_relative=0 exact_found used_fuzzy=0
+typeset -g _fuzzy_path_prefix_common=
 
 if [[ $input_path == '~/'* ]]; then
   input_path=${input_path#\~/}
   bases=($HOME)
   compadd_prefix=(-p '~/')
   home_relative=1
+  compadd_flags=(-Uf)
 elif [[ $input_path == /* ]]; then
   input_path=${input_path#/}
   bases=(/)
 else
   bases=('')
 fi
+[[ $PREFIX == *'/*' ]] && compadd_flags=(-QUf)
+(( $#compadd_flags )) || compadd_flags=(-Uf)
 components=("${(@s:/:)input_path}")
 last=$#components
 
@@ -49,6 +54,14 @@ for (( index = 1; index <= last; ++index )); do
     search_base=$base
     [[ -z $search_base || $search_base == / ]] || search_base+=/
 
+    if [[ $component == . || $component == .. ]]; then
+      if [[ -d $search_base$component ]]; then
+        exact_found=1
+        prefix_matches+=($search_base$component)
+        exact_matches+=($search_base$component)
+      fi
+      continue
+    fi
     if [[ -e $search_base$component ]] && \
         { (( index == last )) || [[ -d $search_base$component ]] }; then
       exact_found=1
@@ -139,10 +152,10 @@ for (( index = 1; index <= last; ++index )); do
       typeset -g _fuzzy_path_prefix_match=prefix
     fi
     _description -V deep-paths deep_expl filename
-    compadd -QUf "$deep_expl[@]" -W '' "$compadd_prefix[@]" -a matches
+    compadd "${compadd_flags[@]}" "$deep_expl[@]" -W '' "$compadd_prefix[@]" -a matches
     if (( $#filtered_steps )); then
       _description -V step-paths step_expl filename
-      compadd -QUf "$step_expl[@]" -W '' "$compadd_prefix[@]" -a filtered_steps
+      compadd "${compadd_flags[@]}" "$step_expl[@]" -W '' "$compadd_prefix[@]" -a filtered_steps
     fi
     return
   fi
@@ -167,12 +180,29 @@ if (( used_fuzzy || last != 1 )); then
   typeset -g _fuzzy_path_prefix_match=fuzzy
 else
   typeset -g _fuzzy_path_prefix_match=prefix
+  if (( $#bases > 1 )); then
+    local common=${bases[1]} name
+    # A lower-case input matches names of either case. Keep the inserted
+    # prefix lower-case so re-completion uses the same matching policy.
+    if [[ $PREFIX != *[[:upper:]]* ]]; then
+      common=${(L)common}
+    fi
+    for name in "${bases[@]:1}"; do
+      if [[ $PREFIX != *[[:upper:]]* ]]; then
+        name=${(L)name}
+      fi
+      while [[ -n $common && $name != "$common"* ]]; do
+        common=${common[1,-2]}
+      done
+    done
+    _fuzzy_path_prefix_common=$common
+  fi
 fi
 _description -V deep-paths deep_expl filename
-compadd -QUf "$deep_expl[@]" -W '' "$compadd_prefix[@]" -a bases
+compadd "${compadd_flags[@]}" "$deep_expl[@]" -W '' "$compadd_prefix[@]" -a bases
 if (( $#filtered_steps )); then
   _description -V step-paths step_expl filename
-  compadd -QUf "$step_expl[@]" -W '' "$compadd_prefix[@]" -a filtered_steps
+  compadd "${compadd_flags[@]}" "$step_expl[@]" -W '' "$compadd_prefix[@]" -a filtered_steps
 fi
 return
 
