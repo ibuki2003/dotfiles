@@ -49,6 +49,7 @@
           };
           overlays = [
             inputs.neovim-nightly-overlay.overlays.default
+            inputs.rustowl.overlays.default
             (import ./nix/overlay.nix { inherit inputs sources; })
           ];
         };

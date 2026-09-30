@@ -65,5 +65,4 @@
 
     }
   );
-  rustowl = inputs.rustowl;
 })
