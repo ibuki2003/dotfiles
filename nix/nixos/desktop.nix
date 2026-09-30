@@ -145,6 +145,7 @@
         name = "sipeed-udev-rules";
         text = ''
           ATTRS{idVendor}=="359f", ATTRS{idProduct}=="3101", ENV{ID_MM_DEVICE_IGNORE}="1"
+          ATTRS{idVendor}=="0403", MODE:="0666"
         '';
         destination = "/etc/udev/rules.d/49-sipeed.rules";
       })

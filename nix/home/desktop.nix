@@ -101,6 +101,7 @@ in
       skktools
       slack
       spotify
+      sqlitebrowser
       tdf
       timg
       thunderbird-latest
