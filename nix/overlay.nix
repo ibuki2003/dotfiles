@@ -4,6 +4,14 @@
   ...
 }:
 (self: super: {
+  verilator = super.verilator.override {
+    # Match GCC's default C++20 ABI used by Verilator's SystemC tests.
+    systemc = super.systemc.overrideAttrs (old: {
+      cmakeFlags =
+        builtins.filter (flag: !(super.lib.hasPrefix "-DCMAKE_CXX_STANDARD=" flag)) old.cmakeFlags
+        ++ [ "-DCMAKE_CXX_STANDARD=20" ];
+    });
+  };
   cargo-binutils = super.rustPlatform.buildRustPackage (
     let
       old = super.cargo-binutils;
