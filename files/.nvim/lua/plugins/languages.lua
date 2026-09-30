@@ -64,6 +64,13 @@ return {
     },
   },
   {
+    'cordx56/rustowl',
+    version = '*', -- Latest stable version
+    build = 'which rustowl || cargo install rustowl',
+    lazy = false, -- This plugin is already lazy
+    opts = {},
+  },
+  {
     'udalov/kotlin-vim',
     ft = { 'kotlin' },
   },

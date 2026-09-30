@@ -22,6 +22,9 @@
     skk-zenz.url = "github:ibuki2003/skk_zenz";
     skk-zenz.inputs.nixpkgs.follows = "nixpkgs";
 
+    rustowl.url = "github:nix-community/rustowl-flake";
+    rustowl.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs =

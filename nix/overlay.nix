@@ -1,5 +1,6 @@
 {
   sources,
+  inputs,
   ...
 }:
 (self: super: {
@@ -56,4 +57,5 @@
 
     }
   );
+  rustowl = inputs.rustowl;
 })

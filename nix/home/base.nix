@@ -108,6 +108,7 @@ in
       pv
       ripgrep
       rtk
+      rustowl
       rustup
       sheldon
       socat
