@@ -9,7 +9,11 @@ _mycompleter() {
   # A consecutive tab enters the menu after a prefix-only completion inserted
   # its unambiguous part on the first tab.
   if [[ ${_mycompleter_prefix_pending-} == 1 &&
-        $LASTWIDGET == expand-or-complete ]]; then
+        ( $LASTWIDGET == expand-or-complete ||
+          ( $LASTWIDGET == self-insert &&
+            $HISTNO == "${_mycompleter_pending_histno-}" &&
+            $LBUFFER == "${_mycompleter_pending_buffer-}" &&
+            $RBUFFER == "${_mycompleter_pending_suffix-}" ) ) ]]; then
     _mycompleter_prefix_pending=0
     compstate[insert]='automenu'
     return 0
@@ -24,7 +28,25 @@ _mycompleter() {
 
     if (( compstate[nmatches] != 1 )); then
       if [[ ${_fuzzy_path_prefix_match-} == prefix ]]; then
-        compstate[insert]='unambiguous'
+        local common=${_fuzzy_path_prefix_common-}
+        if [[ -n $common && $common == "$PREFIX"* ]]; then
+          local extension=${common#$PREFIX}
+          if [[ $compstate[unambiguous] == "$common" ]]; then
+            compstate[insert]='unambiguous'
+          elif [[ $extension != *[^[:alnum:]_.-]* ]]; then
+            # Do not insert Zsh's literal common prefix: differently cased
+            # names can make it shorter than the text already on the line.
+            zle -U "$extension"
+            _mycompleter_pending_buffer=$LBUFFER$extension
+            _mycompleter_pending_suffix=$RBUFFER
+            _mycompleter_pending_histno=$HISTNO
+            compstate[insert]=''
+          else
+            compstate[insert]=''
+          fi
+        else
+          compstate[insert]=''
+        fi
         _mycompleter_prefix_pending=1
       else
         compstate[insert]=''

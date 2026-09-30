@@ -254,6 +254,34 @@ prefix_then_menu_case() {
   fi
 }
 
+prefix_candidates_case() {
+  local name=$1 input=$2 prefix=$3
+  local candidate
+  local -A before after
+  local -i i case_failed=0
+
+  run_interaction $input 1
+  [[ $interaction_buffer == $prefix ]] || case_failed=1
+  for (( i = 2; i <= 4; ++i )); do
+    run_interaction $input $i
+    before[$interaction_buffer]=1
+    run_interaction $prefix $i
+    after[$interaction_buffer]=1
+  done
+  for candidate in 'ls CaseMix.one ' 'ls CaseMix.two ' 'ls caseMix.three '; do
+    [[ -n ${before[$candidate]-} && -n ${after[$candidate]-} ]] || case_failed=1
+  done
+  (( $#before == 3 && $#after == 3 )) || case_failed=1
+  if (( case_failed )); then
+    print -u2 -r -- "NG - $name:"
+    print -u2 -r -- "     prefix: ${(qqq)interaction_buffer}; before: ${(k)before}; after: ${(k)after}"
+    (( ++failed ))
+  else
+    print -r -- "OK - $name"
+    (( ++passed ))
+  fi
+}
+
 # === Testcase definition ===
 
 # fixture files and directories
@@ -268,6 +296,9 @@ mkdir -p \
   $fixture/at
 touch \
   $fixture/Cargo.toml \
+  $fixture/CaseMix.one \
+  $fixture/CaseMix.two \
+  $fixture/caseMix.three \
   $fixture/toolchain.toml \
   $fixture/flake.lock \
   $fixture/flake.nix \
@@ -307,6 +338,13 @@ unique_case 'home-relative parenthesis in filename' \
   'ls ~/bracket' 'ls ~/bracket\(file '
 prefix_then_menu_case 'common prefix precedes menu selection' \
   'ls fl' 'ls flake.' 'ls flake.lock '
+prefix_then_menu_case 'mixed case prefix retains matches' \
+  'ls cas' 'ls casemix.' 'ls CaseMix.one '
+insertion_case 'mixed case names extend a short prefix' \
+  'ls c' 'ls ca'
+prefix_then_menu_case 'upper-case prefix remains case-sensitive' \
+  'ls CaseM' 'ls CaseMix.' 'ls CaseMix.one '
+prefix_candidates_case 'mixed case candidate set' 'ls cas' 'ls casemix.'
 unique_case 'completion continues after common prefix' \
   'ls flake.n' 'ls flake.nix '
 insertion_case 'fuzzy matches do not insert a common prefix' \
