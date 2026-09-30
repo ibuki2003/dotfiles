@@ -6,7 +6,7 @@ type WindowInfo = { title: string; app_id: string | undefined };
 
 function get_pwd_from_window({ title, app_id }: WindowInfo): string | null {
   if (app_id && ["Alacritty", "kitty"].indexOf(app_id) != -1) {
-    const match = title.match(/^\w+: (.+?)( : .+)?$/);
+    const match = title.match(/^\S+: (.+?)( : .+)?$/);
     if (!match) return null;
     return match[1];
   }
