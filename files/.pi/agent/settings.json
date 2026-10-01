@@ -43,7 +43,8 @@
     "npm:pi-web-access",
     "npm:pi-codex-compaction",
     "npm:pi-codex-tools",
-    "npm:pi-footer"
+    "npm:pi-footer",
+    "https://github.com/ibuki2003/pirc"
   ],
   "lastChangelogVersion": "0.99.1"
 }
