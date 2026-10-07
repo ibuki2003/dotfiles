@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import qs
+import qs.components
 import qs.modules.niri
 
 Item {
@@ -10,6 +11,7 @@ Item {
   required property real columnWidthScale
 
   readonly property real columnHeight: 14
+  readonly property int maxDetailedWindows: 4
   readonly property bool shouldShow: NiriIpc.focusedWindowTitle !== ""
   readonly property var workspaceIds: NiriIpc.workspacesByOutput[root.outputId] || []
   readonly property int activeWorkspaceId: NiriIpc.activeWorkspaces[root.outputId] ?? -1
@@ -97,12 +99,20 @@ Item {
         width: root.columnWidth(modelData)
         height: root.columnHeight
 
+        readonly property color indicatorColor: modelData.windows.some(win => win.isUrgent)
+            ? Style.themeRed
+            : modelData.windows.some(win => win.id === root.activeWindowId)
+              ? Style.themeForeground
+              : Style.themeComment
+
         Column {
+          visible: column.modelData.windows.length <= root.maxDetailedWindows
           spacing: 2
           anchors.fill: parent
 
           Repeater {
-            model: column.modelData.windows
+            model: column.modelData.windows.length <= root.maxDetailedWindows
+                ? column.modelData.windows : []
 
             Rectangle {
               required property var modelData
@@ -115,6 +125,27 @@ Item {
               color: modelData.isUrgent ? Style.themeRed
                   : modelData.id === root.activeWindowId ? Style.themeForeground
                   : Style.themeComment
+            }
+          }
+        }
+
+        Rectangle {
+          visible: column.modelData.windows.length > root.maxDetailedWindows
+          anchors.fill: parent
+          radius: 3
+          color: "transparent"
+          border.width: 1
+          // border.color: column.indicatorColor
+
+          MyText {
+            anchors.centerIn: parent
+            text: column.modelData.windows.length.toString(36).toUpperCase() // ensure single character for up to 35 windows (!)
+            color: column.indicatorColor
+            font: {
+              const f = Qt.font(Style.monospaceFont)
+              f.pixelSize = 12
+              f.bold = true
+              return f
             }
           }
         }
