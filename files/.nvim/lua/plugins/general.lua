@@ -201,5 +201,24 @@ return {
   },
   {
     "vim-scripts/MultipleSearch",
-  }
+  },
+  {
+    "glacambre/firenvim",
+    enabled = function()
+      -- only in desktop environment
+      return vim.env.DISPLAY ~= nil and vim.env.SSH_CLIENT == nil
+    end,
+    build = ":call firenvim#install(0)",
+    init = function()
+      vim.g.firenvim_config = {
+        localSettings = {
+          ['.*'] = {
+            cmdline = 'neovim',
+            takeover = 'never',
+            priority = 0,
+          },
+        },
+      }
+    end,
+  },
 }

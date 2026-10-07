@@ -194,6 +194,7 @@ in
           "security.mixed_content.block_active_content" = false;
           "network.security.ports.banned.override" = "1-65535";
           "widget.use-xdg-desktop-portal.file-picker" = 1; # force use XDG portal
+          "network.lna.websocket.enabled" = false; # for firenvim
           # "browser.uiCustomization.state" = ""; # TODO
 
           # allow unsigned extensions; Keep in mind that this is a security risk,
