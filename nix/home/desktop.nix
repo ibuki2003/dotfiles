@@ -382,23 +382,11 @@ in
     );
   };
 
-  xdg.autostart.files = [
-    (pkgs.makeDesktopItem {
-      name = "slack-autostart";
-      desktopName = "Slack";
-      exec = "slack -u"; # minimize to tray
-    })
-    (pkgs.makeDesktopItem {
-      name = "discord";
-      desktopName = "Discord";
-      exec = "Discord --start-minimized";
-    })
-    (pkgs.makeDesktopItem {
-      name = "remmina-applet";
-      desktopName = "Remmina Applet";
-      exec = "remmina -i";
-    })
-  ];
+  services.autostart = {
+    slack.exec = "${pkgs.slack}/bin/slack -u"; # minimize to tray
+    discord.exec = "${pkgs.discord}/bin/Discord --start-minimized";
+    remmina.exec = "${pkgs.remmina}/bin/remmina -i";
+  };
 
   dconf = {
     enable = true;

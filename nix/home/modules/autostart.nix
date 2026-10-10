@@ -1,37 +1,42 @@
-# management of xdg autostart
 { config, lib, ... }:
 
 let
   inherit (lib) mkOption types;
-  cfg = config.xdg.autostart.files;
+  cfg = config.services.autostart;
 in
 {
-  options.xdg.autostart.files = mkOption {
-    type = with types; listOf (either str package);
-    default = [ ];
-    description = "Desktop files";
+  options.services.autostart = mkOption {
+    type = types.attrsOf (
+      types.submodule {
+        options.exec = mkOption {
+          type = types.str;
+          description = "Command to start with the graphical session. Note that this is not a shell command, but a string for ExecStart= in systemd.";
+        };
+      }
+    );
+    default = { };
+    description = "Applications to start with the graphical session.";
   };
 
-  config.xdg.configFile =
-    let
-      files = map (
-        entry:
-        (
-          if lib.isDerivation entry then
-            # entry is a package
-            builtins.head (lib.filesystem.listFilesRecursive "${entry}/share/applications")
-          else
-            # assume entry is a path
-            entry
-        )
-      ) cfg;
-    in
-    builtins.listToAttrs (
-      map (
-        file:
-        lib.nameValuePair (builtins.unsafeDiscardStringContext (
-          "autostart/" + (builtins.baseNameOf file)
-        )) { source = file; }
-      ) files
-    );
+  config.systemd.user.services = lib.mapAttrs' (
+    name: app:
+    lib.nameValuePair "autostart-${name}" {
+      Unit = {
+        Description = "Autostart ${name}";
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        Type = "exec";
+        ExitType = "cgroup";
+        ExecStart = app.exec;
+        Restart = "no";
+        TimeoutStopSec = "5s";
+        Slice = "app.slice";
+        StandardOutput = "null";
+        StandardError = "null";
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    }
+  ) cfg;
 }
