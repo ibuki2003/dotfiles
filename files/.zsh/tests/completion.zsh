@@ -20,6 +20,10 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 mkdir -p $fixture $mockbin $tmpdir/zdot
+mkdir -p $tmpdir/man/man{1,5,7}
+touch $tmpdir/man/man1/probe.1 $tmpdir/man/man5/probe.5 \
+  $tmpdir/man/man7/man.7.gz $tmpdir/man/man1/tmux.1 \
+  $tmpdir/man/man1/systemd.1 $tmpdir/man/man5/systemd.service.5
 cp $root/tests/fixtures/carapace $mockbin/carapace
 chmod +x $mockbin/carapace
 
@@ -33,6 +37,7 @@ mkdir -p $ZDOTDIR $XDG_CACHE_HOME
 
 source $COMPLETION_TEST_ROOT/functions/_mycompleter
 source $COMPLETION_TEST_ROOT/opts/50-completion.zsh
+export MANPATH=$COMPLETION_TEST_TMP/man
 EOF
 
 cat >$setup <<'EOF'
@@ -165,6 +170,10 @@ menu_case() {
   fi
 
   normalized=$(normalize_output $first_output)
+  if [[ $input == man* && $normalized == *__MENU__*__MENU__* ]]; then
+    print -u2 -r -- "NG - $name: manual candidates were split into groups"
+    case_failed=1
+  fi
   if [[ $normalized != *__MENU__* ]]; then
     print -u2 -r -- "NG - $name:"
     print -u2 -r -- "     menu was not displayed"
@@ -404,6 +413,37 @@ menu_case 'carapace and zsh candidates are not duplicated' 'mockcmd ' \
 menu_case 'carapace flag layout' 'mockcmd --' \
   '--alpha  -a  first flag' 'mockcmd --alpha ' \
   '--beta   -b  second flag' 'mockcmd --beta '
+
+# --- Manual pages without a man-db index ---
+unique_case 'manual names take priority over matching local paths' 'man t' 'man tmux'
+unique_case 'explicit manual section takes priority over local paths' \
+  'man 1 t' 'man 1 tmux '
+unique_case 'manual names hide sections before a dot' 'man pro' 'man probe'
+menu_case 'manual sections appear after a dot' 'man probe.' \
+  'probe.1' 'man probe.1 ' \
+  'probe.5' 'man probe.5 '
+unique_case 'manual macro name hides its section before a dot' 'man ma' 'man man'
+unique_case 'section-qualified manual name completes after a dot' \
+  'man man.' 'man man.7 '
+menu_case 'dotted page names and qualified names share one group' 'man systemd.' \
+  'systemd.1' 'man systemd.1 ' \
+  'systemd.service' 'man systemd.service'
+unique_case 'dot within a page name does not expose its sections' \
+  'man systemd.s' 'man systemd.service'
+unique_case 'manual name completion continues directly into its section' \
+  $'man tmu\t.' 'man tmux.1 '
+unique_case 'dotted page name supports a section after another dot' \
+  'man systemd.service.' 'man systemd.service.5 '
+unique_case 'partial section narrows qualified names' \
+  'man probe.5' 'man probe.5 '
+unique_case 'manual names in an explicit section' 'man 5 pro' 'man 5 probe '
+unique_case 'manual names do not leak from other sections' 'man 7 ma' 'man 7 man '
+unique_case 'manual section option still works' 'man -s 5 pro' 'man -s 5 probe '
+unique_case 'manual options still work' 'man --sec' 'man --sections='
+menu_case 'manual sections have descriptions' 'man ' \
+  '1  -- general commands' 'man 1 ' \
+  '5  -- file formats and conventions' 'man 5 ' \
+  '7  -- miscellanea' 'man 7 '
 
 # --- Multi-component traversal and candidate order ---
 # Prefer deeply resolved paths, then retain the former one-component expansion.

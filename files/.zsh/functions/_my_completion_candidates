@@ -16,8 +16,9 @@ _my_completion_candidates() {
 
   # A non-empty argument without a slash may still be an abbreviated path.
   # Keep command-name completion and empty argument completion on their normal
-  # candidate sources.
-  if (( CURRENT > 1 )) && [[ -n $PREFIX && $PREFIX != */* && $PREFIX != '~'* ]]; then
+  # candidate sources. Bare man operands are manual names, not local paths.
+  if (( CURRENT > 1 )) && [[ ${${(Q)words[1]}:t} != man &&
+                            -n $PREFIX && $PREFIX != */* && $PREFIX != '~'* ]]; then
     curcontext=${original_context//mycompleter/fuzzy}
     if _fuzzy_path_prefix; then
       return 0

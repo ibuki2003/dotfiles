@@ -27,7 +27,7 @@ function _carapace_completer {
   done <<<"${data}"
 }
 
-compdef _carapace_completer mockcmd
+compdef _carapace_completer mockcmd man
 INIT
   exit
 fi

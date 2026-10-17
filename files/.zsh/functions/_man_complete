@@ -1,0 +1,49 @@
+# Keep option parsing and explicitly selected sections in Zsh's _man.
+local ret=1
+if (( CURRENT != 2 )) || [[ $PREFIX$SUFFIX == [-/]* || $PREFIX$SUFFIX == */* ]]; then
+  _man "$@" && ret=0
+fi
+
+# Additional forms apply only to the first operand, not options or local files.
+if (( CURRENT == 2 )) && [[ $PREFIX$SUFFIX != [-/]* && $PREFIX$SUFFIX != */* ]]; then
+  # Native -s completion inserts a colon for a section list. Positional
+  # sections instead need a space, and should list only installed sections.
+  local -a paths sections specs pages names qualified expl
+  local section page
+  local -A descriptions=(
+    0 'library headers'
+    1 'general commands'
+    2 'system calls'
+    3 'library functions'
+    4 'devices and drivers'
+    5 'file formats and conventions'
+    6 'games'
+    7 'miscellanea'
+    8 'maintenance commands and procedures'
+    9 'kernel features'
+  )
+  paths=( ${(s.:.)"$(command manpath 2>/dev/null)"} )
+  if [[ -n $PREFIX$SUFFIX ]]; then
+    pages=( ${^paths}/man*/*(N-.:t) )
+    pages=( ${(ou)${pages%.(gz|bz2|xz|zst|lzma|z|Z)}} )
+    names=( ${(ou)${pages%.*}} )
+    # Leave the cursor next to the name so "." can select its section.
+    _wanted manuals expl 'manual page' compadd -S '' -a names && ret=0
+    if [[ $PREFIX == *.* ]]; then
+      # A dot inside a page name must not expose its sections prematurely.
+      for page in $pages; do
+        [[ ${page%.*} == ${PREFIX%.*} ]] && qualified+=( "$page" )
+      done
+      _wanted manuals expl 'manual page' compadd -a qualified && ret=0
+    fi
+  fi
+
+  sections=( ${^paths}/man*(N-/) )
+  sections=( ${(ou)${sections:t}#man} )
+  for section in $sections; do
+    specs+=( "$section:${descriptions[$section]:-manual section}" )
+  done
+  _describe -t sections 'manual section' specs && ret=0
+fi
+
+return ret

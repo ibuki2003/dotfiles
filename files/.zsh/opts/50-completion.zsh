@@ -96,3 +96,8 @@ else
 fi
 
 unset carapace_init carapace_patched
+
+# man-db's search index may be absent even when manual files are installed.
+# Keep man on Zsh's filesystem-backed completion rather than carapace/apropos.
+autoload -Uz _man_complete
+compdef _man_complete man
