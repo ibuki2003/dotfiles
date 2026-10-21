@@ -104,6 +104,11 @@ return {
   },
   {
     'gamoutatsumi/dps-ghosttext.vim',
+    init = function()
+      vim.g['dps_ghosttext#ftmap'] = {
+        ["typst.app"] = "typst",
+      }
+    end,
   },
   {
     "epwalsh/obsidian.nvim",
@@ -219,6 +224,39 @@ return {
           },
         },
       }
+      local min_height = 10
+      local id = vim.api.nvim_create_augroup("ExpandLinesOnTextChanged", { clear = true })
+
+      local function resize_firenvim_window()
+        local height = vim.o.lines
+        if height < min_height then
+          vim.o.lines = min_height
+        end
+      end
+
+      -- Resizes when typing
+      if vim.g.started_by_firenvim then
+        vim.api.nvim_create_autocmd({"TextChanged", "TextChangedI"}, {
+            group = id,
+            callback = resize_firenvim_window
+        })
+      end
     end,
+  },
+  {
+    'richwomanbtc/overleaf.nvim',
+    cmd = { 'Overleaf' },
+    -- config = function()
+    --   require('overleaf').setup()
+    -- end,
+    opts = function()
+      -- secret-tool lookup service overleaf
+      local cookie = vim.fn.systemlist("secret-tool lookup service overleaf")[1]
+      print("Overleaf cookie: " .. cookie)
+      return {
+        cookie = cookie,
+      }
+    end,
+    build = 'cd node && npm install',
   },
 }
