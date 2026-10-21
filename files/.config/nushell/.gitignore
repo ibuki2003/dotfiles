@@ -5,3 +5,4 @@ plugin.msgpackz
 conf.d/local.nu
 
 history.txt
+history.sqlite3*

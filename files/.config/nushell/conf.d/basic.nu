@@ -14,7 +14,9 @@ $env.config = $env.config | merge deep {
   },
   history: {
     max_size: 1_000_000_000,
-    sync_on_enter: false,
+    sync_on_enter: true,
+    file_format: "sqlite",
+    isolation: true,
   },
 }
 

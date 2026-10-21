@@ -67,7 +67,7 @@ $env.config.hooks.pre_prompt ++= [{
 
 let hostname = hostname
 $env.PROMPT_COMMAND = {||
-  let user_host = $"(if (is-admin) { ansi red_bold } else { ansi green_bold })[($env.USER)@($hostname)](ansi reset)"
+  let user_host = $"(if (is-admin) { ansi red_bold } else { ansi green })[($env.USER)@($hostname)](ansi reset)"
 
   let status = if ($env.LAST_EXIT_CODE == 0) { "" } else { $"(ansi red)\(($env.LAST_EXIT_CODE)\)(ansi reset) " }
 
@@ -95,7 +95,7 @@ def set-window-title [pwd: string, cmd?: string] {
     "alacritty" => "Alacritty"
     _ => "unknown"
   }
-  let pwd_short = $pwd | str replace $nu.home-path "~"
+  let pwd_short = $pwd | str replace $nu.home-dir "~"
   if ($cmd != null) {
     print -n $"(ansi title)($term): ($pwd_short) : ($cmd)(ansi st)"
   } else {
