@@ -124,8 +124,8 @@ binds {
     XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
     XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
 
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+2%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "2%-"; }
 
     Mod+O repeat=false { toggle-overview; }
 
@@ -190,6 +190,8 @@ binds {
 
     Mod+Shift+Ctrl+Page_Down { move-workspace-to-monitor-next; }
     Mod+Shift+Ctrl+Page_Up   { move-workspace-to-monitor-previous; }
+    Mod+Shift+Ctrl+U         { move-workspace-to-monitor-next; }
+    Mod+Shift+Ctrl+I         { move-workspace-to-monitor-previous; }
 
     Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
     Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
