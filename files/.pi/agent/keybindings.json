@@ -4,8 +4,6 @@
   "tui.editor.cursorLineStart": ["home", "ctrl+a"],
   "tui.editor.cursorLineEnd": ["end", "ctrl+e"],
   "app.clear": [],
-  "app.session.rename": [],
-  "app.session.delete": [],
   "app.model.cycleForward": [],
   "app.model.cycleBackward": []
 }
