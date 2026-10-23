@@ -1,5 +1,5 @@
 {
-  "defaultProvider": "openai-codex",
+  "defaultProvider": "openai",
   "defaultModel": "gpt-6.1-sol",
   "showCacheMissNotices": true,
   "hideThinkingBlock": false,
@@ -19,20 +19,20 @@
   "editorPaddingX": 1,
   "showHardwareCursor": true,
   "modelThinkingLevels": {
-    "openai-codex/gpt-5.6-sol": "low",
-    "openai-codex/gpt-5.6-luna": "high",
-    "openai-codex/gpt-6-sol": "low",
-    "openai-codex/gpt-6-luna": "high",
-    "openai-codex/gpt-6-astra": "low",
-    "openai-codex/gpt-6.1-sol": "low"
+    "openai/gpt-5.6-sol": "low",
+    "openai/gpt-5.6-luna": "high",
+    "openai/gpt-6-sol": "low",
+    "openai/gpt-6-luna": "high",
+    "openai/gpt-6-astra": "low",
+    "openai/gpt-6.1-sol": "low"
   },
   "enabledModels": [
-    "openai-codex/gpt-6.1-sol",
-    "openai-codex/gpt-6-sol",
-    "openai-codex/gpt-6-luna",
-    "openai-codex/gpt-6-astra",
-    "openai-codex/gpt-5.6-sol",
-    "openai-codex/gpt-5.6-luna",
+    "openai/gpt-6.1-sol",
+    "openai/gpt-6-sol",
+    "openai/gpt-6-luna",
+    "openai/gpt-6-astra",
+    "openai/gpt-5.6-sol",
+    "openai/gpt-5.6-luna",
     "openrouter/deepseek/deepseek-v4.1-flash",
     "openrouter/z-ai/glm-5.3-flash",
     "openrouter/xiaomi/mimo-v2.6-pro"
@@ -44,7 +44,9 @@
     "npm:pi-codex-compaction",
     "npm:pi-codex-tools",
     "npm:pi-footer",
+    "npm:@georgebashi/pi-retry",
     "https://github.com/ibuki2003/pirc"
   ],
-  "lastChangelogVersion": "1.2.0"
+  "lastChangelogVersion": "1.4.0",
+  "deviceId": "22f5d976-21a4-44ca-8920-7ed91599ed52"
 }
