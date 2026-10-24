@@ -86,8 +86,12 @@ class Plugin(PluginInstance, GlobalQueryHandler):
             "udisksctl",
             "unmount",
             "-b", disk['path'],
-        ], stdout=subprocess.PIPE)
-        notify_send("unmount", p.stdout.decode("utf-8"))
+        ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        if p.returncode != 0:
+            title = "unmount failed"
+        else:
+            title = "unmount"
+        notify_send(title, p.stdout.decode("utf-8"))
 
 
     def collect_items_with_scores(self, query: str):
