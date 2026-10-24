@@ -45,7 +45,8 @@
     "npm:pi-codex-tools",
     "npm:pi-footer",
     "npm:@georgebashi/pi-retry",
-    "https://github.com/ibuki2003/pirc"
+    "https://github.com/ibuki2003/pirc",
+    "npm:pi-live-throughput"
   ],
   "lastChangelogVersion": "1.4.0",
   "deviceId": "22f5d976-21a4-44ca-8920-7ed91599ed52"

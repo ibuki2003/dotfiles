@@ -1,7 +1,4 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { readFile } from "node:fs/promises";
-import { homedir } from "node:os";
-import { join } from "node:path";
 
 const STATUS_KEY = "codex-limits";
 const REFRESH_MS = 5 * 60_000;
@@ -22,31 +19,6 @@ interface Usage {
     unlimited?: boolean;
     balance?: string;
   };
-}
-
-async function credentials(): Promise<{ token: string; accountId?: string } | undefined> {
-  try {
-    const auth = JSON.parse(
-      await readFile(join(homedir(), ".pi", "agent", "auth.json"), "utf8"),
-    );
-    const codex = auth["openai-codex"];
-    if (codex?.access) return { token: codex.access, accountId: codex.accountId };
-  } catch {
-    // Codex CLI may have its own credentials.
-  }
-
-  try {
-    const auth = JSON.parse(
-      await readFile(
-        join(process.env.CODEX_HOME || join(homedir(), ".codex"), "auth.json"),
-        "utf8",
-      ),
-    );
-    const token = auth.tokens?.access_token ?? auth.OPENAI_API_KEY;
-    if (token) return { token, accountId: auth.tokens?.account_id };
-  } catch {
-    // No Codex credentials available.
-  }
 }
 
 function resetIn(timestamp: number | undefined): string {
@@ -80,20 +52,8 @@ export default function (pi: ExtensionAPI) {
 
     async function refresh() {
       try {
-        const creds = await credentials();
-        if (!creds) {
-          if (current === generation) ctx.ui.setStatus(STATUS_KEY, undefined);
-          return;
-        }
-
-        const headers: Record<string, string> = {
-          Authorization: `Bearer ${creds.token}`,
-          "User-Agent": "pi-agent",
-          Accept: "application/json",
-        };
-        if (creds.accountId) headers["ChatGPT-Account-Id"] = creds.accountId;
-        const response = await fetch("https://chatgpt.com/backend-api/wham/usage", {
-          headers,
+        const response = await fetch("https://codex-usage.fuwa.dev/usage", {
+          headers: { Accept: "application/json" },
           signal: AbortSignal.timeout(5000),
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
