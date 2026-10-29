@@ -93,36 +93,6 @@
         }
       },
       {
-        "id": "external-status-mueducv5-l6xvg9",
-        "type": "external-status",
-        "enabled": true,
-        "options": {
-          "raw": false,
-          "hideWhenEmpty": true,
-          "icon": "",
-          "text": "-",
-          "fg": "default",
-          "bg": "default",
-          "bold": false,
-          "externalStatusKey": "codex-limits",
-          "trimValue": 0,
-          "preserveTrimStyles": true
-        }
-      },
-      {
-        "id": "separator-muecjhua-f9e0dq",
-        "type": "separator",
-        "enabled": true,
-        "options": {
-          "fg": "default",
-          "bg": "default",
-          "bold": false,
-          "hideWhenEmpty": true,
-          "separator": "dot",
-          "text": "|"
-        }
-      },
-      {
         "id": "tokens-muecgxv2-nhz699",
         "type": "tokens",
         "enabled": true,
@@ -164,6 +134,53 @@
           "tokenFormatStyle": "default"
         }
       }
+    ],
+    [
+      {
+        "id": "external-status-mvo3vf16-viug5u",
+        "type": "external-status",
+        "enabled": true,
+        "options": {
+          "raw": false,
+          "hideWhenEmpty": true,
+          "icon": "",
+          "text": "-",
+          "fg": "pi:dim",
+          "bg": "default",
+          "bold": false,
+          "externalStatusKey": "pirc",
+          "trimValue": 0,
+          "preserveTrimStyles": true
+        }
+      },
+      {
+        "id": "flex-separator-mvo3vtol-znes9f",
+        "type": "flex-separator",
+        "enabled": true,
+        "options": {
+          "fg": "default",
+          "bg": "default",
+          "bold": false,
+          "hideWhenEmpty": true
+        }
+      },
+      {
+        "id": "external-status-mvo3vwm3-7w09kk",
+        "type": "external-status",
+        "enabled": true,
+        "options": {
+          "raw": false,
+          "hideWhenEmpty": true,
+          "icon": "",
+          "text": "-",
+          "fg": "pi:dim",
+          "bg": "default",
+          "bold": false,
+          "externalStatusKey": "codex-limits",
+          "trimValue": 0,
+          "preserveTrimStyles": true
+        }
+      }
     ]
   ],
   "separator": "space",
@@ -177,10 +194,12 @@
   },
   "extensionStatusRow": {
     "hiddenKeys": [
-      "codex-limits"
+      "codex-limits",
+      "pirc"
     ],
     "knownKeys": [
-      "codex-limits"
+      "codex-limits",
+      "pirc"
     ]
   }
 }
