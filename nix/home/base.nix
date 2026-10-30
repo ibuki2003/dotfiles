@@ -206,7 +206,8 @@ in
     };
 
     nushell = {
-      enable = true;
+      enable = false;
+      loadSessionVariables = true;
       configFile.text = "source ~/.config/nushell/conf.d/init.nu";
       plugins = [
         pkgs.nushellPlugins.gstat

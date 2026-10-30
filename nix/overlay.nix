@@ -4,6 +4,23 @@
   ...
 }:
 (self: super: {
+  # nixpkgs pins albert 35.1.0, which destroys query items in worker threads and
+  # crashes on timer timeout (see nix/albert-segv.md). The fix is in upstream
+  # v35.2.0 and nixpkgs' update is still an unmerged PR (NixOS/nixpkgs#579795),
+  # so use that tag directly. Drop this override once the pin reaches 35.2.0.
+  albert =
+    assert super.lib.assertMsg (super.lib.versionOlder super.albert.version "35.2.0")
+      "nix/overlay.nix: the nixpkgs pin already provides albert ${super.albert.version} (>= 35.2.0), which contains the worker-thread fix. Delete the albert override.";
+    super.albert.overrideAttrs (_: {
+      version = "35.2.0";
+      src = super.fetchFromGitHub {
+        owner = "albertlauncher";
+        repo = "albert";
+        tag = "v35.2.0";
+        hash = "sha256-ycDQUDrwMY9yv/apozrKQfcugurGjDiItiTXCcbGeas=";
+        fetchSubmodules = true;
+      };
+    });
   verilator = super.verilator.override {
     # Match GCC's default C++20 ABI used by Verilator's SystemC tests.
     systemc = super.systemc.overrideAttrs (old: {

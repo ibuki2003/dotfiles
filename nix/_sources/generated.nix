@@ -92,15 +92,15 @@
   };
   defmt-print = {
     pname = "defmt-print";
-    version = "d6e7e572a497d60319ce8136d89407944d759fbb";
+    version = "6b791b84a974155b66652a4e081899e3067e2fa9";
     src = fetchFromGitHub {
       owner = "knurling-rs";
       repo = "defmt";
-      rev = "d6e7e572a497d60319ce8136d89407944d759fbb";
+      rev = "6b791b84a974155b66652a4e081899e3067e2fa9";
       fetchSubmodules = false;
-      sha256 = "sha256-0SxB9rlvj6+KRBDr+y7qB9bU1ydJCheutJFh6Y4aHZY=";
+      sha256 = "sha256-y1z9phL36StHPI0SE3kVL2/W43I5ciNqpVqHvgKctak=";
     };
-    date = "2026-09-29";
+    date = "2026-10-27";
   };
   memvis = {
     pname = "memvis";
@@ -122,35 +122,35 @@
   };
   niri = {
     pname = "niri";
-    version = "1f03391ea644c2a43597de7f637269e26d1e1b49";
+    version = "b22eb842ca9506d4e2ff997b116031cdb3f650f8";
     src = fetchFromGitHub {
       owner = "niri-wm";
       repo = "niri";
-      rev = "1f03391ea644c2a43597de7f637269e26d1e1b49";
+      rev = "b22eb842ca9506d4e2ff997b116031cdb3f650f8";
       fetchSubmodules = false;
-      sha256 = "sha256-oEvDG8PTqiy6lvKKWj9D+XZyPzYcl4rm5Qs7qKR0pSk=";
+      sha256 = "sha256-Vf+Ea6sgZ2fn+NU1m0wtIl6MJIOyXZ2BBlwd/HDYKio=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./. + "/sha256-oEvDG8PTqiy6lvKKWj9D+XZyPzYcl4rm5Qs7qKR0pSk=/Cargo.lock";
+      lockFile = ./. + "/sha256-Vf+Ea6sgZ2fn+NU1m0wtIl6MJIOyXZ2BBlwd_HDYKio=/Cargo.lock";
       outputHashes = {
-        "smithay-0.7.0" = "sha256-DUSciVTN5Ds2AYZVaGmMu7DBINRxu3CIdUCT4QCplTY=";
+        "smithay-0.7.0" = "sha256-s5PFS0TQd+5ueI9AKRFloa3e5jir1GtwH+dckZ6e7yA=";
       };
     };
-    date = "2026-09-25";
+    date = "2026-10-29";
   };
   quickshell = {
     pname = "quickshell";
-    version = "41651d7dcd62a9400eb6f4f8a8580efe00901efb";
+    version = "9b0f339b19057f4731bf3b48293307d7ef241671";
     src = fetchgit {
       url = "https://git.outfoxxed.me/quickshell/quickshell.git";
-      rev = "41651d7dcd62a9400eb6f4f8a8580efe00901efb";
+      rev = "9b0f339b19057f4731bf3b48293307d7ef241671";
       fetchSubmodules = false;
       deepClone = false;
       leaveDotGit = false;
       sparseCheckout = [ ];
-      sha256 = "sha256-dLtjYGr1sTihGhsISR71LB17E6m0r18JhF+6BNAHy0M=";
+      sha256 = "sha256-TiCGqLMpNIy7FERewgfKVluPsLVF96uc6x6xwZnMjdQ=";
     };
-    date = "2026-09-25";
+    date = "2026-10-21";
   };
   skkemoji = {
     pname = "skkemoji";

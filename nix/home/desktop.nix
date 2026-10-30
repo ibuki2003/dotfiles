@@ -53,7 +53,7 @@ in
       zbar
 
       # apps
-      aider-chat
+      # aider-chat
       alacritty
       albert
       audacity
