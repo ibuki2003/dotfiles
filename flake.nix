@@ -3,27 +3,22 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
     deferred-apps.url = "github:WitteShadovv/deferred-apps";
     deferred-apps.inputs.nixpkgs.follows = "nixpkgs";
-
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-
     skk-zenz.url = "github:ibuki2003/skk_zenz";
     skk-zenz.inputs.nixpkgs.follows = "nixpkgs";
-
     rustowl.url = "github:nix-community/rustowl-flake";
     rustowl.inputs.nixpkgs.follows = "nixpkgs";
+    rustowl.inputs.rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
   };
 

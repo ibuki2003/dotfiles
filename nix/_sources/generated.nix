@@ -92,15 +92,15 @@
   };
   defmt-print = {
     pname = "defmt-print";
-    version = "6b791b84a974155b66652a4e081899e3067e2fa9";
+    version = "7eda70245fc817d4a9414df0d2265373729c09b4";
     src = fetchFromGitHub {
       owner = "knurling-rs";
       repo = "defmt";
-      rev = "6b791b84a974155b66652a4e081899e3067e2fa9";
+      rev = "7eda70245fc817d4a9414df0d2265373729c09b4";
       fetchSubmodules = false;
-      sha256 = "sha256-y1z9phL36StHPI0SE3kVL2/W43I5ciNqpVqHvgKctak=";
+      sha256 = "sha256-ww8Es8x2SH6qn2V6TUvNc+KJuiybU5g0F8ElcjCp/ks=";
     };
-    date = "2026-10-27";
+    date = "2026-10-30";
   };
   memvis = {
     pname = "memvis";
