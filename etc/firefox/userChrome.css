@@ -1,8 +1,16 @@
 /* hide sidebar header */
-#sidebar-box #sidebar-header:has(label#sidebar-title[value="Tree Style Tab"]) {
+#sidebar-box #sidebar-header:has(label#sidebar-title[value="Tree Style Tab"]),
+#sidebar-panel-header
+{
   display: none !important;
 }
 
+#sidebar-box {
+  padding-inline-start: 0 !important;
+  border: none !important;
+}
+
+/* hide tabs in titlebar */
 #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
   opacity: 0;
   pointer-events: none;
@@ -10,9 +18,8 @@
 #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
     visibility: collapse !important;
 }
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
-  /*display: none;*/
-}
+
+/* customize TST */
 .tab {
   margin-left: 1px;
   margin-right: 1px;
