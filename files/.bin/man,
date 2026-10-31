@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# == 1 && $1 == --help ]]; then
+  echo "Usage: man, [section] page"
+  exit 0
+fi
+if [[ $# -lt 1 || $# -gt 2 ]]; then
+  echo "Usage: man, [section] page" >&2
+  exit 1
+fi
+
+section='[0-9][[:alnum:]]*'
+if [[ $# == 2 ]]; then
+  if [[ ! $1 =~ ^[0-9][[:alnum:]]*$ ]]; then
+    echo "Invalid manual section: $1" >&2
+    exit 1
+  fi
+  section=$1
+  shift
+fi
+page=$1
+escaped_page=$(printf '%s' "$page" | sed 's/[][\\.^$*+?(){}|]/\\&/g')
+matches=$(nix-locate --color never --at-root --regex \
+  "/share/man/man[0-9][[:alnum:]]*/$escaped_page\\.$section(\\.(gz|xz|bz2|zst))?$" |
+  awk '$1 !~ /^\(/')
+
+if [[ -z $matches ]]; then
+  echo "No indexed manual page found: $page" >&2
+  exit 1
+fi
+
+mapfile -t candidates <<< "$matches"
+if [[ ${#candidates[@]} == 1 ]]; then
+  selected=${candidates[0]}
+else
+  selected=$(printf '%s\n' "${candidates[@]}" | fzf --prompt='man> ')
+fi
+read -r attribute size type indexed_path <<< "$selected"
+
+package=${attribute%.*}
+output=${attribute##*.}
+store_path=$(nix build --no-link --print-out-paths "nixpkgs#$package^$output")
+relative_path=${indexed_path#/nix/store/}
+relative_path=${relative_path#*/}
+
+exec man -M "$store_path/share/man:" -l "$store_path/$relative_path"

@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: extract-git-blobs GIT_DIR OUTPUT_DIR
+
+Extract every blob object found in GIT_DIR into OUTPUT_DIR as a flat set of
+files. Each output filename is the blob's object ID.
+
+Example:
+  ./extract-git-blobs /path/to/copied/.git ./recovered-blobs
+EOF
+}
+
+if [[ $# -ne 2 ]]; then
+  usage >&2
+  exit 2
+fi
+
+git_dir=$1
+output_dir=$2
+
+if [[ ! -d "$git_dir/objects" ]]; then
+  printf 'error: not a Git directory (objects/ is missing): %s\n' "$git_dir" >&2
+  exit 1
+fi
+
+if ! git --git-dir="$git_dir" rev-parse --git-dir >/dev/null 2>&1; then
+  printf 'error: Git cannot read this directory: %s\n' "$git_dir" >&2
+  exit 1
+fi
+
+mkdir -p "$output_dir"
+
+count=0
+while IFS=' ' read -r object_id object_type; do
+  [[ "$object_type" == blob ]] || continue
+
+  destination="$output_dir/$object_id"
+  if [[ ! -e "$destination" ]]; then
+    git --git-dir="$git_dir" cat-file blob "$object_id" >"$destination"
+  fi
+  ((count += 1))
+done < <(
+  git --git-dir="$git_dir" cat-file \
+    --batch-check='%(objectname) %(objecttype)' \
+    --batch-all-objects
+)
+
+printf 'Extracted %d blob(s) into %s\n' "$count" "$output_dir"
