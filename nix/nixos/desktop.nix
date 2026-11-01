@@ -200,6 +200,8 @@
   };
   systemd.services.tailscaled.serviceConfig.LogLevelMax = lib.mkForce 5;
 
+  users.users.fuwa.linger = true;
+
   programs = {
     sway = {
       enable = true;

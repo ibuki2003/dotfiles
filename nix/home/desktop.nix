@@ -13,6 +13,8 @@ in
 {
   imports = [ ];
 
+  nix.settings.extra-substituters = [ "http://127.0.0.1:9722?trusted=true" ];
+
   home = {
     packages = with pkgs; [
 

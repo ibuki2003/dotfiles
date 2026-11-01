@@ -14,6 +14,14 @@ in
   ];
 
   nix.package = pkgs.nix;
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+      "pipe-operators"
+    ];
+    max-jobs = "auto";
+  };
 
   xdg.enable = true;
   xdg.stateFile."nvim/lsp.log".source = config.lib.file.mkOutOfStoreSymlink "/tmp/nvim-lsp.log";
