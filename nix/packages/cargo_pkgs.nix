@@ -51,6 +51,7 @@ in
 {
   memvis = mkRust "memvis" sources.memvis { };
   slice = mkRust "slice" sources.slice { };
+  nix-store-mesh = mkRust "nix-store-mesh" sources.nix-store-mesh { };
   cargo-asm = mkRust "cargo-asm" sources.cargo-asm { };
   cargo-call-stack = mkRust "cargo-call-stack" sources.cargo-call-stack { };
   cargo-disasm = mkRust "cargo-disasm" sources.cargo-disasm { };

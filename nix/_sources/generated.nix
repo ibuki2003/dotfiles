@@ -138,6 +138,24 @@
     };
     date = "2026-10-29";
   };
+  nix-store-mesh = {
+    pname = "nix-store-mesh";
+    version = "12232ae231231d531a8c7b066c002795fd685453";
+    src = fetchFromGitHub {
+      owner = "ibuki2003";
+      repo = "nix-store-mesh";
+      rev = "12232ae231231d531a8c7b066c002795fd685453";
+      fetchSubmodules = false;
+      sha256 = "sha256-IMvJmtAm040MrUdz5R1lhH8IOOFi1WSn8w4aVeGkmz4=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./. + "/sha256-IMvJmtAm040MrUdz5R1lhH8IOOFi1WSn8w4aVeGkmz4=/Cargo.lock";
+      outputHashes = {
+        
+      };
+    };
+    date = "2026-10-31";
+  };
   quickshell = {
     pname = "quickshell";
     version = "9b0f339b19057f4731bf3b48293307d7ef241671";

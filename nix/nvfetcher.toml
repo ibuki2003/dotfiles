@@ -20,6 +20,12 @@ src.branch = "master"
 fetch.github = "ibuki2003/slice"
 cargo_lock = ["Cargo.lock"]
 
+[nix-store-mesh]
+src.git = "https://github.com/ibuki2003/nix-store-mesh"
+src.branch = "master"
+fetch.github = "ibuki2003/nix-store-mesh"
+cargo_lock = ["Cargo.lock"]
+
 [cargo-asm]
 src.git = "https://github.com/gnzlbg/cargo-asm"
 fetch.github = "gnzlbg/cargo-asm"

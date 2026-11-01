@@ -108,7 +108,7 @@
         {
           fuwa = makeHomeConfig { modules = [ ./nix/home/desktop.nix ]; };
           "fuwa@fuwavermeer-nix" = makeHomeConfig {
-            modules = [ ./nix/home/desktop.nix ];
+            modules = [ ./nix/home/desktop.nix ./nix/home/fuwavermeer.nix ];
             rocmSupport = true;
           };
           headless = makeHomeConfig { };

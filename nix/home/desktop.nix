@@ -312,6 +312,17 @@ in
     Install.WantedBy = [ "default.target" ];
   };
 
+  systemd.user.services.nix-store-mesh = {
+    Unit.Description = "Nix store mesh";
+    Install.WantedBy = [ "default.target" ];
+    Service = {
+      ExecStart = lib.getExe mypkgs.cargo_pkgs.nix-store-mesh;
+      Environment = [ "PATH=${lib.makeBinPath [ pkgs.nix ]}" ];
+      Restart = "on-failure";
+      RestartSec = "5s";
+    };
+  };
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
