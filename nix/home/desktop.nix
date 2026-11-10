@@ -36,7 +36,13 @@ in
       nirius
 
       # tools
-      appimage-run
+      # Restore libraries removed in nixpkgs#577994; see nixpkgs#580890.
+      (appimage-run.override {
+        extraPkgs = pkgs: [
+          pkgs.libgcrypt
+          pkgs.libgpg-error
+        ];
+      })
       glib
       libsecret
       pamixer
@@ -152,20 +158,7 @@ in
           jsdec
         ]
       ))
-      (
-        (darktable.override {
-          withAi = true;
-          onnxruntime = pkgs.pkgsRocm.onnxruntime;
-        }).overrideAttrs
-        (old: {
-          # G'MIC pulls OpenCV DNN into darktable.  Its TensorFlow protobuf
-          # descriptors conflict with the MIGraphX TensorFlow parser, although
-          # darktable only asks MIGraphX to parse ONNX models.
-          # NOTE that this disables G'MIC support (support of compressed LUTs, etc.).
-          buildInputs = pkgs.lib.remove pkgs.gmic old.buildInputs;
-          cmakeFlags = old.cmakeFlags ++ [ "-DUSE_GMIC=OFF" ];
-        })
-      )
+      darktable
       imhex
       lan-mouse
       nwg-displays
