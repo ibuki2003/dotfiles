@@ -3,3 +3,4 @@ auth.json
 models-store.json
 trust.json
 extensions/rtk.ts
+*/last-seen-version.json

@@ -18,6 +18,7 @@
   "fullscreenCopyOnSelect": false,
   "editorPaddingX": 1,
   "showHardwareCursor": true,
+  "treeFilterMode": "no-tools",
   "modelThinkingLevels": {
     "openai/gpt-5.6-sol": "low",
     "openai/gpt-5.6-luna": "high",
@@ -33,7 +34,7 @@
     "openai/gpt-6-astra",
     "openai/gpt-5.6-sol",
     "openai/gpt-5.6-luna",
-    "openrouter/deepseek/deepseek-v4.1-flash",
+    "openrouter/deepseek/deepseek-v4.1-flash-1017",
     "openrouter/z-ai/glm-5.3-flash",
     "openrouter/xiaomi/mimo-v2.6-pro"
   ],
@@ -45,8 +46,9 @@
     "npm:pi-codex-tools",
     "npm:pi-footer",
     "npm:@georgebashi/pi-retry",
-    "https://github.com/ibuki2003/pirc"
+    "https://github.com/ibuki2003/pirc",
+    "npm:pi-updater",
+    "npm:billion-context-pi"
   ],
-  "lastChangelogVersion": "1.4.0",
-  "deviceId": "22f5d976-21a4-44ca-8920-7ed91599ed52"
+  "lastChangelogVersion": "1.5.2"
 }
