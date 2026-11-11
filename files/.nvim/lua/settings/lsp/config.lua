@@ -46,7 +46,7 @@ local float_opts = {
 vim.diagnostic.config({
   update_in_insert = false,
   virtual_text = {
-    suffix = function(d) return string.format(" (%s: %s)", d.source, d.code) end,
+    suffix = function(d) return d.source and d.code and string.format(" (%s: %s)", d.source, d.code) or '' end,
   },
   float = {
     suffix = function(d) return string.format(" (%s: %s)", d.source or '', d.code or '?'), '' end,
