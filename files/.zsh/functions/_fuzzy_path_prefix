@@ -10,7 +10,7 @@ local -a compadd_prefix
 local -a compadd_flags
 local -A deep_seen
 local -a exact_matches prefix_matches fuzzy_matches
-local -i index last transformed=0 home_relative=0 exact_found used_fuzzy=0
+local -i index last transformed=0 home_relative=0 exact_found used_fuzzy=0 parent_abbreviated=0
 typeset -g _fuzzy_path_prefix_common=
 
 if [[ $input_path == '~/'* ]]; then
@@ -160,6 +160,9 @@ for (( index = 1; index <= last; ++index )); do
     return
   fi
 
+  if (( index < last && ! exact_found )); then
+    parent_abbreviated=1
+  fi
   bases=("${next[@]}")
 done
 
@@ -176,7 +179,7 @@ if (( home_relative )); then
   bases=("${(@)bases#$HOME/}")
   filtered_steps=("${(@)filtered_steps#$HOME/}")
 fi
-if (( used_fuzzy || last != 1 )); then
+if (( used_fuzzy || parent_abbreviated )); then
   typeset -g _fuzzy_path_prefix_match=fuzzy
 else
   typeset -g _fuzzy_path_prefix_match=prefix
@@ -195,6 +198,9 @@ else
         common=${common[1,-2]}
       done
     done
+    if (( home_relative )); then
+      common="~/$common"
+    fi
     _fuzzy_path_prefix_common=$common
   fi
 fi

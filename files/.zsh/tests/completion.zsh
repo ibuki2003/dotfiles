@@ -347,6 +347,14 @@ unique_case 'home-relative parenthesis in filename' \
   'ls ~/bracket' 'ls ~/bracket\(file '
 prefix_then_menu_case 'common prefix precedes menu selection' \
   'ls fl' 'ls flake.' 'ls flake.lock '
+prefix_then_menu_case 'absolute common prefix precedes menu selection' \
+  "ls $fixture/fl" "ls $fixture/flake." "ls $fixture/flake.lock"
+prefix_then_menu_case 'relative common prefix precedes menu selection' \
+  'ls ./fl' 'ls ./flake.' 'ls ./flake.lock '
+prefix_then_menu_case 'home-relative common prefix precedes menu selection' \
+  'ls ~/fl' 'ls ~/flake.' 'ls ~/flake.lock '
+insertion_case 'abbreviated parent does not insert a common prefix' \
+  'ls t/f' 'ls t/f'
 prefix_then_menu_case 'mixed case prefix retains matches' \
   'ls cas' 'ls casemix.' 'ls CaseMix.one '
 insertion_case 'mixed case names extend a short prefix' \
