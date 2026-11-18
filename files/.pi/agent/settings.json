@@ -1,6 +1,6 @@
 {
   "defaultProvider": "openai",
-  "defaultModel": "gpt-6.1-sol",
+  "defaultModel": "gpt-6.2-sol",
   "showCacheMissNotices": true,
   "hideThinkingBlock": false,
   "steeringMode": "all",
@@ -28,12 +28,12 @@
     "openai/gpt-6.1-sol": "low"
   },
   "enabledModels": [
+    "openai/gpt-6.2-sol",
+    "openai/gpt-6.2-astra",
     "openai/gpt-6.1-sol",
     "openai/gpt-6-sol",
     "openai/gpt-6-luna",
     "openai/gpt-6-astra",
-    "openai/gpt-5.6-sol",
-    "openai/gpt-5.6-luna",
     "openrouter/deepseek/deepseek-v4.1-flash-1017",
     "openrouter/z-ai/glm-5.3-flash",
     "openrouter/xiaomi/mimo-v2.6-pro"
@@ -42,7 +42,6 @@
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-subagents",
     "npm:pi-web-access",
-    "npm:pi-codex-compaction",
     "npm:pi-codex-tools",
     "npm:pi-footer",
     "npm:@georgebashi/pi-retry",
