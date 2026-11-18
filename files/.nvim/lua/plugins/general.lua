@@ -111,43 +111,37 @@ return {
     end,
   },
   {
-    "epwalsh/obsidian.nvim",
+    "obsidian-nvim/obsidian.nvim",
     version = "*", -- to use release
     lazy = true,
     event = {
       "BufReadPre /home/fuwa/Notes/**.md",
       "BufNewFile /home/fuwa/Notes/**.md",
     },
-    cmd = {
-      "ObsidianNew",
-      "ObsidianQuickSwitch",
-      "ObsidianToday",
-      "ObsidianYesterday",
-      "ObsidianTomorrow",
-      "ObsidianSearch",
-    },
+    cmd = { "Obsidian" },
     keys = {
-      { '<Leader>fn', '<cmd>ObsidianQuickSwitch<CR>', mode = 'n' },
-      { '<Leader>fN', '<cmd>ObsidianSearch<CR>', mode = 'n' },
+      { '<Leader>fn', '<cmd>Obsidian quick_switch<CR>', mode = 'n' },
+      { '<Leader>fN', '<cmd>Obsidian search<CR>', mode = 'n' },
     },
-    dependencies = { "nvim-lua/plenary.nvim", },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      'nvim-telescope/telescope.nvim',
+    },
     opts = {
+      -- disable deprecated commands
+      legacy_commands = false,
       ui = {
         enable = false,
       },
       workspaces = {
-        {
-          name = "main",
-          path = "~/Notes/main",
-        },
+        { name = "main", path = vim.fn.expand("$HOME/Notes/main") },
       },
       daily_notes = {
         folder = "daily",
         date_format = "%Y-%m-%d",
         template = nil
       },
-      finder = "telescope.nvim",
-      disable_frontmatter = true,
+      picker = { name = "telescope.nvim" },
       note_id_func = function(title)
         if title ~= nil then
           return title:gsub("%s+", "-"):lower()
