@@ -1,6 +1,6 @@
 {
-  "defaultProvider": "openai",
-  "defaultModel": "gpt-6.2-sol",
+  "defaultProvider": "claude-bridge",
+  "defaultModel": "claude-opus-5-5",
   "showCacheMissNotices": true,
   "hideThinkingBlock": false,
   "steeringMode": "all",
@@ -28,12 +28,12 @@
     "openai/gpt-6.1-sol": "low"
   },
   "enabledModels": [
+    "claude-bridge/claude-opus-5-5",
     "openai/gpt-6.2-sol",
     "openai/gpt-6.2-astra",
     "openai/gpt-6.1-sol",
     "openai/gpt-6-sol",
     "openai/gpt-6-luna",
-    "openai/gpt-6-astra",
     "openrouter/deepseek/deepseek-v4.1-flash-1017",
     "openrouter/z-ai/glm-5.3-flash",
     "openrouter/xiaomi/mimo-v2.6-pro"
@@ -47,7 +47,8 @@
     "npm:@georgebashi/pi-retry",
     "https://github.com/ibuki2003/pirc",
     "npm:pi-updater",
-    "npm:billion-context-pi"
+    "npm:billion-context-pi",
+    "npm:pi-claude-bridge"
   ],
   "lastChangelogVersion": "1.5.2"
 }
