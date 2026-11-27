@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   sources,
   ...
@@ -7,6 +8,40 @@
 let
   username = "fuwa";
   mypkgs = pkgs.callPackage ../packages { inherit sources; };
+
+  # nixpkgs' rustup patches installed toolchains to reference /nix/store paths
+  # (ELF interpreter, rpath, ld.lld wrapper) without registering GC roots.
+  # Root everything they reference so `nix-collect-garbage` cannot break them.
+  rustupGcroots = pkgs.writeShellApplication {
+    name = "rustup-gcroots";
+    runtimeInputs = with pkgs; [
+      coreutils
+      findutils
+      gnugrep
+      nix
+    ];
+    text = ''
+      shopt -s nullglob
+      toolchains=("$HOME"/.rustup/toolchains/*/)
+      roots="$HOME/.rustup/gcroots"
+      rm -rf "$roots"
+      mkdir -p "$roots"
+
+      targets=()
+      for tc in "''${toolchains[@]}"; do
+        targets+=("$tc"bin "$tc"lib "$tc"lib/rustlib/*/bin)
+      done
+      [ ''${#targets[@]} -gt 0 ] || exit 0
+
+      find -L "''${targets[@]}" -maxdepth 2 -type f -print0 \
+        | xargs -0 grep -aohE '/nix/store/[a-z0-9]{32}-[^/:"[:space:]]+' \
+        | sort -u \
+        | while read -r path; do
+            nix-store --add-root "$roots/''${path#/nix/store/}" --realise "$path" >/dev/null \
+              || echo "rustup-gcroots: cannot keep $path" >&2
+          done
+    '';
+  };
 in
 {
   imports = [
@@ -282,6 +317,44 @@ in
 
   programs.home-manager.enable = true;
 
-  # Hacky workaround for Rustup and nix GC issue.
-  home.sessionVariables.CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER = "${pkgs.clang}/bin/clang";
+  home.activation.rustupGcroots = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${rustupGcroots}/bin/rustup-gcroots
+  '';
+  # rustup rewrites update-hashes/<toolchain> on every install/update/uninstall
+  systemd.user.paths.rustup-gcroots = {
+    Unit.Description = "Watch rustup toolchain changes";
+    Path.PathChanged = "%h/.rustup/update-hashes";
+    Install.WantedBy = [ "paths.target" ];
+  };
+  systemd.user.services.rustup-gcroots = {
+    Unit.Description = "Register GC roots for rustup toolchains";
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${rustupGcroots}/bin/rustup-gcroots";
+    };
+  };
+
+  home.sessionVariables = {
+    # nix-ld libraries, mainly for python gui.
+    # Keep the inherited value (NixOS' programs.nix-ld.libraries) after these.
+    NIX_LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [
+      dbus
+      fontconfig
+      freetype
+      glib
+      libGL
+      libx11
+      libxcb
+      libxcb-image
+      libxcb-keysyms
+      libxcb-render-util
+      libxcb-wm
+      libxcomposite
+      libxext
+      libxkbcommon
+      wayland
+      zlib
+    ]
+    + "\${NIX_LD_LIBRARY_PATH:+:$NIX_LD_LIBRARY_PATH}";
+  };
 }
